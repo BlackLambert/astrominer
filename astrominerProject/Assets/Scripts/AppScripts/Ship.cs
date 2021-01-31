@@ -17,7 +17,8 @@ namespace Astrominer
 			set => transform.position = value;
 		}
 
-		public Vector2 Velocity {
+		public Vector2 Velocity 
+		{
 			get => _rigidbody.velocity;
 			private set => _rigidbody.velocity = value;
 		}
@@ -26,15 +27,11 @@ namespace Astrominer
 		private Rigidbody2D _rigidbody;
 		
 
-		public Rigidbody2D Rigidbody 
-		{ 
-			get => _rigidbody; 
-		}
+		public Rigidbody2D Rigidbody => _rigidbody; 
 
-		public float SpeedPerSecond 
-		{
-			get => Velocity.magnitude;
-		}
+		public float SpeedPerSecond => Velocity.magnitude;
+
+		public Vector2 FaceDirection => transform.up;
 
 		private float _speedPerFixedUpdate => SpeedPerSecond * Time.fixedDeltaTime;
 
@@ -42,11 +39,13 @@ namespace Astrominer
 
 		public float MaxSpeedPerSecond { get; set; }
 
-		private float _distanceToTarget => (_target - transform.position).magnitude;
-
+		private float _distanceToTarget => _distanceToTargetVector.magnitude;
+		private Vector2 _distanceToTargetVector => _target - transform.position;
 		private bool _distanceToTargetWithinThreshold => _distanceToTarget < _speedPerFixedUpdate;
 		private bool _positionIsTarget => _target == transform.position;
 		private bool _moving => Velocity.magnitude > 0;
+
+		
 
 		private void Awake()
 		{
@@ -61,9 +60,9 @@ namespace Astrominer
 
 		public void MoveLinearlyTo(Vector2 target)
 		{
-			Vector2 directionVector = target - Position;
-			Velocity = directionVector.normalized * MaxSpeedPerSecond;
 			_target = target;
+			updateVelocity();
+			LookAtTarget();
 		}
 
 		private void Initialize()
@@ -74,6 +73,16 @@ namespace Astrominer
 			MaxSpeedPerSecond = defaultMaxSpeedPerSecond;
 		}
 
+		private void updateVelocity()
+		{
+			Velocity = _positionIsTarget ? Vector2.zero : _distanceToTargetVector.normalized * MaxSpeedPerSecond;
+		}
+
+		private void LookAtTarget()
+		{
+			transform.up = _distanceToTargetVector;
+		}
+
 		private void CheckTargetReached()
 		{
 			if (_distanceToTargetWithinThreshold && !_positionIsTarget)
@@ -82,8 +91,8 @@ namespace Astrominer
 
 		private void SetPositionToTarget()
 		{
-			Velocity = Vector2.zero;
 			transform.position = _target;
+			updateVelocity();
 		}
 	}
 }

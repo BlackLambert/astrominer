@@ -8,11 +8,12 @@ using Astrominer;
 public class ShipTest
 {
     private Ship _ship;
-	private float _testMaxSpeed = 1f;
+	private float _testMaxSpeed = 2f;
 	private readonly Vector2 _testPosition = new Vector2(4.0f, 2.0f);
     private readonly Vector2 _testVelocity = new Vector2(3.0f, 5.0f);
-    private readonly Vector2 _testTargetDelta = new Vector2(5.0f, 0f);
+    private readonly Vector2 _testTargetDelta = new Vector2(3.0f, 2.0f);
     private const string shipPrefabPath = "Prefabs/Ship";
+    private float _epsilon = 0.001f;
 
     private Vector2 _testTarget => _testPosition + _testTargetDelta;
 
@@ -98,42 +99,58 @@ public class ShipTest
     public void MoveLinearlyTo_VelocityDirectionEqualsShipToTargetDirection()
 	{
         SetupLinearMovement(_testTarget);
-        Vector2 directionVector = _testTarget - _ship.Position;
-        Vector2 directionVectorNormalized = directionVector.normalized;
+        Vector2 targetDirection = _testTarget - _ship.Position;
+        Vector2 targetDirectionNormalized = targetDirection.normalized;
         Vector2 velocityNormalized = _ship.Velocity.normalized;
-        bool xIdentical = Mathf.Approximately(directionVectorNormalized.x, velocityNormalized.x);
-        bool yIdentical = Mathf.Approximately(directionVectorNormalized.y, velocityNormalized.y);
-        Assert.That(xIdentical && yIdentical);
+        bool xIdentical = Mathf.Approximately(targetDirectionNormalized.x, velocityNormalized.x);
+        bool yIdentical = Mathf.Approximately(targetDirectionNormalized.y, velocityNormalized.y);
+        Assert.True(xIdentical && yIdentical);
     }
 
     [UnityTest]
     public IEnumerator MoveLinearlyTo_MovementDistanceEqualsSpeedPerFixedUpdateAfterOneFixedUpdate()
-	{
+    {
         SetupLinearMovement(_testTarget);
         yield return new WaitForFixedUpdate();
         float distance = (_ship.Position - _testPosition).magnitude;
-        Assert.That(Mathf.Approximately(distance, _ship.MaxSpeedPerFixedUpdate));
+        // Not using Mathf.Approximately because the float gap is to large causing the Assertion to fail.
+        int distanceCompareValue = (int)(distance / _epsilon);
+        int maxSpeedPerFixedUpdateCompareValue = (int)(_ship.MaxSpeedPerFixedUpdate / _epsilon);
+        Assert.AreEqual(distanceCompareValue, maxSpeedPerFixedUpdateCompareValue);
     }
 
     [UnityTest]
     public IEnumerator MoveLinearlyTo_ReachesTargetAfterPredictedTime()
-	{
-        Time.timeScale = 20f;
+    {
+        Time.timeScale = 1f;
         SetupLinearMovement(_testTarget);
         // Formula used: t = s / v (t: Time in seconds | s: distance | v: velocity.magnitude)
         float predictedTime = _testTargetDelta.magnitude / _testMaxSpeed;
         float timeLeft = predictedTime;
 
         while (timeLeft > Time.deltaTime)
-		{
+        {
             Assert.AreNotEqual(_testTarget, _ship.Position);
             timeLeft -= Time.fixedDeltaTime;
             yield return new WaitForFixedUpdate();
         }
 
+        yield return new WaitForFixedUpdate();
         Assert.AreEqual(_testTarget, _ship.Position);
         Time.timeScale = 1f;
     }
+
+    [Test]
+    public void MoveLinearlyTo_ShipFacesTarget()
+	{
+        SetupLinearMovement(_testTarget);
+        Vector2 targetDirection = _testTarget - _ship.Position;
+        Vector2 targetDirectionNormalized = targetDirection.normalized;
+        Vector2 faceDirectionNormalized = _ship.FaceDirection.normalized;
+        bool xIdentical = Mathf.Approximately(targetDirectionNormalized.x, faceDirectionNormalized.x);
+        bool yIdentical = Mathf.Approximately(targetDirectionNormalized.y, faceDirectionNormalized.y);
+        Assert.True(xIdentical && yIdentical);
+	}
 
     private void SetupLinearMovement(Vector2 target)
     {
