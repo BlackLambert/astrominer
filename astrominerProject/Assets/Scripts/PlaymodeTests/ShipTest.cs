@@ -17,7 +17,7 @@ namespace Astrominer.Test
         private readonly Vector2 _testPosition = new Vector2(4.0f, 2.0f);
         private readonly Vector2 _testVelocity = new Vector2(3.0f, 5.0f);
         private readonly Vector2 _testTargetDelta = new Vector2(3.0f, 2.0f);
-        private const string shipPrefabPath = "Prefabs/Ship";
+        private string _shipPrefabPath => ResourcesPaths.shipPrefab;
         private float _epsilon = 0.001f;
 
         private Vector2 _testTarget => _testPosition + _testTargetDelta;
@@ -25,7 +25,7 @@ namespace Astrominer.Test
         [SetUp]
         public void Setup()
         {
-            Ship prefab = Resources.Load<Ship>(shipPrefabPath);
+            Ship prefab = Resources.Load<Ship>(_shipPrefabPath);
             _ship = GameObject.Instantiate(prefab);
         }
 

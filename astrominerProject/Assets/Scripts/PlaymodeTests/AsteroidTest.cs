@@ -9,20 +9,20 @@ namespace Astrominer.Test
 	public class AsteroidTest
 	{
 		private Asteroid _asteroid;
-		private GameObject _asteroidObject;
 		private Vector2 _testPosition = new Vector2(5.0f, 13.5f);
+		private string _asteroidPrefabPath => ResourcesPaths.asteroidPrefab;
 
-		[SetUp]
+        [SetUp]
 		public void Initialize()
 		{
-			_asteroidObject = new GameObject();
-			_asteroid = _asteroidObject.AddComponent<Asteroid>();
+			Asteroid prefab = Resources.Load<Asteroid>(_asteroidPrefabPath);
+			_asteroid = GameObject.Instantiate(prefab);
 		}
 
 		[TearDown]
 		public void Dispose()
 		{
-			GameObject.Destroy(_asteroidObject);
+			GameObject.Destroy(_asteroid.gameObject);
 		}
 
 		[Test]
