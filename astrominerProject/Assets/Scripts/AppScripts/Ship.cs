@@ -11,7 +11,6 @@ namespace Astrominer
 
 		[SerializeField]
 		private Rigidbody2D _rigidbody;
-
 		private Vector3 _target = Vector2.zero;
 		private float _maxSpeed;
 
@@ -41,30 +40,19 @@ namespace Astrominer
 			}
 		}
 
-		
-		
-
+		public float TimeToTarget { get; private set; }
 		public Rigidbody2D Rigidbody => _rigidbody; 
-
 		public float SpeedPerSecond => Velocity.magnitude;
-
 		public Vector2 FaceDirection => transform.up;
-
 		private float _speedPerFixedUpdate => SpeedPerSecond * Time.fixedDeltaTime;
-
 		public float MaxSpeedPerFixedUpdate => MaxSpeed * Time.fixedDeltaTime;
-
-
 		private float _distanceToTarget => _distanceToTargetVector.magnitude;
-
-        
-
         private Vector2 _distanceToTargetVector => _target - transform.position;
 		private bool _distanceToTargetWithinThreshold => _distanceToTarget < _speedPerFixedUpdate;
 		private bool _positionIsTarget => _target == transform.position;
 		private bool _moving => Velocity.magnitude > 0;
 
-        public float TimeToTarget { get; private set; }
+        
 
         public static Ship New(float maxSpeed)
 		{
@@ -88,8 +76,8 @@ namespace Astrominer
 		public void MoveTo(Vector2 target)
 		{
 			_target = target;
-			updateTimeToTarget();
-			updateVelocity();
+			UpdateTimeToTarget();
+			UpdateVelocity();
 			LookAtTarget();
 		}
 
@@ -101,12 +89,12 @@ namespace Astrominer
 			MaxSpeed = maxSpeed;
 		}
 
-		private void updateTimeToTarget()
+		private void UpdateTimeToTarget()
 		{
 			TimeToTarget = _distanceToTarget / MaxSpeed;
 		}
 
-		private void updateVelocity()
+		private void UpdateVelocity()
 		{
 			Velocity = _positionIsTarget ? Vector2.zero : _distanceToTargetVector.normalized * MaxSpeed;
 		}
@@ -125,7 +113,7 @@ namespace Astrominer
 		private void SetPositionToTarget()
 		{
 			transform.position = _target;
-			updateVelocity();
+			UpdateVelocity();
 		}
 
         public class NegativeSpeedValueException: ArgumentOutOfRangeException
