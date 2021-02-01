@@ -35,54 +35,78 @@ namespace Astrominer.Test
                 _ship.Destroy();
         }
 
-
         [Test]
-        public void ShipPositionSet()
+        public void New_ShipIsNotNull()
         {
-            _ship.Position = _testPosition;
-            Assert.AreEqual(_testPosition, _ship.Position);
+            Assert.NotNull(_ship);
         }
 
         [Test]
-        public void ShipObjectPositionSet()
-        {
-            _ship.Position = _testPosition;
-            Assert.AreEqual(_testPosition, (Vector2)_ship.transform.position);
-        }
-
-        [Test]
-        public void ShipObjectPositionSet_ShipPositionEqualsShipObjectPosition()
-        {
-            _ship.transform.position = _testPosition;
-            Assert.AreEqual((Vector2)_ship.transform.position, _ship.Position);
-        }
-
-        [Test]
-        public void ShipRigidBodyVelocitySet_ShipVelocityEqualsShipRigidbodyVelocity()
-        {
-            _ship.Rigidbody.velocity = _testVelocity;
-            Assert.AreEqual((Vector2)_ship.Rigidbody.velocity, _ship.Velocity);
-        }
-
-        [Test]
-        public void NewShipHasDefaultValues()
+        public void New_ShipHasDefaultValues()
         {
             Assert.AreEqual(Vector2.zero, _ship.Position);
             Assert.AreEqual(Vector2.zero, _ship.Velocity);
             Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeed);
         }
 
+        [Test]
+        public void New_NegativeMaxSpeedValueThrowsException()
+        {
+            Dispose();
+            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship = Ship.New(_testNegativeMaxSpeed));
+        }
 
+        [UnityTest]
+        public IEnumerator Destroy_ShipDestroyed()
+        {
+            GameObject shipObject = _ship.gameObject;
+            _ship.Destroy();
+            // ship won't be destroyed until end of frame
+            yield return 0;
+            // Assert.isNull does not work here, since GameObjects are not literally null after Destruction,
+            // but override the == Operator so that ==null resolves to true anyway.
+            // see this link: https://answers.unity.com/questions/865405/nunit-notnull-assert-strangeness.html
+            Assert.True(shipObject == null);
+            Assert.True(_ship == null);
+        }
 
         [Test]
-        public void ShipMaxSpeedSet()
+        public void PositionSet()
+        {
+            _ship.Position = _testPosition;
+            Assert.AreEqual(_testPosition, _ship.Position);
+        }
+
+        [Test]
+        public void ObjectPositionSet()
+        {
+            _ship.Position = _testPosition;
+            Assert.AreEqual(_testPosition, (Vector2)_ship.transform.position);
+        }
+
+        [Test]
+        public void ObjectPositionSet_PositionEqualsObjectPosition()
+        {
+            _ship.transform.position = _testPosition;
+            Assert.AreEqual((Vector2)_ship.transform.position, _ship.Position);
+        }
+
+        [Test]
+        public void RigidBodyVelocitySet_VelocityEqualsRigidbodyVelocity()
+        {
+            _ship.Rigidbody.velocity = _testVelocity;
+            Assert.AreEqual((Vector2)_ship.Rigidbody.velocity, _ship.Velocity);
+        }
+
+        [Test]
+        public void MaxSpeedSet()
         {
             _ship.MaxSpeed = _testMaxSpeed;
             Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeed);
         }
 
         [Test]
-        public void MoveTo_ShipSpeedEqualsVelocityMagnitude()
+        public void MoveTo_SpeedEqualsVelocityMagnitude()
         {
             SetupMovement(_testTarget);
             Assert.AreEqual(_ship.SpeedPerSecond, _ship.Velocity.magnitude);
@@ -176,37 +200,10 @@ namespace Astrominer.Test
             Assert.IsTrue(_ship.Rigidbody.isKinematic);
         }
 
-        [UnityTest]
-        public IEnumerator Destroy_ShipDestroyed()
-        {
-            GameObject shipObject = _ship.gameObject;
-            _ship.Destroy();
-            // ship won't be destroyed until end of frame
-            yield return 0;
-            // Assert.isNull does not work here, since GameObjects are not literally null after Destruction,
-            // but override the == Operator so that ==null resolves to true anyway.
-            // see this link: https://answers.unity.com/questions/865405/nunit-notnull-assert-strangeness.html
-            Assert.True(shipObject == null);
-            Assert.True(_ship == null);
-        }
-
-        [Test]
-        public void Create_ShipIsNotNull()
-        {
-            Assert.NotNull(_ship);
-        }
-
         [Test]
         public void MaxSpeedSet_NegativeValueThrowsException()
         {
             Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship.MaxSpeed = _testNegativeMaxSpeed);
-        }
-
-        [Test]
-        public void New_NegativeMaxSpeedValueThrowsException()
-        {
-            Dispose();
-            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship = Ship.New(_testNegativeMaxSpeed));
         }
 
         private void SetupMovement(Vector2 target)
