@@ -14,10 +14,10 @@ namespace Astrominer.Test
     {
         private Ship _ship;
         private float _testMaxSpeed = 2f;
+        private float _testNegativeMaxSpeed = -1.0f;
         private readonly Vector2 _testPosition = new Vector2(4.0f, 2.0f);
         private readonly Vector2 _testVelocity = new Vector2(3.0f, 5.0f);
         private readonly Vector2 _testTargetDelta = new Vector2(3.0f, 2.0f);
-        private string _shipPrefabPath => ResourcesPaths.shipPrefab;
         private float _epsilon = 0.001f;
 
         private Vector2 _testTarget => _testPosition + _testTargetDelta;
@@ -25,14 +25,14 @@ namespace Astrominer.Test
         [SetUp]
         public void Setup()
         {
-            Ship prefab = Resources.Load<Ship>(_shipPrefabPath);
-            _ship = GameObject.Instantiate(prefab);
+            _ship = Ship.New(_testMaxSpeed);
         }
 
         [TearDown]
         public void Dispose()
         {
-            GameObject.Destroy(_ship.gameObject);
+            if (_ship != null)
+                _ship.Destroy();
         }
 
 
@@ -67,43 +67,38 @@ namespace Astrominer.Test
         [Test]
         public void NewShipHasDefaultValues()
         {
-            Assert.AreEqual(_ship.defaultPosition, _ship.Position);
-            Assert.AreEqual(_ship.defaultVelocity, _ship.Velocity);
-            Assert.AreEqual(_ship.defaultMaxSpeedPerSecond, _ship.MaxSpeedPerSecond);
+            Assert.AreEqual(Vector2.zero, _ship.Position);
+            Assert.AreEqual(Vector2.zero, _ship.Velocity);
+            Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeed);
         }
 
-        [Test]
-        public void NewShipSpeedEqualsDefaultVelocityMagnitude()
-        {
-            Assert.AreEqual(_ship.defaultVelocity.magnitude, _ship.SpeedPerSecond);
-        }
 
 
         [Test]
         public void ShipMaxSpeedSet()
         {
-            _ship.MaxSpeedPerSecond = _testMaxSpeed;
-            Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeedPerSecond);
+            _ship.MaxSpeed = _testMaxSpeed;
+            Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeed);
         }
 
         [Test]
-        public void MoveLinearlyTo_ShipSpeedEqualsVelocityMagnitude()
+        public void MoveTo_ShipSpeedEqualsVelocityMagnitude()
         {
-            SetupLinearMovement(_testTarget);
+            SetupMovement(_testTarget);
             Assert.AreEqual(_ship.SpeedPerSecond, _ship.Velocity.magnitude);
         }
 
         [Test]
-        public void MoveLinearlyTo_ShipSpeedPerSecondEqualsMaxSpeedPerSecond()
+        public void MoveTo_ShipSpeedPerSecondEqualsMaxSpeedPerSecond()
         {
-            SetupLinearMovement(_testTarget);
-            Assert.AreEqual(_ship.MaxSpeedPerSecond, _ship.SpeedPerSecond);
+            SetupMovement(_testTarget);
+            Assert.AreEqual(_ship.MaxSpeed, _ship.SpeedPerSecond);
         }
 
         [Test]
-        public void MoveLinearlyTo_VelocityDirectionEqualsShipToTargetDirection()
+        public void MoveTo_VelocityDirectionEqualsShipToTargetDirection()
         {
-            SetupLinearMovement(_testTarget);
+            SetupMovement(_testTarget);
             Vector2 targetDirection = _testTarget - _ship.Position;
             Vector2 targetDirectionNormalized = targetDirection.normalized;
             Vector2 velocityNormalized = _ship.Velocity.normalized;
@@ -113,9 +108,9 @@ namespace Astrominer.Test
         }
 
         [UnityTest]
-        public IEnumerator MoveLinearlyTo_MovementDistanceEqualsSpeedPerFixedUpdateAfterOneFixedUpdate()
+        public IEnumerator MoveTo_MovementDistanceEqualsSpeedPerFixedUpdateAfterOneFixedUpdate()
         {
-            SetupLinearMovement(_testTarget);
+            SetupMovement(_testTarget);
             yield return new WaitForFixedUpdate();
             float distance = (_ship.Position - _testPosition).magnitude;
             // Not using Mathf.Approximately because the float gap is to large causing the Assertion to fail.
@@ -125,12 +120,12 @@ namespace Astrominer.Test
         }
 
         [UnityTest]
-        public IEnumerator MoveLinearlyTo_ReachesTargetAfterPredictedTime()
+        public IEnumerator MoveTo_ReachesTargetAfterPredictedTime()
         {
             Time.timeScale = 20f;
-            SetupLinearMovement(_testTarget);
+            SetupMovement(_testTarget);
             // Formula used: t = s / v (t: Time in seconds | s: distance | v: velocity.magnitude)
-            float predictedTime = _testTargetDelta.magnitude / _testMaxSpeed;
+            float predictedTime = _ship.TimeToTarget;
             float timeLeft = predictedTime;
 
             while (timeLeft > Time.deltaTime)
@@ -146,15 +141,27 @@ namespace Astrominer.Test
         }
 
         [Test]
-        public void MoveLinearlyTo_ShipFacesTarget()
+        public void MoveTo_ShipFacesTarget()
         {
-            SetupLinearMovement(_testTarget);
+            SetupMovement(_testTarget);
             Vector2 targetDirection = _testTarget - _ship.Position;
             Vector2 targetDirectionNormalized = targetDirection.normalized;
             Vector2 faceDirectionNormalized = _ship.FaceDirection.normalized;
             bool xIdentical = Mathf.Approximately(targetDirectionNormalized.x, faceDirectionNormalized.x);
             bool yIdentical = Mathf.Approximately(targetDirectionNormalized.y, faceDirectionNormalized.y);
             Assert.True(xIdentical && yIdentical);
+        }
+
+
+        [Test]
+        public void MoveTo_TimeToTargetHasPredictedValue()
+        {
+            Time.timeScale = 20f;
+            SetupMovement(_testTarget);
+            // Formula: t = s / v (t: Time in seconds | s: distance | v: velocity.magnitude)
+            float predictedTime = _testTargetDelta.magnitude / _testMaxSpeed;
+            Assert.AreEqual(_ship.TimeToTarget, predictedTime);
+            Time.timeScale = 1f;
         }
 
         [Test]
@@ -169,12 +176,46 @@ namespace Astrominer.Test
             Assert.IsTrue(_ship.Rigidbody.isKinematic);
         }
 
-        private void SetupLinearMovement(Vector2 target)
+        [UnityTest]
+        public IEnumerator Destroy_ShipDestroyed()
+        {
+            GameObject shipObject = _ship.gameObject;
+            _ship.Destroy();
+            // ship won't be destroyed until end of frame
+            yield return 0;
+            // Assert.isNull does not work here, since GameObjects are not literally null after Destruction,
+            // but override the == Operator so that ==null resolves to true anyway.
+            // see this link: https://answers.unity.com/questions/865405/nunit-notnull-assert-strangeness.html
+            Assert.True(shipObject == null);
+            Assert.True(_ship == null);
+        }
+
+        [Test]
+        public void Create_ShipIsNotNull()
+        {
+            Assert.NotNull(_ship);
+        }
+
+        [Test]
+        public void MaxSpeedSet_NegativeValueThrowsException()
+        {
+            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship.MaxSpeed = _testNegativeMaxSpeed);
+        }
+
+        [Test]
+        public void New_NegativeMaxSpeedValueThrowsException()
+        {
+            Dispose();
+            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship = Ship.New(_testNegativeMaxSpeed));
+        }
+
+        private void SetupMovement(Vector2 target)
         {
             _ship.Position = _testPosition;
-            _ship.MaxSpeedPerSecond = _testMaxSpeed;
-            _ship.MoveLinearlyTo(target);
+            _ship.MaxSpeed = _testMaxSpeed;
+            _ship.MoveTo(target);
         }
+
     }
 
 }

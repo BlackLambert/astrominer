@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Astrominer
 {
 	public class Asteroid : MonoBehaviour
 	{
-		public readonly Vector2 defaultPosition = Vector2.zero;
+		private readonly Vector2 _defaultPosition = Vector2.zero;
+		private static readonly string _asteroidPrefabPath = "Prefabs/Asteroid";
 
 		public Vector2 Position 
 		{ 
@@ -12,9 +14,20 @@ namespace Astrominer
 			set => transform.position = value;
 		}
 
-		public void Awake()
+		public static Asteroid New()
 		{
-			Position = defaultPosition;
+			Asteroid prefab = Resources.Load<Asteroid>(_asteroidPrefabPath);
+			return GameObject.Instantiate(prefab);
 		}
-	}
+
+		public void Initialize()
+        {
+			Position = _defaultPosition;
+        }
+
+        public void Destroy()
+        {
+			Destroy(gameObject);
+        }
+    }
 }

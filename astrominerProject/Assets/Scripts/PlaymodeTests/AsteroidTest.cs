@@ -10,25 +10,25 @@ namespace Astrominer.Test
 	{
 		private Asteroid _asteroid;
 		private Vector2 _testPosition = new Vector2(5.0f, 13.5f);
-		private string _asteroidPrefabPath => ResourcesPaths.asteroidPrefab;
+
 
         [SetUp]
 		public void Initialize()
 		{
-			Asteroid prefab = Resources.Load<Asteroid>(_asteroidPrefabPath);
-			_asteroid = GameObject.Instantiate(prefab);
+			_asteroid = Asteroid.New();
 		}
 
 		[TearDown]
 		public void Dispose()
 		{
-			GameObject.Destroy(_asteroid.gameObject);
+			if (_asteroid != null)
+				_asteroid.Destroy();
 		}
 
 		[Test]
 		public void NewAsteroidHasDefaultPosition()
 		{
-			Assert.AreEqual(_asteroid.defaultPosition, _asteroid.Position);
+			Assert.AreEqual(Vector2.zero, _asteroid.Position);
 		}
 
 		[Test]
@@ -44,6 +44,17 @@ namespace Astrominer.Test
 			_asteroid.Position = _testPosition;
 			Assert.AreEqual(_asteroid.Position, (Vector2)_asteroid.transform.position);
 		}
+
+		[UnityTest]
+		public IEnumerator Destroy_AsteroidDestroyed()
+        {
+			GameObject asteroidObject = _asteroid.gameObject;
+			_asteroid.Destroy();
+			yield return 0;
+			Assert.True(_asteroid == null);
+			Assert.True(asteroidObject == null);
+        }
+			
 	}
 }
 
