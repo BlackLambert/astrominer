@@ -126,9 +126,8 @@ namespace Astrominer.Test
             Vector2 targetDirection = _testTarget - _ship.Position;
             Vector2 targetDirectionNormalized = targetDirection.normalized;
             Vector2 velocityNormalized = _ship.Velocity.normalized;
-            bool xIdentical = Mathf.Approximately(targetDirectionNormalized.x, velocityNormalized.x);
-            bool yIdentical = Mathf.Approximately(targetDirectionNormalized.y, velocityNormalized.y);
-            Assert.True(xIdentical && yIdentical);
+            Assert.AreEqual(targetDirectionNormalized.x, velocityNormalized.x, _epsilon);
+            Assert.AreEqual(targetDirectionNormalized.y, velocityNormalized.y, _epsilon);
         }
 
         [UnityTest]
@@ -137,10 +136,7 @@ namespace Astrominer.Test
             SetupMovement(_testTarget);
             yield return new WaitForFixedUpdate();
             float distance = (_ship.Position - _testPosition).magnitude;
-            // Not using Mathf.Approximately because the float gap is to large causing the Assertion to fail.
-            int distanceCompareValue = (int)(distance / _epsilon);
-            int maxSpeedPerFixedUpdateCompareValue = (int)(_ship.MaxSpeedPerFixedUpdate / _epsilon);
-            Assert.AreEqual(distanceCompareValue, maxSpeedPerFixedUpdateCompareValue);
+            Assert.AreEqual(_ship.MaxSpeedPerFixedUpdate, distance, _epsilon);
         }
 
         [UnityTest]
@@ -171,9 +167,8 @@ namespace Astrominer.Test
             Vector2 targetDirection = _testTarget - _ship.Position;
             Vector2 targetDirectionNormalized = targetDirection.normalized;
             Vector2 faceDirectionNormalized = _ship.FaceDirection.normalized;
-            bool xIdentical = Mathf.Approximately(targetDirectionNormalized.x, faceDirectionNormalized.x);
-            bool yIdentical = Mathf.Approximately(targetDirectionNormalized.y, faceDirectionNormalized.y);
-            Assert.True(xIdentical && yIdentical);
+            Assert.AreEqual(targetDirectionNormalized.x, faceDirectionNormalized.x, _epsilon);
+            Assert.AreEqual(targetDirectionNormalized.y, faceDirectionNormalized.y, _epsilon);
         }
 
 
