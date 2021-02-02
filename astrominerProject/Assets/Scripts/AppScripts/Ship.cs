@@ -5,14 +5,16 @@ namespace Astrominer
 {
 	public class Ship : MonoBehaviour
 	{
-		private readonly Vector2 defaultPosition = Vector2.zero;
+
 		private readonly Vector2 defaultVelocity = Vector2.zero;
 		private static readonly string _shipPrefabPath = "Prefabs/Ship";
 
 		[SerializeField]
 		private Rigidbody2D _rigidbody;
-		private Vector3 _target = Vector2.zero;
+		[SerializeField]
+		private float _defaultMaxSpeed = 1.0f;
 		private float _maxSpeed;
+		private Vector3 _target = Vector2.zero;
 
 		public Vector2 Position
 		{
@@ -54,13 +56,24 @@ namespace Astrominer
 
         
 
-        public static Ship New(float maxSpeed)
+        public static Ship New()
 		{
 			Ship prefab = Resources.Load<Ship>(_shipPrefabPath);
 			Ship result = GameObject.Instantiate(prefab);
-			result.Initialize(maxSpeed);
 			return result;
-		}	
+		}
+
+		public void Awake()
+		{
+			Initialize();
+		}
+
+		private void Initialize()
+		{
+			_target = transform.position;
+			Rigidbody.velocity = defaultVelocity;
+			MaxSpeed = _defaultMaxSpeed;
+		}
 
 		public void Destroy()
 		{
@@ -79,14 +92,6 @@ namespace Astrominer
 			UpdateTimeToTarget();
 			UpdateVelocity();
 			LookAtTarget();
-		}
-
-		private void Initialize(float maxSpeed)
-		{
-			transform.position = defaultPosition;
-			_target = transform.position;
-			Rigidbody.velocity = defaultVelocity;
-			MaxSpeed = maxSpeed;
 		}
 
 		private void UpdateTimeToTarget()

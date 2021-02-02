@@ -26,12 +26,6 @@ namespace Astrominer.Test
 		}
 
 		[Test]
-		public void NewAsteroidHasDefaultPosition()
-		{
-			Assert.AreEqual(Vector2.zero, _asteroid.Position);
-		}
-
-		[Test]
 		public void PositionSet_AsteroidPositionSet()
 		{
 			_asteroid.Position = _testPosition;

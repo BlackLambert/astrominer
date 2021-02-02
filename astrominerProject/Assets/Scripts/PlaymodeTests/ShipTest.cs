@@ -25,7 +25,7 @@ namespace Astrominer.Test
         [SetUp]
         public void Setup()
         {
-            _ship = Ship.New(_testMaxSpeed);
+            _ship = Ship.New();
         }
 
         [TearDown]
@@ -41,19 +41,14 @@ namespace Astrominer.Test
             Assert.NotNull(_ship);
         }
 
+        /*
+         * With our current knowledge this is not testable with Awake().
+         * One can't catch an Exception during Awake().
+         */
         [Test]
-        public void New_ShipHasDefaultValues()
+        public void Awake_NegativeMaxSpeedValueThrowsException()
         {
-            Assert.AreEqual(Vector2.zero, _ship.Position);
-            Assert.AreEqual(Vector2.zero, _ship.Velocity);
-            Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeed);
-        }
-
-        [Test]
-        public void New_NegativeMaxSpeedValueThrowsException()
-        {
-            Dispose();
-            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship = Ship.New(_testNegativeMaxSpeed));
+            
         }
 
         [UnityTest]
@@ -103,6 +98,12 @@ namespace Astrominer.Test
         {
             _ship.MaxSpeed = _testMaxSpeed;
             Assert.AreEqual(_testMaxSpeed, _ship.MaxSpeed);
+        }
+
+        [Test]
+        public void MaxSpeedSet_NegativeValueThrowsException()
+        {
+            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship.MaxSpeed = _testNegativeMaxSpeed);
         }
 
         [Test]
@@ -193,12 +194,6 @@ namespace Astrominer.Test
         public void RigidbodyIsKinematic()
         {
             Assert.IsTrue(_ship.Rigidbody.isKinematic);
-        }
-
-        [Test]
-        public void MaxSpeedSet_NegativeValueThrowsException()
-        {
-            Assert.Throws<Ship.NegativeSpeedValueException>(() => _ship.MaxSpeed = _testNegativeMaxSpeed);
         }
 
         private void SetupMovement(Vector2 target)

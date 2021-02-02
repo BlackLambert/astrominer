@@ -17,13 +17,9 @@ namespace Astrominer
 		public static Asteroid New()
 		{
 			Asteroid prefab = Resources.Load<Asteroid>(_asteroidPrefabPath);
-			return GameObject.Instantiate(prefab);
+			Asteroid result = GameObject.Instantiate(prefab);
+			return result;
 		}
-
-		public void Initialize()
-        {
-			Position = _defaultPosition;
-        }
 
         public void Destroy()
         {
