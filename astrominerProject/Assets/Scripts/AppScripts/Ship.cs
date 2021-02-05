@@ -13,7 +13,7 @@ namespace Astrominer
 		private Rigidbody2D _rigidbody;
 		[SerializeField]
 		private float _defaultMaxSpeed = 1.0f;
-		private float _maxSpeed;
+		private float _maxSpeed = 1.0f;
 		private Vector3 _target = Vector2.zero;
 
 		public Vector2 Position
