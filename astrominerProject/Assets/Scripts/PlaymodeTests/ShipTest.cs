@@ -19,6 +19,7 @@ namespace Astrominer.Test
         private readonly Vector2 _testVelocity = new Vector2(3.0f, 5.0f);
         private readonly Vector2 _testTargetDelta = new Vector2(3.0f, 2.0f);
         private float _epsilon = 0.001f;
+        private readonly string _negativeDefaultMaxSpeedShipPrefabPath = "Ship/NegativeDefaultMaxSpeedShip";
 
         private Vector2 _testTarget => _testPosition + _testTargetDelta;
 
@@ -41,14 +42,14 @@ namespace Astrominer.Test
             Assert.NotNull(_ship);
         }
 
-        /*
-         * With our current knowledge this is not testable with Awake().
-         * One can't catch an Exception during Awake().
-         */
+
         [Test]
         public void Awake_NegativeMaxSpeedValueThrowsException()
         {
-            
+            Dispose();
+            string expectedLog = "NegativeSpeedValueException: Specified argument was out of the range of valid values.";
+            LogAssert.Expect(LogType.Exception, expectedLog);
+            _ship = InstantiateNegativeDefaultMaxSpeedShip();
         }
 
         [UnityTest]
@@ -201,6 +202,14 @@ namespace Astrominer.Test
             _ship.Position = _testPosition;
             _ship.MaxSpeed = _testMaxSpeed;
             _ship.MoveTo(target);
+        }
+
+        private Ship InstantiateNegativeDefaultMaxSpeedShip()
+        {
+            Ship result;
+            Ship prefab = Resources.Load<Ship>(_negativeDefaultMaxSpeedShipPrefabPath);
+            result = GameObject.Instantiate(prefab);
+            return result;
         }
 
     }
