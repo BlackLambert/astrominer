@@ -5,16 +5,10 @@ namespace Astrominer
 {
 	public class Ship : MonoBehaviour
 	{
-
-		private readonly Vector2 defaultVelocity = Vector2.zero;
 		private static readonly string _shipPrefabPath = "Prefabs/Ship";
 
 		[SerializeField]
-		private Rigidbody2D _rigidbody;
-		[SerializeField]
-		private float _defaultMaxSpeed = 1.0f;
-		private float _maxSpeed = 1.0f;
-		private Vector3 _target = Vector2.zero;
+		private Mover _mover;
 
 		public Vector2 Position
 		{
@@ -22,40 +16,9 @@ namespace Astrominer
 			set => transform.position = value;
 		}
 
-		public Vector2 Velocity
-		{
-			get => _rigidbody.velocity;
-			private set => _rigidbody.velocity = value;
-		}
-
-		/// <summary>
-        /// Value must be greater than 0
-        /// </summary>
-		public float MaxSpeed
-		{
-			get => _maxSpeed;
-			set
-			{
-				if (value <= 0)
-					throw new NegativeSpeedValueException();
-				_maxSpeed = value;
-			}
-		}
-
-		public float TimeToTarget { get; private set; }
-		public Rigidbody2D Rigidbody => _rigidbody; 
-		public float SpeedPerSecond => Velocity.magnitude;
 		public Vector2 FaceDirection => transform.up;
-		private float _speedPerFixedUpdate => SpeedPerSecond * Time.fixedDeltaTime;
-		public float MaxSpeedPerFixedUpdate => MaxSpeed * Time.fixedDeltaTime;
-		private float _distanceToTarget => _distanceToTargetVector.magnitude;
-        private Vector2 _distanceToTargetVector => _target - transform.position;
-		private bool _distanceToTargetWithinThreshold => _distanceToTarget < _speedPerFixedUpdate;
-		private bool _positionIsTarget => _target == transform.position;
-		private bool _moving => Velocity.magnitude > 0;
-
+		public event Action OnTargetReached;
         
-
         public static Ship New()
 		{
 			Ship prefab = Resources.Load<Ship>(_shipPrefabPath);
@@ -63,16 +26,14 @@ namespace Astrominer
 			return result;
 		}
 
-		public void Awake()
+		protected virtual void Awake()
 		{
-			Initialize();
+			_mover.OnTargetReached += onTargetReached;
 		}
 
-		private void Initialize()
+		protected virtual void OnDestroy()
 		{
-			_target = transform.position;
-			Rigidbody.velocity = defaultVelocity;
-			MaxSpeed = _defaultMaxSpeed;
+			_mover.OnTargetReached -= onTargetReached;
 		}
 
 		public void Destroy()
@@ -80,45 +41,20 @@ namespace Astrominer
             Destroy(gameObject);
 		}
 
-		private void FixedUpdate()
+		public void FlyTo(Vector2 target)
 		{
-			if(_moving)
-				CheckTargetReached();
+			_mover.MoveTo(target);
+			LookAtTarget(_mover.DistanceVectorToTarget);
 		}
 
-		public void MoveTo(Vector2 target)
+		private void onTargetReached()
 		{
-			_target = target;
-			UpdateTimeToTarget();
-			UpdateVelocity();
-			LookAtTarget();
+			OnTargetReached?.Invoke();
 		}
 
-		private void UpdateTimeToTarget()
+		private void LookAtTarget(Vector2 targetDirection)
 		{
-			TimeToTarget = _distanceToTarget / MaxSpeed;
-		}
-
-		private void UpdateVelocity()
-		{
-			Velocity = _positionIsTarget ? Vector2.zero : _distanceToTargetVector.normalized * MaxSpeed;
-		}
-
-		private void LookAtTarget()
-		{
-			transform.up = _distanceToTargetVector;
-		}
-
-		private void CheckTargetReached()
-		{
-			if (_distanceToTargetWithinThreshold && !_positionIsTarget)
-				SetPositionToTarget();
-		}
-
-		private void SetPositionToTarget()
-		{
-			transform.position = _target;
-			UpdateVelocity();
+			transform.up = targetDirection.normalized;
 		}
 
         public class NegativeSpeedValueException: ArgumentOutOfRangeException

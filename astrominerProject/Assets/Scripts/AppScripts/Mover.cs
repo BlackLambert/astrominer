@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Astrominer
 {
-    public interface Mover
+    public abstract class Mover : MonoBehaviour
     {
         public abstract event Action OnTargetReached;
-        public void MoveTo(Vector2 target);
-        
+        public abstract void MoveTo(Vector2 target);
+        public abstract Vector2 DistanceVectorToTarget { get; }
     }
 }

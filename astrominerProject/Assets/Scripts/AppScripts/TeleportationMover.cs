@@ -1,31 +1,31 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Astrominer
 {
     public class TeleportationMover : Mover
     {
-        private Moveable _moveable;
-        public event Action OnTargetReached;
+        [SerializeField]
+        private Transform _objectToMove;
+        private Vector2 _target;
 
-        public void Initialize(Moveable moveable)
+		public override Vector2 DistanceVectorToTarget => _target - (Vector2) _objectToMove.position;
+
+		public override event Action OnTargetReached;
+
+        public override void MoveTo(Vector2 target)
         {
-            if (moveable is null)
-                throw new ArgumentNullException();
-            _moveable = moveable;
+            _target = target;
+            StartCoroutine(TeleportToTargetWithinNextFrame());
         }
 
-        public void MoveTo(Vector2 target)
-        {
-            if (_moveable is null)
-                throw new MoveableNullException();
-            _moveable.Position = target;
+        private IEnumerator TeleportToTargetWithinNextFrame()
+		{
+            yield return 0;
+            _objectToMove.position = new Vector3(_target.x, _target.y, _objectToMove.position.z);
             OnTargetReached?.Invoke();
         }
-
-        public class MoveableNullException: NullReferenceException {}
     }
 
 }
