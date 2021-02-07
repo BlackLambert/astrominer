@@ -74,18 +74,18 @@ namespace Astrominer.Test
             Assert.AreEqual((Vector2)_ship.transform.position, _ship.Position);
         }
         [Test]
-        public void MoveTo_ShipFacesTarget()
+        public void FlyTo_ShipFacesTarget()
         {
             SetupMovement(_testTarget);
             Vector2 targetDirection = _testTarget - _ship.Position;
             Vector2 targetDirectionNormalized = targetDirection.normalized;
-            Vector2 faceDirectionNormalized = _ship.FaceDirection.normalized;
+            Vector2 faceDirectionNormalized = _ship.transform.up;
             Assert.AreEqual(targetDirectionNormalized.x, faceDirectionNormalized.x, _epsilon);
             Assert.AreEqual(targetDirectionNormalized.y, faceDirectionNormalized.y, _epsilon);
         }
 
         [UnityTest]
-        public IEnumerator MoveTo_MoverPositionEqualsTargetPositionOnTargetReached()
+        public IEnumerator FlyTo_MoverPositionEqualsTargetPositionOnTargetReached()
         {
             Time.timeScale = 20f;
             

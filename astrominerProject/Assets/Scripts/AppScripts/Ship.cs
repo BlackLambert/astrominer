@@ -9,6 +9,8 @@ namespace Astrominer
 
 		[SerializeField]
 		private Mover _mover;
+		[SerializeField]
+		private Rotator _rotator;
 
 		public Vector2 Position
 		{
@@ -16,7 +18,6 @@ namespace Astrominer
 			set => transform.position = value;
 		}
 
-		public Vector2 FaceDirection => transform.up;
 		public event Action OnTargetReached;
         
         public static Ship New()
@@ -44,17 +45,12 @@ namespace Astrominer
 		public void FlyTo(Vector2 target)
 		{
 			_mover.MoveTo(target);
-			LookAtTarget(_mover.DistanceVectorToTarget);
+			_rotator.Face(target);
 		}
 
 		private void onTargetReached()
 		{
 			OnTargetReached?.Invoke();
-		}
-
-		private void LookAtTarget(Vector2 targetDirection)
-		{
-			transform.up = targetDirection.normalized;
 		}
 
         public class NegativeSpeedValueException: ArgumentOutOfRangeException

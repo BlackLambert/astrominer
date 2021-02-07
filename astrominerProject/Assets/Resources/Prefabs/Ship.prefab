@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4562048533693917363}
   - component: {fileID: 1537237443075948035}
   - component: {fileID: 949322655220077418}
+  - component: {fileID: 1446875166459549130}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _mover: {fileID: 949322655220077418}
+  _rotator: {fileID: 1446875166459549130}
 --- !u!114 &949322655220077418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +61,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _objectToMove: {fileID: 4562048533693917363}
+--- !u!114 &1446875166459549130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6793172936320514286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0354b0526afb0470480aa1223da224d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8676053570538186541
 GameObject:
   m_ObjectHideFlags: 0
