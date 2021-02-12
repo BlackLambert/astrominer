@@ -3704,7 +3704,7 @@
 											"height": 13,
 											"autoResize": false,
 											"underline": false,
-											"text": "FlyTagret",
+											"text": "FlyTarget",
 											"horizontalAlignment": 2,
 											"verticalAlignment": 5,
 											"wordWrap": false
@@ -6652,6 +6652,7 @@
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
+							"type": "",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,
@@ -6850,7 +6851,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "FlyTagret",
+					"name": "FlyTarget",
 					"ownedElements": [
 						{
 							"_type": "UMLGeneralization",
@@ -7176,6 +7177,7 @@
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
+							"type": "",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,
@@ -7193,6 +7195,7 @@
 							"visibility": "private",
 							"isStatic": false,
 							"isLeaf": false,
+							"type": "",
 							"isReadOnly": false,
 							"isOrdered": false,
 							"isUnique": false,

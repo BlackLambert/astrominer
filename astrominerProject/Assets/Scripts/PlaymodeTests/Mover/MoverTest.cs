@@ -17,26 +17,26 @@ namespace Astrominer.Test
         public IEnumerator MoveTo_MoverPositionEqualsTargetPositionOnTargetReached()
         {
             Time.timeScale = 20f;
-            Mover _mover = instantiateMover();
+            Mover mover = instantiateMover();
             bool targetReached = false;
             Action onTargetReached = () => {
-                Assert.AreEqual(_testTarget, (Vector2)_mover.transform.position);
+                Assert.AreEqual(_testTarget, (Vector2)mover.transform.position);
                 targetReached = true;
             };
-            _mover.OnTargetReached += onTargetReached;
+            mover.OnTargetReached += onTargetReached;
 
-            _mover.MoveTo(_testTarget);
+            mover.MoveTo(_testTarget);
             float timer = _timeout;
             while (!targetReached && timer > 0)
             {
                 timer -= Time.deltaTime;
                 yield return 0;
             }
-            _mover.OnTargetReached -= onTargetReached;
+            mover.OnTargetReached -= onTargetReached;
 
             Assert.True(targetReached);
 
-            GameObject.Destroy(_mover.gameObject);
+            GameObject.Destroy(mover.gameObject);
             Time.timeScale = 1f;
         }
 
@@ -44,25 +44,25 @@ namespace Astrominer.Test
         public IEnumerator MoveTo_ZValueHasNotChanged()
 		{
             Time.timeScale = 20f;
-            Mover _mover = instantiateMover();
-            float _startZValue = _mover.transform.position.z;
+            Mover mover = instantiateMover();
+            float _startZValue = mover.transform.position.z;
 
-            _mover.MoveTo(_testTarget);
+            mover.MoveTo(_testTarget);
             yield return new WaitForSeconds(1f);
 
-            Assert.AreEqual(_startZValue, _mover.transform.position.z, _epsilon);
+            Assert.AreEqual(_startZValue, mover.transform.position.z, _epsilon);
 
-            GameObject.Destroy(_mover.gameObject);
+            GameObject.Destroy(mover.gameObject);
             Time.timeScale = 1f;
         }
 
         [Test]
         public void MoveTo_DistanceToTargetEqualsPredictedValue()
 		{
-            Mover _mover = instantiateMover();
-            _mover.MoveTo(_testTarget);
-            Assert.AreEqual(_testTarget - (Vector2) _mover.transform.position, _mover.DistanceVectorToTarget);
-            GameObject.Destroy(_mover.gameObject);
+            Mover mover = instantiateMover();
+            mover.MoveTo(_testTarget);
+            Assert.AreEqual(_testTarget - (Vector2) mover.transform.position, mover.DistanceVectorToTarget);
+            GameObject.Destroy(mover.gameObject);
         }
 
         protected abstract Mover instantiateMover();

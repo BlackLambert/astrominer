@@ -8,14 +8,13 @@ using System;
 
 namespace Astrominer.Test
 {
-
-
     public class ShipTest
     {
         private Ship _ship;
         private readonly Vector2 _testPosition = new Vector2(4.0f, 2.0f);
         private readonly Vector2 _testTargetDelta = new Vector2(3.0f, 2.0f);
-        private float _epsilon = 0.001f;
+		private readonly string _dummyShipPath = "Ship/DummyShip";
+		private float _epsilon = 0.001f;
         private float _timeout = 5f;
 
         private Vector2 _testTarget => _testPosition + _testTargetDelta;
@@ -23,7 +22,7 @@ namespace Astrominer.Test
         [SetUp]
         public void Setup()
         {
-            _ship = Ship.New();
+            _ship = createDummyShip();
         }
 
         [TearDown]
@@ -117,6 +116,11 @@ namespace Astrominer.Test
             _ship.FlyTo(target);
         }
 
+        private Ship createDummyShip()
+		{
+            Ship prefab = Resources.Load<Ship>(_dummyShipPath);
+            return GameObject.Instantiate(prefab);
+		}
     }
 
 }
