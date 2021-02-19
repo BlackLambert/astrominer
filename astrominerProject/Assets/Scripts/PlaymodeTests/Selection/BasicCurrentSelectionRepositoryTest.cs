@@ -4,15 +4,17 @@ using UnityEngine;
 
 namespace Astrominer.Test
 {
-    public class CurrentSelectionRepositoryTest
+    public class BasicCurrentSelectionRepositoryTest
     {
-		private CurrentSelectionRepository _repository;
+		private BasicCurrentSelectionRepository _repository;
 		private Selectable _selectable;
 		private Selectable _secondSelectable;
 
 		[TearDown]
 		public void Dispose()
 		{
+			if (_repository)
+				GameObject.Destroy(_repository.gameObject);
 			if(_selectable != null)
 				GameObject.Destroy(_selectable.gameObject);
 			if (_secondSelectable != null)
@@ -99,10 +101,17 @@ namespace Astrominer.Test
 
 		private void GivenANewRepository()
 		{
-			_repository = new CurrentSelectionRepository();
+			_repository = createRepository();
 			_selectable = createDummySelectable();
 		}
-		private Selectable createDummySelectable()
+
+        private BasicCurrentSelectionRepository createRepository()
+        {
+			GameObject obj = new GameObject();
+			return obj.AddComponent<BasicCurrentSelectionRepository>();
+        }
+
+        private Selectable createDummySelectable()
 		{
 			GameObject selectableObject = new GameObject();
 			return selectableObject.AddComponent<DummySelectable>();
@@ -132,7 +141,7 @@ namespace Astrominer.Test
 
 		private void ThenAnAlreadySelectedExceptionIsThrown(TestDelegate testDelegate)
 		{
-			Assert.Throws<CurrentSelectionRepository.AlreadySelectedException>(testDelegate);
+			Assert.Throws<BasicCurrentSelectionRepository.AlreadySelectedException>(testDelegate);
 		}
 
 		private void GivenARepositoryWithSelection()
@@ -169,7 +178,7 @@ namespace Astrominer.Test
 
 		private void ThenACurrentSelectionIsNullExceptionIsThrown(TestDelegate testDelegate)
 		{
-			Assert.Throws<CurrentSelectionRepository.CurrentSelectionIsNullException>(testDelegate);
+			Assert.Throws<BasicCurrentSelectionRepository.CurrentSelectionIsNullException>(testDelegate);
 		}
 
 		private void ThenTheFormerSelectedIsDeselected()

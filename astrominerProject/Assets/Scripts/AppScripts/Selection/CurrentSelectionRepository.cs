@@ -5,36 +5,15 @@ using UnityEngine;
 
 namespace Astrominer
 {
-	public class CurrentSelectionRepository
+	public abstract class CurrentSelectionRepository : MonoBehaviour
 	{
-		public Selectable CurrentSelection { get; private set; } = null;
+		public abstract Selectable CurrentSelection { get; }
 		public bool IsEmpty => CurrentSelection is null;
 
-		public void Select(Selectable selectable)
-		{
-			if (selectable is null)
-				throw new ArgumentNullException();
-			if (CurrentSelection == selectable)
-				throw new AlreadySelectedException();
-			CurrentSelection?.Deselect();
-			CurrentSelection = selectable;
-			CurrentSelection.Select();
-		}
+        public abstract void Select(Selectable selectable);
 
-		public void Deselect()
-		{
-			if (IsEmpty)
-				throw new CurrentSelectionIsNullException();
-			CurrentSelection.Deselect();
-			CurrentSelection = null;
-		}
+		public abstract void Deselect();
 
-		public class CurrentSelectionIsNullException : InvalidOperationException
-		{
-		}
 
-		public class AlreadySelectedException : InvalidOperationException
-		{
-		}
 	}
 }
