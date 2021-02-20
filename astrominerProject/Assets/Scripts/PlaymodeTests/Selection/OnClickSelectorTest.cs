@@ -18,42 +18,74 @@ namespace Astrominer.Test
         public void Dispose()
         {
             if (_selector)
-                GameObject.Destroy(_selector.gameObject);
+                GameObject.DestroyImmediate(_selector.gameObject);
             if (_dummyRepository)
-                GameObject.Destroy(_dummyRepository.gameObject);
+                GameObject.DestroyImmediate(_dummyRepository.gameObject);
         }
 
         [Test]
         public void OnPointerClick_SelectCalledOnRepository()
         {
+            GivenADummyRepository();
             GivenNewSelector();
-            bool called = WhenOnPointerClickIsCalledWithObservedRepository();
-            ThenSelectIsCalledOnRepository(called);
+            using (var observer = new RepositorySelectObserver(_dummyRepository))
+            {
+                WhenOnPointerClickIsCalled();
+                ThenSelectIsCalledOnRepository(observer.Called);
+            }
         }
 
-        private bool WhenOnPointerClickIsCalledWithObservedRepository()
+        [Test]
+        public void OnPointerClick_RepositorySelectReceivesPredictedSelectable()
+		{
+            GivenADummyRepository();
+            GivenNewSelector();
+            using (var observer = new RepositorySelectObserver(_dummyRepository))
+            {
+                WhenOnPointerClickIsCalled();
+                ThenArgumentIsPredictedSelectable(observer.GivenArgument);
+            }
+        }
+
+		[Test]
+        public void OnPointerClick_RepositorySelectNotCalledIfAlreadySelected()
+		{
+            GivenADummyRepository();
+            GivenNewSelector();
+            using (var observer = new RepositorySelectObserver(_dummyRepository))
+            {
+                WhenOnPointerClickIsCalled();
+                ThenSelectIsNotCalledOnRepository(observer.Called);
+            }
+        }
+
+		private void ThenSelectIsNotCalledOnRepository(bool called)
+		{
+            Assert.False(called);
+		}
+
+		private void GivenADummyRepository()
         {
-            bool called = false;
-            Action onSelectCalled = () => called = true;
-            _dummyRepository.OnSelect += onSelectCalled;
-            WhenOnPointerClickIsCalled();
-            _dummyRepository.OnSelect -= onSelectCalled;
-            return called;
+            _dummyRepository = CreateSelectDummyRepository();
         }
 
-        private void ThenSelectIsCalledOnRepository(bool called)
+		private void ThenArgumentIsPredictedSelectable(Selectable givenArgument)
+		{
+            Assert.AreEqual(_selector.GetComponent<Selectable>(), givenArgument);
+		}
+
+		private void ThenSelectIsCalledOnRepository(bool called)
         {
             Assert.True(called);
         }
 
         private void GivenNewSelector()
         {
-            _dummyRepository = CreateDummyRepository();
             OnClickSelector prefab = Resources.Load<OnClickSelector>(_onClickSelectorPath);
             _selector = GameObject.Instantiate(prefab);
         }
 
-        private DummyCurrentSelectionRepository CreateDummyRepository()
+        private DummyCurrentSelectionRepository CreateSelectDummyRepository()
         {
             GameObject obj = new GameObject();
             return obj.AddComponent<DummyCurrentSelectionRepository>();
@@ -63,5 +95,29 @@ namespace Astrominer.Test
         {
             (_selector as IPointerClickHandler).OnPointerClick(null);
         }
-    }
+
+		private class RepositorySelectObserver : IDisposable
+		{
+            public bool Called => GivenArgument != null;
+            public Selectable GivenArgument { get; private set; } = null;
+
+            private DummyCurrentSelectionRepository _repository;
+
+            public RepositorySelectObserver(DummyCurrentSelectionRepository repository)
+			{
+                _repository = repository;
+                _repository.OnSelect += onSelect;
+            }
+
+			private void onSelect(Selectable selection)
+			{
+                GivenArgument = selection;
+            }
+
+			public void Dispose()
+			{
+                _repository.OnSelect -= onSelect;
+            }
+		}
+	}
 }

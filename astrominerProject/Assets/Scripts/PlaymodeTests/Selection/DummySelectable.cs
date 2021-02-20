@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Astrominer
+namespace Astrominer.Test
 {
     public class DummySelectable : Selectable
     {

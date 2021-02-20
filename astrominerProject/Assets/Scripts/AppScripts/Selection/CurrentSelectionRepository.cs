@@ -5,15 +5,13 @@ using UnityEngine;
 
 namespace Astrominer
 {
-	public abstract class CurrentSelectionRepository : MonoBehaviour
+	public interface CurrentSelectionRepository
 	{
-		public abstract Selectable CurrentSelection { get; }
-		public bool IsEmpty => CurrentSelection is null;
-
-        public abstract void Select(Selectable selectable);
-
-		public abstract void Deselect();
-
-
+		Selectable CurrentSelection { get; }
+		bool IsEmpty { get; }
+       
+		void Select(Selectable selectable);
+		void Deselect();
+		bool IsSelected(Selectable selectable);
 	}
 }

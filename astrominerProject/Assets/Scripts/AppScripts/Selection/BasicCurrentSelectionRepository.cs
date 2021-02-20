@@ -1,32 +1,37 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Astrominer
 {
-	public class BasicCurrentSelectionRepository : CurrentSelectionRepository
+	public class BasicCurrentSelectionRepository : MonoBehaviour, CurrentSelectionRepository
 	{
-		private Selectable _currentSelection = null;
-		public override Selectable CurrentSelection => _currentSelection;
+		public Selectable CurrentSelection { get; private set; } = null;
 
-        public override void Deselect()
+		public bool IsEmpty => CurrentSelection == null;
+
+		public void Deselect()
         {
 			if (IsEmpty)
 				throw new CurrentSelectionIsNullException();
-			_currentSelection.Deselect();
-			_currentSelection = null;
+			CurrentSelection.Deselect();
+			CurrentSelection = null;
 		}
 
-        public override void Select(Selectable selectable)
+        public void Select(Selectable selectable)
 		{
 			if (selectable is null)
 				throw new ArgumentNullException();
-			if (_currentSelection == selectable)
+			if (CurrentSelection == selectable)
 				throw new AlreadySelectedException();
-			_currentSelection?.Deselect();
-			_currentSelection = selectable;
-			_currentSelection.Select();
+			CurrentSelection?.Deselect();
+			CurrentSelection = selectable;
+			CurrentSelection.Select();
+		}
+		public bool IsSelected(Selectable selectable)
+		{
+			if (selectable is null)
+				throw new ArgumentNullException();
+			return selectable == CurrentSelection;
 		}
 
 		public class CurrentSelectionIsNullException : InvalidOperationException
@@ -36,6 +41,8 @@ namespace Astrominer
 		public class AlreadySelectedException : InvalidOperationException
 		{
 		}
+
+
 	}
 
 }

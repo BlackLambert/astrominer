@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 namespace Astrominer
 {
@@ -8,18 +9,18 @@ namespace Astrominer
     {
         [SerializeField]
         private Selectable _selectable;
-        public Selectable Selectable => _selectable;
 
         private CurrentSelectionRepository _repository;
 
         protected virtual void Awake()
         {
-            _repository = FindObjectOfType<CurrentSelectionRepository>();
+            _repository = SceneObjectFinder.FindSingleInstance<CurrentSelectionRepository>();
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {
-            _repository.Select(_selectable);
+            if (!_repository.IsSelected(_selectable))
+                _repository.Select(_selectable);
         }
     }
 }

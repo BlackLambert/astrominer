@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Astrominer"
+        "Astrominer",
+        "MoqLib"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

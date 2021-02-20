@@ -14,11 +14,11 @@ namespace Astrominer.Test
 		public void Dispose()
 		{
 			if (_repository)
-				GameObject.Destroy(_repository.gameObject);
+				GameObject.DestroyImmediate(_repository.gameObject);
 			if(_selectable != null)
-				GameObject.Destroy(_selectable.gameObject);
+				GameObject.DestroyImmediate(_selectable.gameObject);
 			if (_secondSelectable != null)
-				GameObject.Destroy(_secondSelectable.gameObject);
+				GameObject.DestroyImmediate(_secondSelectable.gameObject);
 		}
 
 		[Test]
@@ -97,6 +97,55 @@ namespace Astrominer.Test
 		{
 			GivenARepositoryWithSelection();
 			ThenIsEmptyReturnsFalse();
+		}
+
+		[Test]
+		public void IsSelected_ReturnsTrueOnCurrentSelectionIsTheGivenArgument()
+		{
+			GivenARepositoryWithSelection();
+			bool selected = WhenIsSelectedCalledWithCurrentSelection();
+			ThenIsSelectedReturnsTrue(selected);
+		}
+
+		[Test]
+		public void IsSelected_ReturnsFalseOnCurrentSelectionIsNotTheGivenArgument()
+		{
+			GivenARepositoryWithSelection();
+			bool selected = WhenIsSelectedCalledWithOtherThanCurrentSelection();
+			ThenIsSelectedReturnsFalse(selected);
+		}
+
+		[Test]
+		public void IsSelected_ThrowsExceptionOnArgumentNull()
+		{
+			GivenANewRepository();
+			TestDelegate test = () => WhenIsSelectedCalledWithNullArgument();
+			ThenAnArgumentNullExceptionIsThrown(test);
+		}
+
+		private void WhenIsSelectedCalledWithNullArgument()
+		{
+			_repository.IsSelected(null);
+		}
+
+		private void ThenIsSelectedReturnsFalse(bool selected)
+		{
+			Assert.False(selected);
+		}
+
+		private bool WhenIsSelectedCalledWithOtherThanCurrentSelection()
+		{
+			return _repository.IsSelected(_secondSelectable);
+		}
+
+		private bool WhenIsSelectedCalledWithCurrentSelection()
+		{
+			return _repository.IsSelected(_selectable);
+		}
+
+		private void ThenIsSelectedReturnsTrue(bool selected)
+		{
+			Assert.True(selected);
 		}
 
 		private void GivenANewRepository()
