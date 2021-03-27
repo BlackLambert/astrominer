@@ -1,25 +1,19 @@
 using System;
+using Moq;
 using NUnit.Framework;
 using UnityEngine;
+using Zenject;
 
 namespace Astrominer.Test
 {
-    public class BasicCurrentSelectionRepositoryTest
+	[TestFixture]
+    public class BasicCurrentSelectionRepositoryTest : ZenjectUnitTestFixture
     {
-		private BasicCurrentSelectionRepository _repository;
-		private DummySelectable _selectable;
-		private DummySelectable _secondSelectable;
+		private CurrentSelectionRepository _repository;
+		private Mock<Selectable> _selectableMock;
+		private Selectable _selectable;
+		private Selectable _secondSelectable;
 
-		[TearDown]
-		public void Dispose()
-		{
-			if (_repository)
-				GameObject.DestroyImmediate(_repository.gameObject);
-			if(_selectable != null)
-				GameObject.DestroyImmediate(_selectable.gameObject);
-			if (_secondSelectable != null)
-				GameObject.DestroyImmediate(_secondSelectable.gameObject);
-		}
 
 		[Test]
         public void Select_CurrentSelectionIsGivenSelectable()
@@ -33,8 +27,9 @@ namespace Astrominer.Test
 		public void Select_CurrentSelectionIsSelected()
 		{
 			GivenANewRepository();
+			GivenASelectSetup();
 			WhenSelectCalledWithSelectable();
-			ThenTheSelectionIsSelected();
+			ThenTheSelectOfSelectableIsCalled();
 		}
 
 		[Test]
@@ -49,6 +44,7 @@ namespace Astrominer.Test
 		public void Select_FormerSelectionIsDeselected()
 		{
 			GivenARepositoryWithSelection();
+			GivenADeselectSetup();
 			WhenSelectCalledWithSecondSelectable();
 			ThenTheFormerSelectionWillBeDeselected();
 		}
@@ -123,14 +119,37 @@ namespace Astrominer.Test
 			ThenAnArgumentNullExceptionIsThrown(test);
 		}
 
+		private void GivenANewRepository()
+		{
+			Container.Bind<CurrentSelectionRepository>().To<BasicCurrentSelectionRepository>().AsSingle();
+			_selectableMock = new Mock<Selectable>();
+			Container.Bind<Selectable>().To<Selectable>().FromInstance(_selectableMock.Object).AsSingle();
+
+			_repository = Container.Resolve<CurrentSelectionRepository>();
+			_selectable = Container.Resolve<Selectable>();
+		}
+
+		private void GivenARepositoryWithSelection()
+		{
+			GivenANewRepository();
+			_repository.Select(_selectable);
+			Mock<Selectable> secondSelectableMock = new Mock<Selectable>();
+			_secondSelectable = secondSelectableMock.Object;
+		}
+
+		private void GivenASelectSetup()
+		{
+			_selectableMock.Setup(selectable => selectable.Select());
+		}
+
+		private void GivenADeselectSetup()
+		{
+			_selectableMock.Setup(selectable => selectable.Deselect());
+		}
+
 		private void WhenIsSelectedCalledWithNullArgument()
 		{
 			_repository.IsSelected(null);
-		}
-
-		private void ThenIsSelectedReturnsFalse(bool selected)
-		{
-			Assert.False(selected);
 		}
 
 		private bool WhenIsSelectedCalledWithOtherThanCurrentSelection()
@@ -143,32 +162,40 @@ namespace Astrominer.Test
 			return _repository.IsSelected(_selectable);
 		}
 
-		private void ThenIsSelectedReturnsTrue(bool selected)
-		{
-			Assert.True(selected);
-		}
-
-		private void GivenANewRepository()
-		{
-			_repository = createRepository();
-			_selectable = createDummySelectable();
-		}
-
-        private BasicCurrentSelectionRepository createRepository()
-        {
-			GameObject obj = new GameObject();
-			return obj.AddComponent<BasicCurrentSelectionRepository>();
-        }
-
-        private DummySelectable createDummySelectable()
-		{
-			GameObject selectableObject = new GameObject();
-			return selectableObject.AddComponent<DummySelectable>();
-		}
-
 		private void WhenSelectCalledWithSelectable()
 		{
 			_repository.Select(_selectable);
+		}
+
+		private void WhenSelectedTwice()
+		{
+			_repository.Select(_selectable);
+			_repository.Select(_selectable);
+		}
+
+		private void WhenSelectCalledWithSecondSelectable()
+		{
+			_repository.Select(_secondSelectable);
+		}
+
+		private void WhenDeselectIsCalled()
+		{
+			_repository.Deselect();
+		}
+
+		private void WhenSelectArgumentIsNull()
+		{
+			_repository.Select(null);
+		}
+
+		private void ThenIsSelectedReturnsFalse(bool selected)
+		{
+			Assert.False(selected);
+		}
+
+		private void ThenIsSelectedReturnsTrue(bool selected)
+		{
+			Assert.True(selected);
 		}
 
 		private void ThenSelectionIsTheGivenSelectable()
@@ -181,48 +208,24 @@ namespace Astrominer.Test
 			Assert.IsTrue(_selectable.IsSelected);
 		}
 
-
-		private void WhenSelectedTwice()
-		{
-			_repository.Select(_selectable);
-			_repository.Select(_selectable);
-		}
-
 		private void ThenAnAlreadySelectedExceptionIsThrown(TestDelegate testDelegate)
 		{
 			Assert.Throws<BasicCurrentSelectionRepository.AlreadySelectedException>(testDelegate);
 		}
 
-		private void GivenARepositoryWithSelection()
+		private void ThenTheSelectOfSelectableIsCalled()
 		{
-			GivenANewRepository();
-			_repository.Select(_selectable);
-			_secondSelectable = createDummySelectable();
-		}
-
-		private void WhenSelectCalledWithSecondSelectable()
-		{
-			_repository.Select(_secondSelectable);
+			_selectableMock.Verify(selectable => selectable.Select(), Times.Once);
 		}
 
 		private void ThenTheFormerSelectionWillBeDeselected()
 		{
-			Assert.False(_selectable.IsSelected);
-		}
-
-		private void WhenSelectArgumentIsNull()
-		{
-			_repository.Select(null);
+			_selectableMock.Verify(selectable => selectable.Deselect(), Times.Once);
 		}
 
 		private void ThenAnArgumentNullExceptionIsThrown(TestDelegate testDelegate)
 		{
 			Assert.Throws<ArgumentNullException>(testDelegate);
-		}
-
-		private void WhenDeselectIsCalled()
-		{
-			_repository.Deselect();
 		}
 
 		private void ThenACurrentSelectionIsNullExceptionIsThrown(TestDelegate testDelegate)

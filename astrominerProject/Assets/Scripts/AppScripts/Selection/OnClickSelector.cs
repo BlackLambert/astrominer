@@ -2,20 +2,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
+using Zenject;
 
 namespace Astrominer
 {
-    [RequireComponent(typeof(CurrentSelectionRepository))]
     public class OnClickSelector : MonoBehaviour, IPointerClickHandler
     {
-        [SerializeField]
         private Selectable _selectable;
-
         private CurrentSelectionRepository _repository;
 
-        protected virtual void Awake()
-        {
-            _repository = SceneObjectFinder.FindSingleInstance<CurrentSelectionRepository>();
+        [Inject]
+        public void Construct(
+            Selectable selectable,
+            CurrentSelectionRepository repository)
+		{
+            _selectable = selectable;
+            _repository = repository;
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

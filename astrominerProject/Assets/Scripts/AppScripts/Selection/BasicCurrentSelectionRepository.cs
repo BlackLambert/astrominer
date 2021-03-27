@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Astrominer
 {
-	public class BasicCurrentSelectionRepository : MonoBehaviour, CurrentSelectionRepository
+	public class BasicCurrentSelectionRepository : CurrentSelectionRepository
 	{
 		public Selectable CurrentSelection { get; private set; } = null;
 

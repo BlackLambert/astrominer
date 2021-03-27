@@ -40,7 +40,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6905090906680531667}
   - component: {fileID: 2891191884038553008}
-  - component: {fileID: 7223518532728505295}
   m_Layer: 0
   m_Name: TestOnSelectObjectActivator
   m_TagString: Untagged
@@ -76,16 +75,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controlledObject: {fileID: 608711715590223947}
-  _selectable: {fileID: 7223518532728505295}
---- !u!114 &7223518532728505295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5216677085311668697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 03e99e5c852d1468e885503fb94a8934, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

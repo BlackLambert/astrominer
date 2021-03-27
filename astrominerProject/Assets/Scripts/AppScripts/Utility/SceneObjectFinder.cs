@@ -18,13 +18,13 @@ namespace Astrominer
 				throw new TooManyInstancesExceptions();
 			return searchResult.First();
 
-			static IEnumerable<T> GetInstancesOf<T>()
+			static IEnumerable<S> GetInstancesOf<S>()
 			{
-				List<T> result = new List<T>();
+				List<S> result = new List<S>();
 				GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
 				foreach (var rootGameObject in rootGameObjects)
 				{
-					T[] childrenInterfaces = rootGameObject.GetComponentsInChildren<T>();
+					S[] childrenInterfaces = rootGameObject.GetComponentsInChildren<S>();
 					result.AddRange(childrenInterfaces);
 				}
 				return result;
