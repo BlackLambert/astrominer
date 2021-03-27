@@ -4,6 +4,7 @@ using UnityEngine;
 using NUnit.Framework;
 using System;
 using UnityEngine.EventSystems;
+using Moq;
 
 namespace Astrominer.Test
 {
@@ -11,7 +12,7 @@ namespace Astrominer.Test
     public class OnClickSelectorTest
     {
         private OnClickSelector _selector;
-        private DummyCurrentSelectionRepository _dummyRepository;
+        private MockCurrentSelectionRepository _mockRepository;
         private string _onClickSelectorPath = "Selector/TestOnClickSelector";
 
         [TearDown]
@@ -19,64 +20,55 @@ namespace Astrominer.Test
         {
             if (_selector)
                 GameObject.DestroyImmediate(_selector.gameObject);
-            if (_dummyRepository)
-                GameObject.DestroyImmediate(_dummyRepository.gameObject);
+            if (_mockRepository)
+                GameObject.DestroyImmediate(_mockRepository.gameObject);
         }
 
         [Test]
         public void OnPointerClick_SelectCalledOnRepository()
         {
-            GivenADummyRepository();
+            GivenAMockRepositoryWithSelect();
             GivenNewSelector();
-            using (var observer = new RepositorySelectObserver(_dummyRepository))
-            {
-                WhenOnPointerClickIsCalled();
-                ThenSelectIsCalledOnRepository(observer.Called);
-            }
+            GivenSelectIsSetUpOnMock();
+            WhenOnPointerClickIsCalled();
+            ThenSelectIsCalledOnRepository();
         }
 
         [Test]
         public void OnPointerClick_RepositorySelectReceivesPredictedSelectable()
-		{
-            GivenADummyRepository();
+        {
+            GivenAMockRepositoryWithSelect();
             GivenNewSelector();
-            using (var observer = new RepositorySelectObserver(_dummyRepository))
-            {
-                WhenOnPointerClickIsCalled();
-                ThenArgumentIsPredictedSelectable(observer.GivenArgument);
-            }
+            GivenSelectIsSetUpOnMock();
+            WhenOnPointerClickIsCalled();
+            ThenArgumentIsPredictedSelectable();
         }
 
-		[Test]
+        [Test]
         public void OnPointerClick_RepositorySelectNotCalledIfAlreadySelected()
-		{
-            GivenADummyRepository();
+        {
+            GivenAMockRepositoryWithSelect();
             GivenNewSelector();
-            using (var observer = new RepositorySelectObserver(_dummyRepository))
-            {
-                WhenOnPointerClickIsCalled();
-                ThenSelectIsNotCalledOnRepository(observer.Called);
-            }
+            GivenSelectIsSetUpOnMock();
+            GivenIsSelectedIsSetTrueOnMock();
+            WhenOnPointerClickIsCalled();
+            ThenSelectIsNotCalledOnRepository();
         }
 
-		private void ThenSelectIsNotCalledOnRepository(bool called)
-		{
-            Assert.False(called);
-		}
-
-		private void GivenADummyRepository()
+        private void GivenSelectIsSetUpOnMock()
         {
-            _dummyRepository = CreateSelectDummyRepository();
+            _mockRepository.Mock.Setup(r => r.Select(_selector.GetComponent<Selectable>()));
         }
 
-		private void ThenArgumentIsPredictedSelectable(Selectable givenArgument)
-		{
-            Assert.AreEqual(_selector.GetComponent<Selectable>(), givenArgument);
-		}
 
-		private void ThenSelectIsCalledOnRepository(bool called)
+        private void GivenAMockRepositoryWithSelect()
         {
-            Assert.True(called);
+            _mockRepository = CreateMockRepository();
+        }
+
+        private void GivenIsSelectedIsSetTrueOnMock()
+        {
+            _mockRepository.Mock.Setup(r => r.IsSelected(_selector.GetComponent<Selectable>())).Returns(true);
         }
 
         private void GivenNewSelector()
@@ -85,10 +77,12 @@ namespace Astrominer.Test
             _selector = GameObject.Instantiate(prefab);
         }
 
-        private DummyCurrentSelectionRepository CreateSelectDummyRepository()
+        private MockCurrentSelectionRepository CreateMockRepository()
         {
             GameObject obj = new GameObject();
-            return obj.AddComponent<DummyCurrentSelectionRepository>();
+            MockCurrentSelectionRepository mockRepository = obj.AddComponent<MockCurrentSelectionRepository>();
+            mockRepository.Mock = new Mock<CurrentSelectionRepository>();
+            return mockRepository;
         }
 
         private void WhenOnPointerClickIsCalled()
@@ -96,28 +90,21 @@ namespace Astrominer.Test
             (_selector as IPointerClickHandler).OnPointerClick(null);
         }
 
-		private class RepositorySelectObserver : IDisposable
-		{
-            public bool Called => GivenArgument != null;
-            public Selectable GivenArgument { get; private set; } = null;
+        private void ThenArgumentIsPredictedSelectable()
+        {
+            _mockRepository.Mock.Verify(r => r.Select(_selector.GetComponent<Selectable>()), Times.Once());
+        }
 
-            private DummyCurrentSelectionRepository _repository;
+        private void ThenSelectIsNotCalledOnRepository()
+        {
+            _mockRepository.Mock.Verify(r => r.Select(_selector.GetComponent<Selectable>()), Times.Never());
+        }
 
-            public RepositorySelectObserver(DummyCurrentSelectionRepository repository)
-			{
-                _repository = repository;
-                _repository.OnSelect += onSelect;
-            }
+        private void ThenSelectIsCalledOnRepository()
+        {
+            _mockRepository.Mock.Verify(r => r.Select(_selector.GetComponent<Selectable>()), Times.Once());
+        }
 
-			private void onSelect(Selectable selection)
-			{
-                GivenArgument = selection;
-            }
 
-			public void Dispose()
-			{
-                _repository.OnSelect -= onSelect;
-            }
-		}
 	}
 }

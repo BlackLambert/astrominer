@@ -3,23 +3,13 @@ using UnityEngine;
 
 namespace Astrominer
 {
-    public abstract class Selectable : MonoBehaviour
+    public interface Selectable
     {
-        public bool IsSelected { get; private set; } = false;
+        bool IsSelected { get; }
 
-        public virtual void Select()
-        {
-            if (IsSelected)
-                throw new AlreadySelectedException();
-            IsSelected = true;
-        }
+        void Select();
 
-        public virtual void Deselect()
-        {
-            if (!IsSelected)
-                throw new NotSelectedException();
-            IsSelected = false;
-        }
+        void Deselect();
 
         public class NotSelectedException : InvalidOperationException
         {

@@ -7,8 +7,8 @@ namespace Astrominer.Test
     public class BasicCurrentSelectionRepositoryTest
     {
 		private BasicCurrentSelectionRepository _repository;
-		private Selectable _selectable;
-		private Selectable _secondSelectable;
+		private DummySelectable _selectable;
+		private DummySelectable _secondSelectable;
 
 		[TearDown]
 		public void Dispose()
@@ -160,7 +160,7 @@ namespace Astrominer.Test
 			return obj.AddComponent<BasicCurrentSelectionRepository>();
         }
 
-        private Selectable createDummySelectable()
+        private DummySelectable createDummySelectable()
 		{
 			GameObject selectableObject = new GameObject();
 			return selectableObject.AddComponent<DummySelectable>();

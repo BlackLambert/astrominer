@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace Astrominer
 {
+    [RequireComponent(typeof(CurrentSelectionRepository))]
     public class OnClickSelector : MonoBehaviour, IPointerClickHandler
     {
         [SerializeField]

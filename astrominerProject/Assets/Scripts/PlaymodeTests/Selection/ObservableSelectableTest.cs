@@ -13,7 +13,7 @@ namespace Astrominer.Test
         [Test]
         public void Select_OnSelectInvoked ()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             bool isSelected = false;
             Action onSelected = () =>
             {
@@ -29,7 +29,7 @@ namespace Astrominer.Test
         [Test]
         public void Select_NoObeserverDoesNotThrowException()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             Assert.DoesNotThrow(() => _selectable.Select());
             GameObject.Destroy(_selectable.gameObject);
         }
@@ -37,7 +37,7 @@ namespace Astrominer.Test
         [Test]
         public void Deselect_OnDeselectInvoked()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             bool isDeselected = false;
             Action onDeselected = () =>
             {
@@ -54,7 +54,7 @@ namespace Astrominer.Test
         [Test]
         public void Deselect_NoObeserverDoesNotThrowException()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             _selectable.Select();
             Assert.DoesNotThrow(() => _selectable.Deselect());
             GameObject.Destroy(_selectable.gameObject);
@@ -63,7 +63,7 @@ namespace Astrominer.Test
         [Test]
         public void IsSelected_TrueAfterSelect()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             _selectable.Select();
             Assert.True(_selectable.IsSelected);
             GameObject.Destroy(_selectable.gameObject);
@@ -72,7 +72,7 @@ namespace Astrominer.Test
         [Test]
         public void IsSelected_FalseByDefault()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             Assert.False(_selectable.IsSelected);
             GameObject.Destroy(_selectable.gameObject);
         }
@@ -80,7 +80,7 @@ namespace Astrominer.Test
         [Test]
         public void IsSelected_TrueOnInvocationOfOnselected()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             bool isSelected = false;
             Action onSelected = () =>
             {
@@ -96,7 +96,7 @@ namespace Astrominer.Test
         [Test]
         public void IsSelected_FalseAfterDeselect()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             _selectable.Select();
             _selectable.Deselect();
             Assert.False(_selectable.IsSelected);
@@ -106,7 +106,7 @@ namespace Astrominer.Test
         [Test]
         public void IsSelected_FalseAfterInvocationOfOnDeselection()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             bool isSelected = true;
             Action onDeselected = () =>
             {
@@ -123,8 +123,8 @@ namespace Astrominer.Test
         [Test]
         public void DeselectWithoutSelect_ThrowsException()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
-            Assert.Throws<ObservableSelectable.NotSelectedException>(
+            BasicObservableSelectable _selectable = instantiateSelectable();
+            Assert.Throws<Selectable.NotSelectedException>(
                 () => _selectable.Deselect());
             GameObject.Destroy(_selectable.gameObject);
         }
@@ -132,17 +132,17 @@ namespace Astrominer.Test
         [Test]
         public void Select_ThrowsSelectionWhenIsSelected()
         {
-            ObservableSelectable _selectable = instantiateSelectable();
+            BasicObservableSelectable _selectable = instantiateSelectable();
             _selectable.Select();
-            Assert.Throws<ObservableSelectable.AlreadySelectedException>(
+            Assert.Throws<Selectable.AlreadySelectedException>(
                 () => _selectable.Select());
             GameObject.Destroy(_selectable.gameObject);
         }
 
-        private ObservableSelectable instantiateSelectable()
+        private BasicObservableSelectable instantiateSelectable()
         {
             GameObject selectableGameObject = new GameObject();
-            return selectableGameObject.AddComponent<ObservableSelectable>();
+            return selectableGameObject.AddComponent<BasicObservableSelectable>();
         }
     }
 }
