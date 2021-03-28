@@ -7,14 +7,6 @@ namespace Astrominer.Test
 {
 	public class MoonTest : FlyTargetTest
 	{
-		[Test]
-		public void New_NotNull()
-		{
-			Moon moon = Moon.New();
-			Assert.IsNotNull(moon);
-			GameObject.Destroy(moon.gameObject);
-		}
-
 		[UnityTest]
 		public IEnumerator Destroy_MoonDestroyed()
 		{
@@ -26,14 +18,17 @@ namespace Astrominer.Test
 			Assert.True(moonObject == null);
 		}
 
-		protected override FlyTarget instantiateTarget()
+		protected override FlyTarget InstantiateTarget()
 		{
 			return instantiateMoon();
 		}
 
 		private Moon instantiateMoon()
 		{
-			return Moon.New();
+			PreInstall();
+			Container.Bind(typeof(FlyTarget), typeof(Moon)).To<Moon>().FromNewComponentOnNewGameObject().AsSingle();
+			PostInstall();
+			return Container.Resolve<Moon>();
 		}
 	}
 }

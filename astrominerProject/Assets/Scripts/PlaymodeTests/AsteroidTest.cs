@@ -5,21 +5,14 @@ using UnityEngine.TestTools;
 
 namespace Astrominer.Test
 {
+	[TestFixture]
 	public class AsteroidTest : FlyTargetTest
 	{
-
-		[Test]
-		public void New_NotNull()
-		{
-			Asteroid asteroid = Asteroid.New();
-			Assert.IsNotNull(asteroid);
-			GameObject.Destroy(asteroid.gameObject);
-		}
 
 		[UnityTest]
 		public IEnumerator Destroy_AsteroidDestroyed()
         {
-			Asteroid asteroid = instantiateAsteroid();
+			Asteroid asteroid = InstantiateAsteroid();
 			GameObject asteroidObject = asteroid.gameObject;
 			asteroid.Destroy();
 			yield return 0;
@@ -27,14 +20,17 @@ namespace Astrominer.Test
 			Assert.True(asteroidObject == null);
         }
 
-		protected override FlyTarget instantiateTarget()
+		protected override FlyTarget InstantiateTarget()
 		{
-			return instantiateAsteroid();
+			return InstantiateAsteroid();
 		}
 
-		private Asteroid instantiateAsteroid()
+		private Asteroid InstantiateAsteroid()
 		{
-			return Asteroid.New();
+			PreInstall();
+			Container.Bind(typeof(FlyTarget), typeof(Asteroid)).To<Asteroid>().FromNewComponentOnNewGameObject().AsSingle();
+			PostInstall();
+			return Container.Resolve<Asteroid>();
 		}
 	}
 }

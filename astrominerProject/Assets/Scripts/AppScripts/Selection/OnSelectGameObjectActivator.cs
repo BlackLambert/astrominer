@@ -19,17 +19,20 @@ namespace Astrominer.Test
 
         protected virtual void Start()
         {
-            _selectable.OnSelection += onSelection;
+            _selectable.OnSelection += UpdateActivatoion;
+            _selectable.OnDeselection += UpdateActivatoion;
+            UpdateActivatoion();
         }
 
-        private void onSelection()
+        private void UpdateActivatoion()
         {
-            _controlledObject.SetActive(true);
+            _controlledObject.SetActive(_selectable.IsSelected);
         }
 
-		private void OnDestroy()
+        private void OnDestroy()
 		{
-            _selectable.OnSelection -= onSelection;
-		}
-	}
+            _selectable.OnSelection -= UpdateActivatoion;
+            _selectable.OnDeselection -= UpdateActivatoion;
+        }
+    }
 }

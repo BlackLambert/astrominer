@@ -29,10 +29,12 @@ namespace Astrominer.Test
         public IEnumerator ControlledObjectActivatedAfterSelection()
         {
             GivenADefaultSetup();
+            GivenDeactivatedControlledObject();
             yield return 0;
             WhenSelectableRaisesOnSelectionEvent();
             ThenControlledObjectIsActivated();
         }
+
 
         [UnityTest]
         public IEnumerator OnSelectionHasNoListenersAfterTheActivatorIsDestroyed()
@@ -42,11 +44,50 @@ namespace Astrominer.Test
             yield return 0;
             WhenActivatorIsDestroyed();
             yield return 0;
-            ThenOnSelectionHasNoListeners();
+            ThenListenerCountIsZero();
         }
 
 
-		private void GivenADefaultSetup()
+        [UnityTest]
+        public IEnumerator ControlledObjectDeactivatedAfterDeselection()
+        {
+            GivenADefaultSetup();
+            GivenActivatedControlledObject();
+            GivenSelectableIsSelected();
+            yield return 0;
+            WhenSelectableRaisesOnDeselectionEvent();
+            ThenControlledObjectIsDeactivated();
+        }
+
+        [UnityTest]
+        public IEnumerator OnDeselectionHasNoListenersAfterActivatorIsDestroyed()
+        {
+            GivenADefaultSetup();
+            GivenOnDeselectionSetup();
+            yield return 0;
+            WhenActivatorIsDestroyed();
+            yield return 0;
+            ThenListenerCountIsZero();
+
+        }
+
+        [UnityTest]
+        public IEnumerator Start_ControlledObjectIsActiveWhenSelectableIsSelected()
+        {
+            GivenADefaultSetup();
+            GivenDeactivatedControlledObject();
+            GivenSelectableIsSelected();
+            yield return 0;
+            ThenControlledObjectIsActivated();
+
+        }
+
+        private void GivenSelectableIsSelected()
+        {
+            _selectableMock.SetupGet(selectable => selectable.IsSelected).Returns(true);
+        }
+
+        private void GivenADefaultSetup()
 		{
             PreInstall();
             BindOnSelectObjectActivator();
@@ -59,8 +100,26 @@ namespace Astrominer.Test
 
         private void GivenOnSelectionSetup()
         {
+            _listenerCount = 0;
             _selectableMock.SetupAdd(selectable => selectable.OnSelection += It.IsAny<Action>()).Callback(() => _listenerCount++);
             _selectableMock.SetupRemove(selectable => selectable.OnSelection -= It.IsAny<Action>()).Callback(() => _listenerCount--);
+        }
+
+        private void GivenOnDeselectionSetup()
+        {
+            _listenerCount = 0;
+            _selectableMock.SetupAdd(selectable => selectable.OnDeselection += It.IsAny<Action>()).Callback(() => _listenerCount++);
+            _selectableMock.SetupRemove(selectable => selectable.OnDeselection -= It.IsAny<Action>()).Callback(() => _listenerCount--);
+        }
+
+        private void GivenDeactivatedControlledObject()
+        {
+            _controlledObject.SetActive(false);
+        }
+
+        private void GivenActivatedControlledObject()
+        {
+            _controlledObject.SetActive(true);
         }
 
         private void BindOnSelectObjectActivator()
@@ -84,13 +143,24 @@ namespace Astrominer.Test
             GameObject.Destroy(_activator.gameObject);
         }
 
+        private void WhenSelectableRaisesOnDeselectionEvent()
+        {
+            _selectableMock.Raise(s => s.OnDeselection += null);
+        }
+
         private void ThenControlledObjectIsActivated()
         {
             Assert.True(_controlledObject.activeSelf);
         }
-        private void ThenOnSelectionHasNoListeners()
+      
+        private void ThenListenerCountIsZero()
         {
             Assert.AreEqual(0, _listenerCount);
+        }
+
+        private void ThenControlledObjectIsDeactivated()
+        {
+            Assert.False(_controlledObject.activeSelf);
         }
     }
 }
