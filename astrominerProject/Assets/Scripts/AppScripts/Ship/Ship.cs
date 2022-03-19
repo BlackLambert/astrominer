@@ -19,11 +19,17 @@ namespace SBaier.Astrominer
 		}
 
 		private void Start()
-		{
-			_mover.SpeedPerSeconds = _settings.SpeedPerSecond;
-		}
+        {
+            InitMover();
+        }
 
-		public void FlyTo(FlyTarget target)
+        private void InitMover()
+        {
+            _mover.SpeedPerSeconds = _settings.SpeedPerSecond;
+            _mover.SetMovementTarget(Position2D);
+        }
+
+        public void FlyTo(FlyTarget target)
 		{
 			_mover.SetMovementTarget(target.LandingPoint);
 			FlyTarget = target;

@@ -12,6 +12,7 @@ namespace SBaier.Astrominer
 		{
 			binder.BindInstance(_ship).WithoutInjection();
 			binder.BindInstance(new System.Random()).WithoutInjection();
+			binder.BindToNewSelf<Selection>().AsSingle();
 		}
 	}
 }

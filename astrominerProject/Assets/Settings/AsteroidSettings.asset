@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb67e38dc7c2d16438c3b2d2cf8b8ace, type: 3}
   m_Name: AsteroidSettings
   m_EditorClassIdentifier: 
-  <MinResourceAmount>k__BackingField: 6
-  <MaxResourceAmount>k__BackingField: 10
+  <ResourceAmountRange>k__BackingField: {x: 6, y: 10}
+  <SizeRange>k__BackingField: {x: 1, y: 2}
   <MinPosition>k__BackingField: {x: -8, y: -4}
   <MaxPosition>k__BackingField: {x: 8, y: 4}

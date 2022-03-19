@@ -1,5 +1,4 @@
 using SBaier.DI;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,14 +26,15 @@ namespace SBaier.Astrominer
 			{
 				Asteroid.Arguments settings = CreateRandomSettings();
 				Asteroid asteroid = _asteroidFactory.Create(settings);
-				asteroid.Base.position = GetRandomPosition();
-				asteroid.Base.name = string.Format(_asteroidName, i);
+				asteroid.SetPosition(GetRandomPosition());
+				asteroid.SetName(GetName(i));
+				asteroid.SetSize(GetRandomSize());
 				result.Add(asteroid);
 			}
 			return result;
 		}
 
-		private Asteroid.Arguments CreateRandomSettings()
+        private Asteroid.Arguments CreateRandomSettings()
 		{
 			float resourceAmount = _config.MinResourceAmount;
 			resourceAmount += (float)_random.NextDouble() * (_config.MaxResourceAmount - _config.MinResourceAmount);
@@ -48,6 +48,19 @@ namespace SBaier.Astrominer
 			float y = _config.MinPosition.y;
 			y += (float)_random.NextDouble() * (_config.MaxPosition.y - _config.MinPosition.y);
 			return new Vector2(x, y);
+		}
+
+		private float GetRandomSize()
+		{
+			float size = _config.MinSize;
+			size += (float)_random.NextDouble() * (_config.MaxSize - _config.MinSize);
+			return size;
+		}
+
+		private string GetName(int index)
+        {
+			return string.Format(_asteroidName, index);
+
 		}
 	}
 }
