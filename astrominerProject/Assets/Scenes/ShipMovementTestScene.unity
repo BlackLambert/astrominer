@@ -623,6 +623,7 @@ GameObject:
   - component: {fileID: 1210029894}
   - component: {fileID: 1210029895}
   - component: {fileID: 1210029896}
+  - component: {fileID: 1210029897}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -661,6 +662,7 @@ MonoBehaviour:
   - {fileID: 1210029894}
   - {fileID: 1210029895}
   - {fileID: 1210029896}
+  - {fileID: 1210029897}
   _scriptableObjectInstallers: []
   _iD: 
   _parentContextID: 
@@ -678,6 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shipPrefab: {fileID: 6116670364102835849, guid: 3c1c2380218a8494bbecbe72b91f66bc, type: 3}
   _base: {fileID: 5865855522929158505}
+  _visualsSettings: {fileID: 11400000, guid: a22f885e6e496b44ca992bedd44faedd, type: 2}
 --- !u!114 &1210029895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,6 +709,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _contextInfoPanelPrefab: {fileID: 3616195676049957224, guid: e543ba2234cbd4e4ab0063a3804116c5, type: 3}
+--- !u!114 &1210029897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210029889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dcd722a4979be44992ad93790181996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerColor: {r: 0.6886792, g: 0.010828219, b: 0.010828219, a: 1}
 --- !u!1 &1230147290
 GameObject:
   m_ObjectHideFlags: 0

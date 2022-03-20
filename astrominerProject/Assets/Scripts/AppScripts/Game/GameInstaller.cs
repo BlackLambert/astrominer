@@ -9,6 +9,8 @@ namespace SBaier.Astrominer
 		private Ship _shipPrefab;
 		[SerializeField]
 		private Base _base;
+		[SerializeField]
+		private VisualsSettings _visualsSettings;
 
 		public override void InstallBindings(Binder binder)
 		{
@@ -17,6 +19,7 @@ namespace SBaier.Astrominer
 			binder.BindToNewSelf<Selection>().AsSingle();
 			binder.BindToNewSelf<ActiveShip>().AsSingle();
 			binder.BindInstance(_base).WithoutInjection();
+			binder.BindInstance(_visualsSettings).WithoutInjection();
 		}
 	}
 }

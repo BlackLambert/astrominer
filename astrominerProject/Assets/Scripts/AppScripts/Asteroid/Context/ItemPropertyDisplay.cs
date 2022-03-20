@@ -11,12 +11,12 @@ namespace SBaier.Astrominer
 
 		protected T _item;
 
-		public void Inject(Resolver resolver)
+		public virtual void Inject(Resolver resolver)
 		{
 			_item = resolver.Resolve<T>();
 		}
 
-		private void Start()
+		protected virtual void Start()
 		{
 			SetText();
 		}
