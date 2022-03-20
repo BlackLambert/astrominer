@@ -3,32 +3,32 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class SelectedAsteroidContextPanelCreator : MonoBehaviour, Injectable
-	{
+    public class SelectedItemContextMenuCreator<T> : MonoBehaviour, Injectable
+    {
 		[SerializeField]
 		private Transform _hook;
 
-		private Factory<AsteroidContextPanel, Asteroid> _factory;
-		private SelectedAsteroid _selectedAsteroid;
+		private Factory<ContextPanel<T>, T> _factory;
+		private ActiveItem<T> _selectedItem;
 
-		private AsteroidContextPanel _currentPanel;
+		private ContextPanel<T> _currentPanel;
 
 
 		void Injectable.Inject(Resolver resolver)
 		{
-			_factory = resolver.Resolve<Factory<AsteroidContextPanel, Asteroid>>();
-			_selectedAsteroid = resolver.Resolve<SelectedAsteroid>();
+			_factory = resolver.Resolve<Factory<ContextPanel<T>, T>>();
+			_selectedItem = resolver.Resolve<ActiveItem<T>>();
 		}
 
 		private void Start()
 		{
 			TryCreateNewContextInfoPanel();
-			_selectedAsteroid.OnValueChanged += ReplaceContext;
+			_selectedItem.OnValueChanged += ReplaceContext;
 		}
 
 		private void OnDestroy()
 		{
-			_selectedAsteroid.OnValueChanged -= ReplaceContext;
+			_selectedItem.OnValueChanged -= ReplaceContext;
 		}
 
 		private void ReplaceContext()
@@ -39,13 +39,13 @@ namespace SBaier.Astrominer
 
 		private void TryCreateNewContextInfoPanel()
 		{
-			if (_selectedAsteroid.HasValue)
+			if (_selectedItem.HasValue)
 				CreateContextInfoPanel();
 		}
 
 		private void CreateContextInfoPanel()
 		{
-			_currentPanel = _factory.Create(_selectedAsteroid.Value);
+			_currentPanel = _factory.Create(_selectedItem.Value);
 			_currentPanel.Base.SetParent(_hook, false);
 		}
 

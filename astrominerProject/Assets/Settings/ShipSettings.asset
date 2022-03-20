@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ShipSettings
   m_EditorClassIdentifier: 
   <SpeedPerSecond>k__BackingField: 5
+  <ActionRadius>k__BackingField: 4

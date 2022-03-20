@@ -2,21 +2,7 @@ using System;
 
 namespace SBaier.Astrominer
 {
-    public class SelectedAsteroid
+    public class SelectedAsteroid : ActiveItem<Asteroid>
     {
-        public Asteroid Value 
-        {
-            get => _value;
-            set
-			{
-                _value = value;
-                OnValueChanged?.Invoke();
-            }
-        }
-        private Asteroid _value;
-
-        public bool HasValue => Value != null;
-
-        public event Action OnValueChanged;
     }
 }

@@ -1,4 +1,5 @@
 using SBaier.DI;
+using System;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -12,14 +13,16 @@ namespace SBaier.Astrominer
 		[SerializeField]
 		private Transform _image;
 
-		private Arguments _arguments;
+		Arguments _arguments;
+		public int Quality => _arguments.Quality;
+		public int Size => _arguments.Size;
 
 		void Injectable.Inject(Resolver resolver)
 		{
 			_arguments = resolver.Resolve<Arguments>();
 		}
 
-		public void SetSize(float size)
+		public void SetObjectSize(float size)
         {
 			_image.transform.localScale = new Vector3(size, size, size);
 		}
@@ -27,7 +30,12 @@ namespace SBaier.Astrominer
 		public void SetPosition(Vector2 position)
         {
 			Base.position = position;
-        }
+		}
+
+		public void SetRotation(Quaternion rotation)
+		{
+			_image.transform.rotation = rotation;
+		}
 
 		public void SetName(string name)
         {
@@ -36,11 +44,14 @@ namespace SBaier.Astrominer
 
 		public class Arguments
 		{
-			public float ResourceAmount { get; }
+			public int Quality { get; }
+			public int Size { get; }
 
-			public Arguments(float resourceAmount)
+			public Arguments(int quality,
+				int size)
 			{
-				ResourceAmount = resourceAmount;
+				Quality = quality;
+				Size = size;
 			}
 		}
 	}

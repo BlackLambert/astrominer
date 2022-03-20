@@ -1,12 +1,16 @@
 using SBaier.DI;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class AsteroidsFactory : Factory<List<Asteroid>, int>, Injectable
+	public class AsteroidsFactory : Factory<List<Asteroid>, IEnumerable<Vector2>>, Injectable
 	{
 		private const string _asteroidName = "Asteroid {0}";
+		private const float _maxObjectSizeAddition = 0.5f;
+		private const float _startObjectSize = 0.8f;
 
 		private AsteroidSettings _config;
 		private Factory<Asteroid, Asteroid.Arguments> _asteroidFactory;
@@ -19,48 +23,46 @@ namespace SBaier.Astrominer
 			_random = resolver.Resolve<System.Random>();
 		}
 
-		public List<Asteroid> Create(int amount)
+		public List<Asteroid> Create(IEnumerable<Vector2> positions)
 		{
 			List<Asteroid> result = new List<Asteroid>();
-			for (int i = 0; i < amount; i++)
+			List<Vector2> positionsList = positions.ToList();
+			for (int i = 0; i < positionsList.Count; i++ )
 			{
 				Asteroid.Arguments settings = CreateRandomSettings();
 				Asteroid asteroid = _asteroidFactory.Create(settings);
-				asteroid.SetPosition(GetRandomPosition());
+				asteroid.SetPosition(positionsList[i]);
+				asteroid.SetRotation(GetRandomRotation());
 				asteroid.SetName(GetName(i));
-				asteroid.SetSize(GetRandomSize());
+				asteroid.SetObjectSize(GetObjectSize(settings.Size));
 				result.Add(asteroid);
 			}
 			return result;
 		}
 
-        private Asteroid.Arguments CreateRandomSettings()
+		private Quaternion GetRandomRotation()
 		{
-			float resourceAmount = _config.MinResourceAmount;
-			resourceAmount += (float)_random.NextDouble() * (_config.MaxResourceAmount - _config.MinResourceAmount);
-			return new Asteroid.Arguments(resourceAmount);
+			float rotation = (float) _random.NextDouble() * 360;
+			return Quaternion.Euler(0, 0, rotation);
 		}
 
-		private Vector2 GetRandomPosition()
+		private Asteroid.Arguments CreateRandomSettings()
 		{
-			float x = _config.MinPosition.x;
-			x += (float)_random.NextDouble() * (_config.MaxPosition.x - _config.MinPosition.x);
-			float y = _config.MinPosition.y;
-			y += (float)_random.NextDouble() * (_config.MaxPosition.y - _config.MinPosition.y);
-			return new Vector2(x, y);
-		}
-
-		private float GetRandomSize()
-		{
-			float size = _config.MinSize;
-			size += (float)_random.NextDouble() * (_config.MaxSize - _config.MinSize);
-			return size;
+			int quality = _random.Next(_config.MinQuality, _config.MaxQuality + 1);
+			int size = _random.Next(_config.MinSize, _config.MaxSize + 1);
+			return new Asteroid.Arguments(quality, size);
 		}
 
 		private string GetName(int index)
         {
 			return string.Format(_asteroidName, index);
+		}
 
+		private float GetObjectSize(float size)
+		{
+			float factor = (size - _config.MinSize) / (_config.MaxSize - _config.MinSize);
+			float sizeAddition = _maxObjectSizeAddition * factor;
+			return _startObjectSize + sizeAddition;
 		}
 	}
 }

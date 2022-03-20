@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidContextPanel : MonoBehaviour
+    public class ContextPanel<T> : MonoBehaviour
     {
         [field: SerializeField]
         public Transform Base { get; private set; }
