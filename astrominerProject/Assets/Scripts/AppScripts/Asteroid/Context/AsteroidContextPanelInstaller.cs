@@ -9,8 +9,7 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindInstance(_asteroid).WithoutInjection();
-			binder.BindInstance(_asteroid.FlyTarget).WithoutInjection();
+			binder.Bind<Asteroid>().And<FlyTarget>().To<Asteroid>().FromInstance(_asteroid).WithoutInjection();
 			binder.BindInstance(_activeShip.Value).WithoutInjection();
 		}
 

@@ -4,16 +4,15 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class Asteroid : MonoBehaviour, Injectable
+	public class Asteroid : CosmicObject, Injectable, FlyTarget
 	{
 		[field: SerializeField]
 		public Transform Base { get; private set; }
-		[field: SerializeField]
-		public FlyTarget FlyTarget { get; private set; }
 		[SerializeField]
 		private Transform _image;
 
 		Arguments _arguments;
+
 		public int Quality => _arguments.Quality;
 		public int Size => _arguments.Size;
 

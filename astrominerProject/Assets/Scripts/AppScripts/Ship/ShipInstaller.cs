@@ -15,8 +15,9 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindInstance(_settings);
-			binder.BindInstance(_ship).WithoutInjection();
+			binder.BindInstance(_settings).WithoutInjection();
+			binder.BindInstance(new Mover.Arguments(_settings.SpeedPerSecond));
+			binder.Bind<Ship>().And<Flyable>().To<Ship>().FromInstance(_ship).WithoutInjection();
 			binder.BindInstance(_mover).WithoutInjection();
 		}
 	}

@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class Base : MonoBehaviour
+    public class Base : CosmicObject
     {
-        [field: SerializeField]
-        public FlyTarget FlyTarget { get; private set; }
+
     }
 }

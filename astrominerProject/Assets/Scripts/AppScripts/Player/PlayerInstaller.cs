@@ -12,6 +12,8 @@ namespace SBaier.Astrominer
 		{
 			Player player = new Player(_playerColor);
 			binder.BindInstance(player).WithoutInjection();
+			binder.BindInstance(player.IdentifiedAsteroids).WithoutInjection();
+			binder.BindInstance(player.ProspectorDrones).WithoutInjection();
 			ActivePlayer activePlayer = new ActivePlayer();
 			activePlayer.Value = player;
 			binder.Bind<ActiveItem<Player>>().To<ActivePlayer>().FromInstance(activePlayer);

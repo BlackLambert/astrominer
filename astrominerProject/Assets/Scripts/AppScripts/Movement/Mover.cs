@@ -1,9 +1,10 @@
+using SBaier.DI;
 using System;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class Mover : MonoBehaviour
+    public class Mover : MonoBehaviour, Injectable
     {
 		[SerializeField]
 		private Transform _moveable;
@@ -13,6 +14,19 @@ namespace SBaier.Astrominer
 		public float SpeedPerSeconds { get; set; } = 0;
 		public event Action OnTargetReached;
 		public bool TargetReached => _vector2Position == _movementTarget;
+
+		private Arguments _settings;
+
+
+		public void Inject(Resolver resolver)
+		{
+			_settings = resolver.Resolve<Arguments>();
+		}
+
+		private void Start()
+		{
+			SpeedPerSeconds = _settings.InitialSpeed;
+		}
 
 		private void Update()
 		{
@@ -54,6 +68,16 @@ namespace SBaier.Astrominer
 		private void SetToTarget()
 		{
 			_moveable.position = _movementTarget;
+		}
+
+		public class Arguments
+		{
+			public float InitialSpeed { get; private set; }
+
+			public Arguments(float initialSpeed)
+			{
+				InitialSpeed = initialSpeed;
+			}
 		}
 	}
 }

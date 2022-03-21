@@ -238,7 +238,6 @@ GameObject:
   - component: {fileID: 1741680956754330673}
   - component: {fileID: 9041654381418766373}
   - component: {fileID: 1671728903409529935}
-  - component: {fileID: 6373122989747294967}
   - component: {fileID: 7301362211876741363}
   - component: {fileID: 8224940206883932849}
   - component: {fileID: 9011358360835599498}
@@ -306,7 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 480a204abf4866d4b9538c834b58ce8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <FlyTarget>k__BackingField: {fileID: 6373122989747294967}
+  _landingPointTransform: {fileID: 7330843854547958609}
 --- !u!114 &9041654381418766373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,19 +331,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 7709693411567992168}
---- !u!114 &6373122989747294967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7811339441018348628}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df877fe0a0207994297cd1e8b29e1007, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _landingPointTransform: {fileID: 3322481408746799828}
 --- !u!114 &7301362211876741363
 MonoBehaviour:
   m_ObjectHideFlags: 0

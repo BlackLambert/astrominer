@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00557c44b4ed3b246ae492ef5a1ba6ab, type: 3}
-  m_Name: VisualsSettings
+  m_Script: {fileID: 11500000, guid: ff6b350570c457841886b994732c81b8, type: 3}
+  m_Name: ProspectorDroneSettings
   m_EditorClassIdentifier: 
-  <SelectIndicatorColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
-  <ActionRadiusColor>k__BackingField: {r: 0, g: 0.6666665, b: 1, a: 0.2}
+  <SpeedPerSecond>k__BackingField: 2

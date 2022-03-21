@@ -21,7 +21,7 @@ namespace SBaier.Astrominer
 			Ship ship = _shipFactory.Create();
 			ship.transform.position = _base.transform.position;
 			ship.transform.rotation = Quaternion.Euler(0, 90, 0);
-			ship.FlyTo(_base.FlyTarget);
+			ship.FlyTo(_base);
 			_activeShip.Value = ship;
 		}
 	}

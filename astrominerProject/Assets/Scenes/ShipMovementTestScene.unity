@@ -624,6 +624,7 @@ GameObject:
   - component: {fileID: 1210029895}
   - component: {fileID: 1210029896}
   - component: {fileID: 1210029897}
+  - component: {fileID: 1210029898}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -663,6 +664,7 @@ MonoBehaviour:
   - {fileID: 1210029895}
   - {fileID: 1210029896}
   - {fileID: 1210029897}
+  - {fileID: 1210029898}
   _scriptableObjectInstallers: []
   _iD: 
   _parentContextID: 
@@ -722,6 +724,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerColor: {r: 0.6886792, g: 0.010828219, b: 0.010828219, a: 1}
+--- !u!114 &1210029898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210029889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c9b0895b51787640ae0400aaa90541c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prospectorDronePrefab: {fileID: 582546756850441473, guid: f799fbaeafaf7384ba30a05f2e75cdd8, type: 3}
 --- !u!1 &1230147290
 GameObject:
   m_ObjectHideFlags: 0

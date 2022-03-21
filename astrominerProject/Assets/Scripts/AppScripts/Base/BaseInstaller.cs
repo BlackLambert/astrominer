@@ -19,9 +19,8 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
+			binder.Bind<Base>().And<FlyTarget>().To<Base>().FromInstance(_base).WithoutInjection();
 			binder.BindInstance(_selectable).WithoutInjection();
-			binder.BindInstance(_base.FlyTarget).WithoutInjection();
-			binder.BindInstance(_base).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
 		}
 	}
