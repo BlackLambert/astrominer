@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.sbaier.unitydi": {
-      "version": "https://github.com/BlackLambert/unity-di-package.git#v1.1.1",
+      "version": "https://github.com/BlackLambert/unity-di-package.git#v1.2.0",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "nuget.moq": "1.0.0"
       },
-      "hash": "0b07770d8585d9b1b15d1f6a2413498458a6d7a1"
+      "hash": "e861394f38fb6e64db62632680d12511dcccb4ab"
     },
     "com.unity.2d.animation": {
       "version": "7.0.0",
