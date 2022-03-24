@@ -34,6 +34,7 @@ namespace SBaier.Astrominer
 			_drones.OnItemRemoved += CheckButtonActive;
 			_drones.OnItemAdded += CheckButtonActive;
 			_asteroids.OnItemAdded += CheckButtonActive;
+			_ship.OnFlyTargetChanged += CheckButtonActive;
 		}
 
 		private void OnDestroy()
@@ -42,6 +43,7 @@ namespace SBaier.Astrominer
 			_drones.OnItemRemoved -= CheckButtonActive;
 			_drones.OnItemAdded -= CheckButtonActive;
 			_asteroids.OnItemAdded -= CheckButtonActive;
+			_ship.OnFlyTargetChanged -= CheckButtonActive;
 		}
 
 		private void CheckButtonActive()

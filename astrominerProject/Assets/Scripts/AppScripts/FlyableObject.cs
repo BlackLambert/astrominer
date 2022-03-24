@@ -7,11 +7,21 @@ namespace SBaier.Astrominer
     public class FlyableObject : MonoBehaviour, Flyable, Injectable
     {
         private Mover _mover;
-        public FlyTarget FlyTarget { get; private set; }
+        private FlyTarget _flyTarget;
+        public FlyTarget FlyTarget 
+        {
+            get => _flyTarget;
+            private set
+			{
+                _flyTarget = value;
+                OnFlyTargetChanged?.Invoke();
+            }
+        }
         public Vector2 Position2D => transform.position;
         public bool IsFlying => !_mover.TargetReached;
 
         public event Action OnFlyTargetReached;
+        public event Action OnFlyTargetChanged;
 
 
         public virtual void Inject(Resolver resolver)

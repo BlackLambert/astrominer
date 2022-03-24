@@ -16,6 +16,11 @@ namespace SBaier.Astrominer
 			_item = resolver.Resolve<T>();
 		}
 
+		private void Reset()
+		{
+			_text = GetComponent<TextMeshProUGUI>();
+		}
+
 		protected virtual void Start()
 		{
 			SetText();

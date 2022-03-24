@@ -2,7 +2,6 @@
     "name": "Astrominer",
     "rootNamespace": "SBaier.Astrominer",
     "references": [
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
         "GUID:a4e2fcc097ca52d46a2cc62ef3c5e9bf",
         "GUID:6055be8ebefd69e48b49212b09b47b2f"
     ],

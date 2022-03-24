@@ -7,6 +7,8 @@ namespace SBaier.Astrominer
 		private ShipSettings _settings;
 
 		public float Range => _settings.ActionRadius;
+		public ObservableList<ExploitMachine> Machines { get; private set; } =
+			new ObservableList<ExploitMachine>();
 
 		public override void Inject(Resolver resolver)
 		{

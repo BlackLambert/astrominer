@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff6b350570c457841886b994732c81b8, type: 3}
   m_Name: ProspectorDroneSettings
   m_EditorClassIdentifier: 
-  <SpeedPerSecond>k__BackingField: 2
+  <SpeedPerSecond>k__BackingField: 3
