@@ -9,7 +9,7 @@ namespace SBaier.Astrominer
 
 		protected override string GetText()
 		{
-			string price = _item.Price.ToString("{0:0,0}");
+			string price = _item.Price.ToString("N0");
 			return string.Format(_baseText, price);
 		}
 	}

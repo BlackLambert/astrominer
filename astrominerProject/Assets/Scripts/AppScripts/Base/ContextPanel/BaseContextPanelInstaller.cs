@@ -1,9 +1,13 @@
 using SBaier.DI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
 	public class BaseContextPanelInstaller : MonoInstaller, Injectable
 	{
+		[SerializeField]
+		private ExploitMachineShop _shopPrefab;
+
 		private Base _base;
 		private ActiveShip _activeShip;
 
@@ -11,6 +15,9 @@ namespace SBaier.Astrominer
 		{
 			binder.Bind<Base>().And<FlyTarget>().To<Base>().FromInstance(_base).WithoutInjection();
 			binder.BindInstance(_activeShip.Value).WithoutInjection();
+			binder.Bind<Factory<ExploitMachineShop>>().
+				ToNew<PrefabFactory<ExploitMachineShop>>().
+				WithArgument(_shopPrefab);
 		}
 
 		void Injectable.Inject(Resolver resolver)

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3746248741130534834}
   - component: {fileID: 19238403594241806}
   - component: {fileID: 2654233752816498228}
+  - component: {fileID: 6631333654200797970}
   m_Layer: 5
   m_Name: LevelTab
   m_TagString: Untagged
@@ -143,6 +144,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6631333654200797970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4369377917789520868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02944b12fa744ad40bc9fef6eaac906f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _button: {fileID: 2654233752816498228}
+  _label: {fileID: 4183872829301083161}
+  _labelTextBase: Lvl {0}
 --- !u!1 &7260595027606124019
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +252,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
+  m_fontSize: 12
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
