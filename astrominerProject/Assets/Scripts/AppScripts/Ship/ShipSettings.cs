@@ -10,5 +10,8 @@ namespace SBaier.Astrominer
 
 		[field: SerializeField]
 		public float ActionRadius { get; private set; } = 5;
+
+		[field: SerializeField]
+		public int InventorySpace { get; private set; } = 3;
 	}
 }

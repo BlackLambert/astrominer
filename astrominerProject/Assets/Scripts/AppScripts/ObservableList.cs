@@ -8,21 +8,24 @@ namespace SBaier.Astrominer
         protected List<T> _items = new List<T>();
         public event Action<T> OnItemRemoved;
         public event Action<T> OnItemAdded;
+        public event Action OnItemsChanged;
 
-		public int Count => Count;
+		public int Count => _items.Count;
 
-        public void Add(T item)
+        public virtual void Add(T item)
 		{
 			ValidateAdd(item);
 			_items.Add(item);
 			OnItemAdded?.Invoke(item);
+			OnItemsChanged?.Invoke();
 		}
 
-		public void Remove(T item)
+		public virtual void Remove(T item)
 		{
 			ValidateRemove(item);
 			_items.Remove(item);
 			OnItemRemoved?.Invoke(item);
+			OnItemsChanged?.Invoke();
 		}
 
 		public bool Contains(T item)
@@ -45,6 +48,11 @@ namespace SBaier.Astrominer
 		public IReadOnlyList<T> ToReadonly()
 		{
 			return _items.AsReadOnly();
+		}
+
+		public T GetAt(int index)
+		{
+			return _items[index];
 		}
     }
 }

@@ -7,6 +7,8 @@ namespace SBaier.Astrominer
 	{
 		[SerializeField]
 		private PlayerSettings _settings;
+		[SerializeField]
+		private ShipInventoryPanel _shipInventoryPanelPrefab;
 
 		public override void InstallBindings(Binder binder)
 		{
@@ -18,6 +20,9 @@ namespace SBaier.Astrominer
 			ActivePlayer activePlayer = new ActivePlayer();
 			activePlayer.Value = player;
 			binder.Bind<ActiveItem<Player>>().To<ActivePlayer>().FromInstance(activePlayer);
+			binder.Bind<Factory<ShipInventoryPanel, Ship>>().
+				ToNew<PrefabFactory<ShipInventoryPanel, Ship>>().
+				WithArgument(_shipInventoryPanelPrefab);
 		}
 
 		private Player CreatePlayer()
