@@ -15,6 +15,13 @@ namespace SBaier.Astrominer
 
 		public int Quality => _arguments.Quality;
 		public int Size => _arguments.Size;
+		public Color BaseColor => _arguments.Color;
+
+		public Player OwningPlayer { get; private set; }
+		public event Action OnOwningPlayerChanged;
+		public bool HasOwningPlayer => OwningPlayer != null;
+		public ExploitMachine ExploitMachine { get; private set; }
+		public event Action OnExploitMachineChanged;
 
 		void Injectable.Inject(Resolver resolver)
 		{
@@ -36,6 +43,31 @@ namespace SBaier.Astrominer
 			_image.transform.rotation = rotation;
 		}
 
+		public void SetOwningPlayer(Player player)
+		{
+			OwningPlayer = player;
+			OnOwningPlayerChanged?.Invoke();
+		}
+
+		public void PlaceExploitMachine(ExploitMachine machine)
+		{
+			if (ExploitMachine != null)
+				throw new InvalidOperationException("Remove the current Exploit Machine before placing another");
+			if (machine == null)
+				throw new ArgumentNullException();
+			ExploitMachine = machine;
+			OnExploitMachineChanged?.Invoke();
+		}
+
+		public void TakeExploitMachine()
+		{
+			if (ExploitMachine == null)
+				throw new InvalidOperationException("No Exploit Machine to take");
+			ExploitMachine machine = ExploitMachine;
+			ExploitMachine = null;
+			OnExploitMachineChanged?.Invoke();
+		}
+
 		public void SetName(string name)
         {
 			Base.name = name;
@@ -45,12 +77,15 @@ namespace SBaier.Astrominer
 		{
 			public int Quality { get; }
 			public int Size { get; }
+			public Color Color { get; }
 
 			public Arguments(int quality,
-				int size)
+				int size,
+				Color color)
 			{
 				Quality = quality;
 				Size = size;
+				Color = color;
 			}
 		}
 	}

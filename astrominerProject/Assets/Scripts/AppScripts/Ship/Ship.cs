@@ -12,11 +12,9 @@ namespace SBaier.Astrominer
 
 		public override void Inject(Resolver resolver)
 		{
-			Debug.Log("Ship Inject");
 			base.Inject(resolver);
 			_settings = resolver.Resolve<ShipSettings>();
 			Machines = new LimitedObservableList<ExploitMachine>(_settings.InventorySpace);
-			Debug.Log("Ship Inject end");
 		}
 
 	}

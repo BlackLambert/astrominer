@@ -19,5 +19,7 @@ namespace SBaier.Astrominer
         public Vector2 MinPosition { get; private set; } = new Vector2(-15, -10);
         [field: SerializeField]
         public Vector2 MaxPosition { get; private set; } = new Vector2(15, 10);
+        [field: SerializeField]
+        public Color Color { get; private set; } = Color.white;
     }
 }

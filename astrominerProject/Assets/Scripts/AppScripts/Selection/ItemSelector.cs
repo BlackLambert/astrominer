@@ -33,6 +33,8 @@ namespace SBaier.Astrominer
         {
             _selectable.OnSelected -= SelectItem;
             _selectable.OnDeselected -= DeselectItem;
+            if (_item.Equals(_selectedItem.Value))
+                DeselectItem();
         }
 
         private void SelectItem()

@@ -13,7 +13,7 @@ namespace SBaier.Astrominer
 		private Ship _ship;
 		private ShipInventoryPanel _inventoryPanel;
 
-		private List<ShipInventorySlot> _slots => _inventoryPanel.Slots;
+		private ObservableList<ShipInventorySlot> _slots => _inventoryPanel.Slots;
 		private List<ShipInventoryItem> _items => _inventoryPanel.Items;
 
 		public void Inject(Resolver resolver)
@@ -36,15 +36,8 @@ namespace SBaier.Astrominer
 
 		private void Init()
 		{
-			_inventoryPanel.InitSlots(CreateSlots());
-		}
-
-		private List<ShipInventorySlot> CreateSlots()
-		{
-			List<ShipInventorySlot> result = new List<ShipInventorySlot>();
 			for (int i = 0; i < _ship.Machines.Limit; i++)
-				result.Add(CreateSlot());
-			return result;
+				_slots.Add(CreateSlot());
 		}
 
 		private ShipInventorySlot CreateSlot()
@@ -80,7 +73,7 @@ namespace SBaier.Astrominer
 		{
 			int last = _slots.Count - 1;
 			ShipInventorySlot slot = _slots[last];
-			_slots.RemoveAt(last);
+			_slots.Remove(slot);
 			Destroy(slot.gameObject);
 			if (_items.Count > last)
 				_items.RemoveAt(last);

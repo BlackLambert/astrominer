@@ -29,6 +29,8 @@ namespace SBaier.Astrominer
 				ToNew<PrefabFactory<ShipInventorySlot>>().
 				WithArgument(_inventorySlotPrefab);
 			binder.BindInstance(_inventoryPanel);
+			binder.Bind<ActiveItem<ShipInventoryItem>>().ToNew<SelectedInventoryItem>().AsSingle();
+			binder.BindToNewSelf<Selection>().AsSingle();
 		}
 	}
 }

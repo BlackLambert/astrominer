@@ -3,11 +3,8 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class SelectionIndicator : MonoBehaviour, Injectable
+	public abstract class SelectionIndicator : MonoBehaviour, Injectable
 	{
-		[SerializeField]
-		private SpriteRenderer _image;
-
 		private VisualsSettings _visualSettings;
 
 		public void Inject(Resolver resolver)
@@ -17,7 +14,9 @@ namespace SBaier.Astrominer
 
 		private void Start()
 		{
-			_image.color = _visualSettings.SelectIndicatorColor;
+			SetColor(_visualSettings.SelectIndicatorColor);
 		}
+
+		protected abstract void SetColor(Color color);
 	}
 }

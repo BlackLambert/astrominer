@@ -1,9 +1,14 @@
 using SBaier.DI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
 	public class ShipInventoryItemInstaller : MonoInstaller, Injectable
 	{
+		[SerializeField]
+		private Selectable _selectable;
+		[SerializeField]
+		private ShipInventoryItem _item;
 		private ExploitMachine _machine;
 
 		public void Inject(Resolver resolver)
@@ -14,6 +19,8 @@ namespace SBaier.Astrominer
 		public override void InstallBindings(Binder binder)
 		{
 			binder.BindInstance(_machine);
+			binder.BindInstance(_selectable);
+			binder.BindInstance(_item);
 		}
 	}
 }

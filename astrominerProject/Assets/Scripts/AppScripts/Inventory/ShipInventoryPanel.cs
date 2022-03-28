@@ -6,16 +6,7 @@ namespace SBaier.Astrominer
 {
     public class ShipInventoryPanel : MonoBehaviour
     {
-        public List<ShipInventorySlot> Slots { get; private set; }
+        public ObservableList<ShipInventorySlot> Slots { get; } = new ObservableList<ShipInventorySlot>();
         public List<ShipInventoryItem> Items { get; } = new List<ShipInventoryItem>();
-        public bool SlotsInitialized = false;
-        public event Action OnSlotsInitialized;
-
-        public void InitSlots(List<ShipInventorySlot> slot)
-		{
-            Slots = slot;
-            SlotsInitialized = true;
-            OnSlotsInitialized?.Invoke();
-        }
     }
 }

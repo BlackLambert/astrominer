@@ -50,7 +50,7 @@ namespace SBaier.Astrominer
 		{
 			int quality = _random.Next(_config.MinQuality, _config.MaxQuality + 1);
 			int size = _random.Next(_config.MinSize, _config.MaxSize + 1);
-			return new Asteroid.Arguments(quality, size);
+			return new Asteroid.Arguments(quality, size, _config.Color);
 		}
 
 		private string GetName(int index)
