@@ -12,13 +12,13 @@ namespace SBaier.Astrominer
 		private const float _maxObjectSizeAddition = 0.5f;
 		private const float _startObjectSize = 0.8f;
 
-		private AsteroidSettings _config;
+		private AsteroidSettings _settings;
 		private Factory<Asteroid, Asteroid.Arguments> _asteroidFactory;
 		private System.Random _random;
 
 		public void Inject(Resolver resolver)
 		{
-			_config = resolver.Resolve<AsteroidSettings>();
+			_settings = resolver.Resolve<AsteroidSettings>();
 			_asteroidFactory = resolver.Resolve<Factory<Asteroid, Asteroid.Arguments>>();
 			_random = resolver.Resolve<System.Random>();
 		}
@@ -48,9 +48,21 @@ namespace SBaier.Astrominer
 
 		private Asteroid.Arguments CreateRandomSettings()
 		{
-			int quality = _random.Next(_config.MinQuality, _config.MaxQuality + 1);
-			int size = _random.Next(_config.MinSize, _config.MaxSize + 1);
-			return new Asteroid.Arguments(quality, size, _config.Color);
+			int quality = _random.Next(_settings.MinQuality, _settings.MaxQuality + 1);
+			int size = _random.Next(_settings.MinSize, _settings.MaxSize + 1);
+			Ores ores = CalculateExploitableOres(quality, size);
+			float miningSpeed = _settings.QualityToMiningSpeedFactor * quality;
+			return new Asteroid.Arguments(quality, size, _settings.Color, ores, miningSpeed);
+		}
+
+		private Ores CalculateExploitableOres(int quality, int size)
+		{
+			float allOresAmount = (quality + size) * _settings.BaseOreAmount;
+			float oreWeightSum = _settings.OreWeightSum;
+			float iron = allOresAmount * (_settings.IronWeight / oreWeightSum);
+			float gold = allOresAmount * (_settings.GoldWeight / oreWeightSum);
+			float platinum = allOresAmount * (_settings.PlatinumWeight / oreWeightSum);
+			return new Ores(iron, gold, platinum);
 		}
 
 		private string GetName(int index)
@@ -60,7 +72,7 @@ namespace SBaier.Astrominer
 
 		private float GetObjectSize(float size)
 		{
-			float factor = (size - _config.MinSize) / (_config.MaxSize - _config.MinSize);
+			float factor = (size - _settings.MinSize) / (_settings.MaxSize - _settings.MinSize);
 			float sizeAddition = _maxObjectSizeAddition * factor;
 			return _startObjectSize + sizeAddition;
 		}

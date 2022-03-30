@@ -21,5 +21,18 @@ namespace SBaier.Astrominer
         public Vector2 MaxPosition { get; private set; } = new Vector2(15, 10);
         [field: SerializeField]
         public Color Color { get; private set; } = Color.white;
+
+        
+        [field: SerializeField, Header("Ores")]
+        public float BaseOreAmount { get; } = 500;
+        [field: SerializeField]
+        public float QualityToMiningSpeedFactor { get; } = 0.2f;
+        [field: SerializeField]
+        public float IronWeight { get; } = 65;
+        [field: SerializeField]
+        public float GoldWeight { get; } = 25;
+        [field: SerializeField]
+        public float PlatinumWeight { get; } = 10;
+        public float OreWeightSum => IronWeight + GoldWeight + PlatinumWeight;
     }
 }

@@ -16,16 +16,26 @@ namespace SBaier.Astrominer
 		public int Quality => _arguments.Quality;
 		public int Size => _arguments.Size;
 		public Color BaseColor => _arguments.Color;
+		public Ores TotalExploitableOres => _arguments.TotalExploitableOres;
+		public float BaseMiningSpeed => _arguments.BaseMiningSpeed;
 
 		public Player OwningPlayer { get; private set; }
 		public event Action OnOwningPlayerChanged;
 		public bool HasOwningPlayer => OwningPlayer != null;
 		public ExploitMachine ExploitMachine { get; private set; }
+		public bool HasExploitMachine => ExploitMachine != null;
 		public event Action OnExploitMachineChanged;
+		public Ores MinedOres { get; } = new Ores();
+		public Ores TotalMinedOres { get; } = new Ores();
+		public Ores ExploitableOres { get; private set; } = new Ores();
+		public float MinedPercentage { get; private set; } = 0;
+		public bool Exploited => MinedPercentage >= 1;
+		public event Action OnOreMined;
 
 		void Injectable.Inject(Resolver resolver)
 		{
 			_arguments = resolver.Resolve<Arguments>();
+			ExploitableOres.Add(_arguments.TotalExploitableOres);
 		}
 
 		public void SetObjectSize(float size)
@@ -73,19 +83,44 @@ namespace SBaier.Astrominer
 			Base.name = name;
 		}
 
+		public void MineOre(float iron, float gold, float platinum)
+		{
+			if (MinedPercentage >= 1)
+				throw new InvalidOperationException("You can not mine an exploited asteroid.");
+			MinedOres.Add(iron, gold, platinum);
+			TotalMinedOres.Add(iron, gold, platinum);
+			ExploitableOres.Request(iron, gold, platinum);
+			CalculateMinedPercentage();
+			OnOreMined?.Invoke();
+		}
+
+		private void CalculateMinedPercentage()
+		{
+			float iron = TotalMinedOres.Iron.Amount / TotalExploitableOres.Iron.Amount;
+			float gold = TotalMinedOres.Gold.Amount / TotalExploitableOres.Gold.Amount;
+			float platinum = TotalMinedOres.Platinum.Amount / TotalExploitableOres.Platinum.Amount;
+			MinedPercentage = Mathf.Min(iron, gold, platinum);
+		}
+
 		public class Arguments
 		{
 			public int Quality { get; }
 			public int Size { get; }
 			public Color Color { get; }
+			public Ores TotalExploitableOres { get; }
+			public float BaseMiningSpeed { get; internal set; }
 
 			public Arguments(int quality,
 				int size,
-				Color color)
+				Color color, 
+				Ores exploitableOres,
+				float baseMiningSpeed)
 			{
 				Quality = quality;
 				Size = size;
 				Color = color;
+				TotalExploitableOres = exploitableOres;
+				BaseMiningSpeed = baseMiningSpeed;
 			}
 		}
 	}
