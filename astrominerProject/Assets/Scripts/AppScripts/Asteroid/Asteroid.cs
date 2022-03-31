@@ -42,7 +42,8 @@ namespace SBaier.Astrominer
 
 		public void SetObjectSize(float size)
         {
-			_image.transform.localScale = new Vector3(size, size, size);
+			Vector3 scale = _image.transform.localScale;
+			_image.transform.localScale = new Vector3(size * scale.x, size * scale.y, size * scale.z);
 		}
 
 		public void SetPosition(Vector2 position)

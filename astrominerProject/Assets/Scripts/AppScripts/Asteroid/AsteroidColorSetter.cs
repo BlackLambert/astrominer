@@ -17,6 +17,7 @@ namespace SBaier.Astrominer
 
 		private void Start()
 		{
+			UpdateColor();
 			_asteroid.OnOwningPlayerChanged += UpdateColor;
 		}
 
