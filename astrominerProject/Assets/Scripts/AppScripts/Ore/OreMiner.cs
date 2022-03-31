@@ -1,4 +1,5 @@
 using SBaier.DI;
+using System;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -12,6 +13,7 @@ namespace SBaier.Astrominer
 		private Ores ExploitableOres => _asteroid.TotalExploitableOres;
 
 		private Ores _oresPerSecond;
+		private Ores _oresDelta = new Ores();
 		private bool Mining => !_asteroid.Exploited && !_oresPerSecond.IsEmpty();
 
 		public void Inject(Resolver resolver)
@@ -33,7 +35,7 @@ namespace SBaier.Astrominer
 		private void Update()
 		{
 			if(Mining)
-				AddOres(Time.deltaTime);
+				MineOres();
 		}
 
 		private void CalculateOresPerSecond()
@@ -48,17 +50,10 @@ namespace SBaier.Astrominer
 		{
 			float factor = ExploitMachine.Level * BaseSpeed;
 			float allOres = ExploitableOres.GetTotal();
-
-			float ironPart = ExploitableOres.Iron.Amount / allOres;
-			float ironPerSecond = factor * ironPart;
-
-			float goldPart = ExploitableOres.Gold.Amount / allOres;
-			float goldPerSecond = factor * goldPart;
-
-			float platinumPart = ExploitableOres.Platinum.Amount / allOres;
-			float platinumPerSecond = factor * platinumPart;
-
-			_oresPerSecond = new Ores(ironPerSecond, goldPerSecond, platinumPerSecond);
+			Ores result = new Ores();
+			foreach (OreType oreType in ExploitableOres.OreTypes)
+				result.Add(oreType, factor * (ExploitableOres[oreType].Amount / allOres));
+			_oresPerSecond = result;
 		}
 
 		private void SetEmpltyOresPerSecond()
@@ -66,15 +61,23 @@ namespace SBaier.Astrominer
 			_oresPerSecond = new Ores();
 		}
 
-		private void AddOres(float deltaTime)
+		private void MineOres()
 		{
-			float iron = _oresPerSecond.Iron.Amount * deltaTime;
-			iron = Mathf.Min(iron, _asteroid.ExploitableOres.Iron.Amount);
-			float gold = _oresPerSecond.Gold.Amount * deltaTime;
-			gold = Mathf.Min(gold, _asteroid.ExploitableOres.Gold.Amount);
-			float platinum = _oresPerSecond.Platinum.Amount * deltaTime;
-			platinum = Mathf.Min(platinum, _asteroid.ExploitableOres.Platinum.Amount);
-			_asteroid.MineOre(iron, gold, platinum);
+			CalculateOresDelta();
+			_asteroid.MineOres(_oresDelta);
+		}
+
+		private void CalculateOresDelta()
+		{
+			foreach (OreType type in _oresPerSecond.OreTypes)
+				CalculateOreDelta(type);
+		}
+
+		private void CalculateOreDelta(OreType type)
+		{
+			float ore = _oresPerSecond[type].Amount * Time.deltaTime;
+			ore = Mathf.Min(ore, _asteroid.ExploitableOres[type].Amount);
+			_oresDelta[type].Set(ore);
 		}
 	}
 }

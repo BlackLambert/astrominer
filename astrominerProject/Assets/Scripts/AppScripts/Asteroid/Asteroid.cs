@@ -22,6 +22,7 @@ namespace SBaier.Astrominer
 		public Player OwningPlayer { get; private set; }
 		public event Action OnOwningPlayerChanged;
 		public bool HasOwningPlayer => OwningPlayer != null;
+
 		public ExploitMachine ExploitMachine { get; private set; }
 		public bool HasExploitMachine => ExploitMachine != null;
 		public event Action OnExploitMachineChanged;
@@ -31,6 +32,7 @@ namespace SBaier.Astrominer
 		public float MinedPercentage { get; private set; } = 0;
 		public bool Exploited => MinedPercentage >= 1;
 		public event Action OnOreMined;
+		public event Action OnOresCollected;
 
 		void Injectable.Inject(Resolver resolver)
 		{
@@ -83,23 +85,30 @@ namespace SBaier.Astrominer
 			Base.name = name;
 		}
 
-		public void MineOre(float iron, float gold, float platinum)
+		public void MineOres(Ores oresDelta)
 		{
 			if (MinedPercentage >= 1)
 				throw new InvalidOperationException("You can not mine an exploited asteroid.");
-			MinedOres.Add(iron, gold, platinum);
-			TotalMinedOres.Add(iron, gold, platinum);
-			ExploitableOres.Request(iron, gold, platinum);
+			Ores minedOres = ExploitableOres.Request(oresDelta);
+			MinedOres.Add(minedOres);
+			TotalMinedOres.Add(minedOres);
 			CalculateMinedPercentage();
 			OnOreMined?.Invoke();
 		}
 
 		private void CalculateMinedPercentage()
 		{
-			float iron = TotalMinedOres.Iron.Amount / TotalExploitableOres.Iron.Amount;
-			float gold = TotalMinedOres.Gold.Amount / TotalExploitableOres.Gold.Amount;
-			float platinum = TotalMinedOres.Platinum.Amount / TotalExploitableOres.Platinum.Amount;
-			MinedPercentage = Mathf.Min(iron, gold, platinum);
+			float result = 1;
+			foreach (OreType type in TotalMinedOres.OreTypes)
+				result = Mathf.Min(result, TotalMinedOres[type].Amount / TotalExploitableOres[type].Amount);
+			MinedPercentage = result;
+		}
+
+		public Ores Collect()
+		{
+			Ores ores = MinedOres.RequestAll();
+			OnOresCollected?.Invoke();
+			return ores;
 		}
 
 		public class Arguments

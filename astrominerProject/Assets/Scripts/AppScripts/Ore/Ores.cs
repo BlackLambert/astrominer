@@ -1,55 +1,97 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SBaier.Astrominer
 {
     public class Ores
     {
-        public Currency Iron { get; } = new Currency();
-        public Currency Gold { get; } = new Currency();
-        public Currency Platinum { get; } = new Currency();
+        private Dictionary<OreType, Currency> _ores = new Dictionary<OreType, Currency>();
+        public List<OreType> OreTypes { get; }
 
         public event Action OnValueChanged;
 
-        public Ores() { }
+        public Ores() : this(0, 0, 0)
+        {
+
+        }
+
+        public Ores(Ores ores) : this(ores[OreType.Iron].Amount,
+            ores[OreType.Gold].Amount,
+            ores[OreType.Platinum].Amount)
+        {
+           
+        }
 
         public Ores(float iron, float gold, float platinum)
 		{
-            Add(iron, gold, platinum);
+            _ores[OreType.Iron] = new Currency(iron);
+            _ores[OreType.Gold] = new Currency(gold);
+            _ores[OreType.Platinum] = new Currency(platinum);
+            OreTypes = GetOreTypes();
         }
 
         public void Add(Ores ores)
 		{
-            Add(ores.Iron.Amount, ores.Gold.Amount, ores.Platinum.Amount);
+            foreach (OreType oreType in ores.GetOreTypes())
+                AddInternal(oreType, ores[oreType].Amount);
+            OnValueChanged?.Invoke();
         }
 
-        public void Add(float iron, float gold, float platinum)
+        public void Add(OreType type, float amount)
         {
-            Iron.Add(iron);
-            Gold.Add(gold);
-            Platinum.Add(platinum);
+            AddInternal(type, amount);
             OnValueChanged?.Invoke();
         }
 
-        public void Request(float iron, float gold, float platinum)
+        private void AddInternal(OreType type, float amount)
 		{
-            Iron.Request(iron);
-            Gold.Request(gold);
-            Platinum.Request(platinum);
+            _ores[type].Add(amount);
+        }
+
+        public Ores Request(Ores ores)
+		{
+            Ores result = new Ores();
+			foreach (OreType type in ores.GetOreTypes())
+                result[type].Add(RequestInternal(type, ores[type].Amount));
+            return result;
+        }
+
+        public float Request(OreType type, float amount)
+		{
+            float result = RequestInternal(type, amount);
             OnValueChanged?.Invoke();
+            return result;
+		}
+
+        public Ores RequestAll()
+		{
+            return Request(this);
+		}
+
+        private float RequestInternal(OreType type, float amount)
+		{
+            return _ores[type].Request(amount);
         }
 
         public float GetTotal()
 		{
-            float result = 0;
-            result += Iron.Amount;
-            result += Gold.Amount;
-            result += Platinum.Amount;
-            return result;
+            return _ores.Values.Sum(v => v.Amount);
         }
 
         public bool IsEmpty()
 		{
-            return Iron.Amount <= 0 && Gold.Amount <= 0 && Platinum.Amount <= 0;
+            return GetTotal() <= 0;
         }
+
+        public Currency this[OreType type]
+        {
+            get => _ores[type];
+        }
+
+        private List<OreType> GetOreTypes()
+		{
+            return _ores.Keys.ToList();
+		}
     }
 }

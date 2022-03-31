@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-
     [CreateAssetMenu(fileName = "AsteroidSettings", menuName = "ScriptableObjects/AsteroidSettings")]
     public class AsteroidSettings : ScriptableObject
     {
