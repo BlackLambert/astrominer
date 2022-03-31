@@ -76,13 +76,14 @@ namespace SBaier.Astrominer
 			OnExploitMachineChanged?.Invoke();
 		}
 
-		public void TakeExploitMachine()
+		public ExploitMachine TakeExploitMachine()
 		{
 			if (ExploitMachine == null)
 				throw new InvalidOperationException("No Exploit Machine to take");
 			ExploitMachine machine = ExploitMachine;
 			ExploitMachine = null;
 			OnExploitMachineChanged?.Invoke();
+			return machine;
 		}
 
 		public void SetName(string name)

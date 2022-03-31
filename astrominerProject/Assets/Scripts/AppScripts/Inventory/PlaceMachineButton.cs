@@ -1,5 +1,4 @@
 using SBaier.DI;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,13 +11,11 @@ namespace SBaier.Astrominer
 
 		private ActiveItem<ShipInventoryItem> _activeItem;
 		private Ship _ship;
-		private Player _player;
 
 		public void Inject(Resolver resolver)
 		{
 			_activeItem = resolver.Resolve<ActiveItem<ShipInventoryItem>>();
 			_ship = resolver.Resolve<Ship>();
-			_player = resolver.Resolve<Player>();
 		}
 
 		private void Start()
@@ -51,9 +48,9 @@ namespace SBaier.Astrominer
 			Asteroid asteroid = _ship.FlyTarget as Asteroid;
 			ShipInventoryItem selectedItem = _activeItem.Value;
 			ExploitMachine machine = selectedItem.Machine;
-			asteroid.SetOwningPlayer(_player);
-			asteroid.PlaceExploitMachine(machine);
+			asteroid.SetOwningPlayer(_ship.Player);
 			_ship.Machines.Remove(machine);
+			asteroid.PlaceExploitMachine(machine);
 			UpdateInteractivity();
 		}
 	}

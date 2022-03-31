@@ -6,7 +6,7 @@ namespace SBaier.Astrominer
     public class LimitedObservableList<TItem> : ObservableList<TItem>
     {
 		public int Limit { get; private set; }
-		public bool LimitReached => _items.Count >= Limit;
+		public bool LimitReached => Count >= Limit;
 		public event Action OnLimitChanged;
 
 		public LimitedObservableList(int limit)

@@ -54,6 +54,7 @@ namespace SBaier.Astrominer
             Ores result = new Ores();
 			foreach (OreType type in ores.GetOreTypes())
                 result[type].Add(RequestInternal(type, ores[type].Amount));
+            OnValueChanged?.Invoke();
             return result;
         }
 
