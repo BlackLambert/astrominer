@@ -16,3 +16,9 @@ MonoBehaviour:
   <SizeRange>k__BackingField: {x: 3, y: 10}
   <MinPosition>k__BackingField: {x: -8, y: -4}
   <MaxPosition>k__BackingField: {x: 8, y: 4}
+  <Color>k__BackingField: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
+  <BaseOreAmount>k__BackingField: 400
+  <QualityToMiningSpeedFactor>k__BackingField: 0.3
+  <IronWeight>k__BackingField: 65
+  <GoldWeight>k__BackingField: 25
+  <PlatinumWeight>k__BackingField: 10

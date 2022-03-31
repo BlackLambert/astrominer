@@ -52,7 +52,7 @@ namespace SBaier.Astrominer
 			int size = _random.Next(_settings.MinSize, _settings.MaxSize + 1);
 			Ores ores = CalculateExploitableOres(quality, size);
 			float miningSpeed = _settings.QualityToMiningSpeedFactor * quality;
-			return new Asteroid.Arguments(quality, size, _settings.Color, ores, miningSpeed);
+			return new Asteroid.Arguments(quality, size, _settings.Color, ores, miningSpeed, _settings.ExploitedColorReduction);
 		}
 
 		private Ores CalculateExploitableOres(int quality, int size)

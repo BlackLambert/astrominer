@@ -1,5 +1,4 @@
 using SBaier.DI;
-using System;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -14,7 +13,9 @@ namespace SBaier.Astrominer
 
 		private Ores _oresPerSecond;
 		private Ores _oresDelta = new Ores();
-		private bool Mining => !_asteroid.Exploited && !_oresPerSecond.IsEmpty();
+		private bool Mining => !_asteroid.Exploited && 
+			!_oresPerSecond.IsEmpty() && 
+			Time.deltaTime != 0;
 
 		public void Inject(Resolver resolver)
 		{

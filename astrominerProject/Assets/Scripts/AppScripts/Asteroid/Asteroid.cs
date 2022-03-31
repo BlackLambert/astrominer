@@ -6,16 +6,19 @@ namespace SBaier.Astrominer
 {
 	public class Asteroid : CosmicObject, Injectable, FlyTarget
 	{
+		private float _epsilon = 0.0001f;
+
 		[field: SerializeField]
 		public Transform Base { get; private set; }
 		[SerializeField]
 		private Transform _image;
 
-		Arguments _arguments;
+		private Arguments _arguments;
 
 		public int Quality => _arguments.Quality;
 		public int Size => _arguments.Size;
 		public Color BaseColor => _arguments.Color;
+		public Color ExploitedColorReduction => _arguments.ExploitedColorReduction;
 		public Ores TotalExploitableOres => _arguments.TotalExploitableOres;
 		public float BaseMiningSpeed => _arguments.BaseMiningSpeed;
 
@@ -30,9 +33,10 @@ namespace SBaier.Astrominer
 		public Ores TotalMinedOres { get; } = new Ores();
 		public Ores ExploitableOres { get; private set; } = new Ores();
 		public float MinedPercentage { get; private set; } = 0;
-		public bool Exploited => MinedPercentage >= 1;
+		public bool Exploited => ExploitableOres.GetTotal() <= _epsilon;
 		public event Action OnOreMined;
 		public event Action OnOresCollected;
+		public event Action OnExploited;
 
 		void Injectable.Inject(Resolver resolver)
 		{
@@ -88,13 +92,15 @@ namespace SBaier.Astrominer
 
 		public void MineOres(Ores oresDelta)
 		{
-			if (MinedPercentage >= 1)
+			if (Exploited)
 				throw new InvalidOperationException("You can not mine an exploited asteroid.");
 			Ores minedOres = ExploitableOres.Request(oresDelta);
 			MinedOres.Add(minedOres);
 			TotalMinedOres.Add(minedOres);
 			CalculateMinedPercentage();
 			OnOreMined?.Invoke();
+			if (Exploited)
+				OnExploited?.Invoke();
 		}
 
 		private void CalculateMinedPercentage()
@@ -118,19 +124,22 @@ namespace SBaier.Astrominer
 			public int Size { get; }
 			public Color Color { get; }
 			public Ores TotalExploitableOres { get; }
-			public float BaseMiningSpeed { get; internal set; }
+			public float BaseMiningSpeed { get; }
+            public Color ExploitedColorReduction { get; }
 
-			public Arguments(int quality,
+            public Arguments(int quality,
 				int size,
 				Color color, 
 				Ores exploitableOres,
-				float baseMiningSpeed)
+				float baseMiningSpeed,
+				Color exploitedColorReduction)
 			{
 				Quality = quality;
 				Size = size;
 				Color = color;
 				TotalExploitableOres = exploitableOres;
 				BaseMiningSpeed = baseMiningSpeed;
+				ExploitedColorReduction = exploitedColorReduction;
 			}
 		}
 	}
