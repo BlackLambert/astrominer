@@ -27,8 +27,6 @@ namespace SBaier.Astrominer
         [field: SerializeField, Header("Ores")]
         public float BaseOreAmount { get; private set; } = 500;
         [field: SerializeField]
-        public float QualityToMiningSpeedFactor { get; private set; } = 0.2f;
-        [field: SerializeField]
         public float IronWeight { get; private set; } = 65;
         [field: SerializeField]
         public float GoldWeight { get; private set; } = 25;

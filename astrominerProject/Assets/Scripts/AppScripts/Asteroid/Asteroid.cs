@@ -20,7 +20,6 @@ namespace SBaier.Astrominer
 		public Color BaseColor => _arguments.Color;
 		public Color ExploitedColorReduction => _arguments.ExploitedColorReduction;
 		public Ores TotalExploitableOres => _arguments.TotalExploitableOres;
-		public float BaseMiningSpeed => _arguments.BaseMiningSpeed;
 
 		public Player OwningPlayer { get; private set; }
 		public event Action OnOwningPlayerChanged;
@@ -125,21 +124,18 @@ namespace SBaier.Astrominer
 			public int Size { get; }
 			public Color Color { get; }
 			public Ores TotalExploitableOres { get; }
-			public float BaseMiningSpeed { get; }
             public Color ExploitedColorReduction { get; }
 
             public Arguments(int quality,
 				int size,
 				Color color, 
 				Ores exploitableOres,
-				float baseMiningSpeed,
 				Color exploitedColorReduction)
 			{
 				Quality = quality;
 				Size = size;
 				Color = color;
 				TotalExploitableOres = exploitableOres;
-				BaseMiningSpeed = baseMiningSpeed;
 				ExploitedColorReduction = exploitedColorReduction;
 			}
 		}

@@ -9,6 +9,8 @@ namespace SBaier.Astrominer
 		private Base _base;
 		[SerializeField]
 		private VisualsSettings _visualsSettings;
+		[SerializeField]
+		private MiningSettings _miningSettings;
 
 		public override void InstallBindings(Binder binder)
 		{
@@ -16,6 +18,7 @@ namespace SBaier.Astrominer
 			binder.BindToNewSelf<Selection>().AsSingle();
 			binder.BindInstance(_base).WithoutInjection();
 			binder.BindInstance(_visualsSettings).WithoutInjection();
+			binder.BindInstance(_miningSettings);
 		}
 	}
 }

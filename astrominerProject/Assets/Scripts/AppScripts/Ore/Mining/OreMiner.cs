@@ -6,10 +6,13 @@ namespace SBaier.Astrominer
 	public class OreMiner : MonoBehaviour, Injectable
 	{
 		private Asteroid _asteroid;
+		private MiningSettings _settings;
 
 		private ExploitMachine ExploitMachine => _asteroid.ExploitMachine;
-		private float BaseSpeed => _asteroid.BaseMiningSpeed;
-		private Ores ExploitableOres => _asteroid.TotalExploitableOres;
+		private float BaseSecondsTillExploit => _settings.BaseSecondsTillExploit;
+		private float QualityMineSpeedAddition => _settings.QualityMineSpeedAddition;
+		private Ores TotalExploitableOres => _asteroid.TotalExploitableOres;
+		private float Quality => _asteroid.Quality;
 
 		private Ores _oresPerSecond;
 		private Ores _oresDelta = new Ores();
@@ -20,6 +23,7 @@ namespace SBaier.Astrominer
 		public void Inject(Resolver resolver)
 		{
 			_asteroid = resolver.Resolve<Asteroid>();
+			_settings = resolver.Resolve<MiningSettings>();
 		}
 
 		private void Start()
@@ -49,12 +53,15 @@ namespace SBaier.Astrominer
 
 		private void CalculateMachineOreMiningPerSecond()
 		{
-			float factor = ExploitMachine.Level * BaseSpeed;
-			float allOres = ExploitableOres.GetTotal();
+			float allExploitableOreAmount = TotalExploitableOres.GetTotal();
+			float baseDelta = allExploitableOreAmount / BaseSecondsTillExploit;
+			float qualityDelta = baseDelta * (1 + Quality * QualityMineSpeedAddition);
+			float machineDelta = qualityDelta * ExploitMachine.Power;
 			Ores result = new Ores();
-			foreach (OreType oreType in ExploitableOres.OreTypes)
-				result.Add(oreType, factor * (ExploitableOres[oreType].Amount / allOres));
+			foreach (OreType oreType in TotalExploitableOres.OreTypes)
+				result.Add(oreType, machineDelta * (TotalExploitableOres[oreType].Amount / allExploitableOreAmount));
 			_oresPerSecond = result;
+			Debug.Log($"CalculateMachineOreMiningPerSecond - TotalExploitableOres: {allExploitableOreAmount} | OresPerSecond {_oresPerSecond} | machineDelta {machineDelta}");
 		}
 
 		private void SetEmpltyOresPerSecond()

@@ -94,5 +94,12 @@ namespace SBaier.Astrominer
 		{
             return _ores.Keys.ToList();
 		}
-    }
+
+		public override string ToString()
+		{
+            return $"[Ore] (Iron: {_ores[OreType.Iron].Amount} | " +
+                $"Gold {_ores[OreType.Gold].Amount} | " +
+                $"Platinum {_ores[OreType.Platinum].Amount})";
+		}
+	}
 }

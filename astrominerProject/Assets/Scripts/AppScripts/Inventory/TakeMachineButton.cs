@@ -21,24 +21,27 @@ namespace SBaier.Astrominer
 		private void Start()
 		{
 			UpdateInteractivity();
-			_ship.OnFlyTargetReached += UpdateInteractivity;
-			_ship.OnFlyTargetReached += UpdateCurrentAsteroid;
-			_ship.OnFlyTargetChanged += UpdateCurrentAsteroid;
+			_ship.OnFlyTargetReached += OnFlyTargetChange;
+			_ship.OnFlyTargetChanged += OnFlyTargetChange;
 			_button.onClick.AddListener(TakeMachine);
 		}
 
         private void OnDestroy()
 		{
-			_ship.OnFlyTargetReached -= UpdateInteractivity;
-			_ship.OnFlyTargetReached -= UpdateCurrentAsteroid;
-			_ship.OnFlyTargetChanged -= UpdateCurrentAsteroid;
+			_ship.OnFlyTargetReached -= OnFlyTargetChange;
+			_ship.OnFlyTargetChanged -= OnFlyTargetChange;
 			_button.onClick.RemoveListener(TakeMachine);
 			RemoveCurrentAsteroid();
 		}
 
+		private void OnFlyTargetChange()
+		{
+			UpdateCurrentAsteroid();
+			UpdateInteractivity();
+		}
+
 		private void UpdateInteractivity()
 		{
-			Debug.Log($"Limit reached? {_ship.Machines.LimitReached} {_ship.Machines.Limit} {_ship.Machines.Count}");
 			_button.interactable = !_ship.Machines.LimitReached &&
 				!_ship.IsFlying &&
 				_currentAsteroid != null &&

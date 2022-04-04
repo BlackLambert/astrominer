@@ -50,14 +50,13 @@ namespace SBaier.Astrominer
 		{
 			int quality = _random.Next(_settings.MinQuality, _settings.MaxQuality + 1);
 			int size = _random.Next(_settings.MinSize, _settings.MaxSize + 1);
-			Ores ores = CalculateExploitableOres(quality, size);
-			float miningSpeed = _settings.QualityToMiningSpeedFactor * quality;
-			return new Asteroid.Arguments(quality, size, _settings.Color, ores, miningSpeed, _settings.ExploitedColorReduction);
+			Ores ores = CalculateExploitableOres(size);
+			return new Asteroid.Arguments(quality, size, _settings.Color, ores, _settings.ExploitedColorReduction);
 		}
 
-		private Ores CalculateExploitableOres(int quality, int size)
+		private Ores CalculateExploitableOres(int size)
 		{
-			float allOresAmount = (quality + size) * _settings.BaseOreAmount;
+			float allOresAmount = size * _settings.BaseOreAmount;
 			float oreWeightSum = _settings.OreWeightSum;
 			float iron = allOresAmount * (_settings.IronWeight / oreWeightSum);
 			float gold = allOresAmount * (_settings.GoldWeight / oreWeightSum);

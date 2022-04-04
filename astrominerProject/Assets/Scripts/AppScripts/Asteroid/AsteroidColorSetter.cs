@@ -33,8 +33,6 @@ namespace SBaier.Astrominer
 			Color reduction = _asteroid.Exploited ? _asteroid.ExploitedColorReduction : new Color(0,0,0,0);
 			Color baseColor = _asteroid.HasOwningPlayer ? _asteroid.OwningPlayer.Color : _asteroid.BaseColor;
 			_spriteRenderer.color = baseColor - reduction;
-			if(_asteroid.HasOwningPlayer)
-				Debug.LogError(_spriteRenderer.color);
 		}
 	}
 }

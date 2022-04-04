@@ -78,6 +78,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _base: {fileID: 0}
   _visualsSettings: {fileID: 11400000, guid: a22f885e6e496b44ca992bedd44faedd, type: 2}
+  _miningSettings: {fileID: 11400000, guid: c12e934285f064a4c8a41a573030827a, type: 2}
 --- !u!1 &1063322693341827236
 GameObject:
   m_ObjectHideFlags: 0
