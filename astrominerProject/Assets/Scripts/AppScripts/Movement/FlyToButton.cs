@@ -18,7 +18,7 @@ namespace SBaier.Astrominer
 			_ship = resolver.Resolve<Ship>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			_button.onClick.AddListener(MoveToTarget);
 		}
@@ -28,7 +28,7 @@ namespace SBaier.Astrominer
 			_button.interactable = IsInteractable();
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			_button.onClick.RemoveListener(MoveToTarget);
 		}

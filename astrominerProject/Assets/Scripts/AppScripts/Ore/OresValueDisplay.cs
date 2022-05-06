@@ -15,9 +15,9 @@ namespace SBaier.Astrominer
             _oreSettings = resolver.Resolve<OresSettings>().Get(_oreType);
         }
 
-		protected override void Start()
+        protected override void OnEnable()
 		{
-			base.Start();
+			base.OnEnable();
             _item.OnValueChanged += SetText;
 		}
 

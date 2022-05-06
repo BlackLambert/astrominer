@@ -8,7 +8,7 @@ namespace SBaier.Astrominer
 		[SerializeField]
 		private Transform _hook;
 
-		private Factory<ContextPanel<T>, T> _factory;
+		private Pool<ContextPanel<T>, T> _pool;
 		private ActiveItem<T> _selectedItem;
 
 		private ContextPanel<T> _currentPanel;
@@ -16,24 +16,25 @@ namespace SBaier.Astrominer
 
 		void Injectable.Inject(Resolver resolver)
 		{
-			_factory = resolver.Resolve<Factory<ContextPanel<T>, T>>();
+			_pool = resolver.Resolve<Pool<ContextPanel<T>, T>>();
 			_selectedItem = resolver.Resolve<ActiveItem<T>>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			TryCreateNewContextInfoPanel();
 			_selectedItem.OnValueChanged += ReplaceContext;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
+			TryReturnCurrentContext();
 			_selectedItem.OnValueChanged -= ReplaceContext;
 		}
 
 		private void ReplaceContext()
 		{
-			TryDestroyCurrentContext();
+			TryReturnCurrentContext();
 			TryCreateNewContextInfoPanel();
 		}
 
@@ -45,19 +46,19 @@ namespace SBaier.Astrominer
 
 		private void CreateContextInfoPanel()
 		{
-			_currentPanel = _factory.Create(_selectedItem.Value);
+			_currentPanel = _pool.Request(_selectedItem.Value);
 			_currentPanel.Base.SetParent(_hook, false);
 		}
 
-		private void TryDestroyCurrentContext()
+		private void TryReturnCurrentContext()
 		{
 			if (_currentPanel != null)
-				DestroyCurrentContext();
+				ReturnCurrentContext();
 		}
 
-		private void DestroyCurrentContext()
+		private void ReturnCurrentContext()
 		{
-			Destroy(_currentPanel.Base.gameObject);
+			_pool.Return(_currentPanel);
 			_currentPanel = null;
 		}
 	}

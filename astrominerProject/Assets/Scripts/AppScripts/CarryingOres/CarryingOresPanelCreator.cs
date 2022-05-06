@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ShipInventoryPanelCreator : MonoBehaviour, Injectable
+    public class CarryingOresPanelCreator : MonoBehaviour, Injectable
     {
         [SerializeField]
         private Transform _hook;
 
 		private ActiveShip _activeShip;
-		private Pool<ShipInventoryPanel, Ship> _pool;
+		private Pool<CarryingOresPanel, Ship> _pool;
 
-		private ShipInventoryPanel _currentPanel;
+		private CarryingOresPanel _currentPanel;
 
 		public void Inject(Resolver resolver)
 		{
 			_activeShip = resolver.Resolve<ActiveShip>();
-			_pool = resolver.Resolve<Pool<ShipInventoryPanel, Ship>>();
+			_pool = resolver.Resolve<Pool<CarryingOresPanel, Ship>>();
 		}
 
 		private void OnEnable()

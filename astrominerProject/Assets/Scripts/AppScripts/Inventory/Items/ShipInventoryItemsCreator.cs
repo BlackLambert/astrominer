@@ -8,7 +8,7 @@ namespace SBaier.Astrominer
 {
     public class ShipInventoryItemsCreator : MonoBehaviour, Injectable
     {
-		private Factory<ShipInventoryItem, ExploitMachine> _itemFactory;
+		private Pool<ShipInventoryItem, ExploitMachine> _itemPool;
 		private Ship _ship;
 		private ShipInventoryPanel _inventoryPanel;
 
@@ -17,12 +17,12 @@ namespace SBaier.Astrominer
 
 		public void Inject(Resolver resolver)
 		{
-			_itemFactory = resolver.Resolve<Factory<ShipInventoryItem, ExploitMachine>>();
+			_itemPool = resolver.Resolve<Pool<ShipInventoryItem, ExploitMachine>>();
 			_inventoryPanel = resolver.Resolve<ShipInventoryPanel>();
 			_ship = resolver.Resolve<Ship>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			CreateItems();
 			_inventoryPanel.Slots.OnItemAdded += AddEmptyItem;
@@ -32,13 +32,23 @@ namespace SBaier.Astrominer
 			_ship.Machines.OnItemReplaced += ChangeItem;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
+			ReturnItems();
 			_inventoryPanel.Slots.OnItemAdded -= AddEmptyItem;
 			_inventoryPanel.Slots.OnItemRemoved -= RemoveLastItem;
 			_ship.Machines.OnItemAdded -= AddItem;
 			_ship.Machines.OnItemRemoved -= RemoveItem;
 			_ship.Machines.OnItemReplaced -= ChangeItem;
+		}
+
+		private void ReturnItems()
+		{
+			for (int i = 0; i < _items.Count; i++)
+			{
+				if (_items[i] != null)
+					RemoveItemAt(i);
+			}
 		}
 
 		private void CreateItems()
@@ -74,7 +84,7 @@ namespace SBaier.Astrominer
 
 		private void SetItemAt(ExploitMachine machine, int index)
 		{
-			ShipInventoryItem item = _itemFactory.Create(machine);
+			ShipInventoryItem item = _itemPool.Request(machine);
 			while (_items.Count <= index)
 				_items.Add(null);
 			_items[index] = item;
@@ -86,7 +96,7 @@ namespace SBaier.Astrominer
 			int index = IndexOf(machine);
 			if (index < 0)
 				throw new InvalidOperationException();
-			RemoveItem(index);
+			RemoveItemAt(index);
 		}
 
 		private void ChangeItem(ExploitMachine formerItem, ExploitMachine newItem)
@@ -94,14 +104,15 @@ namespace SBaier.Astrominer
 			int index = IndexOf(formerItem);
 			if (index < 0)
 				throw new InvalidOperationException();
-			RemoveItem(index);
+			RemoveItemAt(index);
 			SetItemAt(newItem, index);
 		}
 
-		private void RemoveItem(int index)
+		private void RemoveItemAt(int index)
 		{
-			_slots[index].RemoveItem();
+			ShipInventoryItem item = _slots[index].RemoveItem();
 			_items[index] = null;
+			_itemPool.Return(item);
 		}
 
 		private int IndexOf(ExploitMachine machine)

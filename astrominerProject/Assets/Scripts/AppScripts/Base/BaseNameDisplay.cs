@@ -2,7 +2,7 @@ using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class BaseNameDisplay : ItemPropertyDisplay<Base>, Injectable
+    public class BaseNameDisplay : ItemPropertyDisplay<Base>
 	{
 		protected override string GetText()
 		{

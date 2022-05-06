@@ -16,13 +16,13 @@ namespace SBaier.Astrominer
 			_asteroids = resolver.Resolve<IdentifiedAsteroids>();
 		}
 
-		protected override void Start()
+		protected override void OnEnable()
 		{
-			base.Start();
+			base.OnEnable();
 			_asteroids.OnItemAdded += OnAsteroidAdded;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			_asteroids.OnItemAdded -= OnAsteroidAdded;
 		}

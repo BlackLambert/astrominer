@@ -6,8 +6,6 @@ namespace SBaier.Astrominer
     public class MiningSettings : ScriptableObject
     {
         [field: SerializeField]
-        public float BaseSecondsTillExploit { get; private set; } = 120f;
-        [field: SerializeField]
-        public float QualityMineSpeedAddition { get; private set; } = 0.25f;
+        public float BaseAsteroidBodyMaterialPerSecond { get; private set; } = 25f;
     }
 }

@@ -319,7 +319,6 @@ GameObject:
   - component: {fileID: 5909847780472616267}
   - component: {fileID: 5053704920641409345}
   - component: {fileID: 4809859695181757072}
-  - component: {fileID: 7119578901026103341}
   m_Layer: 5
   m_Name: LevelTabs
   m_TagString: Untagged
@@ -344,7 +343,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -27.353477}
+  m_AnchoredPosition: {x: 0, y: -27.353455}
   m_SizeDelta: {x: -9.999996, y: 44.706955}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5909847780472616267
@@ -411,19 +410,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &7119578901026103341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5607628896541157157}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f7e7d0951da9b24da5795921184f554, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hook: {fileID: 2410571630634723706}
 --- !u!1 &6472506449202241489
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +425,7 @@ GameObject:
   - component: {fileID: 552815313021179700}
   - component: {fileID: 3526337624894298268}
   - component: {fileID: 7330057630958880587}
+  - component: {fileID: 2969844289803285733}
   m_Layer: 5
   m_Name: MachineShop
   m_TagString: Untagged
@@ -562,3 +549,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hook: {fileID: 2596825839179664041}
+--- !u!114 &2969844289803285733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6472506449202241489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f7e7d0951da9b24da5795921184f554, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hook: {fileID: 2410571630634723706}

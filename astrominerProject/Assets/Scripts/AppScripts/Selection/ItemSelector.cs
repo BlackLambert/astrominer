@@ -16,25 +16,25 @@ namespace SBaier.Astrominer
             _item = resolver.Resolve<T>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
             _selectable.OnSelected += SelectItem;
             _selectable.OnDeselected += DeselectItem;
             InitSelection();
         }
 
-        private void InitSelection()
-        {
-            if (_selectable.IsSelected)
-                SelectItem();
-        }
-
-        private void OnDestroy()
+        private void OnDisable()
         {
             _selectable.OnSelected -= SelectItem;
             _selectable.OnDeselected -= DeselectItem;
             if (_item.Equals(_selectedItem.Value))
                 DeselectItem();
+        }
+
+        private void InitSelection()
+        {
+            if (_selectable.IsSelected)
+                SelectItem();
         }
 
         private void SelectItem()

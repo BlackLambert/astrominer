@@ -16,7 +16,7 @@ namespace SBaier.Astrominer
 			_player = resolver.Resolve<Player>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			_spriteRenderer.color = _player.Color;
 		}

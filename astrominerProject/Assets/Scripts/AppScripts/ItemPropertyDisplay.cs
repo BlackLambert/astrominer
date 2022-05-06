@@ -21,7 +21,7 @@ namespace SBaier.Astrominer
 			_text = GetComponent<TextMeshProUGUI>();
 		}
 
-		protected virtual void Start()
+		protected virtual void OnEnable()
 		{
 			SetText();
 		}

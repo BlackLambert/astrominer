@@ -18,6 +18,10 @@ namespace SBaier.Astrominer
 			binder.Bind<Factory<ExploitMachineShop>>().
 				ToNew<PrefabFactory<ExploitMachineShop>>().
 				WithArgument(_shopPrefab);
+			binder.Bind<Pool<ExploitMachineShop>>().
+				ToNew<MonoPool<ExploitMachineShop>>().
+				WithArgument(_shopPrefab).
+				AsSingle();
 		}
 
 		void Injectable.Inject(Resolver resolver)

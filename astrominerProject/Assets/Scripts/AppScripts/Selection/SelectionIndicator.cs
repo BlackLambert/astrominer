@@ -12,7 +12,7 @@ namespace SBaier.Astrominer
 			_visualSettings = resolver.Resolve<VisualsSettings>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			SetColor(_visualSettings.SelectIndicatorColor);
 		}

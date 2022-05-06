@@ -85,6 +85,11 @@ namespace SBaier.Astrominer
             return GetTotal() <= 0;
         }
 
+        public float GetOrePercentage(OreType type)
+		{
+            return _ores[type].Amount / GetTotal();
+        }
+
         public Currency this[OreType type]
         {
             get => _ores[type];

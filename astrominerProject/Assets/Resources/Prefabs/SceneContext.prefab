@@ -262,6 +262,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings: {fileID: 11400000, guid: 649348d1b50e3694db7428b0a7c5c4a1, type: 2}
   _shipInventoryPanelPrefab: {fileID: 7052930477490909611, guid: 2fc75d8ff66ba974186a347dd8f142a7, type: 3}
+  _carryingOresPanelPrefab: {fileID: 3734343782734215645, guid: 312a22f9cf276d442bca1b9cfb4280b9, type: 3}
 --- !u!1 &1063322694950191319
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidNameDisplay : ItemPropertyDisplay<Asteroid>, Injectable
+    public class AsteroidNameDisplay : ItemPropertyDisplay<Asteroid>
     {
 		protected override string GetText()
 		{

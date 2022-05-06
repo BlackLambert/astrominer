@@ -15,24 +15,26 @@ namespace SBaier.Astrominer
 
 		private Arguments _arguments;
 
+		public Player OwningPlayer { get; private set; }
+		public Ores MinedOres { get; } = new Ores();
+		public Ores TotalMinedOres { get; } = new Ores();
+		public Ores ExploitableOres { get; private set; } = new Ores();
+		public float MinedPercentage { get; private set; } = 0;
+		public ExploitMachine ExploitMachine { get; private set; }
+
+		public event Action OnOwningPlayerChanged;
+		public bool HasOwningPlayer => OwningPlayer != null;
+		public bool HasExploitMachine => ExploitMachine != null;
+		public event Action OnExploitMachineChanged;
+		public bool Exploited => ExploitableOres.GetTotal() <= _epsilon;
+		public float OresPercentage => BodyMaterials.OresPercentage;
 		public int Quality => _arguments.Quality;
 		public int Size => _arguments.Size;
 		public Color BaseColor => _arguments.Color;
 		public Color ExploitedColorReduction => _arguments.ExploitedColorReduction;
 		public Ores TotalExploitableOres => _arguments.TotalExploitableOres;
+		public AsteroidBodyMaterials BodyMaterials => _arguments.AsteroidBodyMaterials;
 
-		public Player OwningPlayer { get; private set; }
-		public event Action OnOwningPlayerChanged;
-		public bool HasOwningPlayer => OwningPlayer != null;
-
-		public ExploitMachine ExploitMachine { get; private set; }
-		public bool HasExploitMachine => ExploitMachine != null;
-		public event Action OnExploitMachineChanged;
-		public Ores MinedOres { get; } = new Ores();
-		public Ores TotalMinedOres { get; } = new Ores();
-		public Ores ExploitableOres { get; private set; } = new Ores();
-		public float MinedPercentage { get; private set; } = 0;
-		public bool Exploited => ExploitableOres.GetTotal() <= _epsilon;
 		public event Action OnOreMined;
 		public event Action OnOresCollected;
 		public event Action OnExploited;
@@ -123,19 +125,20 @@ namespace SBaier.Astrominer
 			public int Quality { get; }
 			public int Size { get; }
 			public Color Color { get; }
-			public Ores TotalExploitableOres { get; }
-            public Color ExploitedColorReduction { get; }
+			public AsteroidBodyMaterials AsteroidBodyMaterials { get; }
+			public Color ExploitedColorReduction { get; }
+			public Ores TotalExploitableOres => AsteroidBodyMaterials.Ores;
 
-            public Arguments(int quality,
+			public Arguments(int quality,
 				int size,
 				Color color, 
-				Ores exploitableOres,
+				AsteroidBodyMaterials asteroidBodyMaterials,
 				Color exploitedColorReduction)
 			{
 				Quality = quality;
 				Size = size;
 				Color = color;
-				TotalExploitableOres = exploitableOres;
+				AsteroidBodyMaterials = asteroidBodyMaterials;
 				ExploitedColorReduction = exploitedColorReduction;
 			}
 		}

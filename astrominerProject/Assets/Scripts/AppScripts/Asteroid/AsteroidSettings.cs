@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
 
         
         [field: SerializeField, Header("Ores")]
-        public float BaseOreAmount { get; private set; } = 500;
+        public float BaseRockAmount { get; private set; } = 500;
         [field: SerializeField]
         public float IronWeight { get; private set; } = 65;
         [field: SerializeField]

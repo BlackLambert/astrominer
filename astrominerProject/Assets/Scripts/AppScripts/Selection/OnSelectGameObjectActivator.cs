@@ -15,14 +15,14 @@ namespace SBaier.Astrominer
             _selectable = resolver.Resolve<Selectable>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
             CheckTargetActive();
             _selectable.OnSelected += CheckTargetActive;
             _selectable.OnDeselected += CheckTargetActive;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _selectable.OnSelected -= CheckTargetActive;
             _selectable.OnDeselected -= CheckTargetActive;

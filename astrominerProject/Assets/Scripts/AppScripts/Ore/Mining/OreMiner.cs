@@ -9,10 +9,10 @@ namespace SBaier.Astrominer
 		private MiningSettings _settings;
 
 		private ExploitMachine ExploitMachine => _asteroid.ExploitMachine;
-		private float BaseSecondsTillExploit => _settings.BaseSecondsTillExploit;
-		private float QualityMineSpeedAddition => _settings.QualityMineSpeedAddition;
+		private float BaseMaterialPerSecond => _settings.BaseAsteroidBodyMaterialPerSecond;
+		private float MaterialPerSecond => BaseMaterialPerSecond * ExploitMachine.Power;
 		private Ores TotalExploitableOres => _asteroid.TotalExploitableOres;
-		private float Quality => _asteroid.Quality;
+		private float OresPercentage => _asteroid.OresPercentage;
 
 		private Ores _oresPerSecond;
 		private Ores _oresDelta = new Ores();
@@ -26,13 +26,13 @@ namespace SBaier.Astrominer
 			_settings = resolver.Resolve<MiningSettings>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			CalculateOresPerSecond();
 			_asteroid.OnExploitMachineChanged += CalculateOresPerSecond;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			_asteroid.OnExploitMachineChanged -= CalculateOresPerSecond;
 		}
@@ -53,15 +53,12 @@ namespace SBaier.Astrominer
 
 		private void CalculateMachineOreMiningPerSecond()
 		{
-			float allExploitableOreAmount = TotalExploitableOres.GetTotal();
-			float baseDelta = allExploitableOreAmount / BaseSecondsTillExploit;
-			float qualityDelta = baseDelta * (1 + Quality * QualityMineSpeedAddition);
-			float machineDelta = qualityDelta * ExploitMachine.Power;
+			float oreAmountPerSecond = OresPercentage * MaterialPerSecond;
 			Ores result = new Ores();
 			foreach (OreType oreType in TotalExploitableOres.OreTypes)
-				result.Add(oreType, machineDelta * (TotalExploitableOres[oreType].Amount / allExploitableOreAmount));
+				result.Add(oreType, TotalExploitableOres.GetOrePercentage(oreType) * oreAmountPerSecond);
 			_oresPerSecond = result;
-			Debug.Log($"CalculateMachineOreMiningPerSecond - TotalExploitableOres: {allExploitableOreAmount} | OresPerSecond {_oresPerSecond} | machineDelta {machineDelta}");
+			Debug.Log($"CalculateMachineOreMiningPerSecond - TotalExploitableOres: {TotalExploitableOres.GetTotal()} | OresPerSecond {_oresPerSecond} | MaterialPerSecond {MaterialPerSecond}");
 		}
 
 		private void SetEmpltyOresPerSecond()

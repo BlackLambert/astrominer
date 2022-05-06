@@ -9,7 +9,7 @@ namespace SBaier.Astrominer
 		[SerializeField]
 		private Transform _hook;
 
-		private Factory<ShipInventorySlot> _slotFactory;
+		private Pool<ShipInventorySlot> _slotsPool;
 		private Ship _ship;
 		private ShipInventoryPanel _inventoryPanel;
 
@@ -18,20 +18,28 @@ namespace SBaier.Astrominer
 
 		public void Inject(Resolver resolver)
 		{
-			_slotFactory = resolver.Resolve<Factory<ShipInventorySlot>>();
+			_slotsPool = resolver.Resolve<Pool<ShipInventorySlot>>();
 			_inventoryPanel = resolver.Resolve<ShipInventoryPanel>();
 			_ship = resolver.Resolve<Ship>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			Init();
 			_ship.Machines.OnLimitChanged += UpdateSlots;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
+			ReturnSlots();
 			_ship.Machines.OnLimitChanged -= UpdateSlots;
+		}
+
+		private void ReturnSlots()
+		{
+			foreach (ShipInventorySlot slot in _slots)
+				_slotsPool.Return(slot);
+			_slots.Clear();
 		}
 
 		private void Init()
@@ -42,7 +50,7 @@ namespace SBaier.Astrominer
 
 		private ShipInventorySlot CreateSlot()
 		{
-			ShipInventorySlot slot = _slotFactory.Create();
+			ShipInventorySlot slot = _slotsPool.Request();
 			slot.transform.SetParent(_hook, false);
 			return slot;
 		}
@@ -74,9 +82,7 @@ namespace SBaier.Astrominer
 			int last = _slots.Count - 1;
 			ShipInventorySlot slot = _slots[last];
 			_slots.Remove(slot);
-			Destroy(slot.gameObject);
-			if (_items.Count > last)
-				_items.RemoveAt(last);
+			_slotsPool.Return(slot);
 		}
 	}
 }

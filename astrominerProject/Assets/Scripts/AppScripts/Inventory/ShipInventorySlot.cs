@@ -24,7 +24,6 @@ namespace SBaier.Astrominer
             if (Item == null)
                 throw new InvalidOperationException();
             ShipInventoryItem item = Item;
-            Item.transform.SetParent(null);
             Item = null;
             return item;
         }

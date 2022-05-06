@@ -12,13 +12,13 @@ namespace SBaier.Astrominer
 			return string.Format(_baseString, _item.Credits.ToString());
 		}
 
-		protected override void Start()
+		protected override void OnEnable()
 		{
-			base.Start();
+			base.OnEnable();
 			_item.Credits.OnAmountChanged += SetText;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			_item.Credits.OnAmountChanged -= SetText;
 		}

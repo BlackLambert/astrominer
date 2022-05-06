@@ -15,14 +15,14 @@ namespace SBaier.Astrominer
 			_asteroid = resolver.Resolve<Asteroid>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			UpdateColor();
 			_asteroid.OnOwningPlayerChanged += UpdateColor;
 			_asteroid.OnExploited += UpdateColor;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			_asteroid.OnOwningPlayerChanged -= UpdateColor;
 			_asteroid.OnExploited -= UpdateColor;

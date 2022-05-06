@@ -1,5 +1,4 @@
 using SBaier.DI;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -50,18 +49,21 @@ namespace SBaier.Astrominer
 		{
 			int quality = _random.Next(_settings.MinQuality, _settings.MaxQuality + 1);
 			int size = _random.Next(_settings.MinSize, _settings.MaxSize + 1);
-			Ores ores = CalculateExploitableOres(size);
-			return new Asteroid.Arguments(quality, size, _settings.Color, ores, _settings.ExploitedColorReduction);
+			AsteroidBodyMaterials bodyMaterial = CalculateBodyMaterial(size, quality);
+			return new Asteroid.Arguments(quality, size, _settings.Color, bodyMaterial, _settings.ExploitedColorReduction);
 		}
 
-		private Ores CalculateExploitableOres(int size)
+		private AsteroidBodyMaterials CalculateBodyMaterial(int size, int quality)
 		{
-			float allOresAmount = size * _settings.BaseOreAmount;
+			float bodyMaterialAmount = size * _settings.BaseRockAmount;
+			float totalOresAmount = bodyMaterialAmount * ((float)quality / _settings.MaxQuality);
+			float rocksAmount = bodyMaterialAmount - totalOresAmount;
 			float oreWeightSum = _settings.OreWeightSum;
-			float iron = allOresAmount * (_settings.IronWeight / oreWeightSum);
-			float gold = allOresAmount * (_settings.GoldWeight / oreWeightSum);
-			float platinum = allOresAmount * (_settings.PlatinumWeight / oreWeightSum);
-			return new Ores(iron, gold, platinum);
+			float iron = totalOresAmount * (_settings.IronWeight / oreWeightSum);
+			float gold = totalOresAmount * (_settings.GoldWeight / oreWeightSum);
+			float platinum = totalOresAmount * (_settings.PlatinumWeight / oreWeightSum);
+			Ores ores = new Ores(iron, gold, platinum);
+			return new AsteroidBodyMaterials(ores, rocksAmount);
 		}
 
 		private string GetName(int index)
