@@ -14,7 +14,6 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.Bind<Factory<Player>>().ToNew<PlayerFactory>();
 			Player player = CreatePlayer();
 			binder.BindInstance(player).WithoutInjection();
 			binder.BindInstance(player.IdentifiedAsteroids).WithoutInjection();
@@ -39,7 +38,7 @@ namespace SBaier.Astrominer
 
 		private Player CreatePlayer()
 		{
-			Player result = new Player(_settings.PlayerColor);
+			Player result = new Player(System.Guid.NewGuid(), _settings.PlayerColors[0], "Player");
 			result.Credits.Add(_settings.StartCredits);
 			return result;
 		}

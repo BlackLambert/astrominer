@@ -9,6 +9,8 @@ namespace SBaier.Astrominer
         private Selectable _selectable;
         private Selection _selection;
 
+        private bool _active = true;
+
         public void Inject(Resolver resolver)
         {
             _selectable = resolver.Resolve<Selectable>();
@@ -17,10 +19,19 @@ namespace SBaier.Astrominer
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (!_active)
+                return;
             if (_selection.IsSelected(_selectable))
                 _selection.DeselectCurrent();
             else
                 _selection.Select(_selectable);
+        }
+
+        public void Activate(bool active)
+        {
+            _active = active;
+            if (!_active && _selection.IsSelected(_selectable))
+                _selection.DeselectCurrent();
         }
     }
 }

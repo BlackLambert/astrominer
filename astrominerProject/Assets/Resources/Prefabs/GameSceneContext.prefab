@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1063322693241304517}
   - component: {fileID: 1063322693241304518}
   m_Layer: 0
-  m_Name: SceneContext
+  m_Name: GameSceneContext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,6 +37,7 @@ Transform:
   - {fileID: 1063322694673980354}
   - {fileID: 3956692428707107510}
   - {fileID: 7468909854966104826}
+  - {fileID: 4324601383910063894}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -61,9 +62,10 @@ MonoBehaviour:
   - {fileID: 1063322694673980353}
   - {fileID: 7517944257209008120}
   - {fileID: 6252941070194350354}
+  - {fileID: 211499403372006738}
   _scriptableObjectInstallers: []
-  _iD: 
-  _parentContextID: 
+  _iD: Game
+  _parentContextID: Main
 --- !u!114 &1063322693241304518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,3 +413,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _oresSettings: {fileID: 11400000, guid: 2fd858563f341b3498286d6e68872c43, type: 2}
+--- !u!1 &9089745919666371433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4324601383910063894}
+  - component: {fileID: 211499403372006738}
+  m_Layer: 0
+  m_Name: OresSelling
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4324601383910063894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089745919666371433}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1063322693241304516}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &211499403372006738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089745919666371433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658a597b3b05085499b2b6c4c12b3fd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _oresSellingSettings: {fileID: 11400000, guid: 970be29803651f14395f73690668b2ab, type: 2}

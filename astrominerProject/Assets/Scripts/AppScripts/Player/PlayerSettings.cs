@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -6,7 +7,7 @@ namespace SBaier.Astrominer
     public class PlayerSettings : ScriptableObject
     {
         [field: SerializeField]
-        public Color PlayerColor { get; private set; } = Color.red;
+        public List<Color> PlayerColors { get; private set; } = new List<Color>();
         [field: SerializeField]
         public float StartCredits { get; private set; } = 10_000;
     }

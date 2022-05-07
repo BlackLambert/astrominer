@@ -1,8 +1,10 @@
 using SBaier.DI;
+using System;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class PlayerFactory : Factory<Player>, Injectable
+	public class PlayerFactory : Factory<Player, PlayerFactory.Arguments>, Injectable
 	{
 		private PlayerSettings _settings;
 
@@ -11,11 +13,24 @@ namespace SBaier.Astrominer
 			_settings = resolver.Resolve<PlayerSettings>();
 		}
 
-		public Player Create()
+		public Player Create(Arguments arguments)
 		{
-			Player result = new Player(_settings.PlayerColor);
+			Guid iD = Guid.NewGuid();
+			Player result = new Player(iD, arguments.Color, arguments.Name);
 			result.Credits.Add(_settings.StartCredits);
 			return result;
 		}
+
+		public struct Arguments
+        {
+			public Color Color { get; }
+			public string Name { get; }
+
+			public Arguments(Color color, string name)
+            {
+				Color = color;
+				Name = name;
+            }
+        }
 	}
 }
