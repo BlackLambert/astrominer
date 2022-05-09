@@ -1745,6 +1745,7 @@ GameObject:
   - component: {fileID: 8786797057749528741}
   - component: {fileID: 8892809685908946763}
   - component: {fileID: 2684598991565144434}
+  - component: {fileID: 4112330923736148153}
   m_Layer: 5
   m_Name: StartMatchButton
   m_TagString: Untagged
@@ -1870,6 +1871,19 @@ MonoBehaviour:
   _commands:
   - {fileID: 11400000, guid: 1c2b5b531705dfd4cb74bfda0b009bb2, type: 2}
   - {fileID: 11400000, guid: f05043e6480667544b58dfbcb1a60601, type: 2}
+  _button: {fileID: 8892809685908946763}
+--- !u!114 &4112330923736148153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8925752072625645900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81615f01c1f0b6a46aa4f912350e01f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _button: {fileID: 8892809685908946763}
 --- !u!1 &9200666137131105050
 GameObject:
