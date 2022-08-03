@@ -22,6 +22,7 @@ namespace SBaier.Astrominer
             binder.Bind<ActiveItem<PlayerColorSelectionItem>>().ToNew<SelectedPlayerColor>().AsSingle();
             binder.Bind<ActiveItem<string>>().ToNew<ChosenPlayerName>().AsSingle();
             binder.BindToNewSelf<Selection>().AsSingle();
+            binder.BindToNewSelf<MatchmakingPlayerCreator>();
         }
     }
 }
