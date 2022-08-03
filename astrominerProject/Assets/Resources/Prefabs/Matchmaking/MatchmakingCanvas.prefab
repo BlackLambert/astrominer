@@ -1328,7 +1328,6 @@ GameObject:
   - component: {fileID: 7860101766973039313}
   - component: {fileID: 3344671707509714667}
   - component: {fileID: 3472568847672899978}
-  - component: {fileID: 3663270059877370079}
   m_Layer: 5
   m_Name: PlayerCreationPanel
   m_TagString: Untagged
@@ -1388,19 +1387,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _colorSelectionItemPrefab: {fileID: 8179105506769535480, guid: 007a300a07a1776468d3a09d5c32cad8, type: 3}
-  _panel: {fileID: 3663270059877370079}
---- !u!114 &3663270059877370079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7681524864250184720}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1132964945ed7ca4eb6cde8f2b4721c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8053960553911019478
 GameObject:
   m_ObjectHideFlags: 0
