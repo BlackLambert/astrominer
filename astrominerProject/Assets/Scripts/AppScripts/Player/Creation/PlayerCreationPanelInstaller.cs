@@ -7,8 +7,6 @@ namespace SBaier.Astrominer
     {
         [SerializeField]
         private PlayerColorSelectionItem _colorSelectionItemPrefab;
-        [SerializeField]
-        private PlayerCreationPanel _panel;
 
         public override void InstallBindings(Binder binder)
         {
@@ -18,10 +16,10 @@ namespace SBaier.Astrominer
             binder.Bind<Pool<PlayerColorSelectionItem, Color>>().
                 ToNew <MonoPool<PlayerColorSelectionItem, Color>>().
                 WithArgument(_colorSelectionItemPrefab);
-            binder.BindInstance(_panel);
             binder.Bind<ActiveItem<PlayerColorSelectionItem>>().ToNew<SelectedPlayerColor>().AsSingle();
             binder.Bind<ActiveItem<string>>().ToNew<ChosenPlayerName>().AsSingle();
             binder.BindToNewSelf<Selection>().AsSingle();
+            binder.BindToNewSelf<MatchmakingPlayerCreator>();
         }
     }
 }
