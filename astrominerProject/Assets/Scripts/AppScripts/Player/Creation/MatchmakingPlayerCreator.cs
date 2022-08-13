@@ -47,7 +47,7 @@ namespace SBaier.Astrominer
             if (!IsPlayerCreatable)
                 throw new InvalidOperationException("Failed to create player. Required arguments are missing.");
             PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.Color, _chosenName.Value);
-            _players.Values.Add(_playerFactory.Create(args));
+            _players.Add(_playerFactory.Create(args));
             ClearSelection();
         }
 
@@ -65,7 +65,7 @@ namespace SBaier.Astrominer
                 result.Add(_noColorSelectedIssue);
             if(string.IsNullOrEmpty(_chosenName.Value))
                 result.Add(_noNameIssue);
-            if(_players.Values.Any(player => player.Name == _chosenName.Value))
+            if(_players.Any(player => player.Name == _chosenName.Value))
                 result.Add(_duplicateNameIssue);
             return result;
         }
