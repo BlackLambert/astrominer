@@ -50,7 +50,7 @@ namespace SBaier.Astrominer
         private void CreatePlayer()
         {
             PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.Color, _chosenName.Value);
-            _players.Values.Add(_playerFactory.Create(args));
+            _players.Add(_playerFactory.Create(args));
             ClearSelection();
         }
 

@@ -1,7 +1,6 @@
 namespace SBaier.Astrominer
 {
-    public class Players
+    public class Players : ObservableList<Player>
     {
-        public ObservableList<Player> Values { get; private set; } = new ObservableList<Player>();
     }
 }

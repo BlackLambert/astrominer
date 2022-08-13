@@ -30,7 +30,7 @@ namespace SBaier.Astrominer
 
         private void DeletePlayer()
         {
-            _players.Values.Remove(_player);
+            _players.Remove(_player);
         }
     }
 }

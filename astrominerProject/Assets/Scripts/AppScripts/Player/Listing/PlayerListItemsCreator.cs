@@ -24,20 +24,20 @@ namespace SBaier.Astrominer
         private void OnEnable()
         {
             CreateItems();
-            _players.Values.OnItemAdded += AddItem;
-            _players.Values.OnItemRemoved += RemoveItem;
+            _players.OnItemAdded += AddItem;
+            _players.OnItemRemoved += RemoveItem;
         }
 
         private void OnDisable()
         {
             ReturnItems();
-            _players.Values.OnItemAdded += AddItem;
-            _players.Values.OnItemRemoved += RemoveItem;
+            _players.OnItemAdded += AddItem;
+            _players.OnItemRemoved += RemoveItem;
         }
 
         private void CreateItems()
         {
-            foreach (Player player in _players.Values.ToReadonly())
+            foreach (Player player in _players.ToReadonly())
                 AddItem(player);
         }
 

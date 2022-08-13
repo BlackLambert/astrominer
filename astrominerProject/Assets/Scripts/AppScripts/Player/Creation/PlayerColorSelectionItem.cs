@@ -26,17 +26,17 @@ namespace SBaier.Astrominer
         private void OnEnable()
         {
             UpdateState();
-            _players.Values.OnItemsChanged += UpdateState;
+            _players.OnItemsChanged += UpdateState;
         }
 
         private void OnDisable()
         {
-            _players.Values.OnItemsChanged -= UpdateState;
+            _players.OnItemsChanged -= UpdateState;
         }
 
         private bool IsColorUsed()
         {
-            return _players.Values.ToReadonly().FirstOrDefault(p => p.Color == Color) != null;
+            return _players.ToReadonly().FirstOrDefault(p => p.Color == Color) != null;
         }
 
         private void UpdateState()

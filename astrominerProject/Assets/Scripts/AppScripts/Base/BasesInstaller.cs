@@ -7,6 +7,8 @@ namespace SBaier.Astrominer
 	{
 		[SerializeField]
 		private BaseContextPanel _contextInfoPanelPrefab;
+		[SerializeField]
+		private Base _basePrefab;
 
 		public override void InstallBindings(Binder binder)
 		{
@@ -17,7 +19,15 @@ namespace SBaier.Astrominer
 				ToNew<MonoPool<ContextPanel<Base>, Base>>().
 				WithArgument<ContextPanel<Base>>(_contextInfoPanelPrefab).
 				AsSingle();
+			binder.Bind<Factory<Base, Player>>().
+				ToNew<PrefabFactory<Base, Player>>().
+				WithArgument<Base>(_basePrefab);
+			binder.Bind<Pool<Base, Player>>().
+				ToNew<MonoPool<Base, Player>>().
+				WithArgument<Base>(_basePrefab).
+				AsSingle();
 			binder.Bind<ActiveItem<Base>>().ToNew<SelectedBase>().AsSingle();
+			binder.BindToNewSelf<Bases>().AsSingle();
 		}
 	}
 }

@@ -22,12 +22,12 @@ namespace SBaier.Astrominer
 		private void OnEnable()
 		{
 			CheckInteractable();
-			_players.Values.OnItemsChanged += CheckInteractable;
+			_players.OnItemsChanged += CheckInteractable;
 		}
 
 		private void OnDisable()
 		{
-			_players.Values.OnItemsChanged -= CheckInteractable;
+			_players.OnItemsChanged -= CheckInteractable;
 		}
 
 		private void CheckInteractable()
@@ -37,7 +37,7 @@ namespace SBaier.Astrominer
 
 		private bool CanStartMatch()
 		{
-			return _players.Values.ToReadonly().Count > 0;
+			return _players.ToReadonly().Count > 0;
 		}
 	}
 }
