@@ -45,6 +45,7 @@ namespace SBaier.Astrominer
         {
             PlayerListItem item = _pool.Request(player);
             item.Base.SetParent(_hook);
+            item.Base.localScale = Vector3.one;
             _items.Add(item);
         }
 

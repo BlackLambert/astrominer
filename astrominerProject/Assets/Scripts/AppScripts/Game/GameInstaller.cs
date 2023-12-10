@@ -12,7 +12,6 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindToNewSelf<Selection>().AsSingle();
 			binder.BindInstance(_base).WithoutInjection();
 			binder.BindInstance(_miningSettings);
 		}

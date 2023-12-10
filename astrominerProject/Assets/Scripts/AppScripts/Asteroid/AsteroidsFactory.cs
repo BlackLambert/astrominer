@@ -8,8 +8,8 @@ namespace SBaier.Astrominer
 	public class AsteroidsFactory : Factory<List<Asteroid>, IEnumerable<Vector2>>, Injectable
 	{
 		private const string _asteroidName = "Asteroid {0}";
-		private const float _maxObjectSizeAddition = 0.5f;
-		private const float _startObjectSize = 0.8f;
+		private const float _maxObjectSizeAddition = 0.3f;
+		private const float _startObjectSize = 0.5f;
 
 		private AsteroidSettings _settings;
 		private Factory<Asteroid, Asteroid.Arguments> _asteroidFactory;

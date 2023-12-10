@@ -9,6 +9,15 @@
       },
       "hash": "f0813f1a563ca306b297267eaa871053afe3725e"
     },
+    "com.sbaier.unitysampling": {
+      "version": "https://github.com/BlackLambert/unity-sampling-package.git#v1.0.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "nuget.moq": "1.0.0"
+      },
+      "hash": "b03ca33ff7e8be3881c56e33679fa7be2a250e11"
+    },
     "com.unity.2d.animation": {
       "version": "7.0.4",
       "depth": 0,

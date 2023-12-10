@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.2.7",
+    "com.sbaier.unitysampling": "https://github.com/BlackLambert/unity-sampling-package.git#v1.0.1",
     "com.unity.2d.animation": "7.0.4",
     "com.unity.2d.pixel-perfect": "5.0.1",
     "com.unity.2d.psdimporter": "6.0.3",
