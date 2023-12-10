@@ -1,4 +1,5 @@
 using SBaier.DI;
+using System.Collections;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -12,8 +13,9 @@ namespace SBaier.Astrominer
             _ship = resolver.Resolve<Ship>();
         }
 
-        private void Start()
+        private IEnumerator Start()
         {
+            yield return null;
             CheckPause();
             _ship.OnFlyTargetChanged += CheckPause;
             _ship.OnFlyTargetReached += CheckPause;

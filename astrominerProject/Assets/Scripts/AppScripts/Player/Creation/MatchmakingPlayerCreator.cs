@@ -39,7 +39,6 @@ namespace SBaier.Astrominer
         {
             _chosenColor.OnValueChanged -= CheckPlayerCreatable;
             _chosenName.OnValueChanged -= CheckPlayerCreatable;
-            Debug.Log("DISPOSE CREATOR");
         }
 
         public void CreatePlayer()
