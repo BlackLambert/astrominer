@@ -7,9 +7,7 @@ namespace SBaier.Astrominer
 {
 	public class AsteroidsFactory : Factory<List<Asteroid>, IEnumerable<Vector2>>, Injectable
 	{
-		private const string _asteroidName = "Asteroid {0}";
-		private const float _maxObjectSizeAddition = 0.3f;
-		private const float _startObjectSize = 0.5f;
+		
 
 		private AsteroidSettings _settings;
 		private Factory<Asteroid, Asteroid.Arguments> _asteroidFactory;
@@ -68,14 +66,14 @@ namespace SBaier.Astrominer
 
 		private string GetName(int index)
         {
-			return string.Format(_asteroidName, index);
+			return string.Format(_settings.AsteroidName, index);
 		}
 
 		private float GetObjectSize(float size)
 		{
 			float factor = (size - _settings.MinSize) / (_settings.MaxSize - _settings.MinSize);
-			float sizeAddition = _maxObjectSizeAddition * factor;
-			return _startObjectSize + sizeAddition;
+			float sizeAddition = _settings.MaxObjectSizeAddition * factor;
+			return _settings.StartObjectSize + sizeAddition;
 		}
 	}
 }

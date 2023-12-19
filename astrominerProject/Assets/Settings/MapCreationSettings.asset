@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _astroidAmountOptions:
   - <Amount>k__BackingField: 40
-    <MapSize>k__BackingField: {x: 10, y: 6}
+    <MapSize>k__BackingField: {x: 24, y: 13.5}
     <Zoom>k__BackingField: 1
   - <Amount>k__BackingField: 70
-    <MapSize>k__BackingField: {x: 16, y: 10}
+    <MapSize>k__BackingField: {x: 30, y: 16.875}
     <Zoom>k__BackingField: 1
   - <Amount>k__BackingField: 100
-    <MapSize>k__BackingField: {x: 24, y: 16}
+    <MapSize>k__BackingField: {x: 36, y: 20.25}
     <Zoom>k__BackingField: 1
-  MinimalAsteroidDistance: 0.4
+  <MinimalAsteroidDistance>k__BackingField: 1.4
+  <SamplingRetriesOnFail>k__BackingField: 10
+  <MaxSamplerTries>k__BackingField: 3

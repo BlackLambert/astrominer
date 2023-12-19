@@ -36,7 +36,7 @@ namespace SBaier.Astrominer
 
         private void OnSelectedAstroidsAmountChanged()
         {
-            _context.AstroidsAmountOption = _selectedAstroidsAmount.Value;
+            _context.SelectedAsteroidsAmountOption.Value = _selectedAstroidsAmount.Value;
             Debug.Log($"Astroid amout changed to: {_selectedAstroidsAmount.Value}");
         }
     }

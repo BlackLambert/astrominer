@@ -5,37 +5,15 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class MapSceneInstaller : MonoInstaller, Injectable
+    public class MapSceneInstaller : MonoInstaller
     {
-        [SerializeField]
-        private MapGenerator _generator;
-        [SerializeField]
-        private int _maxSamplerTries = 5;
-        [SerializeField]
-        private MapCreationSettings _mapCreationSettings;
         [SerializeField]
         private AsteroidSettings _asteroidSettings;
         [SerializeField]
         private Asteroid _asteroidPrefab;
 
-        private System.Random _random;
-
-        public void Inject(Resolver resolver)
-        {
-            _random = resolver.Resolve<System.Random>();
-        }
-
         public override void InstallBindings(Binder binder)
         {
-            binder.BindInstance(_generator)
-                .WithoutInjection();
-
-            binder.BindInstance(CreateSampler())
-                .WithoutInjection();
-
-            binder.BindInstance(_mapCreationSettings)
-                .WithInjection();
-
             binder.BindInstance(_asteroidSettings)
                 .WithInjection();
 
@@ -49,11 +27,8 @@ namespace SBaier.Astrominer
             binder.BindToNewSelf<Selection>().AsSingle();
 
             binder.Bind<ActiveItem<Asteroid>>().ToNew<SelectedAsteroid>().AsSingle();
-        }
-
-        private PoissonDiskSampling2D CreateSampler()
-        {
-            return new PoissonDiskSampling2D(_random, _maxSamplerTries, new PoissonDiskSampling2DParameterValidator());
+            
+            binder.BindToNewSelf<Map>().AsSingle();
         }
     }
 }

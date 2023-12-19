@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 2233546498753056113}
   - component: {fileID: 7104354626985324894}
   - component: {fileID: 7814216047300010285}
+  - component: {fileID: 4809695293211900657}
   m_Layer: 0
   m_Name: SceneContext
   m_TagString: Untagged
@@ -80,6 +81,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monoInstallers:
   - {fileID: 7814216047300010285}
+  - {fileID: 4809695293211900657}
   _scriptableObjectInstallers: []
   _iD: MapCreation
   _parentContextID: Map
@@ -95,7 +97,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98c24deae5a9ec643949252c91673009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _settings: {fileID: 11400000, guid: 6c29662a3dd6ae949949be3f332d660e, type: 2}
+  _mapCreationSettings: {fileID: 11400000, guid: 6c29662a3dd6ae949949be3f332d660e, type: 2}
+  _basePlacementPreviewPrefab: {fileID: 3957904219212529950, guid: 25a6fb8a7cc764a4f8a4442c0822b879, type: 3}
+--- !u!114 &4809695293211900657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541967249969425307}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89532a31332b18049a7996328af88315, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 3957904219212529950, guid: 25a6fb8a7cc764a4f8a4442c0822b879, type: 3}
 --- !u!1001 &7923360493103007961
 PrefabInstance:
   m_ObjectHideFlags: 0

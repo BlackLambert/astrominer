@@ -1,38 +1,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 using SBaier.DI;
-using PCGToolkit.Sampling;
-using System;
 
 namespace SBaier.Astrominer
 {
-    public class MapGenerator : MonoBehaviour, Injectable
+    public class AsteroidsGenerator : MonoBehaviour, Injectable
     {
         [SerializeField]
         private Transform _hook;
 
-        private PoissonDiskSampling2D _sampler;
-        private MapCreationSettings _settings;
         private Factory<List<Asteroid>, IEnumerable<Vector2>> _factory;
+        private Map _map;
 
         List<Asteroid> _asteroids = new List<Asteroid>();
 
         public void Inject(Resolver resolver)
         {
-            _sampler = resolver.Resolve<PoissonDiskSampling2D>();
-            _settings = resolver.Resolve<MapCreationSettings>();
+            _map = resolver.Resolve<Map>();
             _factory = resolver.Resolve<Factory<List<Asteroid>, IEnumerable<Vector2>>>();
         }
 
-        public void GenerateMap(AstroidAmountOption amountOption)
+        private void OnEnable()
+        {
+            GenerateMap();
+            _map.AsteroidPositions.OnValueChanged += OnAsteroidPositionsChanged;
+        }
+
+        private void OnDisable()
+        {
+            _map.AsteroidPositions.OnValueChanged -= OnAsteroidPositionsChanged;
+        }
+
+        private void GenerateMap()
         {
             ClearAsteroids();
-            Vector2 size = amountOption.MapSize;
-            Vector2 leftBottom = new Vector2(size.x / -2, size.y / -2);
-            RectangleBounds bounds = new RectangleBounds(leftBottom, size);
-            List<Vector2> samples = _sampler.Sample(new PoissonDiskSampling2D.Parameters(
-                amountOption.Amount, _settings.MinimalAsteroidDistance, bounds, Vector2.zero));
-            List<Asteroid> asteroids = _factory.Create(samples);
+
+            if (_map.AsteroidPositions.Value.Count <= 0)
+            {
+                return;
+            }
+            
+            List<Asteroid> asteroids = _factory.Create(_map.AsteroidPositions.Value);
 
             foreach (Asteroid asteroid in asteroids)
             {
@@ -50,6 +58,11 @@ namespace SBaier.Astrominer
                 Destroy(asteroid.Base.gameObject);
             }
             _asteroids.Clear();
+        }
+
+        private void OnAsteroidPositionsChanged(List<Vector2> formervalue, List<Vector2> newvalue)
+        {
+            GenerateMap();
         }
     }
 }

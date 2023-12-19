@@ -7,9 +7,9 @@ namespace SBaier.Astrominer
     {
         public Player Player { get; private set; }
 
-		public void Inject(Resolver resolver)
-		{
-			Player = resolver.Resolve<Player>();
-		}
-	}
+        public void Inject(Resolver resolver)
+        {
+            Player = resolver.Resolve<Player>();
+        }
+    }
 }

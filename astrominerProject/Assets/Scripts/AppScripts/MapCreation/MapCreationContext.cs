@@ -1,23 +1,10 @@
-using System;
-
 namespace SBaier.Astrominer
 {
     public class MapCreationContext
     {
-        public event Action OnAstroidsAmountOptionChanged;
+        public Observable<AstroidAmountOption> SelectedAsteroidsAmountOption { get; } = new Observable<AstroidAmountOption>();
+        public Observable<bool> Finished { get; } = new Observable<bool>();
 
-        public AstroidAmountOption AstroidsAmountOption
-        {
-            get => _astroidsAmountOption;
-            set
-            {
-                _astroidsAmountOption = value;
-                OnAstroidsAmountOptionChanged?.Invoke();
-            }
-        }
-
-        public bool IsValid => _astroidsAmountOption != null;
-
-        private AstroidAmountOption _astroidsAmountOption;
+        public bool IsValid => SelectedAsteroidsAmountOption.Value != null;
     }
 }

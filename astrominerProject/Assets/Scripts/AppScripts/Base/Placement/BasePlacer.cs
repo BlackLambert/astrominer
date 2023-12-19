@@ -7,12 +7,12 @@ namespace SBaier.Astrominer
 	public class BasePlacer : MonoBehaviour, Injectable
 	{
 		private Players _players;
-		private Pool<Base> _basePool;
+		private Pool<BasePlacementPreview> _basePreviewPool;
 
 		public void Inject(Resolver resolver)
 		{
 			_players = resolver.Resolve<Players>();
-			_basePool = resolver.Resolve<Pool<Base>>();
+			_basePreviewPool = resolver.Resolve<Pool<BasePlacementPreview>>();
 		}
 
 		private void Start()

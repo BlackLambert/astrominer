@@ -14,13 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <QualityAmountRange>k__BackingField: {x: 3, y: 10}
   <SizeRange>k__BackingField: {x: 3, y: 10}
+  <AsteroidName>k__BackingField: Asteroid {0}
+  <MaxObjectSizeAddition>k__BackingField: 0.2
+  <StartObjectSize>k__BackingField: 0.3
   <MinPosition>k__BackingField: {x: -8, y: -4}
   <MaxPosition>k__BackingField: {x: 8, y: 4}
   <Color>k__BackingField: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   <ExploitedColorReduction>k__BackingField: {r: 0.2, g: 0.2, b: 0.2, a: 0}
-  <BaseOreAmount>k__BackingField: 250
-  <BaseSecondsTillExploit>k__BackingField: 60
-  <QualityMineSpeedAddition>k__BackingField: 0.25
+  <BaseRockAmount>k__BackingField: 500
   <IronWeight>k__BackingField: 65
   <GoldWeight>k__BackingField: 25
   <PlatinumWeight>k__BackingField: 10

@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class ActionRadius : MonoBehaviour, Injectable
+	public class ActionRadiusView : MonoBehaviour, Injectable
 	{
 		[SerializeField]
 		private Transform _radiusImage;
 		[SerializeField]
 		private SpriteRenderer _spriteRenderer;
 
-		private Ship _ship;
+		private ActionRange _actionRange;
 		private VisualsSettings _visualSettings;
 
 		public void Inject(Resolver resolver)
 		{
-			_ship = resolver.Resolve<Ship>();
+			_actionRange = resolver.Resolve<ActionRange>();
 			_visualSettings = resolver.Resolve<VisualsSettings>();
 		}
 
 		private void Start()
 		{
-			float radius = _ship.Range * 2;
-			_radiusImage.localScale = new Vector3(radius, radius, radius);
+			float diameter = _actionRange.Range * 2;
+			_radiusImage.localScale = new Vector3(diameter, diameter, diameter);
 			_spriteRenderer.color = _visualSettings.ActionRadiusColor;
 		}
 	}
