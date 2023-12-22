@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using SBaier.DI;
 
@@ -11,8 +12,6 @@ namespace SBaier.Astrominer
 
         private Factory<List<Asteroid>, IEnumerable<Vector2>> _factory;
         private Map _map;
-
-        List<Asteroid> _asteroids = new List<Asteroid>();
 
         public void Inject(Resolver resolver)
         {
@@ -48,16 +47,17 @@ namespace SBaier.Astrominer
                 asteroid.Base.localScale = Vector3.one;
             }
 
-            _asteroids.AddRange(asteroids);
+            _map.Asteroids.Value = asteroids;
         }
 
         private void ClearAsteroids()
         {
-            foreach (Asteroid asteroid in _asteroids)
+            foreach (Asteroid asteroid in _map.Asteroids.Value)
             {
                 Destroy(asteroid.Base.gameObject);
             }
-            _asteroids.Clear();
+
+            _map.Asteroids.Value = new List<Asteroid>();
         }
 
         private void OnAsteroidPositionsChanged(List<Vector2> formervalue, List<Vector2> newvalue)

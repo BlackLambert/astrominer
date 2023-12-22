@@ -9,9 +9,6 @@ namespace SBaier.Astrominer
         [SerializeField]
         private MapCreationSettings _mapCreationSettings;
 
-        [SerializeField] 
-        private BasePlacementPreview _basePlacementPreviewPrefab;
-
         private System.Random _random;
 
         public void Inject(Resolver resolver)
