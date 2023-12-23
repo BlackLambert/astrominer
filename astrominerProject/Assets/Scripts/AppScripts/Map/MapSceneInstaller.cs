@@ -9,6 +9,7 @@ namespace SBaier.Astrominer
     {
         [SerializeField]
         private AsteroidSettings _asteroidSettings;
+        
         [SerializeField]
         private Asteroid _asteroidPrefab;
 

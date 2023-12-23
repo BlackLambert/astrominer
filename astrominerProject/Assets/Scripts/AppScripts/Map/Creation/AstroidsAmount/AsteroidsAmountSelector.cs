@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SelectedAstroidsAmount : ActiveItem<AstroidAmountOption>
+    public class AsteroidsAmountSelector : ItemSelector<AsteroidAmountOption>
     {
         
     }

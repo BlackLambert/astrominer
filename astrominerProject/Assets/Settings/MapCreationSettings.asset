@@ -12,16 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95267b3fd6429c041a5fb92e503da09c, type: 3}
   m_Name: MapCreationSettings
   m_EditorClassIdentifier: 
-  _astroidAmountOptions:
+  asteroidAmountOptions:
   - <Amount>k__BackingField: 40
-    <MapSize>k__BackingField: {x: 24, y: 13.5}
-    <Zoom>k__BackingField: 1
+    <MapSize>k__BackingField: {x: 38, y: 24}
+    <Zoom>k__BackingField: 12
+    <MapCenterPoint>k__BackingField: {x: 3, y: 0}
   - <Amount>k__BackingField: 70
-    <MapSize>k__BackingField: {x: 30, y: 16.875}
-    <Zoom>k__BackingField: 1
+    <MapSize>k__BackingField: {x: 47.5, y: 30}
+    <Zoom>k__BackingField: 15
+    <MapCenterPoint>k__BackingField: {x: 3.75, y: 0}
   - <Amount>k__BackingField: 100
-    <MapSize>k__BackingField: {x: 36, y: 20.25}
-    <Zoom>k__BackingField: 1
-  <MinimalAsteroidDistance>k__BackingField: 1.4
+    <MapSize>k__BackingField: {x: 59.375, y: 37.5}
+    <Zoom>k__BackingField: 18.75
+    <MapCenterPoint>k__BackingField: {x: 4.6875, y: 0}
+  <MinimalAsteroidDistance>k__BackingField: 2.4
   <SamplingRetriesOnFail>k__BackingField: 10
   <MaxSamplerTries>k__BackingField: 3

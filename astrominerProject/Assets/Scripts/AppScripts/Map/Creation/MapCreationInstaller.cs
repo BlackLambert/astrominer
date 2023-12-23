@@ -27,14 +27,14 @@ namespace SBaier.Astrominer
             binder.BindToNewSelf<MapCreationContext>()
                 .AsSingle();
 
-            binder.Bind<ActiveItem<AstroidAmountOption>>()
+            binder.Bind<ActiveItem<AsteroidAmountOption>>()
                 .ToNew<SelectedAstroidsAmount>()
                 .AsSingle();
 
             binder.BindToNewSelf<AsteroidPositionsGenerator>().
                 AsSingle();
 
-            binder.BindToNewSelf<BasePlacementContext>()
+            binder.BindToNewSelf<BasesPlacementContext>()
                 .AsSingle();
         }
 

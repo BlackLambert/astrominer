@@ -10,7 +10,7 @@ namespace SBaier.Astrominer
         public event Action<TItem> OnItemCameInRange;
         public event Action<TItem> OnItemCameOutOffRange;
 
-        public Observable<List<TItem>> ItemsInRange { get; private set; }
+        public IReadOnlyList<TItem> ItemsInRange => _itemsInRange;
 
         private Provider<List<TItem>> _provider;
         private List<TItem> _itemsInRange = new List<TItem>();
@@ -27,7 +27,6 @@ namespace SBaier.Astrominer
             _startPoint = arguments.StartPoint;
             _provider = resolver.Resolve<Provider<List<TItem>>>();
             _itemsNotInRange.AddRange(_provider.Value.Value);
-            ItemsInRange = new Observable<List<TItem>>() { Value = _itemsInRange };
         }
 
         private void OnEnable()

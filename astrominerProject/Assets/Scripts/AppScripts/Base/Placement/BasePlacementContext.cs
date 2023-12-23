@@ -1,23 +1,9 @@
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace SBaier.Astrominer
 {
     public class BasePlacementContext
     {
-        public event Action<Player> OnBaseAdded;
-        
-        public Observable<bool> Started { get; } = new Observable<bool>() { Value = false };
-        public Observable<bool> Finished { get; } = new Observable<bool>() { Value = false };
-        public IReadOnlyDictionary<Player, Vector2> PlayerToPosition => _playerToPosition;
-
-        private Dictionary<Player, Vector2> _playerToPosition = new Dictionary<Player, Vector2>();
-
-        public void AddBasePosition(Player player, Vector2 position)
-        {
-            _playerToPosition.Add(player, position);
-            OnBaseAdded?.Invoke(player);
-        }
+        public Observable<bool> Started { get; } = false;
+        public Observable<bool> PlacementIsValid { get; } = false;
+        public Observable<bool> Placed { get; } = false;
     }
 }

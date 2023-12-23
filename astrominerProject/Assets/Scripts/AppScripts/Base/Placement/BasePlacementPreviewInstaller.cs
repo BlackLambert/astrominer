@@ -18,6 +18,9 @@ namespace SBaier.Astrominer
 		[SerializeField] 
 		private Transform _startPoint;
 
+		[SerializeField] 
+		private CollisionDetector2D _collisionDetector;
+
 		private Player _player;
 		private Map _map;
 
@@ -29,6 +32,7 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
+			binder.BindToNewSelf<BasePlacementContext>().AsSingle();
 			binder.BindInstance(new AsteroidsInRangeDetector.Arguments
 				{ Distance = _shipSettings.ActionRadius, StartPoint = _startPoint });
 			binder.Bind<ActionRange>().ToNew<ShipSettingsActionRange>().WithArgument(_shipSettings);
@@ -36,6 +40,7 @@ namespace SBaier.Astrominer
 			binder.BindInstance(_player).WithoutInjection();
 			binder.BindInstance(_detector).WithoutInjection();
 			binder.Bind<Provider<List<Asteroid>>>().ToInstance(CreateAsteroidsProvider()).WithoutInjection();
+			binder.BindInstance(_collisionDetector, nameof(Base)).WithoutInjection();
 		}
 
 		private Provider<List<Asteroid>> CreateAsteroidsProvider()

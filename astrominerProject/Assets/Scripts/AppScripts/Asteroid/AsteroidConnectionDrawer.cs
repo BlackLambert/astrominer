@@ -41,7 +41,7 @@ namespace SBaier.Astrominer
 
         private void InitConnection()
         {
-            foreach (Asteroid asteroid in _asteroidsDetector.ItemsInRange.Value)
+            foreach (Asteroid asteroid in _asteroidsDetector.ItemsInRange)
             {
                 AddConnection(asteroid);
             }

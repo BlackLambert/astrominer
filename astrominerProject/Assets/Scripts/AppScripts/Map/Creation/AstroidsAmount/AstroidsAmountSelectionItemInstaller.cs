@@ -8,11 +8,11 @@ namespace SBaier.Astrominer
         [SerializeField]
         private Selectable _selectable;
 
-        private AstroidAmountOption _option;
+        private AsteroidAmountOption _option;
 
         public void Inject(Resolver resolver)
         {
-            _option = resolver.Resolve<AstroidAmountOption>();
+            _option = resolver.Resolve<AsteroidAmountOption>();
         }
 
         public override void InstallBindings(Binder binder)

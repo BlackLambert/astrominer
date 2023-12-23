@@ -10,11 +10,11 @@ namespace SBaier.Astrominer
 
         public override void InstallBindings(Binder binder)
         {
-            binder.Bind<Factory<AstroidsAmountSelectionItem, AstroidAmountOption>>()
-                .ToNew<PrefabFactory<AstroidsAmountSelectionItem, AstroidAmountOption>>()
+            binder.Bind<Factory<AstroidsAmountSelectionItem, AsteroidAmountOption>>()
+                .ToNew<PrefabFactory<AstroidsAmountSelectionItem, AsteroidAmountOption>>()
                 .WithArgument(_item);
-            binder.Bind<Pool<AstroidsAmountSelectionItem, AstroidAmountOption>>().
-                ToNew<MonoPool<AstroidsAmountSelectionItem, AstroidAmountOption>>().
+            binder.Bind<Pool<AstroidsAmountSelectionItem, AsteroidAmountOption>>().
+                ToNew<MonoPool<AstroidsAmountSelectionItem, AsteroidAmountOption>>().
                 WithArgument(_item).AsSingle();
             binder.BindToNewSelf<Selection>().AsSingle();
         }

@@ -8,7 +8,7 @@ namespace SBaier.Astrominer
     public class MapCreationSettings : ScriptableObject
     {
         [SerializeField]
-        private List<AstroidAmountOption> _astroidAmountOptions = new List<AstroidAmountOption>();
+        private List<AsteroidAmountOption> asteroidAmountOptions = new List<AsteroidAmountOption>();
         
         [field: SerializeField]
         public float MinimalAsteroidDistance { get; private set; } = 1.4f;
@@ -19,6 +19,6 @@ namespace SBaier.Astrominer
         [field: SerializeField]
         public int MaxSamplerTries { get; private set; } = 3;
 
-        public IReadOnlyList<AstroidAmountOption> AstroidAmountOptions => _astroidAmountOptions;
+        public IReadOnlyList<AsteroidAmountOption> AsteroidAmountOptions => asteroidAmountOptions;
     }
 }

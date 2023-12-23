@@ -9,11 +9,11 @@ namespace SBaier.Astrominer
         [SerializeField]
         private TextMeshProUGUI _text;
 
-        private AstroidAmountOption _option;
+        private AsteroidAmountOption _option;
 
         public void Inject(Resolver resolver)
         {
-            _option = resolver.Resolve<AstroidAmountOption>();
+            _option = resolver.Resolve<AsteroidAmountOption>();
         }
 
         private void OnEnable()

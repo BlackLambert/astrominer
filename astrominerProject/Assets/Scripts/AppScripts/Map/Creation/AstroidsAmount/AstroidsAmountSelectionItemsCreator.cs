@@ -12,13 +12,13 @@ namespace SBaier.Astrominer
         private Transform _hook;
 
         private List<AstroidsAmountSelectionItem> _items = new List<AstroidsAmountSelectionItem>();
-        private Pool<AstroidsAmountSelectionItem, AstroidAmountOption> _pool;
+        private Pool<AstroidsAmountSelectionItem, AsteroidAmountOption> _pool;
         private MapCreationSettings _settings;
         private Selection _selection;
 
         public void Inject(Resolver resolver)
         {
-            _pool = resolver.Resolve<Pool<AstroidsAmountSelectionItem, AstroidAmountOption>>();
+            _pool = resolver.Resolve<Pool<AstroidsAmountSelectionItem, AsteroidAmountOption>>();
             _settings = resolver.Resolve<MapCreationSettings>();
             _selection = resolver.Resolve<Selection>();
         }
@@ -31,7 +31,7 @@ namespace SBaier.Astrominer
 
         private void CreateItems()
         {
-            foreach (AstroidAmountOption option in _settings.AstroidAmountOptions)
+            foreach (AsteroidAmountOption option in _settings.AsteroidAmountOptions)
             {
                 AstroidsAmountSelectionItem item = _pool.Request(option);
                 item.transform.SetParent(_hook, false);

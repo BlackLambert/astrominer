@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PointerFollower : MonoBehaviour, Injectable
+    public class PointerFollower2D : MonoBehaviour, Injectable
     {
         [SerializeField] 
         private Transform _followingTransform;
@@ -13,15 +13,15 @@ namespace SBaier.Astrominer
             
         public void Inject(Resolver resolver)
         {
-            _pointerPosition = resolver.Resolve<PointerPosition>();
+            _pointerPosition = resolver.Resolve<PointerPosition>(0);
             _camera = resolver.Resolve<Camera>();
         }
 
         private void Update()
         {
-            if (_pointerPosition.HasPosition)
+            if (_pointerPosition.IsActive)
             {
-                _followingTransform.position = _camera.ScreenToWorldPoint(_pointerPosition.CurrentPosition);
+                _followingTransform.position = (Vector2) _camera.ScreenToWorldPoint(_pointerPosition.CurrentPosition);
             }
         }
     }

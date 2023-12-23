@@ -46,7 +46,7 @@ namespace SBaier.Astrominer
         }
 
         private void OnSelectedAsteroidsAmountOptionChanged(
-            AstroidAmountOption formerValue, AstroidAmountOption newValue)
+            AsteroidAmountOption formerValue, AsteroidAmountOption newValue)
         {
             UpdateButtonInteractable();
         }
@@ -61,7 +61,7 @@ namespace SBaier.Astrominer
             try
             {
                 _map.AsteroidPositions.Value = _generator.GenerateMap(
-                    _context.SelectedAsteroidsAmountOption, _creationSettings.MinimalAsteroidDistance);
+                    _context.SelectedAsteroidsAmountOption, _map.CenterPoint, _creationSettings.MinimalAsteroidDistance);
                 _retries = 0;
             }
             catch (PoissonDiskSampling2D.SamplingException exception)
@@ -72,6 +72,7 @@ namespace SBaier.Astrominer
                 }
 
                 _retries++;
+                Debug.LogWarning("Failed to create asteroid positions. Retrying...");
                 CreateMap();
             }
         }

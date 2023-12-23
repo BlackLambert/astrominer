@@ -7,7 +7,7 @@ namespace SBaier.Astrominer
 {
     public interface PointerPosition
     {
-        bool HasPosition { get; }
+        bool IsActive { get; }
         Vector2 CurrentPosition { get; }
     }
 }

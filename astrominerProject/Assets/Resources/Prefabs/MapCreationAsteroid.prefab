@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1151381606364967634}
   - component: {fileID: 2002085511684390271}
+  - component: {fileID: 2153191836892431658}
   m_Layer: 0
   m_Name: MapCreationAsteroid
   m_TagString: Untagged
@@ -48,6 +49,22 @@ MonoBehaviour:
   _landingPointTransform: {fileID: 6374493589454315092}
   <Base>k__BackingField: {fileID: 1151381606364967634}
   _image: {fileID: 6374493589454315092}
+--- !u!58 &2153191836892431658
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971471336785017765}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.6
 --- !u!1 &5312792493417355930
 GameObject:
   m_ObjectHideFlags: 0

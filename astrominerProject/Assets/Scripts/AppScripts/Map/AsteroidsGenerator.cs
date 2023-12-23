@@ -44,6 +44,7 @@ namespace SBaier.Astrominer
             foreach (Asteroid asteroid in asteroids)
             {
                 asteroid.Base.SetParent(_hook);
+                asteroid.Base.localPosition = (Vector2)asteroid.Base.localPosition;
                 asteroid.Base.localScale = Vector3.one;
             }
 

@@ -11,13 +11,13 @@ namespace SBaier.Astrominer
         private Button _button;
 
         private Map _map;
-        private BasePlacementContext _placePlacementContext;
+        private BasesPlacementContext _placePlacementContext;
         private MapCreationContext _mapCreationContext;
         
         public void Inject(Resolver resolver)
         {
             _map = resolver.Resolve<Map>();
-            _placePlacementContext = resolver.Resolve<BasePlacementContext>();
+            _placePlacementContext = resolver.Resolve<BasesPlacementContext>();
             _mapCreationContext = resolver.Resolve<MapCreationContext>();
         }
         
