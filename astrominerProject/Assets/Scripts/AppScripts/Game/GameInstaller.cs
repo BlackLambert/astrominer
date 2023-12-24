@@ -6,14 +6,13 @@ namespace SBaier.Astrominer
 	public class GameInstaller : MonoInstaller
 	{
 		[SerializeField]
-		private Base _base;
-		[SerializeField]
 		private MiningSettings _miningSettings;
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindInstance(_base).WithoutInjection();
 			binder.BindInstance(_miningSettings);
+			binder.Bind<ActiveItem<Player>>().ToNew<ActivePlayer>().AsSingle();
+			binder.BindToNewSelf<Selection>().AsSingle();
 		}
 	}
 }

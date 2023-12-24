@@ -6,7 +6,7 @@ namespace SBaier.Astrominer
 	public class ActionRadiusView : MonoBehaviour, Injectable
 	{
 		[SerializeField]
-		private Transform _radiusImage;
+		private Transform _radiusTransform;
 		[SerializeField]
 		private SpriteRenderer _spriteRenderer;
 
@@ -22,7 +22,7 @@ namespace SBaier.Astrominer
 		private void Start()
 		{
 			float diameter = _actionRange.Range * 2;
-			_radiusImage.localScale = new Vector3(diameter, diameter, diameter);
+			_radiusTransform.localScale = new Vector3(diameter, diameter, diameter);
 			_spriteRenderer.color = _visualSettings.ActionRadiusColor;
 		}
 	}

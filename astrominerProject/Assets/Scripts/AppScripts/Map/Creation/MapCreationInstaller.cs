@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PCGToolkit.Sampling;
 using SBaier.DI;
 using UnityEngine;
@@ -36,6 +37,9 @@ namespace SBaier.Astrominer
 
             binder.BindToNewSelf<BasesPlacementContext>()
                 .AsSingle();
+            
+            binder.Bind<Factory<List<Asteroid>, IEnumerable<Vector2>>>()
+                .ToNew<AsteroidsFactory>();
         }
 
         private PoissonDiskSampling2D CreateSampler()

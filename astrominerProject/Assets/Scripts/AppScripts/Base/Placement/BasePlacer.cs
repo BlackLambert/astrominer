@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using SBaier.DI;
 using System.Linq;
 using UnityEngine;
@@ -7,12 +9,16 @@ namespace SBaier.Astrominer
 	public class BasePlacer : MonoBehaviour, Injectable
 	{
 		private readonly Vector2 _baseStartPosition = new Vector2(0, 0);
+
+		[SerializeField] 
+		private Transform _hook;
 		
 		private Players _players;
 		private Pool<BasePlacementPreview, Player> _basePreviewPool;
 		private BasesPlacementContext _context;
 		private Map _map;
 		private int _currentPlayerIndex = 0;
+		private List<BasePlacementPreview> _bases = new List<BasePlacementPreview>();
 
 		public void Inject(Resolver resolver)
 		{
@@ -32,6 +38,11 @@ namespace SBaier.Astrominer
 		private void OnDisable()
 		{
 			_context.Started.OnValueChanged -= OnStartedChanged;
+		}
+
+		private void OnDestroy()
+		{
+			ClearBases();
 		}
 
 		private void CreateNextBase()
@@ -57,8 +68,18 @@ namespace SBaier.Astrominer
 		private void CreateBase(Player player)
 		{
 			BasePlacementPreview basePreview = _basePreviewPool.Request(player);
-			basePreview.transform.position = _baseStartPosition;
+			Transform baseTransform = basePreview.transform;
+			baseTransform.SetParent(_hook);
+			baseTransform.position = _baseStartPosition;
 			_currentPlayerIndex++;
+		}
+
+		private void ClearBases()
+		{
+			foreach (BasePlacementPreview preview in _bases)
+			{
+				_basePreviewPool.Return(preview);
+			}
 		}
 
 		private void OnStartedChanged(bool formervalue, bool newvalue)

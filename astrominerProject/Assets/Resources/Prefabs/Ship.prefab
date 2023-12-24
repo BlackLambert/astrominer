@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3040038146174244780}
   - component: {fileID: 1648828495752325586}
-  - component: {fileID: 1598371342640589408}
+  - component: {fileID: 7185912361128379627}
   m_Layer: 0
   m_Name: ActionRadius
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1598371342640589408
+--- !u!114 &7185912361128379627
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,10 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3516473265468315438}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0f1f596922089543a7b1664270db55c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7bc72b04873ace34985888bfa55ce77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radiusImage: {fileID: 3040038146174244780}
+  _radiusTransform: {fileID: 0}
   _spriteRenderer: {fileID: 1648828495752325586}
 --- !u!1 &4624932536765695903
 GameObject:

@@ -1,6 +1,5 @@
 using SBaier.DI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {

@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc72b04873ace34985888bfa55ce77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radiusImage: {fileID: 8078150664499059761}
+  _radiusTransform: {fileID: 8078150664499059761}
   _spriteRenderer: {fileID: 6860708315198412523}
 --- !u!114 &6652129586905871913
 MonoBehaviour:
@@ -500,6 +500,7 @@ MonoBehaviour:
   _renderer: {fileID: 6860708315198412523}
   _validColor: {r: 0.07450981, g: 0.78431374, b: 0, a: 0.19607843}
   _invalidColor: {r: 0.78431374, g: 0.09457771, b: 0, a: 0.19607843}
+  _placedColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &8691646458130511085
 GameObject:
   m_ObjectHideFlags: 0

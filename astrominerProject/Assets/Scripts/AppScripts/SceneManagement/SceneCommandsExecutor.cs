@@ -1,17 +1,30 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using SBaier.DI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace SBaier.Astrominer
 {
-    public class SceneCommandsExecuter : MonoBehaviour
+    public class SceneCommandsExecutor : MonoBehaviour, Injectable
     {
         [SerializeField]
         private List<SceneManagementCommand> _commands = new List<SceneManagementCommand>();
 
-        public IEnumerator ExecuteCommands()
+        private MonoBehaviour _coroutineHelper;
+        
+        public void Inject(Resolver resolver)
+        {
+            _coroutineHelper = resolver.Resolve<MonoBehaviour>(BindingIds.CoroutineHelper);
+        }
+        
+        protected void Execute()
+        {
+            _coroutineHelper.StartCoroutine(ExecuteCommands());
+        }
+        
+        private IEnumerator ExecuteCommands()
 		{
             foreach (SceneManagementCommand command in _commands)
                 yield return ExecuteCommand(command);

@@ -7,16 +7,14 @@ namespace SBaier.Astrominer
 {
 	public class AsteroidsFactory : Factory<List<Asteroid>, IEnumerable<Vector2>>, Injectable
 	{
-		
-
 		private AsteroidSettings _settings;
-		private Factory<Asteroid, Asteroid.Arguments> _asteroidFactory;
+		private Pool<Asteroid, Asteroid.Arguments> _asteroidsPool;
 		private System.Random _random;
 
 		public void Inject(Resolver resolver)
 		{
 			_settings = resolver.Resolve<AsteroidSettings>();
-			_asteroidFactory = resolver.Resolve<Factory<Asteroid, Asteroid.Arguments>>();
+			_asteroidsPool = resolver.Resolve<Pool<Asteroid, Asteroid.Arguments>>();
 			_random = resolver.Resolve<System.Random>();
 		}
 
@@ -27,7 +25,7 @@ namespace SBaier.Astrominer
 			for (int i = 0; i < positionsList.Count; i++ )
 			{
 				Asteroid.Arguments settings = CreateRandomSettings();
-				Asteroid asteroid = _asteroidFactory.Create(settings);
+				Asteroid asteroid = _asteroidsPool.Request(settings);
 				asteroid.SetPosition(positionsList[i]);
 				asteroid.SetRotation(GetRandomRotation());
 				asteroid.SetName(GetName(i));

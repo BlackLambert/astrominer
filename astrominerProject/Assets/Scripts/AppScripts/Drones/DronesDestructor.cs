@@ -1,6 +1,4 @@
 using SBaier.DI;
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -8,9 +6,6 @@ namespace SBaier.Astrominer
 	public class DronesDestructor : MonoBehaviour, Injectable
 	{
 		private ProspectorDrones _drones;
-
-		private Dictionary<ProspectorDrone, Action> _callbacks =
-			new Dictionary<ProspectorDrone, Action>();
 
 		public void Inject(Resolver resolver)
 		{
@@ -29,16 +24,13 @@ namespace SBaier.Astrominer
 
 		private void AddDestructor(ProspectorDrone drone)
 		{
-			Action destruct = () => Destruct(drone);
-			drone.OnDone += destruct;
-			_callbacks[drone] = destruct;
+			drone.OnDone += Destruct;
 		}
 
 		private void Destruct(ProspectorDrone drone)
 		{
-			drone.OnDone -= _callbacks[drone];
+			drone.OnDone -= Destruct;
 			_drones.Remove(drone);
-			_callbacks.Remove(drone);
 			Destroy(drone.gameObject);
 		}
 	}

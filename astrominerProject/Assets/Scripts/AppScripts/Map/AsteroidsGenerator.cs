@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using SBaier.DI;
 
@@ -11,12 +10,14 @@ namespace SBaier.Astrominer
         private Transform _hook;
 
         private Factory<List<Asteroid>, IEnumerable<Vector2>> _factory;
+        private Pool<Asteroid, Asteroid.Arguments> _asteroidPool;
         private Map _map;
 
         public void Inject(Resolver resolver)
         {
             _map = resolver.Resolve<Map>();
             _factory = resolver.Resolve<Factory<List<Asteroid>, IEnumerable<Vector2>>>();
+            _asteroidPool = resolver.Resolve<Pool<Asteroid, Asteroid.Arguments>>();
         }
 
         private void OnEnable()
@@ -34,7 +35,7 @@ namespace SBaier.Astrominer
         {
             ClearAsteroids();
 
-            if (_map.AsteroidPositions.Value.Count <= 0)
+            if (_map.AsteroidPositions.Value == null)
             {
                 return;
             }
@@ -53,9 +54,14 @@ namespace SBaier.Astrominer
 
         private void ClearAsteroids()
         {
+            if (_map.Asteroids.Value == null)
+            {
+                return;
+            }
+            
             foreach (Asteroid asteroid in _map.Asteroids.Value)
             {
-                Destroy(asteroid.Base.gameObject);
+                _asteroidPool.Return(asteroid);
             }
 
             _map.Asteroids.Value = new List<Asteroid>();

@@ -64,7 +64,7 @@ namespace SBaier.Astrominer
                     _context.SelectedAsteroidsAmountOption, _map.CenterPoint, _creationSettings.MinimalAsteroidDistance);
                 _retries = 0;
             }
-            catch (PoissonDiskSampling2D.SamplingException exception)
+            catch (PoissonDiskSampling2D.SamplingException)
             {
                 if (_retries >= _creationSettings.SamplingRetriesOnFail)
                 {

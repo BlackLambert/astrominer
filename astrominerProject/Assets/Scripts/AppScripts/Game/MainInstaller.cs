@@ -18,6 +18,7 @@ namespace SBaier.Astrominer
             binder.Bind<Factory<Player, PlayerFactory.Arguments>>().ToNew<PlayerFactory>();
             binder.BindInstance(_camera).WithoutInjection();
             binder.BindToNewSelf<CameraZoom>().AsSingle();
+            binder.Bind<MonoBehaviour>(BindingIds.CoroutineHelper).ToInstance(this).WithoutInjection();
         }
     }
 }

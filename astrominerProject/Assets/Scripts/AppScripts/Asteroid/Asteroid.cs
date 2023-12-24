@@ -38,6 +38,13 @@ namespace SBaier.Astrominer
 		public event Action OnOreMined;
 		public event Action OnOresCollected;
 		public event Action OnExploited;
+		
+		private Vector3 _startScale; 
+
+		private void Awake()
+		{
+			_startScale = _image.transform.localScale;
+		}
 
 		void Injectable.Inject(Resolver resolver)
 		{
@@ -47,7 +54,7 @@ namespace SBaier.Astrominer
 
 		public void SetObjectSize(float size)
         {
-			Vector3 scale = _image.transform.localScale;
+			Vector3 scale = _startScale;
 			_image.transform.localScale = new Vector3(size * scale.x, size * scale.y, size * scale.z);
 		}
 

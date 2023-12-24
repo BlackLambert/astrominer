@@ -11,7 +11,7 @@ namespace SBaier.Astrominer
 		public Vector2 Origin => _settings.Origin;
 		public FlyTarget ReturnLocation => _settings.ReturnLocation;
 
-		public event Action OnDone;
+		public event Action<ProspectorDrone> OnDone;
 
 		public override void Inject(Resolver resolver)
 		{
@@ -39,7 +39,7 @@ namespace SBaier.Astrominer
 			else if (FlyTarget.Equals(Target))
 				FlyTo(ReturnLocation);
 			else
-				OnDone?.Invoke();
+				OnDone?.Invoke(this);
 		}
 
 	}
