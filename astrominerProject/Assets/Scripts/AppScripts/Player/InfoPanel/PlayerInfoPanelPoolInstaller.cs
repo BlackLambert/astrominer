@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SelectedAstroidsAmount : ActiveItem<AsteroidAmountOption>
+    public class PlayerInfoPanelPoolInstaller : MonoPoolInstaller<PlayerInfoPanel, Player>
     {
         
     }

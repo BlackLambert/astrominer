@@ -7,17 +7,17 @@ namespace SBaier.Astrominer
     {
         private BasePlacementPreview _basePlacementPreview;
         private BasePlacementContext _basePlacementContext;
-        private BasesPlacementContext _basesPlacementContext;
         private PointerInput _pointerInput;
         private Player _player;
+        private BasePositions _positions;
 
         public void Inject(Resolver resolver)
         {
             _basePlacementPreview = resolver.Resolve<BasePlacementPreview>();
             _basePlacementContext = resolver.Resolve<BasePlacementContext>();
             _pointerInput = resolver.Resolve<PointerInput>(0);
-            _basesPlacementContext = resolver.Resolve<BasesPlacementContext>();
             _player = resolver.Resolve<Player>();
+            _positions = resolver.Resolve<BasePositions>();
         }
 
         private void OnEnable()
@@ -38,7 +38,7 @@ namespace SBaier.Astrominer
             }
 
             _basePlacementContext.Placed.Value = true;
-            _basesPlacementContext.AddBasePosition(_player, _basePlacementPreview.transform.position);
+            _positions.Add(_player, _basePlacementPreview.transform.position);
         }
     }
 }

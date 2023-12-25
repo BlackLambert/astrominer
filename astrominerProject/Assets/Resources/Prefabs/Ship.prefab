@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bc72b04873ace34985888bfa55ce77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radiusTransform: {fileID: 0}
+  _radiusTransform: {fileID: 3040038146174244780}
   _spriteRenderer: {fileID: 1648828495752325586}
 --- !u!1 &4624932536765695903
 GameObject:
@@ -212,7 +212,8 @@ GameObject:
   - component: {fileID: 5238053795954629621}
   - component: {fileID: 2098730009592611023}
   - component: {fileID: 9110955170788743631}
-  - component: {fileID: 4611781835356400232}
+  - component: {fileID: 1249362962506625171}
+  - component: {fileID: 4936758467270012931}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -316,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda234aceef6c6c4ca522243477e1892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4611781835356400232
+--- !u!114 &1249362962506625171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,6 +326,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 6116670364102835850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38e2ab280259aac40a10eda1f93e1bb4, type: 3}
+  m_Script: {fileID: 11500000, guid: 03b54a9a31830e64c86158550f42b1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 3516473265468315438}
+--- !u!114 &4936758467270012931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6116670364102835850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c256b4b2a2c0b50469a2ce9098965a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

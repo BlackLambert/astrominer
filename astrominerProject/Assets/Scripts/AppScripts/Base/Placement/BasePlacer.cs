@@ -16,28 +16,29 @@ namespace SBaier.Astrominer
 		private Players _players;
 		private Pool<BasePlacementPreview, Player> _basePreviewPool;
 		private BasesPlacementContext _context;
-		private Map _map;
 		private int _currentPlayerIndex = 0;
 		private List<BasePlacementPreview> _bases = new List<BasePlacementPreview>();
+		private BasePositions _positions;
 
 		public void Inject(Resolver resolver)
 		{
 			_players = resolver.Resolve<Players>();
 			_basePreviewPool = resolver.Resolve<Pool<BasePlacementPreview, Player>>();
 			_context = resolver.Resolve<BasesPlacementContext>();
-			_map = resolver.Resolve<Map>();
+			_positions = resolver.Resolve<BasePositions>();
 		}
 
 		private void OnEnable()
 		{
 			CreateNextBase();
 			_context.Started.OnValueChanged += OnStartedChanged;
-			_context.OnBaseAdded += OnBasePlaced;
+			_positions.OnItemAdded += OnBasePlaced;
 		}
 
 		private void OnDisable()
 		{
 			_context.Started.OnValueChanged -= OnStartedChanged;
+			_positions.OnItemAdded -= OnBasePlaced;
 		}
 
 		private void OnDestroy()
@@ -54,7 +55,6 @@ namespace SBaier.Astrominer
 
 			if (_currentPlayerIndex >= _players.Count)
 			{
-				_map.BasePositions.Value = _context.PlayerToPosition.ToDictionary(pair => pair.Key, pair => pair.Value);
 				_context.CurrentPlayer.Value = null;
 				_context.Finished.Value = true;
 				return;
@@ -87,7 +87,7 @@ namespace SBaier.Astrominer
 			CreateNextBase();
 		}
 
-		private void OnBasePlaced(Player player)
+		private void OnBasePlaced(KeyValuePair<Player, Vector2> keyValuePair)
 		{
 			CreateNextBase();
 		}

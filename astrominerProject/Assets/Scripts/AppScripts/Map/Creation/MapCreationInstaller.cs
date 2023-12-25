@@ -29,16 +29,16 @@ namespace SBaier.Astrominer
                 .AsSingle();
 
             binder.Bind<ActiveItem<AsteroidAmountOption>>()
-                .ToNew<SelectedAstroidsAmount>()
+                .ToNew<SelectedAsteroidsAmount>()
                 .AsSingle();
 
-            binder.BindToNewSelf<AsteroidPositionsGenerator>().
+            binder.BindToNewSelf<AsteroidArgumentsGenerator>().
                 AsSingle();
 
             binder.BindToNewSelf<BasesPlacementContext>()
                 .AsSingle();
             
-            binder.Bind<Factory<List<Asteroid>, IEnumerable<Vector2>>>()
+            binder.Bind<Factory<List<Asteroid>, List<Asteroid.Arguments>>>()
                 .ToNew<AsteroidsFactory>();
         }
 

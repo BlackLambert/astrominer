@@ -14,6 +14,7 @@ namespace SBaier.Astrominer
         public event ItemReplacedAtAction OnItemReplacedAt;
         public event ItemReplacedAction OnItemReplaced;
         public event Action OnItemsChanged;
+        public event Action OnClear;
 
 		public delegate void ItemReplacedAction(T formerItem, T newItem);
 		public delegate void ItemReplacedAtAction(T formerItem, T newItem, int index);
@@ -57,7 +58,7 @@ namespace SBaier.Astrominer
 
 		public IReadOnlyList<T> ToReadonly()
 		{
-			return _items.AsReadOnly();
+			return _items;
 		}
 
 		public T this[int index]
@@ -102,6 +103,7 @@ namespace SBaier.Astrominer
 		{
 			for (int i = _items.Count - 1; i >= 0; i--)
 				RemoveAt(i);
+			OnClear?.Invoke();
 		}
 
 		public void CopyTo(T[] array, int arrayIndex)

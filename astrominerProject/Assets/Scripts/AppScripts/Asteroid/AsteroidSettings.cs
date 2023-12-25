@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
         [field: SerializeField]
         public float MaxObjectSizeAddition { get; private set; } = 0.3f;
         [field: SerializeField]
-        public float StartObjectSize { get; private set; } = 0.5f;
+        public float StartObjectSize { get; private set; } = 0.7f;
         [field: SerializeField]
         public Color Color { get; private set; } = Color.white;
         [field: SerializeField]

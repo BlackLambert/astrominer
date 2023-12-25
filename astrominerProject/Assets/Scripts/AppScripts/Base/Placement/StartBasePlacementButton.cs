@@ -23,7 +23,7 @@ namespace SBaier.Astrominer
         
         private void Start()
         {
-            _map.AsteroidPositions.OnValueChanged += OnAsteroidPositionsChanged;
+            _map.AsteroidArguments.OnValueChanged += OnAsteroidPositionsChanged;
             _placePlacementContext.Started.OnValueChanged += OnStartedChanged;
             _button.onClick.AddListener(StartBasePlacement);
             UpdateButtonInteractable();
@@ -31,7 +31,7 @@ namespace SBaier.Astrominer
 
         private void OnDestroy()
         {
-            _map.AsteroidPositions.OnValueChanged -= OnAsteroidPositionsChanged;
+            _map.AsteroidArguments.OnValueChanged -= OnAsteroidPositionsChanged;
             _placePlacementContext.Started.OnValueChanged -= OnStartedChanged;
             _button.onClick.RemoveListener(StartBasePlacement);
         }
@@ -41,14 +41,14 @@ namespace SBaier.Astrominer
             UpdateButtonInteractable();
         }
 
-        private void OnAsteroidPositionsChanged(List<Vector2> formervalue, List<Vector2> newvalue)
+        private void OnAsteroidPositionsChanged(List<Asteroid.Arguments> formerValue, List<Asteroid.Arguments> newValue)
         {
-            _button.interactable = newvalue?.Count > 0;
+            _button.interactable = newValue?.Count > 0;
         }
 
         private void UpdateButtonInteractable()
         {
-            _button.interactable = _map.AsteroidPositions.Value?.Count > 0 && !_placePlacementContext.Started.Value;
+            _button.interactable = _map.AsteroidArguments.Value?.Count > 0 && !_placePlacementContext.Started.Value;
         }
 
         private void StartBasePlacement()

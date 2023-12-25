@@ -48,7 +48,7 @@ namespace SBaier.Astrominer
             
             _context.SelectedAsteroidsAmountOption.Value = _selectedAsteroidsAmount.Value;
             _map.AsteroidAmountOption.Value = _selectedAsteroidsAmount.Value;
-            _map.AsteroidPositions.Value = new List<Vector2>();
+            _map.AsteroidArguments.Value = new List<Asteroid.Arguments>();
             _cameraZoom.Value.Value = _selectedAsteroidsAmount.Value.Zoom;
             Debug.Log($"Asteroid amount changed to: {_selectedAsteroidsAmount.Value}");
         }

@@ -44,7 +44,9 @@ namespace SBaier.Astrominer
             }
 
             _currentDisplay = _pool.Request(_activePlayer.Value);
-            _currentDisplay.transform.SetParent(_hook);
+            Transform trans = _currentDisplay.transform;
+            trans.SetParent(_hook);
+            trans.localScale = Vector3.one;
         }
 
         private void ReturnCurrentDisplay()

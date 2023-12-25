@@ -25,6 +25,6 @@ MonoBehaviour:
     <MapSize>k__BackingField: {x: 59.375, y: 37.5}
     <Zoom>k__BackingField: 18.75
     <MapCenterPoint>k__BackingField: {x: 4.6875, y: 0}
-  <MinimalAsteroidDistance>k__BackingField: 2.4
+  <MinimalAsteroidDistance>k__BackingField: 2.6
   <SamplingRetriesOnFail>k__BackingField: 10
   <MaxSamplerTries>k__BackingField: 3

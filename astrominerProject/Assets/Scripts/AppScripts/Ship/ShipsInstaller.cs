@@ -1,16 +1,13 @@
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
     public class ShipsInstaller : MonoInstaller
     {
-        [SerializeField]
-        private Ship _shipPrefab;
-
         public override void InstallBindings(Binder binder)
         {
-            binder.BindToNewSelf<ActiveShip>().AsSingle();
+            binder.Bind<ActiveItem<Ship>>().And<ActiveShip>().ToNew<ActiveShip>().AsSingle();
+            binder.BindToNewSelf<QueuedShips>().AsSingle();
             binder.BindToNewSelf<Ships>().AsSingle();
         }
     }

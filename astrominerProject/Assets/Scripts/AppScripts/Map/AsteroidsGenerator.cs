@@ -9,38 +9,39 @@ namespace SBaier.Astrominer
         [SerializeField]
         private Transform _hook;
 
-        private Factory<List<Asteroid>, IEnumerable<Vector2>> _factory;
+        private Factory<List<Asteroid>, List<Asteroid.Arguments>> _factory;
         private Pool<Asteroid, Asteroid.Arguments> _asteroidPool;
         private Map _map;
 
         public void Inject(Resolver resolver)
         {
             _map = resolver.Resolve<Map>();
-            _factory = resolver.Resolve<Factory<List<Asteroid>, IEnumerable<Vector2>>>();
+            _factory = resolver.Resolve<Factory<List<Asteroid>, List<Asteroid.Arguments>>>();
             _asteroidPool = resolver.Resolve<Pool<Asteroid, Asteroid.Arguments>>();
         }
 
         private void OnEnable()
         {
             GenerateMap();
-            _map.AsteroidPositions.OnValueChanged += OnAsteroidPositionsChanged;
+            _map.AsteroidArguments.OnValueChanged += OnAsteroidPositionsChanged;
         }
 
         private void OnDisable()
         {
-            _map.AsteroidPositions.OnValueChanged -= OnAsteroidPositionsChanged;
+            _map.Asteroids.Value = new List<Asteroid>();
+            _map.AsteroidArguments.OnValueChanged -= OnAsteroidPositionsChanged;
         }
 
         private void GenerateMap()
         {
             ClearAsteroids();
 
-            if (_map.AsteroidPositions.Value == null)
+            if (_map.AsteroidArguments.Value == null)
             {
                 return;
             }
             
-            List<Asteroid> asteroids = _factory.Create(_map.AsteroidPositions.Value);
+            List<Asteroid> asteroids = _factory.Create(_map.AsteroidArguments.Value);
 
             foreach (Asteroid asteroid in asteroids)
             {
@@ -67,7 +68,7 @@ namespace SBaier.Astrominer
             _map.Asteroids.Value = new List<Asteroid>();
         }
 
-        private void OnAsteroidPositionsChanged(List<Vector2> formervalue, List<Vector2> newvalue)
+        private void OnAsteroidPositionsChanged(List<Asteroid.Arguments> formervalue, List<Asteroid.Arguments> newvalue)
         {
             GenerateMap();
         }

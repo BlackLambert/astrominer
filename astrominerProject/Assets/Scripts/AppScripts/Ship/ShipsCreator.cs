@@ -7,64 +7,66 @@ namespace SBaier.Astrominer
 {
     public class ShipsCreator : MonoBehaviour, Injectable
     {
-        private const float _mapSpawnDistanceAdditionFactor = 0.5f;
+        private const float _mapSpawnDistanceAdditionFactor = 0.1f;
 
         [SerializeField] 
         private Transform _hook;
         
-        private Map _map;
+        private Bases _bases;
         private Pool<Ship, Player> _pool;
         private Ships _ships;
         private Random _random;
-        
+        private Map _map;
+
         public void Inject(Resolver resolver)
         {
-            _map = resolver.Resolve<Map>();
+            _bases = resolver.Resolve<Bases>();
             _pool = resolver.Resolve<Pool<Ship, Player>>();
             _ships = resolver.Resolve<Ships>();
             _random = resolver.Resolve<Random>();
+            _map = resolver.Resolve<Map>();
         }
 
         private void Start()
         {
             CreateShips();
-            _map.Bases.OnValueChanged += OnBasesChanged;
+            _bases.OnItemAdded += OnBaseAdded;
         }
 
         private void OnDestroy()
         {
-            _map.Bases.OnValueChanged -= OnBasesChanged;
+            _bases.OnItemAdded -= OnBaseAdded;
         }
 
-        private void OnBasesChanged(Dictionary<Player, Base> formervalue, Dictionary<Player, Base> newvalue)
+        private void OnBaseAdded(KeyValuePair<Player, Base> pair)
         {
-            CreateShips();
+            CreateShip(pair);
         }
 
         private void CreateShips()
         {
-            if (_map.Bases.Value == null)
+            foreach (KeyValuePair<Player,Base> pair in _bases)
             {
-                return;
+                CreateShip(pair);
             }
+        }
 
-            foreach (KeyValuePair<Player,Base> pair in _map.Bases.Value)
-            {
-                Player player = pair.Key;
-                Base playerBase = pair.Value;
+        private void CreateShip(KeyValuePair<Player, Base> pair)
+        {
+            Player player = pair.Key;
+            Base playerBase = pair.Value;
 
-                Ship ship = _pool.Request(player);
-                ship.FlyTo(playerBase);
-                _ships.Values.Add(ship);
-                Vector2 mapSize = _map.AsteroidAmountOption.Value.MapSize;
-                float maxMapSide = mapSize.x > mapSize.y ? mapSize.x : mapSize.y;
-                float radius = maxMapSide + maxMapSide * _mapSpawnDistanceAdditionFactor;
-                float angle = (float)_random.NextDouble() * 360f;
-                Vector2 distanceVector = Quaternion.AngleAxis(angle, Vector3.up) * Vector3.up * radius;
-                Transform shipTransform = ship.transform;
-                shipTransform.SetParent(_hook, false);
-                shipTransform.position = (Vector2)playerBase.transform.position + distanceVector;
-            }
+            Ship ship = _pool.Request(player);
+            _ships.Values.Add(ship);
+            Vector2 mapSize = _map.AsteroidAmountOption.Value.MapSize;
+            float maxMapSide = mapSize.x > mapSize.y ? mapSize.x : mapSize.y;
+            float radius = maxMapSide + maxMapSide * _mapSpawnDistanceAdditionFactor;
+            float angle = (float)_random.NextDouble() * 360f;
+            Vector2 distanceVector = Quaternion.AngleAxis(angle, new Vector3(0,0, 1)) * Vector2.up * radius;
+            Transform shipTransform = ship.transform;
+            shipTransform.SetParent(_hook, false);
+            shipTransform.position = (Vector2)playerBase.transform.position + distanceVector;
+            ship.FlyTo(playerBase);
         }
     }
 }

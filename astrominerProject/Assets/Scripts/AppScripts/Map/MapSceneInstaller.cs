@@ -12,15 +12,14 @@ namespace SBaier.Astrominer
         {
             binder.BindInstance(_asteroidSettings)
                 .WithInjection();
-
-            /*binder.BindToNewSelf<Selection>()
-                .AsSingle();
-
-            binder.Bind<ActiveItem<Asteroid>>()
-                .ToNew<SelectedAsteroid>()
-                .AsSingle();*/
             
             binder.BindToNewSelf<Map>()
+                .AsSingle();
+
+            binder.BindToNewSelf<Bases>()
+                .AsSingle();
+
+            binder.BindToNewSelf<BasePositions>()
                 .AsSingle();
         }
     }

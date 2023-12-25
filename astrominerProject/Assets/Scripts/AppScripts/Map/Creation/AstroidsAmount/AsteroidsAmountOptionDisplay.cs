@@ -4,7 +4,7 @@ using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class AstroidsAmountOptionDisplay : MonoBehaviour, Injectable
+    public class AsteroidsAmountOptionDisplay : MonoBehaviour, Injectable
     {
         [SerializeField]
         private TextMeshProUGUI _text;

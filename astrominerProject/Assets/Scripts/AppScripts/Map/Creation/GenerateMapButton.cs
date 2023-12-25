@@ -12,7 +12,7 @@ namespace SBaier.Astrominer
         private Button _button;
 
         private MapCreationContext _context;
-        private AsteroidPositionsGenerator _generator;
+        private AsteroidArgumentsGenerator _generator;
         private MapCreationSettings _creationSettings;
         private Map _map;
         private int _retries = 0;
@@ -20,7 +20,7 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _context = resolver.Resolve<MapCreationContext>();
-            _generator = resolver.Resolve<AsteroidPositionsGenerator>();
+            _generator = resolver.Resolve<AsteroidArgumentsGenerator>();
             _creationSettings = resolver.Resolve<MapCreationSettings>();
             _map = resolver.Resolve<Map>();
         }
@@ -60,8 +60,8 @@ namespace SBaier.Astrominer
         {
             try
             {
-                _map.AsteroidPositions.Value = _generator.GenerateMap(
-                    _context.SelectedAsteroidsAmountOption, _map.CenterPoint, _creationSettings.MinimalAsteroidDistance);
+                _map.AsteroidArguments.Value = _generator.GenerateMap(
+                    _context.SelectedAsteroidsAmountOption, _creationSettings.MinimalAsteroidDistance);
                 _retries = 0;
             }
             catch (PoissonDiskSampling2D.SamplingException)

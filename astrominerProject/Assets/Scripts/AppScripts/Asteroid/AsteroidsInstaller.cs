@@ -11,7 +11,7 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.Bind<Factory<List<Asteroid>, IEnumerable<Vector2>>>().ToNew<AsteroidsFactory>();
+			binder.Bind<Factory<List<Asteroid>, List<Asteroid.Arguments>>>().ToNew<AsteroidsFactory>();
 			binder.Bind<ActiveItem<Asteroid>>().ToNew<SelectedAsteroid>().AsSingle();
 			binder.BindInstance(_config).WithoutInjection();
 		}

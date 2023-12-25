@@ -3,20 +3,20 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SelectedItemContextMenuCreator<T> : MonoBehaviour, Injectable
+    public abstract class SelectedItemContextMenuCreator<T, TArgument> : MonoBehaviour, Injectable
     {
 		[SerializeField]
 		private Transform _hook;
 
-		private Pool<ContextPanel<T>, T> _pool;
-		private ActiveItem<T> _selectedItem;
+		private Pool<ContextPanel<T>, TArgument> _pool;
+		protected ActiveItem<T> _selectedItem;
 
 		private ContextPanel<T> _currentPanel;
 
 
-		void Injectable.Inject(Resolver resolver)
+		public virtual void Inject(Resolver resolver)
 		{
-			_pool = resolver.Resolve<Pool<ContextPanel<T>, T>>();
+			_pool = resolver.Resolve<Pool<ContextPanel<T>, TArgument>>();
 			_selectedItem = resolver.Resolve<ActiveItem<T>>();
 		}
 
@@ -32,6 +32,13 @@ namespace SBaier.Astrominer
 			_selectedItem.OnValueChanged -= ReplaceContext;
 		}
 
+		protected abstract TArgument CreateArgument();
+
+		protected virtual bool CanCreateContextPanel()
+		{
+			return _selectedItem.HasValue;
+		}
+
 		private void ReplaceContext()
 		{
 			TryReturnCurrentContext();
@@ -40,13 +47,14 @@ namespace SBaier.Astrominer
 
 		private void TryCreateNewContextInfoPanel()
 		{
-			if (_selectedItem.HasValue)
+			if (CanCreateContextPanel())
 				CreateContextInfoPanel();
 		}
+		
 
 		private void CreateContextInfoPanel()
 		{
-			_currentPanel = _pool.Request(_selectedItem.Value);
+			_currentPanel = _pool.Request(CreateArgument());
 			_currentPanel.Base.SetParent(_hook, false);
 		}
 
@@ -62,4 +70,12 @@ namespace SBaier.Astrominer
 			_currentPanel = null;
 		}
 	}
+
+    public abstract class SelectedItemContextMenuCreator<T> : SelectedItemContextMenuCreator<T, T>
+    {
+	    protected override T CreateArgument()
+	    {
+		    return _selectedItem.Value;
+	    }
+    }
 }

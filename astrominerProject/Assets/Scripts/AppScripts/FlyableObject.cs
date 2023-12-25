@@ -31,18 +31,12 @@ namespace SBaier.Astrominer
 
         protected virtual void Start()
         {
-            InitMover();
             _mover.OnTargetReached += InvokeOnFlyTargetReached;
         }
 
         protected virtual void OnDestroy()
         {
             _mover.OnTargetReached -= InvokeOnFlyTargetReached;
-        }
-
-        private void InitMover()
-        {
-            _mover.SetMovementTarget(Position2D);
         }
 
         public void FlyTo(FlyTarget target)

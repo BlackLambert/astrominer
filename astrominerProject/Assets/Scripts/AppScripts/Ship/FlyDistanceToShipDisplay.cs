@@ -1,5 +1,5 @@
-using SBaier.DI;
 using System;
+using SBaier.DI;
 using TMPro;
 using UnityEngine;
 
@@ -12,12 +12,12 @@ namespace SBaier.Astrominer
         [SerializeField]
         private TextMeshProUGUI _text;
 
-        private Ship _ship;
+        private ActiveItem<Ship> _activeShip;
         private FlyTarget _flyTarget;
 
 		public void Inject(Resolver resolver)
 		{
-            _ship = resolver.Resolve<Ship>();
+			_activeShip = resolver.Resolve<ActiveItem<Ship>>();
             _flyTarget = resolver.Resolve<FlyTarget>();
         }
 
@@ -33,7 +33,7 @@ namespace SBaier.Astrominer
 
 		private string GetDistanceString()
 		{
-            return _flyTarget.DistanceTo(_ship.Position2D).ToString("n2");
+            return _activeShip.HasValue ? _flyTarget.DistanceTo(_activeShip.Value.Position2D).ToString("n2") : "?";
 		}
 	}
 }

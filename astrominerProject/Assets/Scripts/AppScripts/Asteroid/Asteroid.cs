@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class Asteroid : CosmicObject, Injectable, FlyTarget
+	public class Asteroid : CosmicObject, Injectable
 	{
 		private float _epsilon = 0.0001f;
 
@@ -129,6 +129,8 @@ namespace SBaier.Astrominer
 
 		public class Arguments
 		{
+			public Vector2 Position { get; }
+			public Quaternion Rotation { get; }
 			public int Quality { get; }
 			public int Size { get; }
 			public Color Color { get; }
@@ -136,12 +138,17 @@ namespace SBaier.Astrominer
 			public Color ExploitedColorReduction { get; }
 			public Ores TotalExploitableOres => AsteroidBodyMaterials.Ores;
 
-			public Arguments(int quality,
+			public Arguments(
+				Vector2 position,
+				Quaternion rotation,
+				int quality,
 				int size,
 				Color color, 
 				AsteroidBodyMaterials asteroidBodyMaterials,
 				Color exploitedColorReduction)
 			{
+				Position = position;
+				Rotation = rotation;
 				Quality = quality;
 				Size = size;
 				Color = color;
