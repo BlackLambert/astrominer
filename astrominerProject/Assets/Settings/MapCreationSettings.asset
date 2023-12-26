@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   asteroidAmountOptions:
   - <Amount>k__BackingField: 40
-    <MapSize>k__BackingField: {x: 38, y: 24}
+    <MapSize>k__BackingField: {x: 34, y: 20}
     <Zoom>k__BackingField: 12
-    <MapCenterPoint>k__BackingField: {x: 3, y: 0}
+    <MapCenterPoint>k__BackingField: {x: 0, y: 0}
   - <Amount>k__BackingField: 70
-    <MapSize>k__BackingField: {x: 47.5, y: 30}
+    <MapSize>k__BackingField: {x: 42.5, y: 25}
     <Zoom>k__BackingField: 15
-    <MapCenterPoint>k__BackingField: {x: 3.75, y: 0}
+    <MapCenterPoint>k__BackingField: {x: 0, y: 0}
   - <Amount>k__BackingField: 100
-    <MapSize>k__BackingField: {x: 59.375, y: 37.5}
+    <MapSize>k__BackingField: {x: 53.125, y: 31.25}
     <Zoom>k__BackingField: 18.75
-    <MapCenterPoint>k__BackingField: {x: 4.6875, y: 0}
+    <MapCenterPoint>k__BackingField: {x: 0, y: 0}
   <MinimalAsteroidDistance>k__BackingField: 2.6
   <SamplingRetriesOnFail>k__BackingField: 10
   <MaxSamplerTries>k__BackingField: 3
