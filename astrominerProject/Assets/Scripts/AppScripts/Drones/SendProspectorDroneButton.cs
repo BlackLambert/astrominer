@@ -27,7 +27,7 @@ namespace SBaier.Astrominer
 			_factory = resolver.Resolve<Factory<ProspectorDrone, DroneArguments>>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			CheckButtonActive();
 			_button.onClick.AddListener(SendDrone);
@@ -37,7 +37,7 @@ namespace SBaier.Astrominer
 			_ship.OnFlyTargetChanged += CheckButtonActive;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			_button.onClick.RemoveListener(SendDrone);
 			_drones.OnItemRemoved -= CheckButtonActive;
@@ -71,7 +71,7 @@ namespace SBaier.Astrominer
 		private void SendDrone()
 		{
 			Vector2 startPosition = _ship.Position2D;
-			DroneArguments settings = new DroneArguments(startPosition, _target, _base);
+			DroneArguments settings = new DroneArguments(startPosition, _target, _base, _ship.Player);
 			ProspectorDrone drone = _factory.Create(settings);
 			drone.transform.position = startPosition;
 			_drones.Add(drone);

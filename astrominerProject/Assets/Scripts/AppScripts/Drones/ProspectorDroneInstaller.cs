@@ -25,6 +25,8 @@ namespace SBaier.Astrominer
 			binder.Bind<ProspectorDrone>().And<Flyable>().To<ProspectorDrone>().FromInstance(_prospectorDrone).WithoutInjection();
 			binder.BindInstance(_mover).WithoutInjection();
 			binder.BindInstance(_arguments).WithoutInjection();
+			binder.BindInstance(_arguments.Player.IdentifiedAsteroids).WithoutInjection();
+			binder.BindInstance(_arguments.Player).WithoutInjection();
 		}
 	}
 }

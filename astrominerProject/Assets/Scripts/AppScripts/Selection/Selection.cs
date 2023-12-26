@@ -14,7 +14,7 @@ namespace SBaier.Astrominer
             DoSelect(selectable);
         }
 
-        private void TryDeselectCurrent()
+        public void TryDeselectCurrent()
         {
             if (HasSelection)
                 DeselectCurrent();

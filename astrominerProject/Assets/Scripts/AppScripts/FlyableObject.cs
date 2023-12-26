@@ -29,12 +29,12 @@ namespace SBaier.Astrominer
             _mover = resolver.Resolve<Mover>();
         }
 
-        protected virtual void Start()
+        protected virtual void OnEnable()
         {
             _mover.OnTargetReached += InvokeOnFlyTargetReached;
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void OnDisable()
         {
             _mover.OnTargetReached -= InvokeOnFlyTargetReached;
         }

@@ -14,6 +14,7 @@ namespace SBaier.Astrominer
 		private Pool<ShipInventoryItem, ExploitMachine> _itemPool;
 		private Ship _ship;
 		private ShipInventorySlot.Arguments _slotArguments;
+		private ShipInventorySlot _slot;
 		private int index => _slotArguments.Index;
 		private ShipInventoryItem _item;
 
@@ -22,6 +23,7 @@ namespace SBaier.Astrominer
 			_itemPool = resolver.Resolve<Pool<ShipInventoryItem, ExploitMachine>>();
 			_ship = resolver.Resolve<Ship>();
 			_slotArguments = resolver.Resolve<ShipInventorySlot.Arguments>();
+			_slot = resolver.Resolve<ShipInventorySlot>();
 		}
 
 		private void OnEnable()
@@ -30,14 +32,15 @@ namespace SBaier.Astrominer
 			_ship.Machines.OnItemAddedAt += TryCreateItemFor;
 			_ship.Machines.OnItemRemovedAt += RemoveItemFor;
 			_ship.Machines.OnItemReplacedAt += ChangeItem;
+			_slot.OnPool += ReturnItem;
 		}
 
 		private void OnDisable()
 		{
-			ReturnItem();
 			_ship.Machines.OnItemAddedAt -= TryCreateItemFor;
 			_ship.Machines.OnItemRemovedAt -= RemoveItemFor;
 			_ship.Machines.OnItemReplacedAt -= ChangeItem;
+			_slot.OnPool -= ReturnItem;
 		}
 
 		private void CreateItem()

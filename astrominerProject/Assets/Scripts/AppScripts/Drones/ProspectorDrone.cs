@@ -19,16 +19,16 @@ namespace SBaier.Astrominer
 			_settings = resolver.Resolve<DroneArguments>();
 		}
 
-		protected override void Start()
+		protected override void OnEnable()
 		{
-			base.Start();
+			base.OnEnable();
 			ChooseNextTarget();
 			OnFlyTargetReached += ChooseNextTarget;
 		}
 
-		protected override void OnDestroy()
+		protected override void OnDisable()
 		{
-			base.OnDestroy();
+			base.OnDisable();
 			OnFlyTargetReached -= ChooseNextTarget;
 		}
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class SelectionSpriteIndicator : SelectionIndicator, Injectable
+	public class SelectionSpriteIndicator : SelectionIndicator
 	{
 		[SerializeField]
 		private SpriteRenderer _image;

@@ -28,7 +28,6 @@ namespace SBaier.Astrominer
 		private void OnDisable()
 		{
 			_activeShip.OnValueChanged -= UpdatePanel;
-			TryReturnPanel();
 		}
 
 		private void UpdatePanel()
@@ -41,6 +40,7 @@ namespace SBaier.Astrominer
 		{
 			if (_currentPanel == null)
 				return;
+			_currentPanel.InvokeOnPool();
 			_pool.Return(_currentPanel);
 			_currentPanel = null;
 		}

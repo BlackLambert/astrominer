@@ -1,12 +1,16 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
     public class ShipInventoryPanel : MonoBehaviour
     {
+        public event Action OnPool;
         public ObservableList<ShipInventorySlot> Slots { get; } = new ObservableList<ShipInventorySlot>();
-        public List<ShipInventoryItem> Items { get; } = new List<ShipInventoryItem>();
+
+        public void InvokeOnPool()
+        {
+            OnPool?.Invoke();
+        }
     }
 }

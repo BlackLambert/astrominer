@@ -24,18 +24,22 @@ namespace SBaier.Astrominer
         {
             Init();
             _ship.Machines.OnLimitChanged += UpdateSlots;
+            _inventoryPanel.OnPool += ReturnSlots;
         }
 
         private void OnDisable()
         {
-            ReturnSlots();
             _ship.Machines.OnLimitChanged -= UpdateSlots;
+            _inventoryPanel.OnPool -= ReturnSlots;
         }
 
         private void ReturnSlots()
         {
             foreach (ShipInventorySlot slot in _slots)
+            {
+                slot.InvokeOnPool();
                 _slotsPool.Return(slot);
+            }
             _slots.Clear();
         }
 
