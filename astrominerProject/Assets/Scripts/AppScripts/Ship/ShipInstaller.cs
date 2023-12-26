@@ -25,10 +25,20 @@ namespace SBaier.Astrominer
 			binder.Bind<ActionRange>().ToNew<ShipActionRange>();
 			binder.BindInstance(_player.IdentifiedAsteroids).WithoutInjection();
 			binder.BindInstance(_settings).WithoutInjection();
-			binder.BindInstance(new Mover.Arguments(_settings.SpeedPerSecond));
+			binder.BindInstance(CreateMoverArguments());
 			binder.Bind<Ship>().And<Flyable>().To<Ship>().FromInstance(_ship).WithoutInjection();
 			binder.BindInstance(_mover).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
+		}
+
+		private Mover.Arguments CreateMoverArguments()
+		{
+			return new Mover.Arguments()
+			{
+				Acceleration = _settings.Acceleration,
+				BreakForce = _settings.BreakForce,
+				MaximalSpeed = _settings.MaxSpeedPerSecond
+			};
 		}
     }
 }

@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 680b9a00e41890c4b9380515665ad443, type: 3}
   m_Name: ShipSettings
   m_EditorClassIdentifier: 
-  <SpeedPerSecond>k__BackingField: 4
+  <MaxSpeedPerSecond>k__BackingField: 10
+  <Acceleration>k__BackingField: 6
+  <BreakForce>k__BackingField: 8
   <ActionRadius>k__BackingField: 4
+  <InventorySpace>k__BackingField: 3

@@ -15,10 +15,8 @@ MonoBehaviour:
   <QualityAmountRange>k__BackingField: {x: 3, y: 10}
   <SizeRange>k__BackingField: {x: 3, y: 10}
   <AsteroidName>k__BackingField: Asteroid {0}
-  <MaxObjectSizeAddition>k__BackingField: 0.2
-  <StartObjectSize>k__BackingField: 0.3
-  <MinPosition>k__BackingField: {x: -8, y: -4}
-  <MaxPosition>k__BackingField: {x: 8, y: 4}
+  <MaxObjectSizeAddition>k__BackingField: 0.4
+  <StartObjectSize>k__BackingField: 0.4
   <Color>k__BackingField: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   <ExploitedColorReduction>k__BackingField: {r: 0.2, g: 0.2, b: 0.2, a: 0}
   <BaseRockAmount>k__BackingField: 500
