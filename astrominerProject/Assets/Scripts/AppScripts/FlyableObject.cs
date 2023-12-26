@@ -8,6 +8,8 @@ namespace SBaier.Astrominer
     {
         private Mover _mover;
         private FlyTarget _flyTarget;
+        private FlyTarget _location;
+        
         public FlyTarget FlyTarget 
         {
             get => _flyTarget;
@@ -17,11 +19,23 @@ namespace SBaier.Astrominer
                 OnFlyTargetChanged?.Invoke();
             }
         }
+
+        public FlyTarget Location
+        {
+            get => _location;
+            private set
+            {
+                _location = value;
+                OnLocationChanged?.Invoke();
+            }
+        }
+        
         public Vector2 Position2D => transform.position;
         public bool IsFlying => !_mover.TargetReached;
 
         public event Action OnFlyTargetReached;
         public event Action OnFlyTargetChanged;
+        public event Action OnLocationChanged;
 
 
         public virtual void Inject(Resolver resolver)
@@ -31,22 +45,25 @@ namespace SBaier.Astrominer
 
         protected virtual void OnEnable()
         {
-            _mover.OnTargetReached += InvokeOnFlyTargetReached;
+            _mover.OnTargetReached += OnTargetReached;
         }
 
         protected virtual void OnDisable()
         {
-            _mover.OnTargetReached -= InvokeOnFlyTargetReached;
+            _mover.OnTargetReached -= OnTargetReached;
         }
 
         public void FlyTo(FlyTarget target)
         {
             _mover.SetMovementTarget(target.LandingPoint);
+            Location = null;
             FlyTarget = target;
         }
 
-        private void InvokeOnFlyTargetReached()
+        protected virtual void OnTargetReached()
         {
+            Location = _flyTarget;
+            FlyTarget = null;
             OnFlyTargetReached?.Invoke();
         }
     }

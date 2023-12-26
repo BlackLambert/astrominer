@@ -21,14 +21,14 @@ namespace SBaier.Astrominer
 		private void Start()
 		{
 			UpdateInteractivity();
-			_ship.OnFlyTargetReached += OnFlyTargetChange;
+			_ship.OnLocationChanged += OnFlyTargetChange;
 			_ship.OnFlyTargetChanged += OnFlyTargetChange;
 			_button.onClick.AddListener(TakeMachine);
 		}
 
         private void OnDestroy()
 		{
-			_ship.OnFlyTargetReached -= OnFlyTargetChange;
+			_ship.OnLocationChanged -= OnFlyTargetChange;
 			_ship.OnFlyTargetChanged -= OnFlyTargetChange;
 			_button.onClick.RemoveListener(TakeMachine);
 			RemoveCurrentAsteroid();
@@ -59,10 +59,10 @@ namespace SBaier.Astrominer
 
 		private void UpdateCurrentAsteroid()
 		{
-			if (_ship.FlyTarget == null || !(_ship.FlyTarget is Asteroid))
+			if (_ship.Location == null || !(_ship.Location is Asteroid))
 				RemoveCurrentAsteroid();
 			else
-				SetCurrentAsteroid(_ship.FlyTarget as Asteroid);
+				SetCurrentAsteroid(_ship.Location as Asteroid);
 		}
 
         private void SetCurrentAsteroid(Asteroid asteroid)

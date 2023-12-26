@@ -11,7 +11,6 @@ namespace SBaier.Astrominer
 		public LimitedObservableList<ExploitMachine> Machines { get; private set; }
 		public Ores CollectedOres { get; private set; } = new Ores();
 		public Player Player { get; private set; }
-		public FlyTarget Location { get; set; }
 
 		public override void Inject(Resolver resolver)
 		{

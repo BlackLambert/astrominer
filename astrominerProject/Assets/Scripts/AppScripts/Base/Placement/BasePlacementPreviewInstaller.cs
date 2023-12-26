@@ -38,15 +38,15 @@ namespace SBaier.Astrominer
 			binder.Bind<ActionRange>().ToNew<ShipSettingsActionRange>().WithArgument(_shipSettings);
 			binder.BindInstance(_base).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
-			binder.BindInstance(_detector).WithoutInjection();
-			binder.Bind<Provider<List<Asteroid>>>().ToInstance(CreateAsteroidsProvider()).WithoutInjection();
+			binder.Bind<MonoBehaviourInRangeDetector2D<Asteroid>>().ToInstance(_detector).WithoutInjection();
+			binder.Bind<Provider<IList<Asteroid>>>().ToInstance(CreateAsteroidsProvider()).WithoutInjection();
 			binder.BindInstance(_collisionDetector, nameof(Base)).WithoutInjection();
 		}
 
-		private Provider<List<Asteroid>> CreateAsteroidsProvider()
+		private Provider<IList<Asteroid>> CreateAsteroidsProvider()
 		{
-			BasicProvider<List<Asteroid>> result = new BasicProvider<List<Asteroid>>();
-			result.Value.Value = _map.Asteroids;
+			BasicProvider<IList<Asteroid>> result = new BasicProvider<IList<Asteroid>>();
+			result.Value.Value = _map.Asteroids.Value;
 			return result;
 		}
 	}

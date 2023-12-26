@@ -15,17 +15,17 @@ namespace SBaier.Astrominer
 
 		private void Start()
 		{
-			_ship.OnFlyTargetReached += TryCollectOre;
+			_ship.OnLocationChanged += TryCollectOre;
 		}
 
 		private void OnDestroy()
 		{
-			_ship.OnFlyTargetReached -= TryCollectOre;
+			_ship.OnLocationChanged -= TryCollectOre;
 		}
 
 		private void TryCollectOre()
 		{
-			if (_ship.FlyTarget is Asteroid asteroid &&
+			if (_ship.Location is Asteroid asteroid &&
 				asteroid.OwningPlayer == _ship.Player)
 				CollectOre(asteroid);
 		}

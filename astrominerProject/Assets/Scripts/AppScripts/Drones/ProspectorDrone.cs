@@ -6,12 +6,14 @@ namespace SBaier.Astrominer
 {
 	public class ProspectorDrone : FlyableObject
 	{
-		private DroneArguments _settings;
+		public event Action<ProspectorDrone> OnDone;
+		
 		public Asteroid Target => _settings.Target;
 		public Vector2 Origin => _settings.Origin;
 		public FlyTarget ReturnLocation => _settings.ReturnLocation;
 
-		public event Action<ProspectorDrone> OnDone;
+		private DroneArguments _settings;
+		private bool _targetReached;
 
 		public override void Inject(Resolver resolver)
 		{
@@ -22,24 +24,36 @@ namespace SBaier.Astrominer
 		protected override void OnEnable()
 		{
 			base.OnEnable();
+			_targetReached = false;
 			ChooseNextTarget();
-			OnFlyTargetReached += ChooseNextTarget;
 		}
 
-		protected override void OnDisable()
+		protected override void OnTargetReached()
 		{
-			base.OnDisable();
-			OnFlyTargetReached -= ChooseNextTarget;
+			base.OnTargetReached();
+
+			if (Location.Equals(Target))
+			{
+				_targetReached = true;
+			}
+			
+			ChooseNextTarget();
 		}
 
 		private void ChooseNextTarget()
 		{
-			if (FlyTarget == null)
+			if (!_targetReached)
+			{
 				FlyTo(Target);
-			else if (FlyTarget.Equals(Target))
+			}
+			else if(Location.Equals(Target))
+			{
 				FlyTo(ReturnLocation);
-			else
+			}
+			else if(Location.Equals(ReturnLocation))
+			{
 				OnDone?.Invoke(this);
+			}
 		}
 
 	}

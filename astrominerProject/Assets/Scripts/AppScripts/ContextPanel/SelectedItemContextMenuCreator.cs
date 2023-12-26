@@ -60,12 +60,17 @@ namespace SBaier.Astrominer
 
 		private void TryReturnCurrentContext()
 		{
-			if (_currentPanel != null)
-				ReturnCurrentContext();
+			if (_currentPanel == null)
+			{
+				return;
+			}
+			
+			ReturnCurrentContext();
 		}
 
 		private void ReturnCurrentContext()
 		{
+			_currentPanel.InvokeOnPooling();
 			_pool.Return(_currentPanel);
 			_currentPanel = null;
 		}

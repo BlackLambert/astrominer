@@ -16,17 +16,17 @@ namespace SBaier.Astrominer
 
 		private void Start()
 		{
-			_flyable.OnFlyTargetReached += TryIdentifyAsteroid;
+			_flyable.OnLocationChanged += TryIdentifyAsteroid;
 		}
 
 		private void OnDestroy()
 		{
-			_flyable.OnFlyTargetReached -= TryIdentifyAsteroid;
+			_flyable.OnLocationChanged -= TryIdentifyAsteroid;
 		}
 
 		private void TryIdentifyAsteroid()
 		{
-			if (_flyable.FlyTarget is Asteroid asteroid && !_asteroids.Contains(asteroid))
+			if (_flyable.Location is Asteroid asteroid && !_asteroids.Contains(asteroid))
 				_asteroids.Add(asteroid);
 		}
 	}

@@ -1,6 +1,6 @@
 namespace SBaier.Astrominer
 {
-    public class BaseSelector : ItemSelector<Base>
+    public class BaseSelector : CosmicObjectSelector<Base>
     {
     
     }

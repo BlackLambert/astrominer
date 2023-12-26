@@ -9,6 +9,8 @@ namespace SBaier.Astrominer
         private Selectable _selectable;
         [SerializeField]
         private Asteroid _asteroid;
+        [SerializeField] 
+        private AsteroidsInRangeDetector _detector;
 
         private Asteroid.Arguments _arguments;
 

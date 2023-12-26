@@ -18,6 +18,7 @@ namespace SBaier.Astrominer
 		public override void InstallBindings(Binder binder)
 		{
 			binder.BindInstance(_ship);
+			binder.BindInstance(_ship.Player);
 			binder.BindInstance(_inventoryPanel);
 			binder.Bind<ActiveItem<ShipInventoryItem>>().ToNew<SelectedInventoryItem>().AsSingle();
 			binder.BindToNewSelf<Selection>().AsSingle();

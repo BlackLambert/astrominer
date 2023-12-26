@@ -12,7 +12,7 @@ namespace SBaier.Astrominer
 
         public IReadOnlyList<TItem> ItemsInRange => _itemsInRange;
 
-        private Provider<List<TItem>> _provider;
+        private Provider<IList<TItem>> _provider;
         private List<TItem> _itemsInRange = new List<TItem>();
         private List<TItem> _itemsNotInRange = new List<TItem>();
         private float _distance;
@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
             _distance = arguments.Distance;
             _distanceSqr = _distance * _distance;
             _startPoint = arguments.StartPoint;
-            _provider = resolver.Resolve<Provider<List<TItem>>>();
+            _provider = resolver.Resolve<Provider<IList<TItem>>>();
             _itemsNotInRange.AddRange(_provider.Value.Value);
         }
 

@@ -6,13 +6,13 @@ namespace SBaier.Astrominer
     public class BasePlacementValidator : MonoBehaviour, Injectable
     {
         private BasePlacementContext _context;
-        private AsteroidsInRangeDetector _asteroidsDetector;
+        private MonoBehaviourInRangeDetector2D<Asteroid> _asteroidsDetector;
         private CollisionDetector2D _collisionDetector;
 
         public void Inject(Resolver resolver)
         {
             _context = resolver.Resolve<BasePlacementContext>();
-            _asteroidsDetector = resolver.Resolve<AsteroidsInRangeDetector>();
+            _asteroidsDetector = resolver.Resolve<MonoBehaviourInRangeDetector2D<Asteroid>>();
             _collisionDetector = resolver.Resolve<CollisionDetector2D>(nameof(Base));
         }
 

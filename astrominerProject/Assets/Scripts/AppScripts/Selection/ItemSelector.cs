@@ -9,7 +9,7 @@ namespace SBaier.Astrominer
         private ActiveItem<T> _selectedItem;
         private T _item;
 
-        public void Inject(Resolver resolver)
+        public virtual void Inject(Resolver resolver)
         {
             _selectable = resolver.Resolve<Selectable>();
             _selectedItem = resolver.Resolve<ActiveItem<T>>();
@@ -18,31 +18,44 @@ namespace SBaier.Astrominer
 
         private void OnEnable()
         {
-            _selectable.OnSelected += SelectItem;
+            _selectable.OnSelected += OnSelectableSelected;
             _selectable.OnDeselected += DeselectItem;
             InitSelection();
         }
 
         private void OnDisable()
         {
-            _selectable.OnSelected -= SelectItem;
+            _selectable.OnSelected -= OnSelectableSelected;
             _selectable.OnDeselected -= DeselectItem;
+
             if (_item.Equals(_selectedItem.Value))
+            {
                 DeselectItem();
+            }
+            
+            if (_selectable.IsSelected)
+            {
+                _selectable.Deselect();
+            }
         }
 
         private void InitSelection()
         {
             if (_selectable.IsSelected)
-                SelectItem();
+                SelectItem(_item);
         }
 
-        private void SelectItem()
+        private void OnSelectableSelected()
         {
-            _selectedItem.Value = _item;
+            SelectItem(_item);
         }
 
-        private void DeselectItem()
+        protected virtual void SelectItem(T item)
+        {
+            _selectedItem.Value = item;
+        }
+
+        protected virtual void DeselectItem()
         {
             _selectedItem.Value = default;
         }

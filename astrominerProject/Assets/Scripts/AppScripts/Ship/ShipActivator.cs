@@ -8,6 +8,7 @@ namespace SBaier.Astrominer
         private QueuedShips _queuedShips;
         private ActiveItem<Ship> _activeShip;
         private ActiveItem<Player> _activePlayer;
+        private Ship _currentShip;
 
         public void Inject(Resolver resolver)
         {
@@ -37,11 +38,29 @@ namespace SBaier.Astrominer
 
         private void OnActiveShipChanged()
         {
+            if (_currentShip != null)
+            {
+                _currentShip.OnFlyTargetChanged -= OnTargetChanged;
+            }
+            
             if (!_activeShip.HasValue)
             {
                 _activePlayer.Value = null;
                 Time.timeScale = 1;
                 TryActivateNextShip();
+            }
+            else
+            {
+                _currentShip = _activeShip.Value;
+                _currentShip.OnFlyTargetChanged += OnTargetChanged;
+            }
+        }
+
+        private void OnTargetChanged()
+        {
+            if (_currentShip.FlyTarget != null)
+            {
+                _activeShip.Value = null;
             }
         }
 

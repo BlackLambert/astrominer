@@ -1,6 +1,8 @@
+using SBaier.DI;
+
 namespace SBaier.Astrominer
 {
-    public class AsteroidSelector : ItemSelector<Asteroid>
+    public class AsteroidSelector : CosmicObjectSelector<Asteroid>
     {
         
     }

@@ -24,14 +24,14 @@ namespace SBaier.Astrominer
         {
             UpdateInteractable();
             _button.onClick.AddListener(OnClick);
-            _ship.OnFlyTargetReached += UpdateInteractable;
+            _ship.OnLocationChanged += UpdateInteractable;
             _ship.CollectedOres.OnValueChanged += UpdateInteractable;
         }
 
         private void OnDisable()
         {
             _button.onClick.RemoveListener(OnClick);
-            _ship.OnFlyTargetReached -= UpdateInteractable;
+            _ship.OnLocationChanged -= UpdateInteractable;
             _ship.CollectedOres.OnValueChanged -= UpdateInteractable;
         }
 
@@ -44,7 +44,7 @@ namespace SBaier.Astrominer
         private void UpdateInteractable()
         {
             bool hasCollectedOres = !_ship.CollectedOres.IsEmpty();
-            bool isAtBase = _ship.FlyTarget is Base playerBase && !_ship.IsFlying;
+            bool isAtBase = _ship.Location is Base && !_ship.IsFlying;
             _button.interactable = hasCollectedOres && isAtBase;
         }
     }
