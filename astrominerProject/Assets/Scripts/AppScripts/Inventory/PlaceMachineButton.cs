@@ -21,14 +21,19 @@ namespace SBaier.Astrominer
 		private void OnEnable()
 		{
 			UpdateInteractivity();
-			_activeItem.OnValueChanged += UpdateInteractivity;
+			_activeItem.OnValueChanged += OnActiveItemChanged;
 			_button.onClick.AddListener(PlaceMachine);
 		}
 
 		private void OnDisable()
 		{
-			_activeItem.OnValueChanged -= UpdateInteractivity;
+			_activeItem.OnValueChanged -= OnActiveItemChanged;
 			_button.onClick.RemoveListener(PlaceMachine);
+		}
+
+		private void OnActiveItemChanged(ShipInventoryItem formerValue, ShipInventoryItem newValue)
+		{
+			UpdateInteractivity();
 		}
 
 		private void UpdateInteractivity()

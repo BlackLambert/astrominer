@@ -1,10 +1,9 @@
-using System.Collections.Generic;
 using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AstroidsAmountContextUpdater : MonoBehaviour, Injectable
+    public class AsteroidsAmountContextUpdater : MonoBehaviour, Injectable
     {
         private MapCreationContext _context;
         private Map _map;
@@ -39,16 +38,15 @@ namespace SBaier.Astrominer
             _selectedAsteroidsAmount.OnValueChanged -= OnSelectedAsteroidsAmountChanged;
         }
 
-        private void OnSelectedAsteroidsAmountChanged()
+        private void OnSelectedAsteroidsAmountChanged(AsteroidAmountOption formerValue, AsteroidAmountOption newValue)
         {
-            if (_selectedAsteroidsAmount.Value == null)
+            if (newValue == null)
             {
                 return;
             }
             
             _context.SelectedAsteroidsAmountOption.Value = _selectedAsteroidsAmount.Value;
             _map.AsteroidAmountOption.Value = _selectedAsteroidsAmount.Value;
-            _map.AsteroidArguments.Value = new List<Asteroid.Arguments>();
             _cameraZoom.Value.Value = _selectedAsteroidsAmount.Value.Zoom;
             Debug.Log($"Asteroid amount changed to: {_selectedAsteroidsAmount.Value}");
         }

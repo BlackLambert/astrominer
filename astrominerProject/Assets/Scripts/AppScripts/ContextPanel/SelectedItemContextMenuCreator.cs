@@ -23,13 +23,13 @@ namespace SBaier.Astrominer
 		private void OnEnable()
 		{
 			TryCreateNewContextInfoPanel();
-			_selectedItem.OnValueChanged += ReplaceContext;
+			_selectedItem.OnValueChanged += OnSelectedItemChanged;
 		}
 
 		private void OnDisable()
 		{
 			TryReturnCurrentContext();
-			_selectedItem.OnValueChanged -= ReplaceContext;
+			_selectedItem.OnValueChanged -= OnSelectedItemChanged;
 		}
 
 		protected abstract TArgument CreateArgument();
@@ -37,6 +37,11 @@ namespace SBaier.Astrominer
 		protected virtual bool CanCreateContextPanel()
 		{
 			return _selectedItem.HasValue;
+		}
+
+		private void OnSelectedItemChanged(T formerValue, T newValue)
+		{
+			ReplaceContext();
 		}
 
 		private void ReplaceContext()

@@ -32,7 +32,7 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindToNewSelf<BasePlacementContext>().AsSingle();
+			binder.BindInstance(CreateBasePlacementContext());
 			binder.BindInstance(new AsteroidsInRangeDetector.Arguments
 				{ Distance = _shipSettings.ActionRadius, StartPoint = _startPoint });
 			binder.Bind<ActionRange>().ToNew<ShipSettingsActionRange>().WithArgument(_shipSettings);
@@ -41,6 +41,16 @@ namespace SBaier.Astrominer
 			binder.Bind<MonoBehaviourInRangeDetector2D<Asteroid>>().ToInstance(_detector).WithoutInjection();
 			binder.Bind<Provider<IList<Asteroid>>>().ToInstance(CreateAsteroidsProvider()).WithoutInjection();
 			binder.BindInstance(_collisionDetector, nameof(Base)).WithoutInjection();
+		}
+
+		private BasePlacementContext CreateBasePlacementContext()
+		{
+			BasePlacementContext result = new BasePlacementContext();
+			bool isComputerPlayer = !_player.IsHuman;
+			result.Started.Value = isComputerPlayer;
+			result.Placed.Value = isComputerPlayer;
+			result.PlacementIsValid.Value = isComputerPlayer;
+			return result;
 		}
 
 		private Provider<IList<Asteroid>> CreateAsteroidsProvider()

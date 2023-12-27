@@ -9,16 +9,17 @@ namespace SBaier.Astrominer
         private Selectable _selectable;
         [SerializeField]
         private PlayerColorSelectionItem _item;
-        private Color _color;
+        private PlayerColorOption _colorOption;
 
         public void Inject(Resolver resolver)
         {
-            _color = resolver.Resolve<Color>();
+            _colorOption = resolver.Resolve<PlayerColorOption>();
         }
 
         public override void InstallBindings(Binder binder)
         {
-            binder.BindInstance(_color);
+            binder.BindInstance(_colorOption);
+            binder.BindInstance(_colorOption.Color);
             binder.BindInstance(_item);
             binder.BindInstance(_selectable);
         }

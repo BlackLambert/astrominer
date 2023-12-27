@@ -16,7 +16,7 @@ namespace SBaier.Astrominer
 		public Player Create(Arguments arguments)
 		{
 			Guid iD = Guid.NewGuid();
-			Player result = new Player(iD, arguments.Color, arguments.Name);
+			Player result = new Player(iD, arguments.Color, arguments.Name, arguments.IsHuman);
 			result.Credits.Add(_settings.StartCredits);
 			return result;
 		}
@@ -25,11 +25,13 @@ namespace SBaier.Astrominer
         {
 			public Color Color { get; }
 			public string Name { get; }
+			public bool IsHuman { get; }
 
-			public Arguments(Color color, string name)
+			public Arguments(Color color, string name, bool isHuman)
             {
 				Color = color;
 				Name = name;
+				IsHuman = isHuman;
             }
         }
 	}

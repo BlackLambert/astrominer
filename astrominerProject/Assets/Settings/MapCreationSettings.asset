@@ -25,6 +25,11 @@ MonoBehaviour:
     <MapSize>k__BackingField: {x: 53.125, y: 31.25}
     <Zoom>k__BackingField: 18.75
     <MapCenterPoint>k__BackingField: {x: 0, y: 0}
+  <AsteroidsAmountRange>k__BackingField: {x: 20, y: 150}
+  <StartAsteroidAmount>k__BackingField: 50
+  <StartMapSize>k__BackingField: {x: 30, y: 20}
+  <EndMapSize>k__BackingField: {x: 66, y: 44}
+  <CameraSizeRange>k__BackingField: {x: 11.4, y: 25}
   <MinimalAsteroidDistance>k__BackingField: 2.8
   <SamplingRetriesOnFail>k__BackingField: 10
   <MaxSamplerTries>k__BackingField: 3

@@ -4,11 +4,12 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class AddPlayerButton : MonoBehaviour, Injectable
+    public abstract class AddPlayerButton : MonoBehaviour, Injectable
     {
         [SerializeField]
         private Button _button;
 
+        protected abstract bool isHuman { get; }
         private MatchmakingPlayerCreator _playerCreator;
 
         public void Inject(Resolver resolver)
@@ -41,7 +42,7 @@ namespace SBaier.Astrominer
 
         private void CreatePlayer()
         {
-            _playerCreator.CreatePlayer();
+            _playerCreator.CreatePlayer(isHuman);
         }
     }
 }

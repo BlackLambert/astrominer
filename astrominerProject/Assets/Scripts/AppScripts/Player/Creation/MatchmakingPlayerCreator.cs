@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
@@ -30,24 +29,34 @@ namespace SBaier.Astrominer
             _players = resolver.Resolve<Players>();
             _playerFactory = resolver.Resolve<Factory<Player, PlayerFactory.Arguments>>();
 
-            _chosenColor.OnValueChanged += CheckPlayerCreatable;
-            _chosenName.OnValueChanged += CheckPlayerCreatable;
+            _chosenColor.OnValueChanged += OnColorChanged;
+            _chosenName.OnValueChanged += OnNameChanged;
             CheckPlayerCreatable();
         }
 
         public void Dispose()
         {
-            _chosenColor.OnValueChanged -= CheckPlayerCreatable;
-            _chosenName.OnValueChanged -= CheckPlayerCreatable;
+            _chosenColor.OnValueChanged -= OnColorChanged;
+            _chosenName.OnValueChanged -= OnNameChanged;
         }
 
-        public void CreatePlayer()
+        public void CreatePlayer(bool isHuman)
         {
             if (!IsPlayerCreatable)
                 throw new InvalidOperationException("Failed to create player. Required arguments are missing.");
-            PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.Color, _chosenName.Value);
+            PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.ColorOption.Color, _chosenName.Value, isHuman);
             _players.Add(_playerFactory.Create(args));
             ClearSelection();
+        }
+
+        private void OnNameChanged(string formervalue, string newvalue)
+        {
+            CheckPlayerCreatable();
+        }
+
+        private void OnColorChanged(PlayerColorSelectionItem formervalue, PlayerColorSelectionItem newvalue)
+        {
+            CheckPlayerCreatable();
         }
 
         private void CheckPlayerCreatable()

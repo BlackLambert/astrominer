@@ -22,12 +22,17 @@ namespace SBaier.Astrominer
 		private void OnEnable()
 		{
 			TryCreatePanel();
-			_activeShip.OnValueChanged += UpdatePanel;
+			_activeShip.OnValueChanged += OnActiveShipChanged;
 		}
 
 		private void OnDisable()
 		{
-			_activeShip.OnValueChanged -= UpdatePanel;
+			_activeShip.OnValueChanged -= OnActiveShipChanged;
+		}
+
+		private void OnActiveShipChanged(Ship formerValue, Ship newValue)
+		{
+			UpdatePanel();
 		}
 
 		private void UpdatePanel()

@@ -36,7 +36,7 @@ namespace SBaier.Astrominer
             TryActivateNextShip();
         }
 
-        private void OnActiveShipChanged()
+        private void OnActiveShipChanged(Ship formerValue, Ship newValue)
         {
             if (_currentShip != null)
             {

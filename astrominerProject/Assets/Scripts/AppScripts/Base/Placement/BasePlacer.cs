@@ -19,6 +19,7 @@ namespace SBaier.Astrominer
 		private int _currentPlayerIndex = 0;
 		private List<BasePlacementPreview> _bases = new List<BasePlacementPreview>();
 		private BasePositions _positions;
+		private BasePositionGetter _basePositionGetter;
 
 		public void Inject(Resolver resolver)
 		{
@@ -26,6 +27,7 @@ namespace SBaier.Astrominer
 			_basePreviewPool = resolver.Resolve<Pool<BasePlacementPreview, Player>>();
 			_context = resolver.Resolve<BasesPlacementContext>();
 			_positions = resolver.Resolve<BasePositions>();
+			_basePositionGetter = resolver.Resolve<BasePositionGetter>();
 		}
 
 		private void OnEnable()
@@ -62,16 +64,31 @@ namespace SBaier.Astrominer
 
 			Player player = _players[_currentPlayerIndex];
 			_context.CurrentPlayer.Value = player;
-			CreateBase(player);
+			
+			if (player.IsHuman)
+			{
+				CreateBase(player, _baseStartPosition);
+			}
+			else
+			{
+				CreateComputerPlayerBase(player);
+			}
 		}
 
-		private void CreateBase(Player player)
+		private void CreateBase(Player player, Vector3 position)
 		{
 			BasePlacementPreview basePreview = _basePreviewPool.Request(player);
 			Transform baseTransform = basePreview.transform;
 			baseTransform.SetParent(_hook);
-			baseTransform.position = _baseStartPosition;
+			baseTransform.position = position;
 			_currentPlayerIndex++;
+		}
+
+		private void CreateComputerPlayerBase(Player player)
+		{
+			Vector2 position = _basePositionGetter.GetFor(player);
+			CreateBase(player, position);
+			_positions.Add(player, position);
 		}
 
 		private void ClearBases()

@@ -7,7 +7,7 @@ namespace SBaier.Astrominer
     public class PlayerSettings : ScriptableObject
     {
         [field: SerializeField]
-        public List<Color> PlayerColors { get; private set; } = new List<Color>();
+        public List<PlayerColorOption> PlayerColors { get; private set; } = new List<PlayerColorOption>();
         [field: SerializeField]
         public float StartCredits { get; private set; } = 10_000;
     }

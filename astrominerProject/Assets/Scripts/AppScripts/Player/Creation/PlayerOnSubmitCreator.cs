@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using SBaier.DI;
 using TMPro;
 using UnityEngine;
@@ -38,7 +35,7 @@ namespace SBaier.Astrominer
 
         private void CreatePlayer()
         {
-            _playerCreator.CreatePlayer();
+            _playerCreator.CreatePlayer(true);
         }
     }
 }

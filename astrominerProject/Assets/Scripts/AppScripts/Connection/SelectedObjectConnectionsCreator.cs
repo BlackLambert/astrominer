@@ -24,21 +24,21 @@ namespace SBaier.Astrominer
         {
             UpdateDrawer();
             _activeCosmicObject.OnValueChanged += OnActiveCosmicObjectChanged;
-            _activeShip.OnValueChanged += ActiveShipChanged;
+            _activeShip.OnValueChanged += OnActiveShipChanged;
         }
 
         private void OnDisable()
         {
             _activeCosmicObject.OnValueChanged -= OnActiveCosmicObjectChanged;
-            _activeShip.OnValueChanged -= ActiveShipChanged;
+            _activeShip.OnValueChanged -= OnActiveShipChanged;
         }
 
-        private void OnActiveCosmicObjectChanged()
+        private void OnActiveCosmicObjectChanged(CosmicObject formerValue, CosmicObject newValue)
         {
             UpdateDrawer();
         }
 
-        private void ActiveShipChanged()
+        private void OnActiveShipChanged(Ship formerValue, Ship newValue)
         {
             UpdateDrawer();
         }

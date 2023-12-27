@@ -1,5 +1,3 @@
-using System;
-using PCGToolkit.Sampling;
 using SBaier.DI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,16 +10,14 @@ namespace SBaier.Astrominer
         private Button _button;
 
         private MapCreationContext _context;
-        private AsteroidArgumentsGenerator _generator;
-        private MapCreationSettings _creationSettings;
+        private MapCreator _mapCreator;
         private Map _map;
         private int _retries = 0;
 
         public void Inject(Resolver resolver)
         {
             _context = resolver.Resolve<MapCreationContext>();
-            _generator = resolver.Resolve<AsteroidArgumentsGenerator>();
-            _creationSettings = resolver.Resolve<MapCreationSettings>();
+            _mapCreator = resolver.Resolve<MapCreator>();
             _map = resolver.Resolve<Map>();
         }
 
@@ -58,23 +54,7 @@ namespace SBaier.Astrominer
 
         private void CreateMap()
         {
-            try
-            {
-                _map.AsteroidArguments.Value = _generator.GenerateMap(
-                    _context.SelectedAsteroidsAmountOption, _creationSettings.MinimalAsteroidDistance);
-                _retries = 0;
-            }
-            catch (PoissonDiskSampling2D.SamplingException)
-            {
-                if (_retries >= _creationSettings.SamplingRetriesOnFail)
-                {
-                    throw;
-                }
-
-                _retries++;
-                Debug.LogWarning("Failed to create asteroid positions. Retrying...");
-                CreateMap();
-            }
+            _map.AsteroidArguments.Value = _mapCreator.CreateMap();
         }
     }
 }

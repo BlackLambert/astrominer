@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
 			_visualSettings = resolver.Resolve<VisualsSettings>();
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			float diameter = _actionRange.Range * 2;
 			_radiusTransform.localScale = new Vector3(diameter, diameter, diameter);

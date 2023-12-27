@@ -1,7 +1,6 @@
 using SBaier.DI;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
@@ -15,12 +14,12 @@ namespace SBaier.Astrominer
         private GameObject _selectedOverlay;
 
         private Players _players;
-        public Color Color { get; private set; }
+        public PlayerColorOption ColorOption { get; private set; }
 
         public void Inject(Resolver resolver)
         {
             _players = resolver.Resolve<Players>();
-            Color = resolver.Resolve<Color>();
+            ColorOption = resolver.Resolve<PlayerColorOption>();
         }
 
         private void OnEnable()
@@ -36,7 +35,7 @@ namespace SBaier.Astrominer
 
         private bool IsColorUsed()
         {
-            return _players.ToReadonly().FirstOrDefault(p => p.Color == Color) != null;
+            return _players.ToReadonly().FirstOrDefault(p => p.Color == ColorOption.Color) != null;
         }
 
         private void UpdateState()

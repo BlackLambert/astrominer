@@ -28,7 +28,7 @@ namespace SBaier.Astrominer
             _activePlayer.OnValueChanged -= OnPlayerChanged;
         }
 
-        private void OnPlayerChanged()
+        private void OnPlayerChanged(Player formerValue, Player newValue)
         {
             UpdateActiveState();
         }

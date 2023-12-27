@@ -24,13 +24,18 @@ namespace SBaier.Astrominer
         private void OnEnable()
         {
             TryCreatePanel();
-            _activePlayer.OnValueChanged += UpdatePanel;
+            _activePlayer.OnValueChanged += OnValueChanged;
         }
 
         private void OnDisable()
         {
-            _activePlayer.OnValueChanged -= UpdatePanel;
+            _activePlayer.OnValueChanged -= OnValueChanged;
             TryReturnPanel();
+        }
+
+        private void OnValueChanged(Player formervalue, Player newvalue)
+        {
+            UpdatePanel();
         }
 
         private void UpdatePanel()

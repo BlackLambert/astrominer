@@ -24,9 +24,9 @@ namespace SBaier.Astrominer
             _activeShip.OnValueChanged -= OnActiveShipChanged;
         }
 
-        private void OnActiveShipChanged()
+        private void OnActiveShipChanged(Ship formerValue, Ship newValue)
         {
-            if (_activeShip.HasValue)
+            if (newValue == null)
             {
                 return;
             }

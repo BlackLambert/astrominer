@@ -33,6 +33,11 @@ namespace SBaier.Astrominer
             _chosenString.Value = text;
         }
 
+        private void UpdateInputFieldText(string formerValue, string newValue)
+        {
+            UpdateInputFieldText();
+        }
+
         private void UpdateInputFieldText()
         {
             if(_inputField.text != _chosenString.Value)
