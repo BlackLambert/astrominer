@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using SBaier.DI;
 using UnityEngine;
 
@@ -21,6 +22,12 @@ namespace SBaier.Astrominer
 
             binder.BindToNewSelf<BasePositions>()
                 .AsSingle();
+
+            binder.Bind<Provider<IList<CosmicObject>>>()
+                .ToNew<CosmicObjectsProvider>()
+                .AsSingle();
+
+            binder.BindToNewSelf<CosmicObjectInRangeGetter>();
         }
     }
 }

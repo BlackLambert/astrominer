@@ -45,14 +45,22 @@ namespace SBaier.Astrominer
             
             if (!_activeShip.HasValue)
             {
+                _currentShip = null;
                 _activePlayer.Value = null;
                 Time.timeScale = 1;
                 TryActivateNextShip();
             }
             else
             {
-                _currentShip = _activeShip.Value;
-                _currentShip.OnFlyTargetChanged += OnTargetChanged;
+                if (_activeShip.Value.FlyTarget == null)
+                {
+                    _currentShip = _activeShip.Value;
+                    _currentShip.OnFlyTargetChanged += OnTargetChanged;
+                }
+                else
+                {
+                    _activeShip.Value = null;
+                }
             }
         }
 
@@ -72,9 +80,14 @@ namespace SBaier.Astrominer
             }
 
             Ship next = _queuedShips.Dequeue();
-            _activeShip.Value = next;
+            
+            if (next.Player.IsHuman)
+            {
+                Time.timeScale = 0;
+            }
+            
             _activePlayer.Value = next.Player;
-            Time.timeScale = 0;
+            _activeShip.Value = next;
         }
     }
 }

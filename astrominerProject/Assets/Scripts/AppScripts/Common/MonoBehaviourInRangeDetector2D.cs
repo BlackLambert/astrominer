@@ -12,21 +12,19 @@ namespace SBaier.Astrominer
 
         public IReadOnlyList<TItem> ItemsInRange => _itemsInRange;
 
+        private float distanceSqr => _arguments.Distance.Value * _arguments.Distance.Value;
+        private Vector2 startPoint => _arguments.StartPoint.Value;
+        
         private Provider<IList<TItem>> _provider;
         private List<TItem> _itemsInRange = new List<TItem>();
         private List<TItem> _itemsNotInRange = new List<TItem>();
-        private float _distance;
-        private float _distanceSqr;
-        private Transform _startPoint;
+        private Arguments _arguments;
 
         public void Inject(Resolver resolver)
         {
-            Arguments arguments = resolver.Resolve<Arguments>();
-            _distance = arguments.Distance;
-            _distanceSqr = _distance * _distance;
-            _startPoint = arguments.StartPoint;
+            _arguments = resolver.Resolve<Arguments>();
             _provider = resolver.Resolve<Provider<IList<TItem>>>();
-            _itemsNotInRange.AddRange(_provider.Value.Value);
+            _itemsNotInRange.AddRange(_provider.Value);
         }
 
         private void OnEnable()
@@ -81,13 +79,13 @@ namespace SBaier.Astrominer
 
         private bool CheckItemInRange(TItem item)
         {
-            return ((Vector2)item.transform.position - (Vector2)_startPoint.position).sqrMagnitude <= _distanceSqr;
+            return ((Vector2)item.transform.position - startPoint).sqrMagnitude <= distanceSqr;
         }
 
         public struct Arguments
         {
-            public float Distance;
-            public Transform StartPoint;
+            public Provider<float> Distance;
+            public Provider<Vector2> StartPoint;
         }
     }
 }

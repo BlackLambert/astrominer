@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public interface Provider<TItem>
+    public class AgentPoolInstaller : MonoPoolInstaller<Agent, Agent.Arguments>
     {
-        public TItem Value { get; }
+        
     }
 }

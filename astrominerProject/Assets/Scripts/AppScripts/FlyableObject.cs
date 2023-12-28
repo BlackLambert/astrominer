@@ -62,9 +62,11 @@ namespace SBaier.Astrominer
 
         protected virtual void OnTargetReached()
         {
-            Location = _flyTarget;
-            FlyTarget = null;
+            FlyTarget flyTarget = _flyTarget;
             OnFlyTargetReached?.Invoke();
+            FlyTarget = null;
+            Debug.Log($"Set Location to {flyTarget}");
+            Location = flyTarget;
         }
     }
 }

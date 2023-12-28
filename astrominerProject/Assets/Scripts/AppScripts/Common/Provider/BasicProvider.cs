@@ -6,6 +6,8 @@ namespace SBaier.Astrominer
 {
     public class BasicProvider<TItem> : Provider<TItem>
     {
+        public TItem Value { get; }
+        
         public BasicProvider()
         {
             Value = new Observable<TItem>();
@@ -15,7 +17,5 @@ namespace SBaier.Astrominer
         {
             Value = new Observable<TItem>() { Value = item };
         }
-
-        public Observable<TItem> Value { get; }
     }
 }

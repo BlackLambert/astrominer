@@ -69,8 +69,8 @@ namespace SBaier.Astrominer
             
             _currentDrawer = _pool.Request(new MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments()
             {
-                Distance = _activeShip.Value.Range,
-                StartPoint = _activeCosmicObject.Value.transform
+                Distance = new ShipRangeProvider(_activeShip.Value),
+                StartPoint = new TransformPosition2DProvider(_activeCosmicObject.Value.transform)
             });
         }
     }

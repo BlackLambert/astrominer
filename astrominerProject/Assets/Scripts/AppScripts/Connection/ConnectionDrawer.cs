@@ -9,7 +9,7 @@ namespace SBaier.Astrominer
         private Pool<Connection> _connectionPool;
         private MonoBehaviourInRangeDetector2D<TItem> _asteroidsDetector;
         private Dictionary<TItem, Connection> _asteroidToConnection = new Dictionary<TItem, Connection>();
-        private Transform _startPoint;
+        private Provider<Vector2> _startPoint;
         private bool _active = true;
 
         public void Inject(Resolver resolver)
@@ -77,7 +77,7 @@ namespace SBaier.Astrominer
         private void AddConnection(TItem asteroid)
         {
             Connection connection = _connectionPool.Request();
-            Vector3 startPosition = _startPoint.position;
+            Vector2 startPosition = _startPoint.Value;
             connection.transform.position = startPosition;
             connection.SetEndpoints(startPosition, asteroid.transform.position);
             _asteroidToConnection.Add(asteroid, connection);
@@ -93,7 +93,7 @@ namespace SBaier.Astrominer
         {
             foreach (KeyValuePair<TItem, Connection> pair in _asteroidToConnection)
             {
-                pair.Value.SetEndpoints(_startPoint.position, pair.Key.transform.position);
+                pair.Value.SetEndpoints(_startPoint.Value, pair.Key.transform.position);
             }
         }
     }

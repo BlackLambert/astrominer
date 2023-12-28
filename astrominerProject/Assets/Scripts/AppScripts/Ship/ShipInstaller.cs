@@ -12,6 +12,8 @@ namespace SBaier.Astrominer
 		private Ship _ship;
 		[SerializeField]
 		private Mover _mover;
+		[SerializeField] 
+		private CosmicObjectInRangeDetector _obejctsInRangeDetector;
 
 		private Player _player;
 
@@ -29,6 +31,8 @@ namespace SBaier.Astrominer
 			binder.Bind<Ship>().And<Flyable>().To<Ship>().FromInstance(_ship).WithoutInjection();
 			binder.BindInstance(_mover).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
+			binder.BindInstance(_obejctsInRangeDetector).WithoutInjection();
+			binder.BindInstance(CreateDetectorArguments()).WithoutInjection();
 		}
 
 		private Mover.Arguments CreateMoverArguments()
@@ -38,6 +42,15 @@ namespace SBaier.Astrominer
 				Acceleration = _settings.Acceleration,
 				BreakForce = _settings.BreakForce,
 				MaximalSpeed = _settings.MaxSpeedPerSecond
+			};
+		}
+
+		private CosmicObjectInRangeDetector.Arguments CreateDetectorArguments()
+		{
+			return new MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments()
+			{
+				StartPoint = new TransformPosition2DProvider(_ship.transform),
+				Distance = new ShipRangeProvider(_ship)
 			};
 		}
     }
