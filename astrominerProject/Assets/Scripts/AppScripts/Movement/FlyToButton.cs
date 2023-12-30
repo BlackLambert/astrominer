@@ -41,7 +41,7 @@ namespace SBaier.Astrominer
 		private bool IsInteractable()
 		{
 			bool inRange = _target.IsInRange(_ship.Position2D, _ship.Range);
-			bool sameTarget = _target == _ship.Location;
+			bool sameTarget = _target == _ship.Location.Value;
 			return inRange && !sameTarget;
 		}
 	}

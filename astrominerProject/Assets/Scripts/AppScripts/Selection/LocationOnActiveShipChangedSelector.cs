@@ -36,7 +36,7 @@ namespace SBaier.Astrominer
 
         private void SelectLocation()
         {
-            if (!_activeShip.HasValue || _activeShip.Value.Location != _flyTarget)
+            if (!_activeShip.HasValue || _activeShip.Value.Location.Value != _flyTarget)
             {
                 return;
             }
