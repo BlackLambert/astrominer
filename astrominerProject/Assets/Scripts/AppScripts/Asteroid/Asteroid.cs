@@ -34,6 +34,7 @@ namespace SBaier.Astrominer
 		public Color ExploitedColorReduction => _arguments.ExploitedColorReduction;
 		public Ores TotalExploitableOres => _arguments.TotalExploitableOres;
 		public AsteroidBodyMaterials BodyMaterials => _arguments.AsteroidBodyMaterials;
+		public float Value => (1 - MinedPercentage) * (Size + Quality);
 
 		public event Action OnOreMined;
 		public event Action OnOresCollected;

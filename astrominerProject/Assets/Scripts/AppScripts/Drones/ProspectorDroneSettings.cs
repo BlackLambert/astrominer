@@ -13,5 +13,8 @@ namespace SBaier.Astrominer
 		
         [field: SerializeField]
         public float BreakForce { get; private set; } = 6;
+
+        [field: SerializeField] 
+        public float Price { get; private set; } = 300;
     }
 }

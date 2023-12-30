@@ -40,7 +40,7 @@ namespace SBaier.Astrominer
         {
             if (_currentShip != null)
             {
-                _currentShip.OnFlyTargetChanged -= OnTargetChanged;
+                _currentShip.FlyTarget.OnValueChanged -= OnTargetChanged;
             }
             
             if (!_activeShip.HasValue)
@@ -52,10 +52,10 @@ namespace SBaier.Astrominer
             }
             else
             {
-                if (_activeShip.Value.FlyTarget == null)
+                if (_activeShip.Value.FlyTarget.Value == null)
                 {
                     _currentShip = _activeShip.Value;
-                    _currentShip.OnFlyTargetChanged += OnTargetChanged;
+                    _currentShip.FlyTarget.OnValueChanged += OnTargetChanged;
                 }
                 else
                 {
@@ -64,9 +64,9 @@ namespace SBaier.Astrominer
             }
         }
 
-        private void OnTargetChanged()
+        private void OnTargetChanged(FlyTarget formerValue, FlyTarget newValue)
         {
-            if (_currentShip.FlyTarget != null)
+            if (newValue != null)
             {
                 _activeShip.Value = null;
             }

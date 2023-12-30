@@ -3,7 +3,7 @@ namespace SBaier.Astrominer
     public interface AIAction
     {
         public bool AllowsFollowAction { get; }
-        public int GetCurrentWeight();
-        public void Execute();
+        public float GetCurrentWeight(Ship ship);
+        public void Execute(Ship ship);
     }
 }

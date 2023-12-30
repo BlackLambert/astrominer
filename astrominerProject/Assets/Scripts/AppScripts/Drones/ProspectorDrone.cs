@@ -32,7 +32,7 @@ namespace SBaier.Astrominer
 		{
 			base.OnTargetReached();
 
-			if (Location.Equals(Target))
+			if (Location.Value.Equals(Target))
 			{
 				_targetReached = true;
 			}
@@ -46,11 +46,11 @@ namespace SBaier.Astrominer
 			{
 				FlyTo(Target);
 			}
-			else if(Location.Equals(Target))
+			else if(Location.Value.Equals(Target))
 			{
 				FlyTo(ReturnLocation);
 			}
-			else if(Location.Equals(ReturnLocation))
+			else if(Location.Value.Equals(ReturnLocation))
 			{
 				OnDone?.Invoke(this);
 			}

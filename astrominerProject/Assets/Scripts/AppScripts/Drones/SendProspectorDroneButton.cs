@@ -15,7 +15,9 @@ namespace SBaier.Astrominer
 		private Asteroid _target;
 		private Ship _ship;
 		private Base _base;
-		private Factory<ProspectorDrone, DroneArguments> _factory;
+		private Player _player;
+		private ProspectorDroneBuyer _buyer;
+		private ProspectorDroneSettings _settings;
 
 		public void Inject(Resolver resolver)
 		{
@@ -24,7 +26,9 @@ namespace SBaier.Astrominer
 			_target = resolver.Resolve<Asteroid>();
 			_ship = resolver.Resolve<Ship>();
 			_base = resolver.Resolve<Base>();
-			_factory = resolver.Resolve<Factory<ProspectorDrone, DroneArguments>>();
+			_player = resolver.Resolve<Player>();
+			_buyer = resolver.Resolve<ProspectorDroneBuyer>();
+			_settings = resolver.Resolve<ProspectorDroneSettings>();
 		}
 
 		private void OnEnable()
@@ -34,7 +38,7 @@ namespace SBaier.Astrominer
 			_drones.OnItemRemoved += CheckButtonActive;
 			_drones.OnItemAdded += CheckButtonActive;
 			_asteroids.OnItemAdded += CheckButtonActive;
-			_ship.OnFlyTargetChanged += CheckButtonActive;
+			_ship.FlyTarget.OnValueChanged += OnFlyTargetChanged;
 		}
 
 		private void OnDisable()
@@ -43,7 +47,13 @@ namespace SBaier.Astrominer
 			_drones.OnItemRemoved -= CheckButtonActive;
 			_drones.OnItemAdded -= CheckButtonActive;
 			_asteroids.OnItemAdded -= CheckButtonActive;
-			_ship.OnFlyTargetChanged -= CheckButtonActive;
+			_ship.FlyTarget.OnValueChanged -= OnFlyTargetChanged;
+			_player.Credits.OnAmountChanged += CheckButtonActive;
+		}
+
+		private void OnFlyTargetChanged(FlyTarget formervalue, FlyTarget newvalue)
+		{
+			CheckButtonActive();
 		}
 
 		private void CheckButtonActive()
@@ -65,16 +75,13 @@ namespace SBaier.Astrominer
 		{
 			return !_drones.ContainsDroneTo(_target) &&
 				!_asteroids.Contains(_target) &&
-				!_ship.IsFlying;
+				!_ship.IsFlying && 
+				_settings.Price <= _player.Credits.Amount;
 		}
 
 		private void SendDrone()
 		{
-			Vector2 startPosition = _ship.Position2D;
-			DroneArguments settings = new DroneArguments(startPosition, _target, _base, _ship.Player);
-			ProspectorDrone drone = _factory.Create(settings);
-			drone.transform.position = startPosition;
-			_drones.Add(drone);
+			_drones.Add(_buyer.BuyDrone(_ship, _target, _base));
 		}
 	}
 }

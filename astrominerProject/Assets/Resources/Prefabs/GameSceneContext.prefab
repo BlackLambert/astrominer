@@ -59,6 +59,7 @@ MonoBehaviour:
   - {fileID: 1063322693241304518}
   - {fileID: 673084373992589190}
   - {fileID: 6510552120183513388}
+  - {fileID: 792519382112096375}
   - {fileID: 1063322693537871875}
   - {fileID: 6609687654831275864}
   - {fileID: 6474382960742947335}
@@ -308,6 +309,7 @@ GameObject:
   - component: {fileID: 673084373992589190}
   - component: {fileID: 6510552120183513388}
   - component: {fileID: 9138802441570736643}
+  - component: {fileID: 792519382112096375}
   m_Layer: 0
   m_Name: Drones
   m_TagString: Untagged
@@ -369,6 +371,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hook: {fileID: 1063322694950191322}
+--- !u!114 &792519382112096375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063322694950191319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c9b0895b51787640ae0400aaa90541c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 1591a0ae1b490d147b8a862b3e3ef8c4, type: 2}
 --- !u!1 &1900914928727188829
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +501,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10003c0c58671b419616bfcb2de5c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buyExploiterSettings: {fileID: 11400000, guid: ae52b36561ac9c74699edbe2270f6575, type: 2}
+  _sendProspectorDroneSettings: {fileID: 11400000, guid: 8aa10096d34edf64ba33b8f821a0b8b9, type: 2}
 --- !u!1 &7440314443539201707
 GameObject:
   m_ObjectHideFlags: 0

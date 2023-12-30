@@ -33,14 +33,16 @@ namespace SBaier.Astrominer
 
         private void ExecuteNextAction()
         {
+            Ship ship = _activeShip.Value;
             if (!_activeShip.HasValue || _activeShip.Value.Player != _arguments.Player)
             {
                 return;
             }
 
             AIAction action = _arguments.Actions.Aggregate((action1, action2) =>
-                action1.GetCurrentWeight() > action2.GetCurrentWeight() ? action1 : action2);
-            action.Execute();
+                action1.GetCurrentWeight(ship) > action2.GetCurrentWeight(ship) ? action1 : action2);
+            Debug.Log($"Selected the action of type {action.GetType()} with weight {action.GetCurrentWeight(ship)} for player {ship.Player.Name}");
+            action.Execute(ship);
 
             if (action.AllowsFollowAction)
             {

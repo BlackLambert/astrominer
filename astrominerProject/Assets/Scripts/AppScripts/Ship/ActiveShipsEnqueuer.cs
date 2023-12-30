@@ -16,17 +16,17 @@ namespace SBaier.Astrominer
 
         private void OnEnable()
         {
-            _ship.OnLocationChanged += OnLocationChanged;
+            _ship.Location.OnValueChanged += OnLocationChanged;
         }
 
         private void OnDisable()
         {
-            _ship.OnLocationChanged -= OnLocationChanged;
+            _ship.Location.OnValueChanged -= OnLocationChanged;
         }
 
-        private void OnLocationChanged()
+        private void OnLocationChanged(FlyTarget formerValue, FlyTarget newValue)
         {
-            if (_ship.Location != null)
+            if (newValue != null)
             {
                 _queuedShips.Enqueue(_ship);
             }

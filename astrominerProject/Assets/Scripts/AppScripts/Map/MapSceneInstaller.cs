@@ -27,7 +27,17 @@ namespace SBaier.Astrominer
                 .ToNew<CosmicObjectsProvider>()
                 .AsSingle();
 
+            binder.Bind<Provider<IList<FlyTarget>>>()
+                .ToNew<FlyTargetsProvider>()
+                .AsSingle();
+
             binder.BindToNewSelf<CosmicObjectInRangeGetter>();
+
+            binder.BindToNewSelf<FlightPathFinder>();
+
+            binder.Bind<ActiveItem<IList<FlyTarget>>>()
+                .ToNew<ActiveFlightPath>()
+                .AsSingle();
         }
     }
 }

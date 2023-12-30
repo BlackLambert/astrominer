@@ -17,6 +17,7 @@ namespace SBaier.Astrominer
         private Ships _ships;
         private Random _random;
         private Map _map;
+        private Provider<IList<FlyTarget>> _flyTargetsProvider;
 
         public void Inject(Resolver resolver)
         {
@@ -25,6 +26,7 @@ namespace SBaier.Astrominer
             _ships = resolver.Resolve<Ships>();
             _random = resolver.Resolve<Random>();
             _map = resolver.Resolve<Map>();
+            _flyTargetsProvider = resolver.Resolve<Provider<IList<FlyTarget>>>();
         }
 
         private void Start()
@@ -66,6 +68,7 @@ namespace SBaier.Astrominer
             Transform shipTransform = ship.transform;
             shipTransform.SetParent(_hook, false);
             shipTransform.position = (Vector2)playerBase.transform.position + distanceVector;
+            ship.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, ship.Range);
             ship.FlyTo(playerBase);
         }
     }

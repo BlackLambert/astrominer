@@ -40,13 +40,13 @@ namespace SBaier.Astrominer
 		{
 			_button.interactable = 
 				_activeItem.HasValue &&
-			    _ship.Location is Asteroid asteroid &&
+			    _ship.Location.Value is Asteroid asteroid &&
 				!asteroid.HasOwningPlayer;
 		}
 
 		private void PlaceMachine()
 		{
-			Asteroid asteroid = _ship.Location as Asteroid;
+			Asteroid asteroid = _ship.Location.Value as Asteroid;
 			ShipInventoryItem selectedItem = _activeItem.Value;
 			ExploitMachine machine = selectedItem.Machine;
 			asteroid.SetOwningPlayer(_ship.Player);

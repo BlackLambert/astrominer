@@ -11,7 +11,7 @@ namespace SBaier.Astrominer
         private Transform _hook;
 
         private Pool<Agent, Agent.Arguments> _pool;
-        private Factory<List<AIAction>, Player> _actionsFactory;
+        private Factory<List<AIAction>> _actionsFactory;
         private Players _players;
 
         private List<Agent> _agents = new List<Agent>();
@@ -20,7 +20,7 @@ namespace SBaier.Astrominer
         {
             _pool = resolver.Resolve<Pool<Agent, Agent.Arguments>>();
             _players = resolver.Resolve<Players>();
-            _actionsFactory = resolver.Resolve<Factory<List<AIAction>, Player>>();
+            _actionsFactory = resolver.Resolve<Factory<List<AIAction>>>();
         }
 
         private void OnEnable()
@@ -51,7 +51,7 @@ namespace SBaier.Astrominer
             return new Agent.Arguments()
             {
                 Player = player,
-                Actions = _actionsFactory.Create(player)
+                Actions = _actionsFactory.Create()
             };
         }
     }
