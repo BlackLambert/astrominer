@@ -6,7 +6,7 @@ namespace SBaier.Astrominer
     public class FlightPathMover : Injectable
     {
         public event Action OnTargetReached;
-        public bool TargetReached => _path is { Finished: true };
+        public bool TargetReached => _path is null or { Finished: true };
 
         private FlightPath _path;
         private Mover _mover;

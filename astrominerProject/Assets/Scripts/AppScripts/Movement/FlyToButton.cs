@@ -48,7 +48,7 @@ namespace SBaier.Astrominer
 
 		private bool IsInteractable()
 		{
-			return _selectedFlightPath.HasValue;
+			return _selectedFlightPath.HasValue && _selectedFlightPath.Value.FlyTargets.Count > 1;
 		}
 	}
 }
