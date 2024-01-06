@@ -9,9 +9,8 @@ namespace SBaier.Astrominer
     {
         private const float _mapSpawnDistanceAdditionFactor = 0.1f;
 
-        [SerializeField] 
-        private Transform _hook;
-        
+        [SerializeField] private Transform _hook;
+
         private Bases _bases;
         private Pool<Ship, Player> _pool;
         private Ships _ships;
@@ -47,7 +46,7 @@ namespace SBaier.Astrominer
 
         private void CreateShips()
         {
-            foreach (KeyValuePair<Player,Base> pair in _bases)
+            foreach (KeyValuePair<Player, Base> pair in _bases)
             {
                 CreateShip(pair);
             }
@@ -64,12 +63,12 @@ namespace SBaier.Astrominer
             float maxMapSide = mapSize.x > mapSize.y ? mapSize.x : mapSize.y;
             float radius = maxMapSide + maxMapSide * _mapSpawnDistanceAdditionFactor;
             float angle = (float)_random.NextDouble() * 360f;
-            Vector2 distanceVector = Quaternion.AngleAxis(angle, new Vector3(0,0, 1)) * Vector2.up * radius;
+            Vector2 distanceVector = Quaternion.AngleAxis(angle, new Vector3(0, 0, 1)) * Vector2.up * radius;
             Transform shipTransform = ship.transform;
             shipTransform.SetParent(_hook, false);
             shipTransform.position = (Vector2)playerBase.transform.position + distanceVector;
             ship.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, ship.Range);
-            ship.FlyTo(playerBase);
+            ship.FlyTo(new FlightPath(new List<FlyTarget>() { playerBase, playerBase }));
         }
     }
 }

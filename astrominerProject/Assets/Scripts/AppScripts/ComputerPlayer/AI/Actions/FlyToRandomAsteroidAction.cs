@@ -7,7 +7,7 @@ namespace SBaier.Astrominer
     public class FlyToRandomAsteroidAction : AIAction, Injectable
     {
         public bool AllowsFollowAction => false;
-        
+
         private Random _random;
         private CosmicObjectInRangeGetter _inRangeGetter;
 
@@ -28,14 +28,14 @@ namespace SBaier.Astrominer
             int cosmicObjectsInRange = itemsInRange.Count;
             int randomIndex = _random.Next(cosmicObjectsInRange);
             CosmicObject next = itemsInRange[randomIndex];
-            
+
             if (ReferenceEquals(ship.Location.Value, next))
             {
                 Execute(ship);
             }
             else
             {
-                ship.FlyTo(next);
+                ship.FlyTo(new FlightPath(new List<FlyTarget>() { ship.Location.Value, next }));
             }
         }
     }

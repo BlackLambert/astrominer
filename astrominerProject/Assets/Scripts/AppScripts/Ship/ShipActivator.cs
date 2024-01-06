@@ -64,7 +64,7 @@ namespace SBaier.Astrominer
             }
         }
 
-        private void OnTargetChanged(FlyTarget formerValue, FlyTarget newValue)
+        private void OnTargetChanged(FlightPath formerValue, FlightPath newValue)
         {
             if (newValue != null)
             {

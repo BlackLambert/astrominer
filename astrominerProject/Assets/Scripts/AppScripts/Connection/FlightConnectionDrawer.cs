@@ -6,14 +6,14 @@ namespace SBaier.Astrominer
 {
     public class FlightConnectionDrawer : MonoBehaviour, Injectable
     {
-        private ActiveItem<IList<FlyTarget>> _activePath;
+        private ActiveItem<FlightPath> _activePath;
         private Pool<Connection> _connectionPool;
 
         private List<Connection> _currentConnections = new List<Connection>();
         
         public void Inject(Resolver resolver)
         {
-            _activePath = resolver.Resolve<ActiveItem<IList<FlyTarget>>>();
+            _activePath = resolver.Resolve<ActiveItem<FlightPath>>();
             _connectionPool = resolver.Resolve<Pool<Connection>>();
         }
 
@@ -28,7 +28,7 @@ namespace SBaier.Astrominer
             _activePath.OnValueChanged -= OnActivePathChanged;
         }
 
-        private void OnActivePathChanged(IList<FlyTarget> formervalue, IList<FlyTarget> newvalue)
+        private void OnActivePathChanged(FlightPath formervalue, FlightPath newvalue)
         {
             UpdateConnections();
         }
@@ -60,9 +60,9 @@ namespace SBaier.Astrominer
                 return;
             }
 
-            IList<FlyTarget> path = _activePath.Value;
+            FlightPath path = _activePath.Value;
 
-            if (path.Count <= 1)
+            if (path.FlyTargets.Count <= 1)
             {
                 return;
             }
@@ -70,10 +70,10 @@ namespace SBaier.Astrominer
             FlyTarget start;
             FlyTarget end;
 
-            for (int i = 1; i < path.Count; i++)
+            for (int i = 1; i < path.FlyTargets.Count; i++)
             {
-                start = path[i - 1];
-                end = path[i];
+                start = path.FlyTargets[i - 1];
+                end = path.FlyTargets[i];
                 Connection connection = _connectionPool.Request();
                 connection.SetEndpoints(start.LandingPoint, end.LandingPoint);
                 _currentConnections.Add(connection);

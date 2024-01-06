@@ -4,8 +4,8 @@ namespace SBaier.Astrominer
 {
     public interface Flyable
     {
-        Observable<FlyTarget> FlyTarget { get; }
+        Observable<FlightPath> FlyTarget { get; }
         Observable<FlyTarget> Location { get; }
-        public void FlyTo(FlyTarget target);
+        public void FlyTo(FlightPath target);
     }
 }

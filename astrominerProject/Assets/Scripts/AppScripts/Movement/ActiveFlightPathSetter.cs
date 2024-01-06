@@ -8,7 +8,7 @@ namespace SBaier.Astrominer
     {
         private ActiveItem<CosmicObject> _selectedCosmicObject;
         private ActiveItem<Ship> _activeShip;
-        private ActiveItem<IList<FlyTarget>> _activePath;
+        private ActiveItem<FlightPath> _activePath;
         private FlightPathFinder _pathFinder;
 
         public void Inject(Resolver resolver)
@@ -16,7 +16,7 @@ namespace SBaier.Astrominer
             _selectedCosmicObject = resolver.Resolve<ActiveItem<CosmicObject>>();
             _activeShip = resolver.Resolve<ActiveItem<Ship>>();
             _pathFinder = resolver.Resolve<FlightPathFinder>();
-            _activePath = resolver.Resolve<ActiveItem<IList<FlyTarget>>>();
+            _activePath = resolver.Resolve<ActiveItem<FlightPath>>();
         }
 
         private void OnEnable()
@@ -50,8 +50,10 @@ namespace SBaier.Astrominer
                 return;
             }
 
-            _activePath.Value = _pathFinder.GetPath(_activeShip.Value.FlightGraph, _activeShip.Value.Location.Value,
+            List<FlyTarget> targets = _pathFinder.GetPath(_activeShip.Value.FlightGraph,
+                _activeShip.Value.Location.Value,
                 _selectedCosmicObject.Value);
+            _activePath.Value = targets.Count > 0 ? new FlightPath(targets) : null;
         }
     }
 }

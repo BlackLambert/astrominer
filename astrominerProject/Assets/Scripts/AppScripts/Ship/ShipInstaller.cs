@@ -28,11 +28,12 @@ namespace SBaier.Astrominer
 			binder.BindInstance(_player.IdentifiedAsteroids).WithoutInjection();
 			binder.BindInstance(_settings).WithoutInjection();
 			binder.BindInstance(CreateMoverArguments());
-			binder.Bind<Ship>().And<Flyable>().To<Ship>().FromInstance(_ship).WithoutInjection();
+			binder.Bind<Ship>().And<Flyable>().And<OreCarrier>().To<Ship>().FromInstance(_ship).WithoutInjection();
 			binder.BindInstance(_mover).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
 			binder.BindInstance(_obejctsInRangeDetector).WithoutInjection();
 			binder.BindInstance(CreateDetectorArguments()).WithoutInjection();
+			binder.BindToNewSelf<FlightPathMover>().AsSingle();
 		}
 
 		private Mover.Arguments CreateMoverArguments()

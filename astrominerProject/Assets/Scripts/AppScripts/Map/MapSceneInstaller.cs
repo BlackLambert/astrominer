@@ -35,7 +35,7 @@ namespace SBaier.Astrominer
 
             binder.BindToNewSelf<FlightPathFinder>();
 
-            binder.Bind<ActiveItem<IList<FlyTarget>>>()
+            binder.Bind<ActiveItem<FlightPath>>()
                 .ToNew<ActiveFlightPath>()
                 .AsSingle();
         }

@@ -25,6 +25,7 @@ namespace SBaier.Astrominer
             binder.BindInstance(_arguments).WithoutInjection();
             binder.BindInstance(_arguments.Player.IdentifiedAsteroids).WithoutInjection();
             binder.BindInstance(_arguments.Player).WithoutInjection();
+            binder.BindToNewSelf<FlightPathMover>().AsSingle();
         }
 
         private Mover.Arguments CreateMoverArguments()

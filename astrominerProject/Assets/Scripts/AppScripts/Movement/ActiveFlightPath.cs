@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ActiveFlightPath : ActiveItem<IList<FlyTarget>>
+    public class ActiveFlightPath : ActiveItem<FlightPath>
     {
         
     }

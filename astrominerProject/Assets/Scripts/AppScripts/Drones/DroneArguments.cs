@@ -4,13 +4,13 @@ namespace SBaier.Astrominer
 {
     public class DroneArguments
     {
-        public Vector2 Origin { get; }
+        public FlyTarget Origin { get; }
         public Asteroid Target { get; }
         public FlyTarget ReturnLocation { get; }
         public Player Player { get; }
 
         public DroneArguments(
-            Vector2 origin,
+            FlyTarget origin,
             Asteroid target,
             FlyTarget returnLocation,
             Player player)

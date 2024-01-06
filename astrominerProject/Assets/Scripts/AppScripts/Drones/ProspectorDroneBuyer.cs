@@ -23,10 +23,9 @@ namespace SBaier.Astrominer
             }
 
             ship.Player.Credits.Request(_settings.Price);
-            Vector2 startPosition = ship.Position2D;
-            DroneArguments settings = new DroneArguments(startPosition, asteroid, playerBase, ship.Player);
+            DroneArguments settings = new DroneArguments(ship.Location.Value, asteroid, playerBase, ship.Player);
             ProspectorDrone drone = _factory.Create(settings);
-            drone.transform.position = startPosition;
+            drone.transform.position = ship.Position2D;
             return drone;
         }
     }

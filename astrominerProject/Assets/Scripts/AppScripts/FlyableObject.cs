@@ -5,9 +5,9 @@ namespace SBaier.Astrominer
 {
     public class FlyableObject : MonoBehaviour, Flyable, Injectable
     {
-        private Mover _mover;
+        private FlightPathMover _mover;
 
-        public Observable<FlyTarget> FlyTarget { get; } = new Observable<FlyTarget>();
+        public Observable<FlightPath> FlyTarget { get; } = new Observable<FlightPath>();
         public Observable<FlyTarget> Location { get; } = new Observable<FlyTarget>();
         
         public Vector2 Position2D => transform.position;
@@ -16,7 +16,7 @@ namespace SBaier.Astrominer
 
         public virtual void Inject(Resolver resolver)
         {
-            _mover = resolver.Resolve<Mover>();
+            _mover = resolver.Resolve<FlightPathMover>();
         }
 
         protected virtual void OnEnable()
@@ -29,16 +29,16 @@ namespace SBaier.Astrominer
             _mover.OnTargetReached -= OnTargetReached;
         }
 
-        public void FlyTo(FlyTarget target)
+        public void FlyTo(FlightPath path)
         {
-            _mover.SetMovementTarget(target.LandingPoint);
+            _mover.Move(path);
             Location.Value = null;
-            FlyTarget.Value = target;
+            FlyTarget.Value = path;
         }
 
         protected virtual void OnTargetReached()
         {
-            FlyTarget flyTarget = FlyTarget.Value;
+            FlyTarget flyTarget = FlyTarget.Value.LastTarget;
             FlyTarget.Value = null;
             Debug.Log($"Set Location to {flyTarget}");
             Location.Value = flyTarget;

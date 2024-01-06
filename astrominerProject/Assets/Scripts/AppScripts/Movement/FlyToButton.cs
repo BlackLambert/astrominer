@@ -9,40 +9,46 @@ namespace SBaier.Astrominer
         [SerializeField]
         private Button _button;
 
-		private FlyTarget _target;
 		private Ship _ship;
+		private ActiveItem<FlightPath> _selectedFlightPath;
 
 		public void Inject(Resolver resolver)
 		{
-			_target = resolver.Resolve<FlyTarget>();
 			_ship = resolver.Resolve<Ship>();
+			_selectedFlightPath = resolver.Resolve<ActiveItem<FlightPath>>();
 		}
 
 		private void OnEnable()
 		{
+			UpdateInteractable();
 			_button.onClick.AddListener(MoveToTarget);
-		}
-
-		private void Update()
-		{
-			_button.interactable = IsInteractable();
+			_selectedFlightPath.OnValueChanged += OnSelectedFlightPathChanged;
 		}
 
 		private void OnDisable()
 		{
+			_selectedFlightPath.OnValueChanged -= OnSelectedFlightPathChanged;
 			_button.onClick.RemoveListener(MoveToTarget);
+		}
+
+		private void OnSelectedFlightPathChanged(FlightPath formervalue, FlightPath newvalue)
+		{
+			UpdateInteractable();
 		}
 
 		private void MoveToTarget()
 		{
-			_ship.FlyTo(_target);
+			_ship.FlyTo(_selectedFlightPath.Value);
+		}
+
+		private void UpdateInteractable()
+		{
+			_button.interactable = IsInteractable();
 		}
 
 		private bool IsInteractable()
 		{
-			bool inRange = _target.IsInRange(_ship.Position2D, _ship.Range);
-			bool sameTarget = _target == _ship.Location.Value;
-			return inRange && !sameTarget;
+			return _selectedFlightPath.HasValue;
 		}
 	}
 }

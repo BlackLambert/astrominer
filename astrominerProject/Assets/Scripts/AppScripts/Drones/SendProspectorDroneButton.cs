@@ -51,7 +51,7 @@ namespace SBaier.Astrominer
 			_player.Credits.OnAmountChanged += CheckButtonActive;
 		}
 
-		private void OnFlyTargetChanged(FlyTarget formervalue, FlyTarget newvalue)
+		private void OnFlyTargetChanged(FlightPath formervalue, FlightPath newvalue)
 		{
 			CheckButtonActive();
 		}

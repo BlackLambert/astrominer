@@ -1,5 +1,6 @@
 using SBaier.DI;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -9,11 +10,10 @@ namespace SBaier.Astrominer
 		public event Action<ProspectorDrone> OnDone;
 		
 		public Asteroid Target => _settings.Target;
-		public Vector2 Origin => _settings.Origin;
+		public FlyTarget Origin => _settings.Origin;
 		public FlyTarget ReturnLocation => _settings.ReturnLocation;
 
 		private DroneArguments _settings;
-		private bool _targetReached;
 
 		public override void Inject(Resolver resolver)
 		{
@@ -24,37 +24,13 @@ namespace SBaier.Astrominer
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-			_targetReached = false;
-			ChooseNextTarget();
+			FlyTo(new FlightPath(new List<FlyTarget>() { Origin ,Target, ReturnLocation }));
 		}
 
 		protected override void OnTargetReached()
 		{
 			base.OnTargetReached();
-
-			if (Location.Value.Equals(Target))
-			{
-				_targetReached = true;
-			}
-			
-			ChooseNextTarget();
+			OnDone?.Invoke(this);
 		}
-
-		private void ChooseNextTarget()
-		{
-			if (!_targetReached)
-			{
-				FlyTo(Target);
-			}
-			else if(Location.Value.Equals(Target))
-			{
-				FlyTo(ReturnLocation);
-			}
-			else if(Location.Value.Equals(ReturnLocation))
-			{
-				OnDone?.Invoke(this);
-			}
-		}
-
 	}
 }

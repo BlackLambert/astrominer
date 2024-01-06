@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class Ship : FlyableObject
+	public class Ship : FlyableObject, OreCarrier
 	{
 		private ShipSettings _settings;
 
