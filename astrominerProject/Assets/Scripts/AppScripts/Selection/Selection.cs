@@ -10,14 +10,19 @@ namespace SBaier.Astrominer
 
         public void Select(Selectable selectable)
         {
-            TryDeselectCurrent();
+            if (HasSelection)
+            {
+                Selected.Deselect();
+            }
             DoSelect(selectable);
         }
 
         public void TryDeselectCurrent()
         {
             if (HasSelection)
+            {
                 DeselectCurrent();
+            }
         }
 
         public void DeselectCurrent()

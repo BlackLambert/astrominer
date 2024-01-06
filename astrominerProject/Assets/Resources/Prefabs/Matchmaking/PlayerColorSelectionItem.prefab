@@ -254,6 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Base>k__BackingField: {fileID: 8133231201297049587}
+  <Selectable>k__BackingField: {fileID: 5477335618989022078}
   _selectionToggler: {fileID: 6727822343243180221}
   _selectedOverlay: {fileID: 2921060577800311271}
 --- !u!114 &8087132047189334068

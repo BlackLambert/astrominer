@@ -8,6 +8,8 @@ namespace SBaier.Astrominer
     {
         [field: SerializeField]
         public RectTransform Base { get; private set; }
+        [field: SerializeField] 
+        public Selectable Selectable { get; private set; }
         [SerializeField]
         private ToggleSelectionOnClick _selectionToggler;
         [SerializeField]

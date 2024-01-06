@@ -11,13 +11,13 @@ namespace SBaier.Astrominer
 
         private PlayerSettings _playerSettings;
         private Pool<PlayerColorSelectionItem, PlayerColorOption> _pool;
-
-        private List<PlayerColorSelectionItem> _items = new List<PlayerColorSelectionItem>();
+        private ActiveItem<List<PlayerColorSelectionItem>> _items;
 
         public void Inject(Resolver resolver)
         {
             _playerSettings = resolver.Resolve<PlayerSettings>();
             _pool = resolver.Resolve<Pool<PlayerColorSelectionItem, PlayerColorOption>>();
+            _items = resolver.Resolve<ActiveItem<List<PlayerColorSelectionItem>>>();
         }
 
         private void OnEnable()
@@ -32,22 +32,35 @@ namespace SBaier.Astrominer
 
         private void CreateItems()
         {
+            List<PlayerColorSelectionItem> items = new List<PlayerColorSelectionItem>();
             foreach (PlayerColorOption color in _playerSettings.PlayerColors)
-                CreateItem(color);
+            {
+                items.Add(CreateItem(color));
+            }
+
+            _items.Value = items;
         }
 
-        private void CreateItem(PlayerColorOption color)
+        private PlayerColorSelectionItem CreateItem(PlayerColorOption color)
         {
             PlayerColorSelectionItem item = _pool.Request(color);
             item.Base.SetParent(_hook);
-            _items.Add(item);
+            return item;
         }
 
         private void ReturnItems()
         {
-            foreach (PlayerColorSelectionItem item in _items)
+            if (!_items.HasValue)
+            {
+                return;
+            }
+
+            foreach (PlayerColorSelectionItem item in _items.Value)
+            {
                 Return(item);
-            _items.Clear();
+            }
+            
+            _items.Value = null;
         }
 
         private void Return(PlayerColorSelectionItem item)

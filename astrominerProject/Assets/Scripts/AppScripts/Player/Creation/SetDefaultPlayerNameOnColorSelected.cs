@@ -17,15 +17,21 @@ namespace SBaier.Astrominer
 
         private void OnEnable()
         {
-            _activeColorOption.OnValueChanged += UpdatePlayerName;
+            UpdatePlayerName(_activeColorOption.Value);
+            _activeColorOption.OnValueChanged += OnColorChanged;
         }
 
         private void OnDisable()
         {
-            _activeColorOption.OnValueChanged -= UpdatePlayerName;
+            _activeColorOption.OnValueChanged -= OnColorChanged;
         }
 
-        private void UpdatePlayerName(PlayerColorSelectionItem formervalue, PlayerColorSelectionItem newvalue)
+        private void OnColorChanged(PlayerColorSelectionItem formervalue, PlayerColorSelectionItem newvalue)
+        {
+            UpdatePlayerName(newvalue);
+        }
+
+        private void UpdatePlayerName(PlayerColorSelectionItem newvalue)
         {
             if (!string.IsNullOrEmpty(_selectedPlayerName.Value) &&
                 _selectedPlayerName.Value != _currentOption?.DefaultPlayerName ||
