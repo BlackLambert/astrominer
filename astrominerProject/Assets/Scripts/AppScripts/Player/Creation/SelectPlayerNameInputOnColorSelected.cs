@@ -12,12 +12,12 @@ namespace SBaier.Astrominer
         [SerializeField] 
         private TMP_InputField _input;
         
-        private ActiveItem<PlayerColorSelectionItem> _activeColorOption;
+        private ActiveItem<PlayerColorOption> _activeColorOption;
 
 
         public void Inject(Resolver resolver)
         {
-            _activeColorOption = resolver.Resolve<ActiveItem<PlayerColorSelectionItem>>();
+            _activeColorOption = resolver.Resolve<ActiveItem<PlayerColorOption>>();
         }
 
         private void OnEnable()
@@ -30,7 +30,7 @@ namespace SBaier.Astrominer
             _activeColorOption.OnValueChanged -= SelectInput;
         }
 
-        private void SelectInput(PlayerColorSelectionItem formervalue, PlayerColorSelectionItem newvalue)
+        private void SelectInput(PlayerColorOption formervalue, PlayerColorOption newvalue)
         {
             _input.Select();
         }

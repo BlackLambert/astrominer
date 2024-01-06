@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class NoActiveShipDeselector : MonoBehaviour, Injectable
+    public class NoActiveShipCosmicObjectDeselector : MonoBehaviour, Injectable
     {
-        private Selection _selection;
         private ActiveItem<Ship> _activeShip;
+        private ActiveItem<CosmicObject> _activeCosmicObject;
 
         public void Inject(Resolver resolver)
         {
-            _selection = resolver.Resolve<Selection>();
             _activeShip = resolver.Resolve<ActiveItem<Ship>>();
+            _activeCosmicObject = resolver.Resolve<ActiveItem<CosmicObject>>();
         }
 
         private void OnEnable()
@@ -26,12 +26,12 @@ namespace SBaier.Astrominer
 
         private void OnActiveShipChanged(Ship formerValue, Ship newValue)
         {
-            if (newValue == null)
+            if (newValue != null)
             {
                 return;
             }
-            
-            _selection.TryDeselectCurrent();
+
+            _activeCosmicObject.Value = null;
         }
     }
 }

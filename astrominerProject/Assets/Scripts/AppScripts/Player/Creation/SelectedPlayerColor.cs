@@ -1,8 +1,6 @@
-using UnityEngine;
-
 namespace SBaier.Astrominer
 {
-    public class SelectedPlayerColor : ActiveItem<PlayerColorSelectionItem>
+    public class SelectedPlayerColor : ActiveItem<PlayerColorOption>
     {
         
     }

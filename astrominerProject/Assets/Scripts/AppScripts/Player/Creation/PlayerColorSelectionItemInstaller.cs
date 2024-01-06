@@ -6,8 +6,6 @@ namespace SBaier.Astrominer
     public class PlayerColorSelectionItemInstaller : MonoInstaller, Injectable
     {
         [SerializeField]
-        private Selectable _selectable;
-        [SerializeField]
         private PlayerColorSelectionItem _item;
         private PlayerColorOption _colorOption;
 
@@ -21,7 +19,6 @@ namespace SBaier.Astrominer
             binder.BindInstance(_colorOption);
             binder.BindInstance(_colorOption.Color);
             binder.BindInstance(_item);
-            binder.BindInstance(_selectable);
         }
     }
 }

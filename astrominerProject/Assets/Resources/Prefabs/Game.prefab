@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6917929373201948210}
   - component: {fileID: 2417173137368944525}
+  - component: {fileID: 5474554369651335825}
   m_Layer: 0
   m_Name: Asteroids
   m_TagString: Untagged
@@ -45,6 +46,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hook: {fileID: 6917929373201948210}
+--- !u!114 &5474554369651335825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 536513188050793641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d96f1ae47955e6442b0f61b624def8af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2878975642300098242
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +115,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e4c93f1dfc4c54f847b4d3128ab24a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3418436705090706569
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5897833649402610996}
+  - component: {fileID: 7671766598250114048}
+  - component: {fileID: 1415827416694809709}
+  m_Layer: 0
+  m_Name: Bases
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5897833649402610996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3418436705090706569}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 107515471609289184}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7671766598250114048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3418436705090706569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67c62cc5584d4cffb22c1bac82887fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1415827416694809709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3418436705090706569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34125dc3c802f1a40abe8ae8329a7d33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5703842485031685857
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,6 +185,7 @@ GameObject:
   - component: {fileID: 775875023179219442}
   - component: {fileID: 4844492281639589618}
   - component: {fileID: 4364670327870045147}
+  - component: {fileID: 2032253369815622203}
   m_Layer: 0
   m_Name: Ships
   m_TagString: Untagged
@@ -184,6 +255,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f744767f590b5744b23b319051290fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2032253369815622203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5703842485031685857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcb7ff74c23cb144833a03e0f5b7870, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7514361988335736375
@@ -267,6 +350,7 @@ Transform:
   - {fileID: 7743770349217843455}
   - {fileID: 4042400467571876297}
   - {fileID: 6740216377957191563}
+  - {fileID: 5897833649402610996}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

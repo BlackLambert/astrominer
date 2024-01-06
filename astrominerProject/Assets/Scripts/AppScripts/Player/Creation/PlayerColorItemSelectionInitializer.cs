@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using SBaier.DI;
 using UnityEngine;
@@ -7,50 +6,45 @@ namespace SBaier.Astrominer
 {
     public class PlayerColorItemSelectionInitializer : MonoBehaviour, Injectable
     {
+        private PlayerSettings _playerSettings;
         private Players _players;
-        private ActiveItem<PlayerColorSelectionItem> _selectedItem;
-        private ActiveItem<List<PlayerColorSelectionItem>> _items;
-        
+        private ActiveItem<PlayerColorOption> _selectedOption;
+
         public void Inject(Resolver resolver)
         {
             _players = resolver.Resolve<Players>();
-            _selectedItem = resolver.Resolve<ActiveItem<PlayerColorSelectionItem>>();
-            _items = resolver.Resolve<ActiveItem<List<PlayerColorSelectionItem>>>();
+            _selectedOption = resolver.Resolve<ActiveItem<PlayerColorOption>>();
+            _playerSettings = resolver.Resolve<PlayerSettings>();
         }
 
         private void OnEnable()
         {
             SelectFirstAvailableItem();
-            _selectedItem.OnValueChanged += OnSelectedItemChanged;
+            _selectedOption.OnValueChanged += OnSelectedItemChanged;
         }
 
         private void OnDisable()
         {
-            _selectedItem.OnValueChanged -= OnSelectedItemChanged;
+            _selectedOption.OnValueChanged -= OnSelectedItemChanged;
         }
 
-        private void OnSelectedItemChanged(PlayerColorSelectionItem formervalue, PlayerColorSelectionItem newvalue)
+        private void OnSelectedItemChanged(PlayerColorOption formervalue, PlayerColorOption newvalue)
         {
-            if (formervalue == null && newvalue == null)
-            {
-                return;
-            }
-            
             SelectFirstAvailableItem();
         }
 
         private void SelectFirstAvailableItem()
         {
-            if (_selectedItem.HasValue || !_items.HasValue)
+            if (_selectedOption.HasValue)
             {
                 return;
             }
 
-            foreach (PlayerColorSelectionItem item in _items.Value)
+            foreach (PlayerColorOption item in _playerSettings.PlayerColors)
             {
-                if (_players.All(player => player.Color != item.ColorOption.Color))
+                if (_players.All(player => player.Color != item.Color))
                 {
-                    item.Selectable.Select();
+                    _selectedOption.Value = item;
                     return;
                 }
             }

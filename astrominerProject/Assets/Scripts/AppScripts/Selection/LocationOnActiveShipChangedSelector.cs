@@ -5,18 +5,13 @@ namespace SBaier.Astrominer
 {
     public class LocationOnActiveShipChangedSelector : MonoBehaviour, Injectable
     {
-        [SerializeField] 
-        private Selectable _selectable;
-
-        private Selection _selection;
-        private FlyTarget _flyTarget;
         private ActiveItem<Ship> _activeShip;
+        private ActiveItem<CosmicObject> _activeCosmicObject;
 
         public void Inject(Resolver resolver)
         {
-            _selection = resolver.Resolve<Selection>();
-            _flyTarget = resolver.Resolve<FlyTarget>();
             _activeShip = resolver.Resolve<ActiveItem<Ship>>();
+            _activeCosmicObject = resolver.Resolve<ActiveItem<CosmicObject>>();
         }
 
         private void OnEnable()
@@ -36,12 +31,12 @@ namespace SBaier.Astrominer
 
         private void SelectLocation()
         {
-            if (!_activeShip.HasValue || _activeShip.Value.Location.Value != _flyTarget)
+            if (!_activeShip.HasValue || _activeShip.Value.Location.Value is not CosmicObject cosmicObject)
             {
                 return;
             }
-            
-            _selection.Select(_selectable);
+
+            _activeCosmicObject.Value = cosmicObject;
         }
     }
 }

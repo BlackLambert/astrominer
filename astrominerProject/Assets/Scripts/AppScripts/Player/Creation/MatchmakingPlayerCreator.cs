@@ -11,9 +11,8 @@ namespace SBaier.Astrominer
         private readonly Issue _duplicateNameIssue = new("Please provide a player name");
         private readonly Issue _noColorSelectedIssue = new("Please select a player color");
         
-        private ActiveItem<PlayerColorSelectionItem> _chosenColor;
+        private ActiveItem<PlayerColorOption> _chosenColor;
         private ActiveItem<string> _chosenName;
-        private Selection _selection;
         private Players _players;
         private Factory<Player, PlayerFactory.Arguments> _playerFactory;
         
@@ -23,9 +22,8 @@ namespace SBaier.Astrominer
 
         public void Inject(Resolver resolver)
         {
-            _chosenColor = resolver.Resolve<ActiveItem<PlayerColorSelectionItem>>();
+            _chosenColor = resolver.Resolve<ActiveItem<PlayerColorOption>>();
             _chosenName = resolver.Resolve<ActiveItem<string>>();
-            _selection = resolver.Resolve<Selection>();
             _players = resolver.Resolve<Players>();
             _playerFactory = resolver.Resolve<Factory<Player, PlayerFactory.Arguments>>();
 
@@ -44,7 +42,7 @@ namespace SBaier.Astrominer
         {
             if (!IsPlayerCreatable)
                 throw new InvalidOperationException("Failed to create player. Required arguments are missing.");
-            PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.ColorOption.Color, _chosenName.Value, isHuman);
+            PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.Color, _chosenName.Value, isHuman);
             _players.Add(_playerFactory.Create(args));
             ClearSelection();
         }
@@ -54,7 +52,7 @@ namespace SBaier.Astrominer
             CheckPlayerCreatable();
         }
 
-        private void OnColorChanged(PlayerColorSelectionItem formervalue, PlayerColorSelectionItem newvalue)
+        private void OnColorChanged(PlayerColorOption formervalue, PlayerColorOption newvalue)
         {
             CheckPlayerCreatable();
         }
@@ -82,8 +80,6 @@ namespace SBaier.Astrominer
         {
             _chosenName.Value = string.Empty;
             _chosenColor.Value = default;
-            if (_selection.HasSelection)
-                _selection.DeselectCurrent();
         }
 
         public struct Issue

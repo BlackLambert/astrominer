@@ -21,7 +21,6 @@ namespace SBaier.Astrominer
 			binder.BindInstance(_ship.Player);
 			binder.BindInstance(_inventoryPanel);
 			binder.Bind<ActiveItem<ShipInventoryItem>>().ToNew<SelectedInventoryItem>().AsSingle();
-			binder.BindToNewSelf<Selection>().AsSingle();
 		}
 	}
 }

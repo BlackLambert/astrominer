@@ -6,7 +6,7 @@ namespace SBaier.Astrominer
     {
         public override void InstallBindings(Binder binder)
         {
-            binder.BindToNewSelf<Selection>().AsSingle();
+            
         }
     }
 }

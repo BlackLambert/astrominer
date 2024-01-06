@@ -13,7 +13,6 @@ namespace SBaier.Astrominer
 		{
 			binder.BindInstance(_miningSettings);
 			binder.Bind<ActiveItem<Player>>().ToNew<ActivePlayer>().AsSingle();
-			binder.BindToNewSelf<Selection>().AsSingle();
 			binder.Bind<ActiveItem<CosmicObject>>().ToNew<SelectedCosmicObject>().AsSingle();
 		}
 	}

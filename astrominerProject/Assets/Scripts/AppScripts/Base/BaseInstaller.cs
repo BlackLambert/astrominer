@@ -6,8 +6,6 @@ namespace SBaier.Astrominer
 	public class BaseInstaller : MonoInstaller, Injectable
 	{
 		[SerializeField]
-		private Selectable _selectable;
-		[SerializeField]
 		private Base _base;
 
 		private Player _player;
@@ -19,9 +17,15 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.Bind<Base>().And<FlyTarget>().To<Base>().FromInstance(_base).WithoutInjection();
-			binder.BindInstance(_selectable).WithoutInjection();
-			binder.BindInstance(_player).WithoutInjection();
+			binder.Bind<Base>()
+				.And<FlyTarget>()
+				.And<CosmicObject>()
+				.To<Base>()
+				.FromInstance(_base)
+				.WithoutInjection();
+			
+			binder.BindInstance(_player)
+				.WithoutInjection();
 		}
 	}
 }

@@ -8,10 +8,6 @@ namespace SBaier.Astrominer
     {
         [field: SerializeField]
         public RectTransform Base { get; private set; }
-        [field: SerializeField] 
-        public Selectable Selectable { get; private set; }
-        [SerializeField]
-        private ToggleSelectionOnClick _selectionToggler;
         [SerializeField]
         private GameObject _selectedOverlay;
 
@@ -43,7 +39,6 @@ namespace SBaier.Astrominer
         private void UpdateState()
         {
             bool isColorUsed = IsColorUsed();
-            _selectionToggler.Activate(!isColorUsed);
             _selectedOverlay.SetActive(isColorUsed);
         }
     }
