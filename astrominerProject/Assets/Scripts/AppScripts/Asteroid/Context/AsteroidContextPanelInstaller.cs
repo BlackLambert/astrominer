@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
 			binder.BindInstance(_arguments.Ship.Player).WithoutInjection();
 			binder.BindInstance(_arguments.Ship).WithoutInjection();
 			binder.BindInstance(_arguments.Ship.Player.IdentifiedAsteroids).WithoutInjection();
-			binder.BindInstance(_arguments.Ship.Player.ProspectorDrones).WithoutInjection();
+			binder.BindInstance(_arguments.Ship.Player.Drones).WithoutInjection();
 			binder.BindInstance(_bases[_arguments.Ship.Player]).WithoutInjection();
 		}
 	}

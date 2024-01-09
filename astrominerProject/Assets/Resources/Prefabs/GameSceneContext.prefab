@@ -58,6 +58,7 @@ MonoBehaviour:
   _monoInstallers:
   - {fileID: 1063322693241304518}
   - {fileID: 673084373992589190}
+  - {fileID: 7701185579039821758}
   - {fileID: 6510552120183513388}
   - {fileID: 792519382112096375}
   - {fileID: 1063322693537871875}
@@ -297,6 +298,7 @@ GameObject:
   - component: {fileID: 6510552120183513388}
   - component: {fileID: 9138802441570736643}
   - component: {fileID: 792519382112096375}
+  - component: {fileID: 7701185579039821758}
   m_Layer: 0
   m_Name: Drones
   m_TagString: Untagged
@@ -331,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87e9a25016795e5498ab9df576f35888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 582546756850441473, guid: f799fbaeafaf7384ba30a05f2e75cdd8, type: 3}
+  _prefab: {fileID: 7719449377728343989, guid: f799fbaeafaf7384ba30a05f2e75cdd8, type: 3}
 --- !u!114 &6510552120183513388
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +372,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c9b0895b51787640ae0400aaa90541c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _settings: {fileID: 11400000, guid: 1591a0ae1b490d147b8a862b3e3ef8c4, type: 2}
+  _prospectorDroneSettings: {fileID: 11400000, guid: b322863c7c875ef4393a85230ff55cd5, type: 2}
+  _carrierDroneSettings: {fileID: 11400000, guid: 27ea41b1be6dd8c4591358c51b91d162, type: 2}
+--- !u!114 &7701185579039821758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063322694950191319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c2e6917ccf1bd94a95be63aab37f95a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 3694969166510169147, guid: b4e10630a62e09f4c8b98814b8ca0cd9, type: 3}
 --- !u!1 &1900914928727188829
 GameObject:
   m_ObjectHideFlags: 0

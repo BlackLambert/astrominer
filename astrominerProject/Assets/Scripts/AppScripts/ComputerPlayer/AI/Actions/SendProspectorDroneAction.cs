@@ -9,8 +9,8 @@ namespace SBaier.Astrominer
     {
         public bool AllowsFollowAction => true;
         private SendProspectorDroneActionSettings _settings;
-        private ProspectorDroneBuyer _buyer;
-        private ProspectorDroneSettings _droneSettings;
+        private DroneBuyer<ProspectorDrone> _buyer;
+        private DroneSettings _droneSettings;
         private Map _map;
         private Bases _bases;
 
@@ -20,8 +20,8 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _settings = resolver.Resolve<SendProspectorDroneActionSettings>();
-            _droneSettings = resolver.Resolve<ProspectorDroneSettings>();
-            _buyer = resolver.Resolve<ProspectorDroneBuyer>();
+            _droneSettings = _settings.DroneSettings;
+            _buyer = resolver.Resolve<DroneBuyer<ProspectorDrone>>();
             _map = resolver.Resolve<Map>();
             _bases = resolver.Resolve<Bases>();
 
@@ -70,7 +70,7 @@ namespace SBaier.Astrominer
             weight += miningAsteroidsValueSum * _settings.MiningAsteroidsValueWeightFactor;
 
             // Active drones amount
-            int dronesAmount = player.ProspectorDrones.Count;
+            int dronesAmount = player.Drones.Count;
             weight += dronesAmount * _settings.ActiveDronesWeightReductionFactor;
 
             // Interesting asteroids far enough?
@@ -84,7 +84,7 @@ namespace SBaier.Astrominer
         public void Execute(Ship ship)
         {
             Asteroid asteroid = GetBestUnidentifiedAsteroid(ship);
-            ship.Player.ProspectorDrones.Add(_buyer.BuyDrone(ship, asteroid, _bases.Get(ship.Player)));
+            ship.Player.Drones.Add(_buyer.BuyDrone(ship, asteroid, _bases.Get(ship.Player)));
         }
 
         private Asteroid GetBestUnidentifiedAsteroid(Ship ship)
@@ -107,7 +107,7 @@ namespace SBaier.Astrominer
         {
             return !asteroid.HasOwningPlayer &&
                    !player.IdentifiedAsteroids.Contains(asteroid) &&
-                   ship.Player.ProspectorDrones.All(drone => drone.Target != asteroid);
+                   ship.Player.Drones.All(drone => drone.Target != asteroid);
         }
 
         private Asteroid CompareAsteroids(Ship ship, Asteroid asteroid1, Asteroid asteroid2)

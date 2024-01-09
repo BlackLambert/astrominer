@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    [CreateAssetMenu(fileName = "ProspectorDroneSettings", menuName = "ScriptableObjects/ProspectorDroneSettings")]
-    public class ProspectorDroneSettings : ScriptableObject
+    [CreateAssetMenu(fileName = "DroneSettings", menuName = "ScriptableObjects/DroneSettings")]
+    public class DroneSettings : ScriptableObject
     {
         [field: SerializeField]
         public float MaxSpeedPerSecond { get; private set; } = 10;

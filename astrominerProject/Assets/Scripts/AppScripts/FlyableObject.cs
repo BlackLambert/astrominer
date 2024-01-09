@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class FlyableObject : MonoBehaviour, Flyable, Injectable
+    public abstract class FlyableObject : MonoBehaviour, Flyable, Injectable
     {
         private FlightPathMover _mover;
 

@@ -5,11 +5,11 @@ namespace SBaier.Astrominer
 {
 	public class DronesDestructor : MonoBehaviour, Injectable
 	{
-		private ProspectorDrones _drones;
+		private Drones _drones;
 
 		public void Inject(Resolver resolver)
 		{
-			_drones = resolver.Resolve<ProspectorDrones>();
+			_drones = resolver.Resolve<Drones>();
 		}
 
 		private void Start()
@@ -22,12 +22,12 @@ namespace SBaier.Astrominer
 			_drones.OnItemAdded -= AddDestructor;
 		}
 
-		private void AddDestructor(ProspectorDrone drone)
+		private void AddDestructor(Drone drone)
 		{
 			drone.OnDone += Destruct;
 		}
 
-		private void Destruct(ProspectorDrone drone)
+		private void Destruct(Drone drone)
 		{
 			drone.OnDone -= Destruct;
 			_drones.Remove(drone);

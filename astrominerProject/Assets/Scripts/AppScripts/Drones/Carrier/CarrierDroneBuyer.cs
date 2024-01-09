@@ -1,21 +1,20 @@
 using System;
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ProspectorDroneBuyer : Injectable
+    public class CarrierDroneBuyer : Injectable
     {
-        private Factory<ProspectorDrone, DroneArguments> _factory;
-        private ProspectorDroneSettings _settings;
+        private Factory<CarrierDrone, DroneArguments> _factory;
+        private DroneSettings _settings;
 
         public void Inject(Resolver resolver)
         {
-            _factory = resolver.Resolve<Factory<ProspectorDrone, DroneArguments>>();
-            _settings = resolver.Resolve<ProspectorDroneSettings>();
+            _factory = resolver.Resolve<Factory<CarrierDrone, DroneArguments>>();
+            _settings = resolver.Resolve<DroneSettings>();
         }
         
-        public ProspectorDrone BuyDrone(Ship ship, Asteroid asteroid, Base playerBase)
+        public Drone BuyDrone(Ship ship, Asteroid asteroid, Base playerBase)
         {
             if (ship.Player.Credits.Amount < _settings.Price)
             {
@@ -24,7 +23,7 @@ namespace SBaier.Astrominer
 
             ship.Player.Credits.Request(_settings.Price);
             DroneArguments settings = new DroneArguments(ship.Location.Value, asteroid, playerBase, ship.Player);
-            ProspectorDrone drone = _factory.Create(settings);
+            CarrierDrone drone = _factory.Create(settings);
             drone.transform.position = ship.Position2D;
             return drone;
         }

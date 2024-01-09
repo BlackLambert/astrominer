@@ -19,3 +19,4 @@ MonoBehaviour:
   <AsteroidDistanceMaxWeightValue>k__BackingField: 20
   <MiningAsteroidsValueWeightFactor>k__BackingField: -1
   <IdealDistanceRange>k__BackingField: {x: 3, y: 10}
+  <DroneSettings>k__BackingField: {fileID: 11400000, guid: b322863c7c875ef4393a85230ff55cd5, type: 2}

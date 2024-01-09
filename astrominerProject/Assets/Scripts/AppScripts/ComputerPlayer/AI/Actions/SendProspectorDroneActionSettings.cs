@@ -8,7 +8,6 @@ namespace SBaier.Astrominer
     [CreateAssetMenu(fileName = "SendProspectorDroneActionSettings", menuName = "ScriptableObjects/AIActions/SendProspectorDroneActionSettings")]
     public class SendProspectorDroneActionSettings : ScriptableObject
     {
-        
         [field: SerializeField] 
         public float BaseWeight { get; private set; } = 0;
 
@@ -29,5 +28,8 @@ namespace SBaier.Astrominer
 
         [field: SerializeField] 
         public Vector2 IdealDistanceRange { get; private set; } = new Vector2(6, 12);
+        
+        [field: SerializeField]
+        public DroneSettings DroneSettings { get; private set; }
     }
 }

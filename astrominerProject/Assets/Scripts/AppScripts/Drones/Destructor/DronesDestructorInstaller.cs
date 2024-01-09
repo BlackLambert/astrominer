@@ -13,7 +13,7 @@ namespace SBaier.Astrominer
         
         public override void InstallBindings(Binder binder)
         {
-            binder.BindInstance(_player.ProspectorDrones)
+            binder.BindInstance(_player.Drones)
                 .WithoutInjection();
         }
     }

@@ -3,25 +3,29 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class FlyableObjectOreCollector : MonoBehaviour, Injectable
+	public class OreCollector : MonoBehaviour, Injectable
 	{
-		private OreCarrier _carrier;
+		private FlyableObject _flyableObject;
+		private Ores _collectedOres;
+		private Player _player;
 
 		public void Inject(Resolver resolver)
 		{
-			_carrier = resolver.Resolve<OreCarrier>();
+			_flyableObject = resolver.Resolve<FlyableObject>();
+			_collectedOres = resolver.Resolve<Ores>();
+			_player = resolver.Resolve<Player>();
 		}
 
 		private void OnEnable()
 		{
-			AddListeners(_carrier.FlyTarget.Value);
-			_carrier.FlyTarget.OnValueChanged += OnFlyTargetChanged;
+			AddListeners(_flyableObject.FlyTarget.Value);
+			_flyableObject.FlyTarget.OnValueChanged += OnFlyTargetChanged;
 		}
 
 		private void OnDisable()
 		{
-			RemoveListeners(_carrier.FlyTarget.Value);
-			_carrier.FlyTarget.OnValueChanged -= OnFlyTargetChanged;
+			RemoveListeners(_flyableObject.FlyTarget.Value);
+			_flyableObject.FlyTarget.OnValueChanged -= OnFlyTargetChanged;
 		}
 
 		private void OnFlyTargetChanged(FlightPath formervalue, FlightPath newvalue)
@@ -55,7 +59,7 @@ namespace SBaier.Astrominer
 		private void OnTargetReached(FlyTarget flyTarget)
 		{
 			if (flyTarget is Asteroid asteroid &&
-			    asteroid.OwningPlayer == _carrier.Player)
+			    asteroid.OwningPlayer == _player)
 			{
 				CollectOre(asteroid);
 			}
@@ -63,7 +67,7 @@ namespace SBaier.Astrominer
 
 		private void CollectOre(Asteroid asteroid)
 		{
-			_carrier.CollectedOres.Add(asteroid.Collect());
+			_collectedOres.Add(asteroid.Collect());
 		}
 	}
 }

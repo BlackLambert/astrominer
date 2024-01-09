@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3953970815535074293}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5904949573519462234}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 0, g: 0.30270505, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,12 +108,13 @@ GameObject:
   m_Component:
   - component: {fileID: 5904949573519462234}
   - component: {fileID: 5904949573519462235}
-  - component: {fileID: 2731731639146341658}
   - component: {fileID: 5593771165206833721}
-  - component: {fileID: 1743017038269559043}
-  - component: {fileID: 7719449377728343989}
+  - component: {fileID: 2960817796572559832}
+  - component: {fileID: 3694969166510169147}
+  - component: {fileID: 4263028004528195539}
+  - component: {fileID: 8122340756372992948}
   m_Layer: 0
-  m_Name: ProspectorDrone
+  m_Name: CarrierDrone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,23 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monoInstallers:
-  - {fileID: 2731731639146341658}
+  - {fileID: 2960817796572559832}
   _scriptableObjectInstallers: []
---- !u!114 &2731731639146341658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5904949573519462214}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 358e29a9c77d55b46a6cf39314ff48a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _droneSettings: {fileID: 11400000, guid: b322863c7c875ef4393a85230ff55cd5, type: 2}
-  _drone: {fileID: 7719449377728343989}
-  _mover: {fileID: 5593771165206833721}
 --- !u!114 &5593771165206833721
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveable: {fileID: 5904949573519462234}
---- !u!114 &1743017038269559043
+--- !u!114 &2960817796572559832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,10 +173,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5904949573519462214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e59beb402bc2adc449d4d1a5f18bc3c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 858a487e1291b2740ba538e15a191910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7719449377728343989
+  _carrierDroneSettings: {fileID: 11400000, guid: 27ea41b1be6dd8c4591358c51b91d162, type: 2}
+  _drone: {fileID: 3694969166510169147}
+  _mover: {fileID: 5593771165206833721}
+--- !u!114 &3694969166510169147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,6 +188,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 5904949573519462214}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: effd7302cc038a543ac4b1efa87c384c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5137212641231254a963031c299f0ff8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4263028004528195539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904949573519462214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda234aceef6c6c4ca522243477e1892, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8122340756372992948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5904949573519462214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d62d16873e246e458fe9e6b0e22602c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

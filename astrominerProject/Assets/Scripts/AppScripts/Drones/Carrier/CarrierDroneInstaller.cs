@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ProspectorDroneInstaller : MonoInstaller, Injectable
+    public class CarrierDroneInstaller : MonoInstaller, Injectable
     {
-        [SerializeField] private ProspectorDroneSettings _prospectorDroneSettings;
-        [SerializeField] private ProspectorDrone _prospectorDrone;
+        [SerializeField] private DroneSettings _carrierDroneSettings;
+        [SerializeField] private CarrierDrone _drone;
         [SerializeField] private Mover _mover;
 
         private DroneArguments _arguments;
@@ -19,22 +19,22 @@ namespace SBaier.Astrominer
         public override void InstallBindings(Binder binder)
         {
             binder.BindInstance(CreateMoverArguments());
-            binder.Bind<ProspectorDrone>().And<Flyable>().To<ProspectorDrone>().FromInstance(_prospectorDrone)
+            binder.Bind<Drone>().And<Flyable>().And<FlyableObject>().To<CarrierDrone>().FromInstance(_drone)
                 .WithoutInjection();
             binder.BindInstance(_mover).WithoutInjection();
             binder.BindInstance(_arguments).WithoutInjection();
-            binder.BindInstance(_arguments.Player.IdentifiedAsteroids).WithoutInjection();
             binder.BindInstance(_arguments.Player).WithoutInjection();
             binder.BindToNewSelf<FlightPathMover>().AsSingle();
+            binder.BindToNewSelf<Ores>().AsSingle();
         }
 
         private Mover.Arguments CreateMoverArguments()
         {
             return new Mover.Arguments()
             {
-                Acceleration = _prospectorDroneSettings.Acceleration,
-                BreakForce = _prospectorDroneSettings.BreakForce,
-                MaximalSpeed = _prospectorDroneSettings.MaxSpeedPerSecond
+                Acceleration = _carrierDroneSettings.Acceleration,
+                BreakForce = _carrierDroneSettings.BreakForce,
+                MaximalSpeed = _carrierDroneSettings.MaxSpeedPerSecond
             };
         }
     }

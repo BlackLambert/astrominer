@@ -6,12 +6,14 @@ namespace SBaier.Astrominer
 	public class DronesInstaller : MonoInstaller
 	{
 		[SerializeField] 
-		private ProspectorDroneSettings _settings;
+		private DroneSettings _prospectorDroneSettings;
+		[SerializeField] 
+		private DroneSettings _carrierDroneSettings;
 		
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindToNewSelf<ProspectorDroneBuyer>();
-			binder.BindInstance(_settings).WithoutInjection();
+			binder.BindToNewSelf<DroneBuyer<ProspectorDrone>>().WithArgument(_prospectorDroneSettings);
+			binder.BindToNewSelf<DroneBuyer<CarrierDrone>>().WithArgument(_carrierDroneSettings);
 		}
 	}
 }

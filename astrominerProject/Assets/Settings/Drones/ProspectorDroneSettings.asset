@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff6b350570c457841886b994732c81b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a76a8cf0882c7e43b076894467be1f7, type: 3}
   m_Name: ProspectorDroneSettings
   m_EditorClassIdentifier: 
-  <MaxSpeedPerSecond>k__BackingField: 8
-  <Acceleration>k__BackingField: 10
-  <BreakForce>k__BackingField: 10
+  <MaxSpeedPerSecond>k__BackingField: 10
+  <Acceleration>k__BackingField: 8
+  <BreakForce>k__BackingField: 6
+  <Price>k__BackingField: 300

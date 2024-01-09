@@ -1,13 +1,12 @@
 using SBaier.DI;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class ProspectorDrone : FlyableObject
+	public abstract class Drone : FlyableObject
 	{
-		public event Action<ProspectorDrone> OnDone;
+		public event Action<Drone> OnDone;
 		
 		public Asteroid Target => _settings.Target;
 		public FlyTarget Origin => _settings.Origin;
