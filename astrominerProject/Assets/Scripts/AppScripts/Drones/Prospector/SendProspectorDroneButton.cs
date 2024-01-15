@@ -18,7 +18,7 @@ namespace SBaier.Astrominer
 			_identifiedAsteroids.OnItemAdded += CheckButtonActive;
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
 			base.OnDisable();
 			_identifiedAsteroids.OnItemAdded -= CheckButtonActive;

@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "com.sbaier.unitydi": {
-      "version": "https://github.com/BlackLambert/unity-di-package.git#v1.2.14",
+      "version": "https://github.com/BlackLambert/unity-di-package.git#v1.2.19",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "nuget.moq": "1.0.0"
       },
-      "hash": "d76f16d49de4611abbcb34aea59197cf1e4f9fee"
+      "hash": "d3015088c3f9d316946227235d3a1b6f68b94097"
     },
     "com.sbaier.unitysampling": {
       "version": "https://github.com/BlackLambert/unity-sampling-package.git#v1.0.1",

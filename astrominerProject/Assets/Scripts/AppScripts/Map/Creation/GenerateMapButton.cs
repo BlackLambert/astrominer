@@ -12,7 +12,6 @@ namespace SBaier.Astrominer
         private MapCreationContext _context;
         private MapCreator _mapCreator;
         private Map _map;
-        private int _retries = 0;
 
         public void Inject(Resolver resolver)
         {
