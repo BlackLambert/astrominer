@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ConnectionDrawer<TItem> : MonoBehaviour, Injectable where TItem : MonoBehaviour
+    public class ConnectionDrawer<TItem> : MonoBehaviour, Injectable where TItem : Location2D
     {
         private Pool<Connection> _connectionPool;
-        private MonoBehaviourInRangeDetector2D<TItem> _asteroidsDetector;
+        private InRangeDetector2D<TItem> _detector;
         private Dictionary<TItem, Connection> _asteroidToConnection = new Dictionary<TItem, Connection>();
         private Provider<Vector2> _startPoint;
         private bool _active = true;
 
         public void Inject(Resolver resolver)
         {
-            _asteroidsDetector = resolver.Resolve<MonoBehaviourInRangeDetector2D<TItem>>();
+            _detector = resolver.Resolve<InRangeDetector2D<TItem>>();
             _connectionPool = resolver.Resolve<Pool<Connection>>();
-            _startPoint = resolver.Resolve<MonoBehaviourInRangeDetector2D<TItem>.Arguments>().StartPoint;
+            _startPoint = _detector.StartPoint;
         }
 
         private void OnEnable()
@@ -34,18 +34,6 @@ namespace SBaier.Astrominer
             UpdateConnections();
         }
 
-        public void Activate(bool active)
-        {
-            if (_active == active)
-            {
-                return;
-            }
-            
-            ClearConnections();
-            _active = active;
-            InitConnection();
-        }
-
         private void InitConnection()
         {
             if (!_active)
@@ -53,13 +41,13 @@ namespace SBaier.Astrominer
                 return;
             }
             
-            foreach (TItem asteroid in _asteroidsDetector.ItemsInRange)
+            foreach (TItem asteroid in _detector.ItemsInRange)
             {
                 AddConnection(asteroid);
             }
             
-            _asteroidsDetector.OnItemCameInRange += AddConnection;
-            _asteroidsDetector.OnItemCameOutOffRange += RemoveConnection;
+            _detector.OnItemCameInRange += AddConnection;
+            _detector.OnItemCameOutOffRange += RemoveConnection;
         }
 
         private void ClearConnections()
@@ -70,8 +58,8 @@ namespace SBaier.Astrominer
             }
 
             _asteroidToConnection.Clear();
-            _asteroidsDetector.OnItemCameInRange -= AddConnection;
-            _asteroidsDetector.OnItemCameOutOffRange -= RemoveConnection;
+            _detector.OnItemCameInRange -= AddConnection;
+            _detector.OnItemCameOutOffRange -= RemoveConnection;
         }
 
         private void AddConnection(TItem asteroid)
@@ -79,7 +67,8 @@ namespace SBaier.Astrominer
             Connection connection = _connectionPool.Request();
             Vector2 startPosition = _startPoint.Value;
             connection.transform.position = startPosition;
-            connection.SetEndpoints(startPosition, asteroid.transform.position);
+            connection.SetEndpoints(startPosition, asteroid.Position2D);
+            connection.SetDefaultColor();
             _asteroidToConnection.Add(asteroid, connection);
         }
 
@@ -93,7 +82,7 @@ namespace SBaier.Astrominer
         {
             foreach (KeyValuePair<TItem, Connection> pair in _asteroidToConnection)
             {
-                pair.Value.SetEndpoints(_startPoint.Value, pair.Key.transform.position);
+                pair.Value.SetEndpoints(_startPoint.Value, pair.Key.Position2D);
             }
         }
     }

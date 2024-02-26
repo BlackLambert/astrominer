@@ -37,7 +37,7 @@ namespace SBaier.Astrominer
 			binder.Bind<ActionRange>().ToNew<ShipSettingsActionRange>().WithArgument(_shipSettings);
 			binder.BindInstance(_base).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
-			binder.Bind<MonoBehaviourInRangeDetector2D<Asteroid>>().ToInstance(_detector).WithoutInjection();
+			binder.Bind<InRangeDetector2D<Asteroid>>().ToInstance(_detector).WithoutInjection();
 			binder.Bind<Provider<IList<Asteroid>>>().ToInstance(CreateAsteroidsProvider()).WithoutInjection();
 			binder.BindInstance(_collisionDetector, nameof(Base)).WithoutInjection();
 		}
@@ -52,9 +52,9 @@ namespace SBaier.Astrominer
 			return result;
 		}
 
-		private AsteroidsInRangeDetector.Arguments CreateDetectorArguments()
+		private InRangeDetectorArguments CreateDetectorArguments()
 		{
-			return new MonoBehaviourInRangeDetector2D<Asteroid>.Arguments()
+			return new InRangeDetectorArguments()
 			{
 				Distance = new BasicProvider<float>(_shipSettings.ActionRadius),
 				StartPoint = new TransformPosition2DProvider(_startPoint)

@@ -9,13 +9,13 @@ namespace SBaier.Astrominer
         [SerializeField] 
         private CosmicObjectInRangeDetector _detector;
         
-        private MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments _arguments;
+        private InRangeDetectorArguments _arguments;
         private Map _map;
         private Bases _bases;
 
         public void Inject(Resolver resolver)
         {
-            _arguments = resolver.Resolve<MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments>();
+            _arguments = resolver.Resolve<InRangeDetectorArguments>();
             _map = resolver.Resolve<Map>();
             _bases = resolver.Resolve<Bases>();
         }
@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
             binder.BindInstance(_arguments)
                 .WithoutInjection();
             
-            binder.Bind<MonoBehaviourInRangeDetector2D<CosmicObject>>()
+            binder.Bind<InRangeDetector2D<CosmicObject>>()
                 .ToInstance(_detector)
                 .WithoutInjection();
             

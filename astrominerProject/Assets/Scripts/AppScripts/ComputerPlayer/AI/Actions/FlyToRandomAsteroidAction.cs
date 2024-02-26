@@ -29,13 +29,13 @@ namespace SBaier.Astrominer
             int randomIndex = _random.Next(cosmicObjectsInRange);
             CosmicObject next = itemsInRange[randomIndex];
 
-            if (ReferenceEquals(ship.Location.Value, next))
+            if (next.IsValidFlightTargetFor(ship))
             {
-                Execute(ship);
+                ship.FlyTo(new FlightPath(new List<FlyTarget>() { ship.Location.Value, next }));
             }
             else
             {
-                ship.FlyTo(new FlightPath(new List<FlyTarget>() { ship.Location.Value, next }));
+                Execute(ship);
             }
         }
     }

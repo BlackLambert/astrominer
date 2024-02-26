@@ -2,7 +2,9 @@
     "name": "Astrominer.Editor",
     "rootNamespace": "SBaier.Astrominer.Editor",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

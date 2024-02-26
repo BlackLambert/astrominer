@@ -29,5 +29,15 @@ namespace SBaier.Astrominer
 		{
 			return DistanceTo(position) <= range;
 		}
+
+		public virtual bool IsValidFlightTargetFor(Ship ship)
+		{
+			return !ReferenceEquals(ship.Location.Value, this);
+		}
+
+		public virtual bool IsAllowedFlightTargetFor(Player player)
+		{
+			return true;
+		}
     }
 }

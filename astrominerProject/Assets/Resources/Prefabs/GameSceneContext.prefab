@@ -77,6 +77,7 @@ MonoBehaviour:
   - {fileID: 1981105070990294319}
   - {fileID: 3550615174296895884}
   - {fileID: 4705587605563441445}
+  - {fileID: 5877056289212503957}
   - {fileID: 6875065399880051109}
   - {fileID: 6930841294941631202}
   _scriptableObjectInstallers: []
@@ -692,6 +693,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7804663535932580297}
   - component: {fileID: 4705587605563441445}
+  - component: {fileID: 5877056289212503957}
   m_Layer: 0
   m_Name: Connections
   m_TagString: Untagged
@@ -727,3 +729,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _prefab: {fileID: 1744109085426494895, guid: dec4bba05a2571f41ae9cdcb55072333, type: 3}
+--- !u!114 &5877056289212503957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9166395217260738835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 472fd6b7ece141b0aac0134e5a59d42f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 2474186169550883550, guid: f50173ecbc4814d49bfef2ee6ed1fc73, type: 3}

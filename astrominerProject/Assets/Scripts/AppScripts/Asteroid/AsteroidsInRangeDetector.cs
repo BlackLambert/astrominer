@@ -1,6 +1,6 @@
 namespace SBaier.Astrominer
 {
-    public class AsteroidsInRangeDetector : MonoBehaviourInRangeDetector2D<Asteroid>
+    public class AsteroidsInRangeDetector : MonoBehaviourInRangeDetector2DBase<Asteroid>
     {
         
     }

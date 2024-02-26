@@ -5,17 +5,17 @@ namespace SBaier.Astrominer
 {
     public class SelectedObjectConnectionsCreator : MonoBehaviour, Injectable
     {
-        private Pool<CosmicObjectConnectionDrawer, MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments> _pool;
+        private Pool<FlyTargetsInRangeDrawer, FlyTargetsInRangeDetector.Arguments> _pool;
         private ActiveItem<Ship> _activeShip;
         private ActiveItem<CosmicObject> _activeCosmicObject;
 
-        private CosmicObjectConnectionDrawer _currentDrawer;
+        private FlyTargetsInRangeDrawer _currentDrawer;
         private bool showConnections => _activeShip.HasValue && _activeCosmicObject.HasValue;
         
         public void Inject(Resolver resolver)
         {
             _pool = resolver
-                .Resolve<Pool<CosmicObjectConnectionDrawer, MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments>>();
+                .Resolve<Pool<FlyTargetsInRangeDrawer, FlyTargetsInRangeDetector.Arguments>>();
             _activeCosmicObject = resolver.Resolve<ActiveItem<CosmicObject>>();
             _activeShip = resolver.Resolve<ActiveItem<Ship>>();
         }
@@ -67,10 +67,10 @@ namespace SBaier.Astrominer
                 return;
             }
             
-            _currentDrawer = _pool.Request(new MonoBehaviourInRangeDetector2D<CosmicObject>.Arguments()
+            _currentDrawer = _pool.Request(new FlyTargetsInRangeDetector.Arguments()
             {
-                Distance = new ShipRangeProvider(_activeShip.Value),
-                StartPoint = new TransformPosition2DProvider(_activeCosmicObject.Value.transform)
+                Origin = _activeCosmicObject.Value,
+                FlightGraph = _activeShip.Value.FlightGraph
             });
         }
     }

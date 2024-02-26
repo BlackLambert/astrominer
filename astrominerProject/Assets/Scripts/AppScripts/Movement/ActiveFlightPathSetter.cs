@@ -50,7 +50,8 @@ namespace SBaier.Astrominer
                 return;
             }
 
-            List<FlyTarget> targets = _pathFinder.GetPath(_activeShip.Value.FlightGraph,
+            List<FlyTarget> targets = _pathFinder.GetPath(
+                _activeShip.Value.FlightGraph,
                 _activeShip.Value.Location.Value,
                 _selectedCosmicObject.Value);
             _activePath.Value = targets.Count > 0 ? new FlightPath(targets) : null;

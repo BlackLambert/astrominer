@@ -4,80 +4,58 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class FlightConnectionDrawer : MonoBehaviour, Injectable
+    public abstract class FlightConnectionDrawer : MonoBehaviour, Injectable
     {
-        private ActiveItem<FlightPath> _activePath;
         private Pool<Connection> _connectionPool;
 
-        private List<Connection> _currentConnections = new List<Connection>();
+        private List<Connection> _connections = 
+            new List<Connection>();
         
-        public void Inject(Resolver resolver)
+        public virtual void Inject(Resolver resolver)
         {
-            _activePath = resolver.Resolve<ActiveItem<FlightPath>>();
             _connectionPool = resolver.Resolve<Pool<Connection>>();
         }
 
-        private void OnEnable()
-        {
-            UpdateConnections();
-            _activePath.OnValueChanged += OnActivePathChanged;
-        }
-
-        private void OnDisable()
-        {
-            _activePath.OnValueChanged -= OnActivePathChanged;
-        }
-
-        private void OnActivePathChanged(FlightPath formervalue, FlightPath newvalue)
-        {
-            UpdateConnections();
-        }
-
-        private void UpdateConnections()
+        protected void UpdateConnections(FlightPath newValue)
         {
             ClearConnections();
-            CreateConnections();
+            CreateConnections(newValue);
+        }
+
+        protected void UpdateConnections(FlightPath newValue, Color color)
+        {
+            ClearConnections();
+            CreateConnections(newValue, color);
         }
 
         private void ClearConnections()
         {
-            if (_currentConnections.Count == 0)
-            {
-                return;
-            }
-
-            foreach (Connection connection in _currentConnections)
+            foreach (Connection connection in _connections)
             {
                 _connectionPool.Return(connection);
             }
-            _currentConnections.Clear();
+            _connections.Clear();
         }
 
-        private void CreateConnections()
+        private void CreateConnections(FlightPath path, Color? color = null)
         {
-            if (!_activePath.HasValue)
+            if (path == null || path.FlyTargets.Count <= 1)
             {
                 return;
             }
-
-            FlightPath path = _activePath.Value;
-
-            if (path.FlyTargets.Count <= 1)
-            {
-                return;
-            }
-
-            FlyTarget start;
-            FlyTarget end;
 
             for (int i = 1; i < path.FlyTargets.Count; i++)
             {
-                start = path.FlyTargets[i - 1];
-                end = path.FlyTargets[i];
-                Connection connection = _connectionPool.Request();
-                connection.SetEndpoints(start.LandingPoint, end.LandingPoint);
-                _currentConnections.Add(connection);
+                CreateConnection(path.FlyTargets[i - 1], path.FlyTargets[i], color);
             }
+        }
+
+        private void CreateConnection(FlyTarget start, FlyTarget end, Color? color)
+        {
+            Connection connection = _connectionPool.Request();
+            connection.SetEndpoints(start.LandingPoint, end.LandingPoint);
+            connection.SetColor(color);
+            _connections.Add(connection);
         }
     }
 }

@@ -5,12 +5,15 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class MonoBehaviourInRangeDetector2D<TItem> : MonoBehaviour, Injectable where TItem : MonoBehaviour
+    public class MonoBehaviourInRangeDetector2DBase<TItem> : 
+        MonoBehaviour, Injectable, InRangeDetector2D<TItem> 
+        where TItem : MonoBehaviour
     {
         public event Action<TItem> OnItemCameInRange;
         public event Action<TItem> OnItemCameOutOffRange;
 
         public IReadOnlyList<TItem> ItemsInRange => _itemsInRange;
+        public Provider<Vector2> StartPoint => _arguments.StartPoint;
 
         private float distanceSqr => _arguments.Distance.Value * _arguments.Distance.Value;
         private Vector2 startPoint => _arguments.StartPoint.Value;
@@ -18,11 +21,11 @@ namespace SBaier.Astrominer
         private Provider<IList<TItem>> _provider;
         private List<TItem> _itemsInRange = new List<TItem>();
         private List<TItem> _itemsNotInRange = new List<TItem>();
-        private Arguments _arguments;
+        private InRangeDetectorArguments _arguments;
 
         public void Inject(Resolver resolver)
         {
-            _arguments = resolver.Resolve<Arguments>();
+            _arguments = resolver.Resolve<InRangeDetectorArguments>();
             _provider = resolver.Resolve<Provider<IList<TItem>>>();
             _itemsNotInRange.AddRange(_provider.Value);
         }
@@ -80,12 +83,6 @@ namespace SBaier.Astrominer
         private bool CheckItemInRange(TItem item)
         {
             return ((Vector2)item.transform.position - startPoint).sqrMagnitude <= distanceSqr;
-        }
-
-        public struct Arguments
-        {
-            public Provider<float> Distance;
-            public Provider<Vector2> StartPoint;
         }
     }
 }

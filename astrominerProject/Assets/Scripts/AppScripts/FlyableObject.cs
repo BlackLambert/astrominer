@@ -40,7 +40,6 @@ namespace SBaier.Astrominer
         {
             FlyTarget flyTarget = FlyTarget.Value.LastTarget;
             FlyTarget.Value = null;
-            Debug.Log($"Set Location to {flyTarget}");
             Location.Value = flyTarget;
         }
     }

@@ -67,7 +67,7 @@ namespace SBaier.Astrominer
             Transform shipTransform = ship.transform;
             shipTransform.SetParent(_hook, false);
             shipTransform.position = (Vector2)playerBase.transform.position + distanceVector;
-            ship.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, ship.Range);
+            ship.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, ship.Range, ship.Player);
             ship.FlyTo(new FlightPath(new List<FlyTarget>() { playerBase, playerBase }));
         }
     }

@@ -75,7 +75,6 @@ namespace SBaier.Astrominer
 
             // Interesting asteroids far enough?
             float asteroidProspectingValue = GetProspectingValueOf(mostValuableUnidentifiedAsteroid, ship.Location.Value);
-            Debug.Log($"Asteroid: {mostValuableUnidentifiedAsteroid.name} | Prospecting value: {asteroidProspectingValue}");
             weight += asteroidProspectingValue;
 
             return weight;

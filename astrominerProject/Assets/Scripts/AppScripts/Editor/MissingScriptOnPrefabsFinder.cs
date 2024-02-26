@@ -6,13 +6,15 @@ namespace SBaier.Astrominer.Editor
 {
     public static class MissingScriptOnPrefabsFinder
     {
+        private const string _logTag = "Find prefabs with missing scripts";
+        
         [MenuItem("Tools/Utility/FindPrefabsWithMissingScripts")]
         public static void Find()
         {
             string[] prefabIds =
                 AssetDatabase.FindAssets("t:prefab", new string[] { "Assets/Resources/Prefabs" });
 
-            Debug.Log($"[Find prefabs with missing scripts] {prefabIds.Length} prefabs in total found");
+            Debug.Log($"[{_logTag}] {prefabIds.Length} prefabs in total found");
             List<Result> results = new List<Result>();
             
             foreach (string prefabId in prefabIds)
@@ -20,11 +22,11 @@ namespace SBaier.Astrominer.Editor
                 results.AddRange(FindObjectsWithMissingScripts(prefabId));
             }
             
-            Debug.Log($"[Find prefabs with missing scripts] Found the following {results.Count} prefabs with missing scripts");
+            Debug.Log($"[{_logTag}] Found the following {results.Count} prefabs with missing scripts");
 
             foreach (Result result in results)
             {
-                Debug.Log($"[Find prefabs with missing scripts] {result}");
+                Debug.Log($"[{_logTag}] {result}");
             }
         }
 

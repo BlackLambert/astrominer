@@ -1,5 +1,4 @@
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
@@ -10,6 +9,17 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             Player = resolver.Resolve<Player>();
+        }
+
+        public override bool IsValidFlightTargetFor(Ship ship)
+        {
+            return base.IsValidFlightTargetFor(ship) &&
+                   IsAllowedFlightTargetFor(ship.Player);
+        }
+
+        public override bool IsAllowedFlightTargetFor(Player player)
+        {
+            return base.IsAllowedFlightTargetFor(player) && player == Player;
         }
     }
 }

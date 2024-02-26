@@ -11,6 +11,11 @@ namespace SBaier.Astrominer
 
         public List<FlyTarget> GetPath(FlightGraph graph, FlyTarget from, FlyTarget to)
         {
+            if (!graph.ContainsKey(from) || !graph.ContainsKey(to))
+            {
+                return new List<FlyTarget>();
+            }
+            
             List<FlyTarget> result = new List<FlyTarget>();
             FlyTarget current = null;
             _openList.Add(new KeyValuePair<FlyTarget, float>(from, 0));
