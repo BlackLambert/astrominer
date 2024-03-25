@@ -21,6 +21,7 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _random = resolver.Resolve<System.Random>();
+            _random = _random.CreateWithNewSeed();
         }
 
         public override void InstallBindings(Binder binder)

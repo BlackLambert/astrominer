@@ -8,11 +8,11 @@ namespace SBaier.Astrominer
 {
     public class OreBank : Injectable
     {
-        private OresSellingSettings _sellingSettings;
+        private OresSettings _oreSettings;
 
         public void Inject(Resolver resolver)
         {
-            _sellingSettings = resolver.Resolve<OresSellingSettings>();
+            _oreSettings = resolver.Resolve<OresSettings>();
         }
 
         public float CalculateCreditsFor(Ores ores)
@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
 
         public float CalculateCreditsFor(OreType oreType, float amount)
         {
-            float creditsPerOre = _sellingSettings.Get(oreType).Price;
+            float creditsPerOre = _oreSettings.Get(oreType).PriceRange.x;
             float creditsAmount = creditsPerOre * amount;
             return Mathf.Max(0, creditsAmount);
         }

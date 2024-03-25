@@ -14,11 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ores:
   - <Type>k__BackingField: 1
-    <PriceRange>k__BackingField: {x: 5, y: 8}
+    <PriceRange>k__BackingField: {x: 3, y: 15}
     <DisplayString>k__BackingField: 'Iron: {0}'
+    <Color>k__BackingField: {r: 0.27672952, g: 0.27672952, b: 0.27672952, a: 1}
   - <Type>k__BackingField: 2
-    <PriceRange>k__BackingField: {x: 15, y: 25}
+    <PriceRange>k__BackingField: {x: 10, y: 50}
     <DisplayString>k__BackingField: 'Gold: {0}'
+    <Color>k__BackingField: {r: 0.51572317, g: 0.4672801, b: 0.06973605, a: 1}
   - <Type>k__BackingField: 4
-    <PriceRange>k__BackingField: {x: 75, y: 100}
+    <PriceRange>k__BackingField: {x: 25, y: 150}
     <DisplayString>k__BackingField: 'Platinum: {0}'
+    <Color>k__BackingField: {r: 0.20440245, g: 0.90708345, b: 1, a: 1}
+  _oreValueNoiseSteps:
+  - <Frequency>k__BackingField: 1
+    <Weight>k__BackingField: 1
+    <OffsetRange>k__BackingField: {x: 0, y: 1000000}

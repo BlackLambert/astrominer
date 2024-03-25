@@ -19,9 +19,10 @@ namespace SBaier.Astrominer
         {
             _map = resolver.Resolve<Map>();
             _arguments = resolver.Resolve<Arguments>();
-            _random = resolver.Resolve<Random>();
             _shipSettings = resolver.Resolve<ShipSettings>();
             _basePositions = resolver.Resolve<BasePositions>();
+            _random = resolver.Resolve<Random>();
+            _random.CreateWithNewSeed();
         }
         
         public Vector2 GetFor(Player player)

@@ -1,17 +1,28 @@
+using System;
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
     public class OreSellingInstaller : MonoInstaller
     {
-        [SerializeField]
-        private OresSellingSettings _oresSellingSettings;
-
         public override void InstallBindings(Binder binder)
         {
             binder.BindToNewSelf<OreBank>();
-            binder.BindInstance(_oresSellingSettings);
+            binder.BindToNewSelf<OreValue>();
+
+            foreach (OreType oreType in Enum.GetValues(typeof(OreType)))
+            {
+                if (oreType == OreType.None)
+                {
+                    continue;
+                }
+                
+                string oreTypeName = oreType.ToString();
+                binder.BindComponent<OreValueCalculator>(oreTypeName)
+                    .FromNewComponentOnNewGameObject($"OreCalculator{oreTypeName}", transform)
+                    .WithArgument(oreType)
+                    .AsNonResolvable();
+            }
         }
     }
 }

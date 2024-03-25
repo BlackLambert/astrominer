@@ -14,6 +14,7 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _random = resolver.Resolve<Random>();
+            _random = _random.CreateWithNewSeed();
             _inRangeGetter = resolver.Resolve<CosmicObjectInRangeGetter>();
         }
 

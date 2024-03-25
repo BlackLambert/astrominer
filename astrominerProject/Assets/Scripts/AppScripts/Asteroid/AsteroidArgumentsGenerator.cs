@@ -3,6 +3,7 @@ using System.Linq;
 using PCGToolkit.Sampling;
 using SBaier.DI;
 using UnityEngine;
+using Random = System.Random;
 
 namespace SBaier.Astrominer
 {
@@ -10,13 +11,14 @@ namespace SBaier.Astrominer
     {
         private AsteroidSettings _settings;
         private PoissonDiskSampling2D _sampler;
-        private System.Random _random;
+        private Random _random;
 
         public void Inject(Resolver resolver)
         {
             _settings = resolver.Resolve<AsteroidSettings>();
             _sampler = resolver.Resolve<PoissonDiskSampling2D>();
-            _random = resolver.Resolve<System.Random>();
+            _random = resolver.Resolve<Random>();
+            _random = _random.CreateWithNewSeed();
         }
 
         public List<Asteroid.Arguments> GenerateMap(AsteroidAmountOption amountOption, float minDistance)
