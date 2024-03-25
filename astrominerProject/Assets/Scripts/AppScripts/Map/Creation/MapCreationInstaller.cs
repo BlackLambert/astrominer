@@ -58,7 +58,7 @@ namespace SBaier.Astrominer
         private PoissonDiskSampling2D CreateSampler()
         {
             return new PoissonDiskSampling2D(_random, _mapCreationSettings.MaxSamplerTries,
-                new PoissonDiskSampling2DParameterValidator());
+                new PoissonDiskSamplingParameterValidator<Vector2>());
         }
 
         private BasicBasePositionGetter.Arguments CreateBasicPositionGetterArguments()
