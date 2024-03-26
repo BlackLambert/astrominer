@@ -12,20 +12,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8980c400a26507949bc37dcc2041b59c, type: 3}
   m_Name: OreSettings
   m_EditorClassIdentifier: 
+  <OreValueUpdateFrequency>k__BackingField: 5
   _ores:
   - <Type>k__BackingField: 1
-    <PriceRange>k__BackingField: {x: 3, y: 15}
+    <PriceRange>k__BackingField: {x: 3, y: 8}
     <DisplayString>k__BackingField: 'Iron: {0}'
     <Color>k__BackingField: {r: 0.27672952, g: 0.27672952, b: 0.27672952, a: 1}
   - <Type>k__BackingField: 2
-    <PriceRange>k__BackingField: {x: 10, y: 50}
+    <PriceRange>k__BackingField: {x: 5, y: 20}
     <DisplayString>k__BackingField: 'Gold: {0}'
     <Color>k__BackingField: {r: 0.51572317, g: 0.4672801, b: 0.06973605, a: 1}
   - <Type>k__BackingField: 4
-    <PriceRange>k__BackingField: {x: 25, y: 150}
+    <PriceRange>k__BackingField: {x: 15, y: 50}
     <DisplayString>k__BackingField: 'Platinum: {0}'
     <Color>k__BackingField: {r: 0.20440245, g: 0.90708345, b: 1, a: 1}
   _oreValueNoiseSteps:
-  - <Frequency>k__BackingField: 1
+  - <Frequency>k__BackingField: 0.01
     <Weight>k__BackingField: 1
-    <OffsetRange>k__BackingField: {x: 0, y: 1000000}
+    <MaxOffset>k__BackingField: 1000000
+  - <Frequency>k__BackingField: 0.1
+    <Weight>k__BackingField: 0.25
+    <MaxOffset>k__BackingField: 1000000
+  - <Frequency>k__BackingField: 0.5
+    <Weight>k__BackingField: 0.1
+    <MaxOffset>k__BackingField: 1000000
+  - <Frequency>k__BackingField: 1
+    <Weight>k__BackingField: 0.05
+    <MaxOffset>k__BackingField: 1000000

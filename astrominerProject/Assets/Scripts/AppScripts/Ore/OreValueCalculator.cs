@@ -14,10 +14,10 @@ namespace SBaier.Astrominer
         private OresSettings _oresSettings;
         private OresSettings.OreSettings _oreSettings;
         private GameTime _gameTime;
-        private int currentSeconds = 0;
         private List<Step> _steps;
         private float _minValue;
         private float _valueRange;
+        private CircularBuffer<float> _formerValue;
 
         public void Inject(Resolver resolver)
         {
@@ -34,24 +34,16 @@ namespace SBaier.Astrominer
             _oreSettings = _oresSettings.Get(_type);
             _minValue = _oreSettings.PriceRange.x;
             _valueRange = _oreSettings.PriceRange.y - _minValue;
+            _formerValue = _oreValue.GetFormerValue(_type);
+            
+            _oreValue.OnShallUpdateValue += CalculateValue;
             CreateNoiseSteps();
+            CalculateValue();
         }
 
-        private void Update()
+        private void OnDestroy()
         {
-            if (_gameTime.Paused)
-            {
-                return;
-            }
-            
-            float value = CalculateValue(_gameTime.Value);
-            _oreValue.Set(_type, value);
-
-            if (_gameTime.Value >= currentSeconds)
-            {
-                currentSeconds++;
-                Debug.Log($"{_type} Value: {value}");
-            }
+            _oreValue.OnShallUpdateValue -= CalculateValue;
         }
 
         private void CreateNoiseSteps()
@@ -60,7 +52,7 @@ namespace SBaier.Astrominer
             foreach (OresSettings.NoiseStep step in _oresSettings.OreValueNoiseSteps)
             {
                 Random random = _random.CreateWithNewSeed();
-                float offset = (float)(random.NextDouble() * step.OffsetRange.y);
+                float offset = (float)(random.NextDouble() * step.MaxOffset);
                 SimplexNoise1D noise = SimplexNoise1D.Create(random);
                 _steps.Add(new Step()
                 {
@@ -70,6 +62,14 @@ namespace SBaier.Astrominer
                     Offset = offset
                 });
             }
+        }
+
+        private void CalculateValue()
+        {
+            float value = CalculateValue(_gameTime.Value);
+            _oreValue.SetCurrentValue(_type, value);
+            _formerValue.Push(value);
+            Debug.Log($"{_type} Value: {value}");
         }
 
         private float CalculateValue(float time)

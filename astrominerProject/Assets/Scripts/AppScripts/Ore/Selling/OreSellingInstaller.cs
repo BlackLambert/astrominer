@@ -1,14 +1,18 @@
 using System;
 using SBaier.DI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
     public class OreSellingInstaller : MonoInstaller
     {
+        [SerializeField] 
+        private int _formerOreValueBufferSize = 100;
+        
         public override void InstallBindings(Binder binder)
         {
-            binder.BindToNewSelf<OreBank>();
-            binder.BindToNewSelf<OreValue>();
+            binder.BindToNewSelf<OreBank>().AsSingle();
+            binder.Bind<OreValue>().ToInstance(new OreValue(_formerOreValueBufferSize));
 
             foreach (OreType oreType in Enum.GetValues(typeof(OreType)))
             {

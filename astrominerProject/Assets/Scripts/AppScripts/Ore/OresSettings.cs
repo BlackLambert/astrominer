@@ -8,6 +8,9 @@ namespace SBaier.Astrominer
     [CreateAssetMenu(fileName = "OreSettings", menuName = "ScriptableObjects/OreSettings")]
     public class OresSettings : ScriptableObject
     {
+        [field: SerializeField] 
+        public float OreValueUpdateFrequency { get; private set; } = 1;
+        
         [SerializeField]
         private List<OreSettings> _ores = new List<OreSettings>();
 
@@ -21,7 +24,13 @@ namespace SBaier.Astrominer
 
         public OreSettings Get(OreType type)
 		{
-            return _ores.First(o => o.Type == type);
+            OreSettings result = _ores.FirstOrDefault(o => o.Type == type);
+            if (result == null)
+            {
+                throw new ArgumentException($"There are no settings for the ore of type {type}");
+            }
+
+            return result;
         }
 
         [Serializable]
@@ -45,7 +54,7 @@ namespace SBaier.Astrominer
             [field: SerializeField] 
             public float Weight { get; private set; } = 1;
             [field: SerializeField] 
-            public Vector2 OffsetRange { get; private set; } = new Vector2(0, 1_000_000);
+            public float MaxOffset { get; private set; } = 1_000_000;
         }
     }
 }
