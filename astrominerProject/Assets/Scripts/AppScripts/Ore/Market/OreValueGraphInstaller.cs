@@ -1,16 +1,20 @@
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueGraphInstaller : MonoInstaller
+    public class OreValueGraphInstaller : MonoInstaller, Injectable
     {
-        [SerializeField] 
-        private OreType _oreType;
+        private OresSettings.OreSettings _oreSettings;
+
+        public void Inject(Resolver resolver)
+        {
+            _oreSettings = resolver.Resolve<OresSettings.OreSettings>();
+        }
         
         public override void InstallBindings(Binder binder)
         {
-            binder.BindInstance(_oreType);
+            binder.BindInstance(_oreSettings.Type);
+            binder.BindInstance(_oreSettings.Color);
         }
     }
 }

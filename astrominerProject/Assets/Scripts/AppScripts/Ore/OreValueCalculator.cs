@@ -69,7 +69,6 @@ namespace SBaier.Astrominer
             float value = CalculateValue(_gameTime.Value);
             _oreValue.SetCurrentValue(_type, value);
             _formerValue.Push(value);
-            Debug.Log($"{_type} Value: {value}");
         }
 
         private float CalculateValue(float time)
@@ -80,7 +79,7 @@ namespace SBaier.Astrominer
             foreach (Step step in _steps)
             {
                 maxValue += step.Weight;
-                value += step.Noise.Evaluate(time * step.Frequency + step.Offset) * step.Weight;
+                value += step.Noise.Evaluate((time + step.Offset) * step.Frequency) * step.Weight;
             }
 
             float normalized = value / maxValue;

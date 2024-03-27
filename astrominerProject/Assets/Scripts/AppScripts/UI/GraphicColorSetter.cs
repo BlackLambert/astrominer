@@ -1,13 +1,14 @@
 using SBaier.DI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class ImageColorSetter : MonoBehaviour, Injectable
+    public class GraphicColorSetter : MonoBehaviour, Injectable
     {
-        [SerializeField]
-        private Image _image;
+        [FormerlySerializedAs("_image")] [SerializeField]
+        private Graphic _graphic;
 
         private Color _color;
 
@@ -18,7 +19,7 @@ namespace SBaier.Astrominer
 
         private void OnEnable()
         {
-            _image.color = _color;
+            _graphic.color = _color;
         }
     }
 }
