@@ -34,11 +34,10 @@ namespace SBaier.Astrominer
             _oreSettings = _oresSettings.Get(_type);
             _minValue = _oreSettings.PriceRange.x;
             _valueRange = _oreSettings.PriceRange.y - _minValue;
-            _formerValue = _oreValue.GetFormerValue(_type);
+            _formerValue = _oreValue.GetValueHistory(_type);
             
             _oreValue.OnShallUpdateValue += CalculateValue;
             CreateNoiseSteps();
-            CalculateValue();
         }
 
         private void OnDestroy()
@@ -67,8 +66,8 @@ namespace SBaier.Astrominer
         private void CalculateValue()
         {
             float value = CalculateValue(_gameTime.Value);
-            _oreValue.SetCurrentValue(_type, value);
             _formerValue.Push(value);
+            _oreValue.SetCurrentValue(_type, value);
         }
 
         private float CalculateValue(float time)

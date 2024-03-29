@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueGraph : MonoBehaviour
+    public class OwnedAsteroids : ObservableList<Asteroid>
     {
         
     }

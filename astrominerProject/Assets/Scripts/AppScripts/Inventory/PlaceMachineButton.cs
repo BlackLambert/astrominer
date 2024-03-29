@@ -49,8 +49,9 @@ namespace SBaier.Astrominer
 			Asteroid asteroid = _ship.Location.Value as Asteroid;
 			ShipInventoryItem selectedItem = _activeItem.Value;
 			ExploitMachine machine = selectedItem.Machine;
-			asteroid.SetOwningPlayer(_ship.Player);
 			_ship.Machines.Remove(machine);
+			asteroid.SetOwningPlayer(_ship.Player);
+			_ship.Player.OwnedAsteroids.Add(asteroid);
 			asteroid.PlaceExploitMachine(machine);
 			UpdateInteractivity();
 		}

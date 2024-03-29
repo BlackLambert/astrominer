@@ -10,7 +10,7 @@ namespace SBaier.Astrominer
         
         private Dictionary<OreType, float> _oreToValue = new Dictionary<OreType, float>();
 
-        private Dictionary<OreType, CircularBuffer<float>> _oreToFormerValue =
+        private Dictionary<OreType, CircularBuffer<float>> _oreToValueHistory =
             new Dictionary<OreType, CircularBuffer<float>>();
 
         public Observable<float> TimeForNextValueUpdate { get; private set; } = 0;
@@ -30,9 +30,9 @@ namespace SBaier.Astrominer
             return result;
         }
 
-        public CircularBuffer<float> GetFormerValue(OreType type)
+        public CircularBuffer<float> GetValueHistory(OreType type)
         {
-            if (!_oreToFormerValue.TryGetValue(type, out CircularBuffer<float> result))
+            if (!_oreToValueHistory.TryGetValue(type, out CircularBuffer<float> result))
             {
                 throw new ArgumentException($"There is no former value data for ore {type.ToString()}.");
             }
@@ -61,7 +61,7 @@ namespace SBaier.Astrominer
                 }
                 
                 _oreToValue.Add(oreType, 0);
-                _oreToFormerValue.Add(oreType, new CircularBuffer<float>(formerValueBufferSize));
+                _oreToValueHistory.Add(oreType, new CircularBuffer<float>(formerValueBufferSize));
             }
         }
     }

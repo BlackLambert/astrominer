@@ -19,7 +19,7 @@ MonoBehaviour:
   <StartObjectSize>k__BackingField: 0.4
   <Color>k__BackingField: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   <ExploitedColorReduction>k__BackingField: {r: 0.2, g: 0.2, b: 0.2, a: 0}
-  <BaseRockAmount>k__BackingField: 500
+  <BaseRockAmount>k__BackingField: 700
   <IronWeight>k__BackingField: 65
   <GoldWeight>k__BackingField: 25
   <PlatinumWeight>k__BackingField: 10

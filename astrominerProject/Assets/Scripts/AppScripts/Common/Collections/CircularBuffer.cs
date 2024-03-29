@@ -6,8 +6,9 @@ namespace SBaier.Astrominer
 {
     public class CircularBuffer<T>
     {
+        public int Count { get; private set; } = 0;
+        
         private List<T> _buffer;
-        private int _count = 0;
         private int _currentIndex = 0;
         private int _size;
         
@@ -35,7 +36,7 @@ namespace SBaier.Astrominer
 
         public T Pop()
         {
-            if (_count == 0)
+            if (Count == 0)
             {
                 throw new ArgumentException("There is no element in the buffer");
             }
@@ -46,25 +47,34 @@ namespace SBaier.Astrominer
             return result;
         }
 
-        public IEnumerable<T> GetLastXElements(int amount)
+        public IEnumerable<T> GetLastXElementsReverse(int amount)
         {
-            if (_count > amount || _count < amount)
+            if (amount > Count)
             {
-                throw new ArgumentException($"The requested amount of elements exceeds the count of {_count}");
+                throw new ArgumentException($"The requested amount of elements exceeds the count of {Count}");
+            }
+            
+            if (amount < 0)
+            {
+                throw new ArgumentException($"The requested amount is less then zero");
+            }
+            
+            if (amount > _size)
+            {
+                throw new ArgumentException($"The requested amount exceeds the buffer size of {_size}");
             }
 
-            int currentIndex = _currentIndex;
             for (int i = 0; i < amount; i++)
             {
-                yield return _buffer[currentIndex];
-                int newIndex = _currentIndex - 1;
-                currentIndex = newIndex < 0 ? _size - 1 : newIndex % _size;
+                int index = _currentIndex - 1 - i;
+                index = index < 0 ? _size + index : index % _size;
+                yield return _buffer[index];
             }
         }
             
         private void ChangeCount(int delta)
         {
-            _count = Mathf.Clamp(_count + delta, 0, _size);
+            Count = Mathf.Clamp(Count + delta, 0, _size);
         }
 
         private void ChangeIndex(int delta)

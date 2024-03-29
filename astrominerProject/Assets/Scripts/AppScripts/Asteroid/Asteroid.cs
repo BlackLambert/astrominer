@@ -113,19 +113,24 @@ namespace SBaier.Astrominer
 				OnExploited?.Invoke();
 		}
 
+		public Ores Collect()
+		{
+			Ores ores = MinedOres.RequestAll();
+			OnOresCollected?.Invoke();
+			return ores;
+		}
+
+		public float GetTotalCosts()
+		{
+			return ExploitMachine.MaintenanceCosts;
+		}
+
 		private void CalculateMinedPercentage()
 		{
 			float result = 1;
 			foreach (OreType type in TotalMinedOres.OreTypes)
 				result = Mathf.Min(result, TotalMinedOres[type].Amount / TotalExploitableOres[type].Amount);
 			MinedPercentage = result;
-		}
-
-		public Ores Collect()
-		{
-			Ores ores = MinedOres.RequestAll();
-			OnOresCollected?.Invoke();
-			return ores;
 		}
 
 		public class Arguments

@@ -10,6 +10,7 @@ namespace SBaier.Astrominer
         public string Name { get; }
         public bool IsHuman { get; }
         public IdentifiedAsteroids IdentifiedAsteroids { get; private set; } = new IdentifiedAsteroids();
+        public OwnedAsteroids OwnedAsteroids { get; private set; } = new OwnedAsteroids();
         public Drones Drones { get; private set; } = new Drones();
         public Currency Credits { get; private set; } = new Currency();
 

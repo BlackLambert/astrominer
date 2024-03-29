@@ -1,0 +1,81 @@
+using SBaier.DI;
+using UnityEngine;
+
+namespace SBaier.Astrominer
+{
+    public class OreValueGraph : MonoBehaviour, Injectable
+    {
+        [SerializeField] 
+        private UILineRenderer _renderer;
+
+        [SerializeField] 
+        private float _secondsToCover = 20;
+
+        [SerializeField] 
+        private float _unitsPerSecond = 5;
+
+        [SerializeField] 
+        private RectTransform _graphContainer;
+
+        private OresSettings.OreSettings _oreSettings;
+        private OresSettings _oresSettings;
+        private OreValue _oreValue;
+        private OreType _oreType;
+        private CircularBuffer<float> _valueHistory;
+        
+
+        public void Inject(Resolver resolver)
+        {
+            _oreSettings = resolver.Resolve<OresSettings.OreSettings>();
+            _oresSettings = resolver.Resolve<OresSettings>();
+            _oreValue = resolver.Resolve<OreValue>();
+            _oreType = _oreSettings.Type;
+        }
+
+        private void OnEnable()
+        {
+            _valueHistory = _oreValue.GetValueHistory(_oreType);
+            _oreValue.OnValueChanged += OnOreValueChanged;
+            UpdateGraph();
+        }
+
+        private void OnDisable()
+        {
+            _oreValue.OnValueChanged -= OnOreValueChanged;
+        }
+
+        private void OnOreValueChanged(OreType oreType, float value)
+        {
+            if (oreType != _oreType)
+            {
+                return;
+            }
+
+            UpdateGraph();
+        }
+
+        private void UpdateGraph()
+        {
+            float maxHeight = _graphContainer.rect.height;
+            float minValue = _oreSettings.PriceRange.x;
+            float maxValue = _oreSettings.PriceRange.y;
+            float delta = maxValue - minValue;
+            float xDelta = -_unitsPerSecond * _oresSettings.OreValueUpdateFrequency;
+            
+            int amount = (int)(_secondsToCover / _oresSettings.OreValueUpdateFrequency);
+            amount = _valueHistory.Count >= amount ? amount : _valueHistory.Count;
+            Vector2[] graphPoints = new Vector2[amount];
+            int index = 0;
+            
+            foreach (float value in _valueHistory.GetLastXElementsReverse(amount))
+            {
+                float x = index * xDelta;
+                float y = ((value - minValue) / delta) * maxHeight;
+                graphPoints[index] = new Vector2(x, y);
+                index++;
+            }
+            
+            _renderer.SetVertexPositions(graphPoints);
+        }
+    }
+}

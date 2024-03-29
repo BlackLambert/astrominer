@@ -6,6 +6,7 @@ namespace SBaier.Astrominer
 	{
 		[SerializeField]
 		private string _baseString = "Credits: {0}";
+		
 
 		protected override string GetText()
 		{

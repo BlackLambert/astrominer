@@ -22,14 +22,21 @@ namespace SBaier.Astrominer
                 OnAmountChanged?.Invoke();
         }
 
-        public float Request(float amount)
-		{
-            if (amount > Amount || amount < 0)
+        public float RequestAllowNegative(float amount)
+        {
+            if(amount < 0)
                 throw new ArgumentOutOfRangeException();
             Amount -= amount;
             if (amount > 0)
                 OnAmountChanged?.Invoke();
             return amount;
+        }
+
+        public float Request(float amount)
+		{
+            if (amount > Amount)
+                throw new ArgumentOutOfRangeException();
+            return RequestAllowNegative(amount);
         }
 
         public void Set(float amount)

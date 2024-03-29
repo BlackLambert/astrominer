@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf00218fb11265d4d856e766d641bfcc, type: 3}
   m_Name: MiningSettings
   m_EditorClassIdentifier: 
-  <BaseSecondsTillExploit>k__BackingField: 120
-  <QualityMineSpeedAddition>k__BackingField: 0.25
+  <BaseAsteroidBodyMaterialPerSecond>k__BackingField: 12

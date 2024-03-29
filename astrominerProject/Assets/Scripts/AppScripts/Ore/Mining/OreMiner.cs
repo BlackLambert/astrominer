@@ -46,7 +46,7 @@ namespace SBaier.Astrominer
 		private void CalculateOresPerSecond()
 		{
 			if (!_asteroid.HasExploitMachine)
-				SetEmpltyOresPerSecond();
+				SetEmptyOresPerSecond();
 			else
 				CalculateMachineOreMiningPerSecond();
 		}
@@ -61,7 +61,7 @@ namespace SBaier.Astrominer
 			Debug.Log($"CalculateMachineOreMiningPerSecond - TotalExploitableOres: {TotalExploitableOres.GetTotal()} | OresPerSecond {_oresPerSecond} | MaterialPerSecond {MaterialPerSecond}");
 		}
 
-		private void SetEmpltyOresPerSecond()
+		private void SetEmptyOresPerSecond()
 		{
 			_oresPerSecond = new Ores();
 		}

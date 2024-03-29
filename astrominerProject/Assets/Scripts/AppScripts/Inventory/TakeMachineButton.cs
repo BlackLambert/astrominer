@@ -52,6 +52,7 @@ namespace SBaier.Astrominer
 		{
 			_currentAsteroid.SetOwningPlayer(null);
 			_ship.Machines.Add(_currentAsteroid.TakeExploitMachine());
+			_ship.Player.OwnedAsteroids.Remove(_currentAsteroid);
 			UpdateInteractivity();
 		}
 
