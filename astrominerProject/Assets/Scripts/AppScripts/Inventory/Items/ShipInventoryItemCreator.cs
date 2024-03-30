@@ -1,8 +1,5 @@
 using SBaier.DI;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using System;
 
 namespace SBaier.Astrominer
 {
@@ -29,60 +26,36 @@ namespace SBaier.Astrominer
 		private void OnEnable()
 		{
 			CreateItem();
-			_ship.Machines.OnItemAddedAt += TryCreateItemFor;
-			_ship.Machines.OnItemRemovedAt += RemoveItemFor;
-			_ship.Machines.OnItemReplacedAt += ChangeItem;
+			_ship.Machines.OnItemsChanged += UpdateItem;
 			_slot.OnPool += ReturnItem;
 		}
 
 		private void OnDisable()
 		{
-			_ship.Machines.OnItemAddedAt -= TryCreateItemFor;
-			_ship.Machines.OnItemRemovedAt -= RemoveItemFor;
-			_ship.Machines.OnItemReplacedAt -= ChangeItem;
+			_ship.Machines.OnItemsChanged -= UpdateItem;
 			_slot.OnPool -= ReturnItem;
+		}
+
+		private void UpdateItem()
+		{
+			ReturnItem();
+			CreateItem();
 		}
 
 		private void CreateItem()
 		{
 			if (_ship.Machines.Count > index)
 			{
-				TryCreateItemFor(_ship.Machines[index], index);
+				CreateItemFor(_ship.Machines[index], index);
 			}
 		}
 
-		private void TryCreateItemFor(ExploitMachine machine, int i)
+		private void CreateItemFor(ExploitMachine machine, int i)
 		{
-			if (i != index || machine == null)
-			{
-				return;
-			}
-			
 			_item = _itemPool.Request(machine);
 			Transform trans = _item.transform;
 			trans.SetParent(_hook, false);
 			trans.localScale = Vector3.one;
-		}
-
-		private void RemoveItemFor(ExploitMachine machine, int i)
-		{
-			if (i != index)
-			{
-				return;
-			}
-			
-			ReturnItem();
-		}
-
-		private void ChangeItem(ExploitMachine formerItem, ExploitMachine newItem, int i)
-		{
-			if (i != index)
-			{
-				return;
-			}
-
-			ReturnItem();
-			TryCreateItemFor(newItem, index);
 		}
 
 		private void ReturnItem()

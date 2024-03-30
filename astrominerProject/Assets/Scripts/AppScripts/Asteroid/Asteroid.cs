@@ -85,6 +85,19 @@ namespace SBaier.Astrominer
 			OnExploitMachineChanged?.Invoke();
 		}
 
+		public ExploitMachine ReplaceExploitMachine(ExploitMachine machine)
+		{
+			if (ExploitMachine == null)
+				throw new InvalidOperationException("Failed to replace the exploit machine. " +
+				                                    "There is no exploit machine on this asteroid");
+			if (machine == null)
+				throw new ArgumentNullException();
+			ExploitMachine formerMachine = ExploitMachine;
+			ExploitMachine = machine;
+			OnExploitMachineChanged?.Invoke();
+			return formerMachine;
+		}
+
 		public ExploitMachine TakeExploitMachine()
 		{
 			if (ExploitMachine == null)

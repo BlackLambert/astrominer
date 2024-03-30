@@ -44,18 +44,6 @@ namespace SBaier.Astrominer
 			return _items.Contains(item);
 		}
 
-		private void ValidateRemove(T item)
-		{
-			if (!Contains(item))
-				throw new ArgumentException();
-		}
-
-		private void ValidateAdd(T item)
-        {
-            if (Contains(item))
-                throw new ArgumentException();
-        }
-
 		public IReadOnlyList<T> ToReadonly()
 		{
 			return _items;
@@ -65,15 +53,6 @@ namespace SBaier.Astrominer
 		{
 			get => _items[index];
 			set => SetAt(index, value);
-		}
-
-		private void SetAt(int index, T value)
-		{
-			T formerItem = _items[index];
-			_items[index] = value;
-			OnItemReplaced?.Invoke(formerItem, value);
-			OnItemReplacedAt?.Invoke(formerItem, value, index);
-			OnItemsChanged?.Invoke();
 		}
 
 		public int IndexOf(T item)
@@ -86,17 +65,9 @@ namespace SBaier.Astrominer
 			throw new NotImplementedException();
 		}
 
-		public void RemoveAt(int index)
+		public virtual void RemoveAt(int index)
 		{
 			Remove(_items[index], index);
-		}
-
-		private void Remove(T item, int index)
-		{
-			_items.Remove(item);
-			OnItemRemoved?.Invoke(item);
-			OnItemRemovedAt?.Invoke(item, index);
-			OnItemsChanged?.Invoke();
 		}
 
 		public void Clear()
@@ -109,6 +80,35 @@ namespace SBaier.Astrominer
 		public void CopyTo(T[] array, int arrayIndex)
 		{
 			_items.CopyTo(array, arrayIndex);
+		}
+
+		private void ValidateRemove(T item)
+		{
+			if (!Contains(item))
+				throw new ArgumentException();
+		}
+
+		private void ValidateAdd(T item)
+        {
+            if (Contains(item))
+                throw new ArgumentException();
+        }
+
+		private void SetAt(int index, T value)
+		{
+			T formerItem = _items[index];
+			_items[index] = value;
+			OnItemReplaced?.Invoke(formerItem, value);
+			OnItemReplacedAt?.Invoke(formerItem, value, index);
+			OnItemsChanged?.Invoke();
+		}
+
+		private void Remove(T item, int index)
+		{
+			_items.Remove(item);
+			OnItemRemoved?.Invoke(item);
+			OnItemRemovedAt?.Invoke(item, index);
+			OnItemsChanged?.Invoke();
 		}
 
 		bool ICollection<T>.Remove(T item)
