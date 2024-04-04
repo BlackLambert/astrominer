@@ -631,6 +631,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _button: {fileID: 8455645428507353920}
   _popupSize: {x: 600, y: 400}
+  _headerText: Statistics
 --- !u!1 &6523941950719462072
 GameObject:
   m_ObjectHideFlags: 0

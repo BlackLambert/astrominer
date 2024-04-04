@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Linq;
 using SBaier.DI;
 using UnityEngine;
 
@@ -16,50 +14,36 @@ namespace SBaier.Astrominer
 
         [SerializeField] 
         private Vector2 _offset = new Vector2(20f, 20f);
-        
-        private Player _player;
-        private float _minValue = 0;
-        private float _maxValue = 0;
+
+        [SerializeField] 
+        private RectTransform _indicator;
+
+        private PlayerValues _playerValues;
+        private PlayerValue _playerValue;
         private Color _color;
 
         public void Inject(Resolver resolver)
         {
-            _player = resolver.Resolve<Player>();
+            _playerValues = resolver.Resolve<PlayerValues>();
+            _playerValue = resolver.Resolve<PlayerValue>();
             _color = resolver.Resolve<Color>();
         }
 
         private void OnEnable()
         {
-            _player.ValueHistory.OnItemsChanged += OnItemAdded;
+            _playerValue.ValueHistory.OnItemsChanged += OnItemAdded;
             _renderer.color = _color;
-            UpdateBorders();
             StartCoroutine(UpdateGraphDelayed());
         }
 
         private void OnDisable()
         {
-            _player.ValueHistory.OnItemsChanged -= OnItemAdded;
+            _playerValue.ValueHistory.OnItemsChanged -= OnItemAdded;
         }
 
         private void OnItemAdded()
         {
-            float value = _player.ValueHistory.Last();
-            UpdateBorders(value);
             UpdateGraph();
-        }
-
-        private void UpdateBorders()
-        {
-            foreach (float value in _player.ValueHistory)
-            {
-                UpdateBorders(value);
-            }
-        }
-
-        private void UpdateBorders(float value)
-        {
-            _minValue = value < _minValue ? value : _minValue;
-            _maxValue = value > _maxValue ? value : _maxValue;
         }
 
         private IEnumerator UpdateGraphDelayed()
@@ -70,23 +54,35 @@ namespace SBaier.Astrominer
 
         private void UpdateGraph()
         {
+            float min = _playerValues.MinMax.Min;
+            float max = _playerValues.MinMax.Max;
             Rect rect = _graphContainer.rect;
             float maxHeight = rect.height - _offset.x - _offset.y;
-            float delta = _maxValue - _minValue;
-            int count = _player.ValueHistory.Count;
+            float delta = max - min;
+            int count = _playerValue.ValueHistory.Count;
             int sectionsAmount = count > 1 ? (count - 1) : 1;
             float xDelta = rect.width / sectionsAmount;
             Vector2[] graphPoints = new Vector2[count];
+            float y = 0;
 
             for (int i = 0; i < count; i++)
             {
-                float value = _player.ValueHistory[i];
+                float value = _playerValue.ValueHistory[i];
                 float x = i * xDelta;
-                float y = ((value - _minValue) / delta) * maxHeight + _offset.x;
+                y = ((value - min) / delta) * maxHeight + _offset.x;
                 graphPoints[i] = new Vector2(x, y);
             }
             
             _renderer.SetVertexPositions(graphPoints);
+            UpdateIndicator(y, rect.height);
+        }
+
+        private void UpdateIndicator(float yPos, float maxHeight)
+        {
+            float relativeHeight = yPos / maxHeight;
+            _indicator.anchorMin = new Vector2(_indicator.anchorMin.x, relativeHeight);
+            _indicator.anchorMax = new Vector2(_indicator.anchorMax.x, relativeHeight);
+            _indicator.anchoredPosition = Vector2.zero;
         }
     }
 }

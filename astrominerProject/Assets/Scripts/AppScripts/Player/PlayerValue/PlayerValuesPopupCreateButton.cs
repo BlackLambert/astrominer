@@ -12,6 +12,9 @@ namespace SBaier.Astrominer
         [SerializeField] 
         private Vector2 _popupSize = new Vector2(600, 400);
 
+        [SerializeField] 
+        private string _headerText = "Statistics";
+
         private Pool<Popup, Popup.Arguments> _popupPool;
         private Pool<PlayerValueGraphs> _graphsPool;
         private Popup _currentPopup;
@@ -39,7 +42,8 @@ namespace SBaier.Astrominer
             _currentPopup = _popupPool.Request(new Popup.Arguments()
             {
                 Content = _currentGraphs.RectTransform,
-                Size = _popupSize
+                Size = _popupSize,
+                Header = _headerText
             });
             _currentPopup.OnClose += OnPopupClose;
         }

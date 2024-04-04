@@ -1,5 +1,6 @@
 using System;
 using SBaier.DI;
+using TMPro;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -11,6 +12,9 @@ namespace SBaier.Astrominer
 
         [SerializeField] 
         private RectTransform _popupTransform;
+
+        [SerializeField]
+        private TextMeshProUGUI _header;
         
         public event Action OnClose;
 
@@ -26,6 +30,7 @@ namespace SBaier.Astrominer
             _popupTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _arguments.Size.x);
             _popupTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _arguments.Size.y);
             _arguments.Content.SetParent(_contentHook, false);
+            _header.text = _arguments.Header;
         }
 
         public void TriggerOnClose()
@@ -37,6 +42,7 @@ namespace SBaier.Astrominer
         {
             public RectTransform Content { get; set; }
             public Vector2 Size { get; set; }
+            public string Header { get; set; }
         }
     }
 }

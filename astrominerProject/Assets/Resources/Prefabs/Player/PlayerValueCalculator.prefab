@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4840105959326971943}
   - component: {fileID: 430141907468384798}
+  - component: {fileID: 7968904240753367815}
+  - component: {fileID: 8032580673225838091}
   m_Layer: 0
   m_Name: PlayerValueCalculator
   m_TagString: Untagged
@@ -45,3 +47,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _updateFrequence: 1
+--- !u!114 &7968904240753367815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241119761028715856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06988e4e5e283e74fb11ee675f8534e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _monoInstallers:
+  - {fileID: 8032580673225838091}
+  _scriptableObjectInstallers: []
+--- !u!114 &8032580673225838091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241119761028715856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6f482ad85bce744db831df7c1e232e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

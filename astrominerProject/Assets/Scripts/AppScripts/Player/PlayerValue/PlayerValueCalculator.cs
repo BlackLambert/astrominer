@@ -1,4 +1,3 @@
-using System;
 using SBaier.DI;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace SBaier.Astrominer
         [SerializeField]
         private float _updateFrequence = 1;
         
+        private PlayerValue _playerValue;
         private Player _player;
         private GameTime _gameTime;
         private OreBank _bank;
@@ -19,14 +19,10 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _player = resolver.Resolve<Player>();
+            _playerValue = resolver.Resolve<PlayerValue>();
             _gameTime = resolver.Resolve<GameTime>();
             _bank = resolver.Resolve<OreBank>();
             _exploitMachineVendor = resolver.Resolve<ExploitMachineVendor>();
-        }
-
-        private void OnEnable()
-        {
-            _player.ResetPlayerValue();
         }
 
         private void Update()
@@ -35,8 +31,8 @@ namespace SBaier.Astrominer
             {
                 _timeTillNextEvaluation += _updateFrequence;
                 float value = CalculateValue();
-                _player.AddPlayerValue(value);
-                Debug.Log($"Player {_player.Name} Value {value}");
+                _playerValue.TotalValue.Value = value;
+                _playerValue.ValueHistory.Add(value);
             }
         }
 
@@ -59,6 +55,14 @@ namespace SBaier.Astrominer
             {
                 value += _bank.CalculateCreditsFor(asteroid.MinedOres);
                 value += _exploitMachineVendor.CalculateSellValue(asteroid.ExploitMachine);
+            }
+
+            foreach (Drone drone in _player.Drones)
+            {
+                if (drone is CarrierDrone carrier)
+                {
+                    value += _bank.CalculateCreditsFor(carrier.CollectedOres);
+                }
             }
             
             return value;
