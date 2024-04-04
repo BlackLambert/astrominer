@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
+    [RequireComponent(typeof(RectTransform))]
     public class UILineRenderer : Graphic
     {
         [SerializeField] 
@@ -13,9 +14,11 @@ namespace SBaier.Astrominer
 
         private IEnumerable<Vector2> _verticesPositions = new List<Vector2>();
         private int _count = 0;
+        private RectTransform _rectTransform;
 
         public void SetVertexPositions(IEnumerable<Vector2> positions)
         {
+            _rectTransform = (RectTransform)transform;
             _verticesPositions = positions;
             _count = positions.Count();
             SetAllDirty();
@@ -25,7 +28,7 @@ namespace SBaier.Astrominer
         {
             vh.Clear();
             
-            if (_count < 2)
+            if (_count < 2 || _thickness <= 0) 
             {
                 return;
             }
@@ -110,7 +113,7 @@ namespace SBaier.Astrominer
 
             if (Mathf.Approximately(cross, 0f))
             {
-                throw new ArgumentException("Failed to render UI line. could not determine intersection point");
+                cross = 1;
             }
 
             float t = ((b1.x - a1.x) * direction1.y - (b1.y - a1.y) * direction1.x) / cross;

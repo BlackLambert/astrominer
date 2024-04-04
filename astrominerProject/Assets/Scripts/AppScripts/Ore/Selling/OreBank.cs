@@ -26,7 +26,6 @@ namespace SBaier.Astrominer
         {
             float creditsPerOre = _oreValue.GetValue(oreType);
             float creditsAmount = creditsPerOre * amount;
-            Debug.Log($"{amount} {oreType.ToString()} are worth {creditsAmount} credits");
             return Mathf.Max(0, creditsAmount);
         }
     }

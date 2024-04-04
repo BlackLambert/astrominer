@@ -25,7 +25,6 @@ namespace SBaier.Astrominer
 
 		public virtual void Add(T item)
 		{
-			ValidateAdd(item);
 			_items.Add(item);
 			OnItemAdded?.Invoke(item);
 			OnItemAddedAt?.Invoke(item, _items.Count - 1);
@@ -87,12 +86,6 @@ namespace SBaier.Astrominer
 			if (!Contains(item))
 				throw new ArgumentException();
 		}
-
-		private void ValidateAdd(T item)
-        {
-            if (Contains(item))
-                throw new ArgumentException();
-        }
 
 		private void SetAt(int index, T value)
 		{

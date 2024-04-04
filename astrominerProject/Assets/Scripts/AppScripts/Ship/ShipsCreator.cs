@@ -58,6 +58,7 @@ namespace SBaier.Astrominer
             Base playerBase = pair.Value;
 
             Ship ship = _pool.Request(player);
+            player.Ship.Value = ship;
             _ships.Values.Add(ship);
             Vector2 mapSize = _map.AsteroidAmountOption.Value.MapSize;
             float maxMapSide = mapSize.x > mapSize.y ? mapSize.x : mapSize.y;
