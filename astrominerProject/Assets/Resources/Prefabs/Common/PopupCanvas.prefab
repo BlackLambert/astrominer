@@ -613,6 +613,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 310613473714105581, guid: f47f34b508483254bb8fff9d1f3fecb7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 310613473714105581, guid: f47f34b508483254bb8fff9d1f3fecb7, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: 25
       objectReference: {fileID: 0}

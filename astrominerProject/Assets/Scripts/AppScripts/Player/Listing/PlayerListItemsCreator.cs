@@ -58,7 +58,9 @@ namespace SBaier.Astrominer
 
         private void RemoveItem(Player player)
         {
-            ReturnItem(_items.First(i => i.Player == player));
+            PlayerListItem item = _items.First(i => i.Player == player);
+            _items.Remove(item);
+            ReturnItem(item);
         }
 
         private void ReturnItem(PlayerListItem item)

@@ -8,10 +8,10 @@ namespace SBaier.Astrominer
     public class MapCreationSettings : ScriptableObject
     {
         [field: SerializeField] 
-        public int MinAsteroids { get; } = 10;
+        public int MinAsteroids { get; private set; } = 10;
         
         [field: SerializeField] 
-        public int MinAsteroidsAdditionPerPlayer { get; } = 5;
+        public int MinAsteroidsAdditionPerPlayer { get; private set; } = 5;
         
         [field: SerializeField] 
         public int MaxAsteroidsAmount { get; private set; } = 150;

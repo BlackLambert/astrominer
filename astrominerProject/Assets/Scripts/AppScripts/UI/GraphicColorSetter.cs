@@ -1,3 +1,4 @@
+using System;
 using SBaier.DI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,6 +21,11 @@ namespace SBaier.Astrominer
         private void OnEnable()
         {
             _graphic.color = _color;
+        }
+
+        private void Reset()
+        {
+            _graphic = GetComponent<Graphic>();
         }
     }
 }

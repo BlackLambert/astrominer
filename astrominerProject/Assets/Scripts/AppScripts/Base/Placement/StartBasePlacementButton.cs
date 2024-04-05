@@ -11,20 +11,20 @@ namespace SBaier.Astrominer
         private Button _button;
 
         private Map _map;
-        private BasesPlacementContext _placePlacementContext;
-        private MapCreationContext _mapCreationContext;
+        private BasesPlacementContext _basePlacementContext;
+        private TargetExploitSettingContext _targetExploitContext;
         
         public void Inject(Resolver resolver)
         {
             _map = resolver.Resolve<Map>();
-            _placePlacementContext = resolver.Resolve<BasesPlacementContext>();
-            _mapCreationContext = resolver.Resolve<MapCreationContext>();
+            _basePlacementContext = resolver.Resolve<BasesPlacementContext>();
+            _targetExploitContext = resolver.Resolve<TargetExploitSettingContext>();
         }
         
         private void Start()
         {
             _map.AsteroidArguments.OnValueChanged += OnAsteroidPositionsChanged;
-            _placePlacementContext.Started.OnValueChanged += OnStartedChanged;
+            _basePlacementContext.Started.OnValueChanged += OnStartedChanged;
             _button.onClick.AddListener(StartBasePlacement);
             UpdateButtonInteractable();
         }
@@ -32,7 +32,7 @@ namespace SBaier.Astrominer
         private void OnDestroy()
         {
             _map.AsteroidArguments.OnValueChanged -= OnAsteroidPositionsChanged;
-            _placePlacementContext.Started.OnValueChanged -= OnStartedChanged;
+            _basePlacementContext.Started.OnValueChanged -= OnStartedChanged;
             _button.onClick.RemoveListener(StartBasePlacement);
         }
 
@@ -48,13 +48,13 @@ namespace SBaier.Astrominer
 
         private void UpdateButtonInteractable()
         {
-            _button.interactable = _map.AsteroidArguments.Value?.Count > 0 && !_placePlacementContext.Started.Value;
+            _button.interactable = _map.AsteroidArguments.Value?.Count > 0 && !_basePlacementContext.Started.Value;
         }
 
         private void StartBasePlacement()
         {
-            _placePlacementContext.Started.Value = true;
-            _mapCreationContext.Finished.Value = true;
+            _basePlacementContext.Started.Value = true;
+            _targetExploitContext.Finished.Value = true;
         }
     }
 }

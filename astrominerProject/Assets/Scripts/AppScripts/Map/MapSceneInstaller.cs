@@ -17,6 +17,9 @@ namespace SBaier.Astrominer
             binder.BindToNewSelf<Map>()
                 .AsSingle();
 
+            binder.BindToNewSelf<TargetExploit>()
+                .AsSingle();
+
             binder.BindToNewSelf<Bases>()
                 .AsSingle();
 

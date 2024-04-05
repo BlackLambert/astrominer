@@ -26,16 +26,14 @@ namespace SBaier.Astrominer
             _gameTime.Paused.OnValueChanged -= OnPausedChanged;
         }
 
-        private void CheckShowPanel()
-        {
-            bool setActive = Time.timeScale == 0;
-            if (_panel.activeSelf != setActive)
-                _panel.SetActive(setActive);
-        }
-
         private void OnPausedChanged(bool formervalue, bool newvalue)
         {
             CheckShowPanel();
+        }
+
+        private void CheckShowPanel()
+        {
+            _panel.SetActive(_gameTime.Paused.Value);
         }
     }
 }

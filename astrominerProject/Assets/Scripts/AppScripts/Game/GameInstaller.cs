@@ -14,6 +14,7 @@ namespace SBaier.Astrominer
 			binder.Bind<ActiveItem<Player>>().ToNew<ActivePlayer>().AsSingle();
 			binder.Bind<ActiveItem<CosmicObject>>().ToNew<SelectedCosmicObject>().AsSingle();
 			binder.BindToNewSelf<GameTime>().AsSingle();
+			binder.BindToNewSelf<Game>().AsSingle();
 		}
 	}
 }

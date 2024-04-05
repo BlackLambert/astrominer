@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using SBaier.DI;
 using UnityEngine;
@@ -14,6 +15,11 @@ namespace SBaier.Astrominer
         public virtual void Inject(Resolver resolver)
         {
             _connectionPool = resolver.Resolve<Pool<Connection>>();
+        }
+
+        private void OnDisable()
+        {
+            ClearConnections();
         }
 
         protected void UpdateConnections(FlightPath newValue)

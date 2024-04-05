@@ -46,6 +46,7 @@ namespace SBaier.Astrominer
                 Header = _headerText
             });
             _currentPopup.OnClose += OnPopupClose;
+            _currentPopup.transform.SetParent(null);
         }
 
         private void OnPopupClose()

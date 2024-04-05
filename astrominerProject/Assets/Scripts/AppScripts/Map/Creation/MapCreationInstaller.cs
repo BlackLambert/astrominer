@@ -16,6 +16,9 @@ namespace SBaier.Astrominer
         [SerializeField] 
         private ComputerBasePlacementSettings _computerBasePlacementSettings;
 
+        [SerializeField] 
+        private TargetExploitSettings _targetExploitSettings;
+
         private System.Random _random;
 
         public void Inject(Resolver resolver)
@@ -43,6 +46,12 @@ namespace SBaier.Astrominer
 
             binder.BindToNewSelf<BasesPlacementContext>()
                 .AsSingle();
+            
+            binder.BindToNewSelf<TargetExploitSettingContext>()
+                .AsSingle();
+            
+            binder.BindInstance(_targetExploitSettings)
+                .WithInjection();
 
             binder.Bind<Factory<List<Asteroid>, List<Asteroid.Arguments>>>()
                 .ToNew<AsteroidsFactory>();

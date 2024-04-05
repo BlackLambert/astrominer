@@ -12,10 +12,5 @@ namespace SBaier.Astrominer
         public Vector2 CenterPoint => AsteroidAmountOption.Value.MapCenterPoint;
         public Vector2 BottomLeftPoint => Vector2.zero - AsteroidAmountOption.Value.MapSize / 2 + CenterPoint;
 
-        public float GetTotalExploitedPercentage()
-        {
-            float sum = Asteroids.Value.Sum(asteroid => asteroid.MinedPercentage);
-            return sum / Asteroids.Value.Count;
-        }
     }
 }
