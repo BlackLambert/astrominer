@@ -64,9 +64,16 @@ namespace SBaier.Astrominer
 
         private void AddConnection(TItem asteroid)
         {
+            if (_startPoint.Value.Equals(asteroid.Position2D))
+            {
+                return;
+            }
+            
             Connection connection = _connectionPool.Request();
+            Transform trans = connection.transform; 
+            trans.SetParent(null);
             Vector2 startPosition = _startPoint.Value;
-            connection.transform.position = startPosition;
+            trans.position = startPosition;
             connection.SetEndpoints(startPosition, asteroid.Position2D);
             connection.SetDefaultColor();
             _asteroidToConnection.Add(asteroid, connection);
@@ -74,6 +81,11 @@ namespace SBaier.Astrominer
 
         private void RemoveConnection(TItem item)
         {
+            if (!_asteroidToConnection.ContainsKey(item))
+            {
+                return;
+            }
+            
             _connectionPool.Return(_asteroidToConnection[item]);
             _asteroidToConnection.Remove(item);
         }

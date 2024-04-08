@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef413ceb16b9ebd438b9722deef82300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _image: {fileID: 796470929696318581}
+  _graphic: {fileID: 796470929696318581}
 --- !u!1 &2921060577800311271
 GameObject:
   m_ObjectHideFlags: 0
@@ -192,6 +192,7 @@ GameObject:
   - component: {fileID: 8179105506769535480}
   - component: {fileID: 8146972584117745964}
   - component: {fileID: 7670516944183525337}
+  - component: {fileID: 4477729769678074868}
   m_Layer: 5
   m_Name: PlayerColorSelectionItem
   m_TagString: Untagged
@@ -288,6 +289,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selector: {fileID: 8146972584117745964}
+--- !u!114 &4477729769678074868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3759415691453633174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be89806e22204a4ba9fc5b2627da1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 4617039407538550103}
+  _reverse: 0
 --- !u!1 &4617039407538550103
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,7 +315,6 @@ GameObject:
   - component: {fileID: 3747705957131839340}
   - component: {fileID: 3121445952271477793}
   - component: {fileID: 7798922356682678570}
-  - component: {fileID: 8464037559419143407}
   m_Layer: 5
   m_Name: SelectionImage
   m_TagString: Untagged
@@ -378,17 +392,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _image: {fileID: 3121445952271477793}
---- !u!114 &8464037559419143407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4617039407538550103}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be89806e22204a4ba9fc5b2627da1793, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _target: {fileID: 4617039407538550103}
-  _reverse: 0

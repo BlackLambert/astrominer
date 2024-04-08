@@ -59,6 +59,7 @@ namespace SBaier.Astrominer
         private void CreateConnection(FlyTarget start, FlyTarget end, Color? color)
         {
             Connection connection = _connectionPool.Request();
+            connection.transform.SetParent(null);
             connection.SetEndpoints(start.LandingPoint, end.LandingPoint);
             connection.SetColor(color);
             _connections.Add(connection);
