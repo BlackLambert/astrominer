@@ -1,6 +1,6 @@
 namespace SBaier.Astrominer
 {
-    public class SceneCommandsOnStartExecutor : SceneCommandsExecutor
+    public class CommandsOnStartTrigger : CommandsExecutionTriggerBehaviour
     {
         private void Start()
         {

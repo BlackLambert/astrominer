@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 namespace SBaier.Astrominer
 {
     [CreateAssetMenu(fileName = "SceneLoadCommand", menuName = "ScriptableObjects/SceneManagement/SceneLoadCommand")]
-    public class SceneLoadCommand : SceneManagementCommand
+    public class SceneLoadCommand : SceneChangeCommand
     {
         [field: SerializeField]
         public LoadSceneMode Mode { get; private set; } = LoadSceneMode.Additive;
