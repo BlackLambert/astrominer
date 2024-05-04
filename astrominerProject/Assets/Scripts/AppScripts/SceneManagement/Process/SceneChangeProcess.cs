@@ -6,18 +6,21 @@ using UnityEngine.SceneManagement;
 
 namespace SBaier.Astrominer
 {
-    public class SceneChangeProcess
+    public class SceneChangeProcess : Process
     {
         public event Action OnFinished;
         public event Action OnStopped;
-        public float Progress => _commandsAmount > 0 ? (float)_index / _commandsAmount : 1;
+        public float Progress => _commandsAmount > 0 ? (_index + operationProgress) / _commandsAmount : 1;
+        public bool Stopped { get; private set; } = false;
         public bool Finished { get; private set; } = false;
 
+        private float operationProgress => _currentOperation?.progress ?? 0;
         private List<SceneChangeCommand> _commands;
         private CoroutineHelper _coroutineHelper;
         private Coroutine _routine;
         private int _index = 0;
         private int _commandsAmount;
+        private AsyncOperation _currentOperation;
 
         public SceneChangeProcess(
             List<SceneChangeCommand> commands,
@@ -28,9 +31,9 @@ namespace SBaier.Astrominer
             _commandsAmount = commands.Count;
         }
 
-        public void Execute()
+        public void Start()
         {
-            ValidateExecute();
+            ValidateStart();
             _routine = _coroutineHelper.StartCoroutine(ExecuteCommands());
         }
 
@@ -39,6 +42,7 @@ namespace SBaier.Astrominer
             ValidateStop();
             _coroutineHelper.StopCoroutine(_routine);
             _routine = null;
+            Stopped = true;
             OnStopped?.Invoke();
         }
         
@@ -55,10 +59,12 @@ namespace SBaier.Astrominer
             switch (command)
             {
                 case SceneLoadCommand loadCommand:
-                    yield return SceneManager.LoadSceneAsync(loadCommand.SceneName, loadCommand.Mode);
+                    _currentOperation = SceneManager.LoadSceneAsync(loadCommand.SceneName, loadCommand.Mode);
+                    yield return _currentOperation;
                     break;
                 case SceneUnloadCommand unloadCommand:
-                    yield return SceneManager.UnloadSceneAsync(unloadCommand.SceneName);
+                    _currentOperation = SceneManager.UnloadSceneAsync(unloadCommand.SceneName);
+                    yield return _currentOperation;
                     break;
                 default:
                     throw new NotImplementedException($"The {nameof(SceneChangeCommand)} of type {command.GetType()} " +
@@ -68,7 +74,7 @@ namespace SBaier.Astrominer
             _index++;
         }
 
-        private void ValidateExecute()
+        private void ValidateStart()
         {
             if (_routine != null)
             {
@@ -78,7 +84,7 @@ namespace SBaier.Astrominer
 
         private void ValidateStop()
         {
-            if (_routine == null)
+            if (_routine == null || Stopped)
             {
                 throw new InvalidOperationException("Stop called on a process that is not running");
             }
@@ -87,6 +93,7 @@ namespace SBaier.Astrominer
         private void Finish()
         {
             _routine = null;
+            _currentOperation = null;
             Finished = true;
             OnFinished?.Invoke();
         }

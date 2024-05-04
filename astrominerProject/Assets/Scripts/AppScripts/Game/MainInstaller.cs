@@ -13,12 +13,37 @@ namespace SBaier.Astrominer
 
         public override void InstallBindings(Binder binder)
         {
-            binder.BindInstance(_visualsSettings).WithoutInjection();
-            binder.BindInstance(new System.Random()).WithoutInjection();
-            binder.Bind<Factory<Player, PlayerFactory.Arguments>>().ToNew<PlayerFactory>();
-            binder.BindInstance(_camera).WithoutInjection();
-            binder.BindToNewSelf<CameraZoom>().AsSingle();
-            binder.Bind<MonoBehaviour>(BindingIds.CoroutineHelper).ToInstance(this).WithoutInjection();
+            binder.BindInstance(_visualsSettings)
+                .WithoutInjection();
+            
+            binder.BindInstance(new System.Random())
+                .WithoutInjection();
+            
+            binder.Bind<Factory<Player, PlayerFactory.Arguments>>()
+                .ToNew<PlayerFactory>();
+            
+            binder.BindInstance(_camera)
+                .WithoutInjection();
+            
+            binder.BindToNewSelf<CameraZoom>()
+                .AsSingle();
+            
+            binder.BindComponent<CoroutineHelper>()
+                .FromNewComponentOnNewGameObject("CoroutineHelper", transform)
+                .AsSingle();
+            
+            binder.BindToNewSelf<ProcessQueue>()
+                .AsSingle();
+
+            binder.BindToNewSelf<Observable<Process>>();
+            
+            binder.Bind<CommandsEnqueuer>()
+                .ToNew<BasicCommandsEnqueuer>()
+                .AsSingle();
+            
+            binder.BindComponent<LoadingScreenProcessStarter>()
+                .FromNewComponentOnNewGameObject("ProcessStarter", transform)
+                .AsNonResolvable();
         }
     }
 }

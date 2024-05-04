@@ -9,16 +9,16 @@ namespace SBaier.Astrominer
         [SerializeField]
         private List<SceneChangeCommand> _commands = new List<SceneChangeCommand>();
 
-        private CommandsExecutor _commandsExecutor;
+        private CommandsEnqueuer _commandsEnqueuer;
         
         public virtual void Inject(Resolver resolver)
         {
-            _commandsExecutor = resolver.Resolve<CommandsExecutor>();
+            _commandsEnqueuer = resolver.Resolve<CommandsEnqueuer>();
         }
 
         protected void Execute()
         {
-            _commandsExecutor.Execute(_commands);
+            _commandsEnqueuer.Enqueue(_commands);
         }
     }
 }

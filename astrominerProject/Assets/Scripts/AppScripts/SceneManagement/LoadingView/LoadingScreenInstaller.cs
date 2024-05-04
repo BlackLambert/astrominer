@@ -1,19 +1,32 @@
+using System;
 using SBaier.DI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
     public class LoadingScreenInstaller : MonoInstaller, Injectable
     {
-        private SceneChangeProcess _process;
+        [SerializeField] 
+        private Displayer _displayer;
         
-        public override void InstallBindings(Binder binder)
+        private Process _process;
+
+        private void Reset()
         {
-            binder.BindInstance(_process);
+            _displayer = GetComponent<Displayer>();
         }
 
         public void Inject(Resolver resolver)
         {
-            _process = resolver.Resolve<SceneChangeProcess>();
+            _process = resolver.Resolve<Process>();
+        }
+        
+        public override void InstallBindings(Binder binder)
+        {
+            binder.BindInstance(_process).
+                WithoutInjection();
+            binder.BindInstance(_displayer).
+                WithoutInjection();
         }
     }
 }

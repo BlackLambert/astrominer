@@ -2,7 +2,7 @@ using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class LoadingScreenPoolInstaller : MonoPoolInstaller<LoadingScreen, SceneChangeProcess>
+    public class LoadingScreenPoolInstaller : MonoPoolInstaller<LoadingScreen, Process>
     {
         
     }
