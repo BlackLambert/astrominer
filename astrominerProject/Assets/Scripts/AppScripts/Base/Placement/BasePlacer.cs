@@ -1,50 +1,46 @@
-using System;
 using System.Collections.Generic;
 using SBaier.DI;
-using System.Linq;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class BasePlacer : MonoBehaviour, Injectable
+	public class BasePlacer : MonoBehaviour, Injectable, Initializable, Cleanable
 	{
-		private readonly Vector2 _baseStartPosition = new Vector2(0, 0);
-
 		[SerializeField] 
 		private Transform _hook;
 		
 		private Players _players;
-		private Pool<BasePlacementPreview, Player> _basePreviewPool;
+		private Pool<BasePlacementPreview, Player, PrefabInstantiationArguments> _basePreviewPool;
 		private BasesPlacementContext _context;
 		private int _currentPlayerIndex = 0;
 		private List<BasePlacementPreview> _bases = new List<BasePlacementPreview>();
 		private BasePositions _positions;
 		private BasePositionGetter _basePositionGetter;
+		private PointerPosition _pointerPosition;
+		private Camera _camera;
 
 		public void Inject(Resolver resolver)
 		{
 			_players = resolver.Resolve<Players>();
-			_basePreviewPool = resolver.Resolve<Pool<BasePlacementPreview, Player>>();
+			_basePreviewPool = resolver.Resolve<Pool<BasePlacementPreview, Player, PrefabInstantiationArguments>>();
 			_context = resolver.Resolve<BasesPlacementContext>();
 			_positions = resolver.Resolve<BasePositions>();
 			_basePositionGetter = resolver.Resolve<BasePositionGetter>();
+			_pointerPosition = resolver.Resolve<PointerPosition>(0);
+			_camera = resolver.Resolve<Camera>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			CreateNextBase();
 			_context.Started.OnValueChanged += OnStartedChanged;
 			_positions.OnItemAdded += OnBasePlaced;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_context.Started.OnValueChanged -= OnStartedChanged;
 			_positions.OnItemAdded -= OnBasePlaced;
-		}
-
-		private void OnDestroy()
-		{
 			ClearBases();
 		}
 
@@ -67,7 +63,7 @@ namespace SBaier.Astrominer
 			
 			if (player.IsHuman)
 			{
-				CreateBase(player, _baseStartPosition);
+				CreateBase(player, _camera.ScreenToWorldPoint(_pointerPosition.CurrentPosition));
 			}
 			else
 			{
@@ -75,12 +71,10 @@ namespace SBaier.Astrominer
 			}
 		}
 
-		private void CreateBase(Player player, Vector3 position)
+		private void CreateBase(Player player, Vector2 position)
 		{
-			BasePlacementPreview basePreview = _basePreviewPool.Request(player);
-			Transform baseTransform = basePreview.transform;
-			baseTransform.SetParent(_hook);
-			baseTransform.position = position;
+			PrefabInstantiationArguments args = CreateCreationArgs(position);
+			_basePreviewPool.Request(player, args);
 			_currentPlayerIndex++;
 		}
 
@@ -107,6 +101,16 @@ namespace SBaier.Astrominer
 		private void OnBasePlaced(KeyValuePair<Player, Vector2> keyValuePair)
 		{
 			CreateNextBase();
+		}
+
+		private PrefabInstantiationArguments CreateCreationArgs(Vector2 position)
+		{
+			return new PrefabInstantiationArguments()
+			{
+				Parent = _hook,
+				Position = position,
+				Rotation = Quaternion.identity
+			};
 		}
 	}
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace SBaier.Astrominer
 {
     public class MonoBehaviourInRangeDetector2DBase<TItem> : 
-        MonoBehaviour, Injectable, InRangeDetector2D<TItem> 
+        MonoBehaviour, Injectable, InRangeDetector2D<TItem>, Initializable, Cleanable
         where TItem : MonoBehaviour
     {
         public event Action<TItem> OnItemCameInRange;
@@ -30,12 +30,12 @@ namespace SBaier.Astrominer
             _itemsNotInRange.AddRange(_provider.Value);
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CheckItemsInRange();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _itemsInRange.Clear();
             _itemsNotInRange.Clear();

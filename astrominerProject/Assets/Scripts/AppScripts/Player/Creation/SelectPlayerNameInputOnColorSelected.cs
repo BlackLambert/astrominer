@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SelectPlayerNameInputOnColorSelected : MonoBehaviour, Injectable
+    public class SelectPlayerNameInputOnColorSelected : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private TMP_InputField _input;
@@ -20,12 +20,12 @@ namespace SBaier.Astrominer
             _activeColorOption = resolver.Resolve<ActiveItem<PlayerColorOption>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _activeColorOption.OnValueChanged += SelectInput;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activeColorOption.OnValueChanged -= SelectInput;
         }

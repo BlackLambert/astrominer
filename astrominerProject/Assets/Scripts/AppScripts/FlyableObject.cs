@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public abstract class FlyableObject : MonoBehaviour, Flyable, Injectable
+    public abstract class FlyableObject : MonoBehaviour, Flyable, Injectable, Initializable, Cleanable
     {
         private FlightPathMover _mover;
 
@@ -12,19 +12,18 @@ namespace SBaier.Astrominer
         
         public Vector2 Position2D => transform.position;
         public bool IsFlying => !_mover.TargetReached;
-
-
+        
         public virtual void Inject(Resolver resolver)
         {
             _mover = resolver.Resolve<FlightPathMover>();
         }
 
-        protected virtual void OnEnable()
+        public virtual void Initialize()
         {
             _mover.OnTargetReached += OnTargetReached;
         }
 
-        protected virtual void OnDisable()
+        public virtual void Clean()
         {
             _mover.OnTargetReached -= OnTargetReached;
         }

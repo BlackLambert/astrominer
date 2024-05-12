@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class TakeMachineButton : MonoBehaviour, Injectable
+    public class TakeMachineButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
 		[SerializeField]
 		private Button _button;
@@ -18,14 +18,14 @@ namespace SBaier.Astrominer
 			_ship = resolver.Resolve<Ship>();
 		}
 
-		private void Start()
+		public void Initialize()
 		{
 			UpdateInteractivity();
 			_ship.Location.OnValueChanged += OnFlyTargetChange;
 			_button.onClick.AddListener(TakeMachine);
 		}
 
-        private void OnDestroy()
+		public void Clean()
 		{
 			_ship.Location.OnValueChanged -= OnFlyTargetChange;
 			_button.onClick.RemoveListener(TakeMachine);

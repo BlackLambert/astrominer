@@ -4,7 +4,7 @@ using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidsGenerator : MonoBehaviour, Injectable
+    public class AsteroidsGenerator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Transform _hook;
@@ -20,13 +20,13 @@ namespace SBaier.Astrominer
             _asteroidPool = resolver.Resolve<Pool<Asteroid, Asteroid.Arguments>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             GenerateMap();
             _map.AsteroidArguments.OnValueChanged += OnAsteroidPositionsChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _map.Asteroids.Value = new List<Asteroid>();
             _map.AsteroidArguments.OnValueChanged -= OnAsteroidPositionsChanged;

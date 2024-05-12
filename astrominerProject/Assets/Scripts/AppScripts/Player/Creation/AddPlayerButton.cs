@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public abstract class AddPlayerButton : MonoBehaviour, Injectable
+    public abstract class AddPlayerButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -17,14 +17,14 @@ namespace SBaier.Astrominer
             _playerCreator = resolver.Resolve<MatchmakingPlayerCreator>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CheckButtonInteractable();
             _button.onClick.AddListener(CreatePlayer);
             _playerCreator.OnPlayerArgumentChanged += OnPlayerArgumentChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(CreatePlayer);
             _playerCreator.OnPlayerArgumentChanged -= OnPlayerArgumentChanged;

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerValuesPopupCreateButton : MonoBehaviour, Injectable
+    public class PlayerValuesPopupCreateButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private Button _button;
@@ -16,29 +16,29 @@ namespace SBaier.Astrominer
         private string _headerText = "Statistics";
 
         private Pool<Popup, Popup.Arguments> _popupPool;
-        private Pool<PlayerValueGraphs> _graphsPool;
+        private Pool<PlayerValueGraphs, PrefabInstantiationArguments> _graphsPool;
         private Popup _currentPopup;
         private PlayerValueGraphs _currentGraphs;
 
         public void Inject(Resolver resolver)
         {
             _popupPool = resolver.Resolve<Pool<Popup, Popup.Arguments>>();
-            _graphsPool = resolver.Resolve<Pool<PlayerValueGraphs>>();
+            _graphsPool = resolver.Resolve<Pool<PlayerValueGraphs, PrefabInstantiationArguments>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _button.onClick.AddListener(CreatePopup);
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(CreatePopup);
         }
 
         private void CreatePopup()
         {
-            _currentGraphs = _graphsPool.Request();
+            _currentGraphs = _graphsPool.Request(PrefabInstantiationArguments.CreateUIArgs(null));
             _currentPopup = _popupPool.Request(new Popup.Arguments()
             {
                 Content = _currentGraphs.RectTransform,

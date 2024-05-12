@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class DronesDestructorCreator : MonoBehaviour, Injectable
+    public class DronesDestructorCreator : MonoBehaviour, Injectable, Initializable
     {
         [SerializeField] 
         private Transform _hook;
 
         private Players _players;
-        private Pool<DronesDestructor, Player> _pool;
+        private Pool<DronesDestructor, Player, PrefabInstantiationArguments> _pool;
         
         public void Inject(Resolver resolver)
         {
             _players = resolver.Resolve<Players>();
-            _pool = resolver.Resolve<Pool<DronesDestructor, Player>>();
+            _pool = resolver.Resolve<Pool<DronesDestructor, Player, PrefabInstantiationArguments>>();
         }
 
-        private void Start()
+        public void Initialize()
         {
             Create();
         }
@@ -26,8 +26,7 @@ namespace SBaier.Astrominer
         {
             foreach (Player player in _players)
             {
-                DronesDestructor destructor = _pool.Request(player);
-                destructor.transform.SetParent(_hook, false);
+                _pool.Request(player, new PrefabInstantiationArguments(){Parent = _hook});
             }
         }
     }

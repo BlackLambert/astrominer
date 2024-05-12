@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ActivateGameObjectOnItemSelected<TItem> : MonoBehaviour, Injectable
+    public class ActivateGameObjectOnItemSelected<TItem> : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] private GameObject _target;
         [SerializeField] private bool _reverse = false;
@@ -17,13 +17,13 @@ namespace SBaier.Astrominer
             _item = resolver.Resolve<TItem>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateActiveState();
             _selectedItem.OnValueChanged += OnSelectionChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _selectedItem.OnValueChanged -= OnSelectionChanged;
         }

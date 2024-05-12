@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class OreCollector : MonoBehaviour, Injectable
+	public class OreCollector : MonoBehaviour, Injectable, Initializable, Cleanable
 	{
 		private FlyableObject _flyableObject;
 		private Ores _collectedOres;
@@ -16,13 +16,13 @@ namespace SBaier.Astrominer
 			_player = resolver.Resolve<Player>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			AddListeners(_flyableObject.FlyTarget.Value);
 			_flyableObject.FlyTarget.OnValueChanged += OnFlyTargetChanged;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			RemoveListeners(_flyableObject.FlyTarget.Value);
 			_flyableObject.FlyTarget.OnValueChanged -= OnFlyTargetChanged;

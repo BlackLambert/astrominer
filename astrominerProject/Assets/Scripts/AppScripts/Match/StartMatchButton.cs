@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class StartMatchButton : MonoBehaviour, Injectable
+    public class StartMatchButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -19,13 +19,13 @@ namespace SBaier.Astrominer
 			_players = resolver.Resolve<Players>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			CheckInteractable();
 			_players.OnItemsChanged += CheckInteractable;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_players.OnItemsChanged -= CheckInteractable;
 		}

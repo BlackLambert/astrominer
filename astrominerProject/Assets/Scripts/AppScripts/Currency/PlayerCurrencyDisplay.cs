@@ -1,8 +1,9 @@
+using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class PlayerCurrencyDisplay : ItemPropertyDisplay<Player>
+	public class PlayerCurrencyDisplay : ItemPropertyDisplay<Player>, Cleanable
 	{
 		[SerializeField]
 		private string _baseString = "Credits: {0}";
@@ -13,13 +14,13 @@ namespace SBaier.Astrominer
 			return string.Format(_baseString, _item.Credits.ToString());
 		}
 
-		protected override void OnEnable()
+		public override void Initialize()
 		{
-			base.OnEnable();
+			base.Initialize();
 			_item.Credits.OnAmountChanged += SetText;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_item.Credits.OnAmountChanged -= SetText;
 		}

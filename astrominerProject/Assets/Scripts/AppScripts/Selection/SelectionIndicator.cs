@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public abstract class SelectionIndicator : MonoBehaviour, Injectable
+	public abstract class SelectionIndicator : MonoBehaviour, Injectable, Initializable
 	{
 		private VisualsSettings _visualSettings;
 
@@ -12,7 +12,7 @@ namespace SBaier.Astrominer
 			_visualSettings = resolver.Resolve<VisualsSettings>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			SetColor(_visualSettings.SelectIndicatorColor);
 		}

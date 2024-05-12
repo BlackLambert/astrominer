@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class DronesDestructor : MonoBehaviour, Injectable
+	public class DronesDestructor : MonoBehaviour, Injectable, Initializable, Cleanable
 	{
 		private Drones _drones;
 
@@ -12,12 +12,12 @@ namespace SBaier.Astrominer
 			_drones = resolver.Resolve<Drones>();
 		}
 
-		private void Start()
+		public void Initialize()
 		{
 			_drones.OnItemAdded += AddDestructor;
 		}
 
-		private void OnDestroy()
+		public void Clean()
 		{
 			_drones.OnItemAdded -= AddDestructor;
 		}

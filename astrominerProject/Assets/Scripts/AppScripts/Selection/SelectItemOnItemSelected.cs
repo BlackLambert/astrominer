@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SelectItemOnItemSelected<TItem, TSelectedItem> : MonoBehaviour, Injectable where TItem : TSelectedItem
+    public class SelectItemOnItemSelected<TItem, TSelectedItem> : MonoBehaviour, Injectable, Initializable, Cleanable
+        where TItem : TSelectedItem
     {
         private ActiveItem<TItem> _activeItem;
         private ActiveItem<TSelectedItem> _activeSelectedItem;
@@ -14,12 +15,12 @@ namespace SBaier.Astrominer
             _activeSelectedItem = resolver.Resolve<ActiveItem<TSelectedItem>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _activeSelectedItem.OnValueChanged += OnSelectedItemChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activeSelectedItem.OnValueChanged -= OnSelectedItemChanged;
         }

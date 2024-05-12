@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class CameraZoomApplier : MonoBehaviour, Injectable
+    public class CameraZoomApplier : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private Camera _camera;
         private CameraZoom _zoom;
@@ -17,13 +17,13 @@ namespace SBaier.Astrominer
             _zoom = resolver.Resolve<CameraZoom>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             ApplyNewZoom();
             _zoom.Value.OnValueChanged += OnZoomChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _zoom.Value.OnValueChanged -= OnZoomChanged;
         }

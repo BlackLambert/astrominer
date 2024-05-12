@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class FlyTargetsInRangeDetector : MonoBehaviour, Injectable, InRangeDetector2D<FlyTarget>
+    public class FlyTargetsInRangeDetector : MonoBehaviour, Injectable, InRangeDetector2D<FlyTarget>, Initializable, Cleanable
     {
         public event Action<FlyTarget> OnItemCameInRange;
         public event Action<FlyTarget> OnItemCameOutOffRange;
@@ -22,14 +22,19 @@ namespace SBaier.Astrominer
             _startPoint = new BasicProvider<Vector2>(_arguments.Origin.Position2D);
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             FindNeighbors();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
-            Clean();
+            foreach (FlyTarget target in _itemsInRange)
+            {
+                OnItemCameOutOffRange?.Invoke(target);
+            }
+            
+            _itemsInRange.Clear();
         }
 
         private void FindNeighbors()
@@ -44,16 +49,6 @@ namespace SBaier.Astrominer
                 _itemsInRange.Add(flyTarget);
                 OnItemCameInRange?.Invoke(flyTarget);
             }
-        }
-
-        private void Clean()
-        {
-            foreach (FlyTarget target in _itemsInRange)
-            {
-                OnItemCameOutOffRange?.Invoke(target);
-            }
-            
-            _itemsInRange.Clear();
         }
 
         public class Arguments

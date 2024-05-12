@@ -12,15 +12,15 @@ namespace SBaier.Astrominer
 			_identifiedAsteroids = resolver.Resolve<IdentifiedAsteroids>();
 		}
 
-		protected override void OnEnable()
+		public override void Initialize()
 		{
-			base.OnEnable();
+			base.Initialize();
 			_identifiedAsteroids.OnItemAdded += CheckButtonActive;
 		}
 
-		protected override void OnDisable()
+		public override void Clean()
 		{
-			base.OnDisable();
+			base.Clean();
 			_identifiedAsteroids.OnItemAdded -= CheckButtonActive;
 		}
 

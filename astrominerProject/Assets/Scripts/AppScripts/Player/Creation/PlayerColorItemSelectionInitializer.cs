@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerColorItemSelectionInitializer : MonoBehaviour, Injectable
+    public class PlayerColorItemSelectionInitializer : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private PlayerSettings _playerSettings;
         private Players _players;
@@ -17,13 +17,13 @@ namespace SBaier.Astrominer
             _playerSettings = resolver.Resolve<PlayerSettings>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             SelectFirstAvailableItem();
             _selectedOption.OnValueChanged += OnSelectedItemChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _selectedOption.OnValueChanged -= OnSelectedItemChanged;
         }

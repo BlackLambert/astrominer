@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class GamePauser : MonoBehaviour, Injectable
+    public class GamePauser : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private GameTime _gameTime;
 
@@ -13,13 +13,13 @@ namespace SBaier.Astrominer
             _gameTime = resolver.Resolve<GameTime>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateGameTime();
             _gameTime.Paused.OnValueChanged += OnPausedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _gameTime.Paused.OnValueChanged -= OnPausedChanged;
         }

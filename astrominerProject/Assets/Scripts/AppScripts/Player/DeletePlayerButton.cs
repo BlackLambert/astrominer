@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class DeletePlayerButton : MonoBehaviour, Injectable
+    public class DeletePlayerButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -18,12 +18,12 @@ namespace SBaier.Astrominer
             _players = resolver.Resolve<Players>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _button.onClick.AddListener(DeletePlayer);
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(DeletePlayer);
         }

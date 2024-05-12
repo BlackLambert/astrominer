@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerOnSubmitCreator : MonoBehaviour, Injectable
+    public class PlayerOnSubmitCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private TMP_InputField _inputField;
@@ -17,12 +17,12 @@ namespace SBaier.Astrominer
             _playerCreator = resolver.Resolve<MatchmakingPlayerCreator>();
         }
 
-        public void OnEnable()
+        public void Initialize()
         {
             _inputField.onSubmit.AddListener(OnSubmit);
         }
 
-        public void OnDisable()
+        public void Clean()
         {
             _inputField.onSubmit.RemoveListener(OnSubmit);
         }

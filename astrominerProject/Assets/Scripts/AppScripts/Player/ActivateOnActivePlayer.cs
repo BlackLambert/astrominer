@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ActivateOnActivePlayer : MonoBehaviour, Injectable
+    public class ActivateOnActivePlayer : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private GameObject _target;
@@ -17,13 +17,13 @@ namespace SBaier.Astrominer
             _activePlayer = resolver.Resolve<ActiveItem<Player>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateActiveState();
             _activePlayer.OnValueChanged += OnPlayerChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activePlayer.OnValueChanged -= OnPlayerChanged;
         }

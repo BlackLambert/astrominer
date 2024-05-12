@@ -19,6 +19,11 @@ namespace SBaier.Astrominer
 
         private void Update()
         {
+            UpdatePosition();
+        }
+
+        private void UpdatePosition()
+        {
             if (_pointerPosition.IsActive)
             {
                 _followingTransform.position = (Vector2) _camera.ScreenToWorldPoint(_pointerPosition.CurrentPosition);

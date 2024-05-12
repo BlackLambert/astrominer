@@ -8,7 +8,7 @@ using TMPro;
 
 namespace SBaier.Astrominer
 {
-    public class CreationIssueDisplay : MonoBehaviour, Injectable
+    public class CreationIssueDisplay : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private TextMeshProUGUI _text;
@@ -20,13 +20,13 @@ namespace SBaier.Astrominer
             _playerCreator = resolver.Resolve<MatchmakingPlayerCreator>();
         }
 
-        public void OnEnable()
+        public void Initialize()
         {
             _playerCreator.OnPlayerArgumentChanged += DisplayIssues;
             DisplayIssues(_playerCreator.CreatableInfo);
         }
 
-        public void OnDisable()
+        public void Clean()
         {
             _playerCreator.OnPlayerArgumentChanged -= DisplayIssues;
         }

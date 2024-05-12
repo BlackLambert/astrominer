@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class OreMiner : MonoBehaviour, Injectable
+	public class OreMiner : MonoBehaviour, Injectable, Initializable, Cleanable
 	{
 		private Asteroid _asteroid;
 		private MiningSettings _settings;
@@ -26,13 +26,13 @@ namespace SBaier.Astrominer
 			_settings = resolver.Resolve<MiningSettings>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			CalculateOresPerSecond();
 			_asteroid.OnExploitMachineChanged += CalculateOresPerSecond;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_asteroid.OnExploitMachineChanged -= CalculateOresPerSecond;
 		}

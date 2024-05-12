@@ -2,11 +2,12 @@ using System;
 using SBaier.DI;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public abstract class SliderInput<T> : MonoBehaviour, Injectable
+    public abstract class SliderInput<T> : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private TextMeshProUGUI _currentAmountText;
@@ -25,14 +26,14 @@ namespace SBaier.Astrominer
             _value = resolver.Resolve<Observable<T>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             InitSlider();
             _value.OnValueChanged += UpdateInput;
             _slider.onValueChanged.AddListener(OnSliderValueChanged);
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _value.OnValueChanged -= UpdateInput;
             _slider.onValueChanged.RemoveListener(OnSliderValueChanged);

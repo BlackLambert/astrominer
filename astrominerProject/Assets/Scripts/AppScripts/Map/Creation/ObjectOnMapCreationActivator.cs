@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class HideOnMapCreationFinished : MonoBehaviour, Injectable
+    public class ObjectOnMapCreationActivator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private GameObject _target;
@@ -15,14 +15,16 @@ namespace SBaier.Astrominer
             _context = resolver.Resolve<MapCreationContext>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateShow();
+            _context.Started.OnValueChanged += OnStartedChanged;
             _context.Finished.OnValueChanged += OnFinishedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
+            _context.Started.OnValueChanged -= OnStartedChanged;
             _context.Finished.OnValueChanged -= OnFinishedChanged;
         }
 
@@ -31,9 +33,14 @@ namespace SBaier.Astrominer
             UpdateShow();
         }
 
+        private void OnStartedChanged(bool formervalue, bool newvalue)
+        {
+            UpdateShow();
+        }
+
         private void UpdateShow()
         {
-            _target.SetActive(!_context.Finished.Value);
+            _target.SetActive(_context.Started.Value && !_context.Finished.Value);
         }
     }
 }

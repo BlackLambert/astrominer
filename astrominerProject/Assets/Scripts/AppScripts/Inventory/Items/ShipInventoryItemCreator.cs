@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ShipInventoryItemCreator : MonoBehaviour, Injectable
+    public class ShipInventoryItemCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
 	    [SerializeField] 
 	    private Transform _hook;
 	    
-		private Pool<ShipInventoryItem, ExploitMachine> _itemPool;
+		private Pool<ShipInventoryItem, ExploitMachine, PrefabInstantiationArguments> _itemPool;
 		private Ship _ship;
 		private ShipInventorySlot.Arguments _slotArguments;
 		private ShipInventorySlot _slot;
@@ -17,20 +17,20 @@ namespace SBaier.Astrominer
 
 		public void Inject(Resolver resolver)
 		{
-			_itemPool = resolver.Resolve<Pool<ShipInventoryItem, ExploitMachine>>();
+			_itemPool = resolver.Resolve<Pool<ShipInventoryItem, ExploitMachine, PrefabInstantiationArguments>>();
 			_ship = resolver.Resolve<Ship>();
 			_slotArguments = resolver.Resolve<ShipInventorySlot.Arguments>();
 			_slot = resolver.Resolve<ShipInventorySlot>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			CreateItem();
 			_ship.Machines.OnItemsChanged += UpdateItem;
 			_slot.OnPool += ReturnItem;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_ship.Machines.OnItemsChanged -= UpdateItem;
 			_slot.OnPool -= ReturnItem;
@@ -52,10 +52,7 @@ namespace SBaier.Astrominer
 
 		private void CreateItemFor(ExploitMachine machine, int i)
 		{
-			_item = _itemPool.Request(machine);
-			Transform trans = _item.transform;
-			trans.SetParent(_hook, false);
-			trans.localScale = Vector3.one;
+			_item = _itemPool.Request(machine, PrefabInstantiationArguments.CreateFittedUIArgs(_hook));
 		}
 
 		private void ReturnItem()

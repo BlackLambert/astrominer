@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ConnectionDrawer<TItem> : MonoBehaviour, Injectable where TItem : Location2D
+    public class ConnectionDrawer<TItem> : MonoBehaviour, Injectable, Initializable, Cleanable where TItem : Location2D
     {
         private Pool<Connection> _connectionPool;
         private InRangeDetector2D<TItem> _detector;
         private Dictionary<TItem, Connection> _asteroidToConnection = new Dictionary<TItem, Connection>();
         private Provider<Vector2> _startPoint;
-        private bool _active = true;
 
         public void Inject(Resolver resolver)
         {
@@ -19,12 +18,12 @@ namespace SBaier.Astrominer
             _startPoint = _detector.StartPoint;
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             InitConnection();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             ClearConnections();
         }
@@ -36,11 +35,6 @@ namespace SBaier.Astrominer
 
         private void InitConnection()
         {
-            if (!_active)
-            {
-                return;
-            }
-            
             foreach (TItem asteroid in _detector.ItemsInRange)
             {
                 AddConnection(asteroid);
@@ -71,7 +65,7 @@ namespace SBaier.Astrominer
             
             Connection connection = _connectionPool.Request();
             Transform trans = connection.transform; 
-            trans.SetParent(null);
+            trans.SetParent(transform);
             Vector2 startPosition = _startPoint.Value;
             trans.position = startPosition;
             connection.SetEndpoints(startPosition, asteroid.Position2D);

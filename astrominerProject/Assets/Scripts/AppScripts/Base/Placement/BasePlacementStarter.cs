@@ -1,9 +1,10 @@
+using System.Collections;
 using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class BasePlacementStarter : MonoBehaviour, Injectable
+    public class BasePlacementStarter : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private BasePlacementContext _basePlacementContext;
 
@@ -11,9 +12,20 @@ namespace SBaier.Astrominer
         {
             _basePlacementContext = resolver.Resolve<BasePlacementContext>();
         }
-        
-        private void Start()
+
+        public void Initialize()
         {
+            StartCoroutine(StartPlacement());
+        }
+
+        public void Clean()
+        {
+            StopAllCoroutines();
+        }
+
+        private IEnumerator StartPlacement()
+        {
+            yield return new WaitForEndOfFrame();
             _basePlacementContext.Started.Value = true;
         }
     }

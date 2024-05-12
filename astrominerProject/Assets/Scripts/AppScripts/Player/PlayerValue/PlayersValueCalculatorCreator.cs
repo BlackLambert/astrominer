@@ -7,12 +7,12 @@ namespace SBaier.Astrominer
     {
         private Players _players;
         private Resolver _resolver;
-        private Pool<PlayerValueCalculator, Player> _pool;
+        private Pool<PlayerValueCalculator, Player, PrefabInstantiationArguments> _pool;
 
         public void Inject(Resolver resolver)
         {
             _players = resolver.Resolve<Players>();
-            _pool = resolver.Resolve<Pool<PlayerValueCalculator, Player>>();
+            _pool = resolver.Resolve<Pool<PlayerValueCalculator, Player, PrefabInstantiationArguments>>();
         }
 
         private void Start()
@@ -24,8 +24,7 @@ namespace SBaier.Astrominer
         {
             foreach (Player player in _players)
             {
-                PlayerValueCalculator calculator = _pool.Request(player);
-                calculator.transform.SetParent(transform);
+                _pool.Request(player, new PrefabInstantiationArguments() { Parent = transform });
             }
         }
     }

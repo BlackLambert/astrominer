@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OresValueDisplay : ItemPropertyDisplay<Ores>
+    public class OresValueDisplay : ItemPropertyDisplay<Ores>, Cleanable
     {
         private OresSettings.OreSettings _oreSettings;
         [SerializeField]
@@ -15,13 +15,13 @@ namespace SBaier.Astrominer
             _oreSettings = resolver.Resolve<OresSettings>().Get(_oreType);
         }
 
-        protected override void OnEnable()
+        public override void Initialize()
 		{
-			base.OnEnable();
+			base.Initialize();
             _item.OnValueChanged += SetText;
 		}
 
-		private void OnDestroy()
+        public void Clean()
         {
             _item.OnValueChanged -= SetText;
         }

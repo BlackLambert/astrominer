@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerCurrencyColorChanger : MonoBehaviour, Injectable
+    public class PlayerCurrencyColorChanger : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private TextMeshProUGUI _text;
@@ -22,13 +22,13 @@ namespace SBaier.Astrominer
             _currency = resolver.Resolve<Player>().Credits;
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateColor();
             _currency.OnAmountChanged += UpdateColor;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _currency.OnAmountChanged -= UpdateColor;
         }

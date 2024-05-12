@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueDisplay : MonoBehaviour, Injectable
+    public class OreValueDisplay : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] private TextMeshProUGUI _text;
         [SerializeField] private string _format = "F1";
@@ -18,13 +18,13 @@ namespace SBaier.Astrominer
             _oreValue = resolver.Resolve<OreValue>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateText(_oreValue.GetValue(_oreType));
             _oreValue.OnValueChanged += OnOreValueChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _oreValue.OnValueChanged -= OnOreValueChanged;
         }

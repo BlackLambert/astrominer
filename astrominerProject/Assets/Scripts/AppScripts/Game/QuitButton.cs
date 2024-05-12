@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class QuitButton : MonoBehaviour, Injectable
+    public class QuitButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private Button _button;
@@ -16,12 +16,12 @@ namespace SBaier.Astrominer
             _quitter = resolver.Resolve<AppQuitter>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _button.onClick.AddListener(OnClick);
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(OnClick);
         }

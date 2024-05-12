@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class SceneCommandsTriggerButton : CommandsExecutionTriggerBehaviour
+    public class SceneCommandsTriggerButton : CommandsExecutionTriggerBehaviour, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -20,12 +20,12 @@ namespace SBaier.Astrominer
 	        UpdateInteractable();
         }
 
-        private void OnEnable()
+        public void Initialize()
 		{
 			_button.onClick.AddListener(Execute);
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_button.onClick.RemoveListener(Execute);
 		}

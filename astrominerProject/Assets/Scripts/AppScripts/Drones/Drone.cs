@@ -20,9 +20,9 @@ namespace SBaier.Astrominer
 			_settings = resolver.Resolve<DroneArguments>();
 		}
 
-		protected override void OnEnable()
+		public override void Initialize()
 		{
-			base.OnEnable();
+			base.Initialize();
 			FlyTo(new FlightPath(new List<FlyTarget>() { Origin ,Target, ReturnLocation }));
 		}
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public abstract class ItemPropertyDisplay : MonoBehaviour
+	public abstract class ItemPropertyDisplay : MonoBehaviour, Initializable
 	{
 		[SerializeField]
 		private TextMeshProUGUI _text;
@@ -14,7 +14,7 @@ namespace SBaier.Astrominer
 			_text = GetComponent<TextMeshProUGUI>();
 		}
 
-		protected virtual void OnEnable()
+		public virtual void Initialize()
 		{
 			SetText();
 		}

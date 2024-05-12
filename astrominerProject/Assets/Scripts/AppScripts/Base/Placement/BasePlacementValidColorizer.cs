@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class BasePlacementValidColorizer : MonoBehaviour, Injectable
+    public class BasePlacementValidColorizer : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private SpriteRenderer _renderer;
@@ -24,14 +24,14 @@ namespace SBaier.Astrominer
             _context = resolver.Resolve<BasePlacementContext>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             Colorize();
             _context.PlacementIsValid.OnValueChanged += OnIsValidChanged;
             _context.Placed.OnValueChanged += OnPlacedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _context.PlacementIsValid.OnValueChanged -= OnIsValidChanged;
             _context.Placed.OnValueChanged -= OnPlacedChanged;

@@ -1,6 +1,8 @@
+using SBaier.DI;
+
 namespace SBaier.Astrominer
 {
-    public class AsteroidCostsDisplay : ItemPropertyDisplay<Asteroid>
+    public class AsteroidCostsDisplay : ItemPropertyDisplay<Asteroid>, Cleanable
     {
         protected override string GetText()
         {
@@ -8,13 +10,13 @@ namespace SBaier.Astrominer
             return $"Costs: {costs} per second";
         }
 
-        protected override void OnEnable()
+        public override void Initialize()
         {
-            base.OnEnable();
+            base.Initialize();
             _item.OnExploitMachineChanged += SetText;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _item.OnExploitMachineChanged -= SetText;
         }

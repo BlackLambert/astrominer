@@ -1,13 +1,12 @@
 using SBaier.DI;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class EnableOnBasePlacementFinished : MonoBehaviour, Injectable
+    public class ObjectOnBasePlacementFinishedActivator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
-        private Button _button;
+        private GameObject _gameObject;
 
         private BasesPlacementContext _placementContext;
 
@@ -16,13 +15,13 @@ namespace SBaier.Astrominer
             _placementContext = resolver.Resolve<BasesPlacementContext>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateEnabledState();
             _placementContext.Finished.OnValueChanged += OnFinishedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _placementContext.Finished.OnValueChanged -= OnFinishedChanged;
         }
@@ -34,7 +33,7 @@ namespace SBaier.Astrominer
 
         private void UpdateEnabledState()
         {
-            _button.enabled = _placementContext.Finished;
+            _gameObject.SetActive(_placementContext.Finished);
         }
     }
 }

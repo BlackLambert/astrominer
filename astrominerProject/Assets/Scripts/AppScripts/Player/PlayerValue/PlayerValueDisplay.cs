@@ -1,8 +1,9 @@
 using System;
+using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerValueDisplay : ItemPropertyDisplay<PlayerValue>
+    public class PlayerValueDisplay : ItemPropertyDisplay<PlayerValue>, Cleanable
     {
         private string _format = "F1";
         
@@ -11,13 +12,13 @@ namespace SBaier.Astrominer
             return _item.TotalValue.Value.ToString(_format);
         }
 
-        protected override void OnEnable()
+        public override void Initialize()
         {
-            base.OnEnable();
+            base.Initialize();
             _item.TotalValue.OnValueChanged += OnValueChanged;
         }
         
-        private void OnDisable()
+        public void Clean()
         {
             _item.TotalValue.OnValueChanged -= OnValueChanged;
         }

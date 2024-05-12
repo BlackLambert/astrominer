@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class GameTimeDisplayer : MonoBehaviour, Injectable
+    public class GameTimeDisplayer : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private TextMeshProUGUI _text;
@@ -19,13 +19,13 @@ namespace SBaier.Astrominer
             _gameTime = resolver.Resolve<GameTime>();
         }
         
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateText();
             _gameTime.Value.OnValueChanged += OnTimeChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _gameTime.Value.OnValueChanged -= OnTimeChanged;
         }

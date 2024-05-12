@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class Popup : MonoBehaviour, Injectable
+    public class Popup : MonoBehaviour, Injectable, Initializable
     {
         [SerializeField] 
         private RectTransform _contentHook;
@@ -25,11 +25,13 @@ namespace SBaier.Astrominer
             _arguments = resolver.Resolve<Arguments>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _popupTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, _arguments.Size.x);
             _popupTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, _arguments.Size.y);
             _arguments.Content.SetParent(_contentHook, false);
+            _arguments.Content.sizeDelta = Vector2.one;
+            _arguments.Content.anchoredPosition = Vector2.zero;
             _header.text = _arguments.Header;
         }
 

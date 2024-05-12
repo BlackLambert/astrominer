@@ -4,7 +4,7 @@ using TMPro;
 
 namespace SBaier.Astrominer
 {
-    public class BasePlacementText : MonoBehaviour, Injectable
+    public class BasePlacementText : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private TextMeshProUGUI _text;
@@ -16,14 +16,14 @@ namespace SBaier.Astrominer
             _context = resolver.Resolve<BasesPlacementContext>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateText();
             _context.Started.OnValueChanged += OnBasePlacementStarted;
             _context.CurrentPlayer.OnValueChanged += OnCurrentPlayerChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _context.Started.OnValueChanged -= OnBasePlacementStarted;
             _context.CurrentPlayer.OnValueChanged -= OnCurrentPlayerChanged;

@@ -7,25 +7,22 @@ namespace SBaier.Astrominer
 {
     public class MapCreator : Injectable
     {
-        private MapCreationContext _context;
         private AsteroidArgumentsGenerator _generator;
         private MapCreationSettings _creationSettings;
         private int _retries = 0;
 
         public void Inject(Resolver resolver)
         {
-            _context = resolver.Resolve<MapCreationContext>();
             _generator = resolver.Resolve<AsteroidArgumentsGenerator>();
             _creationSettings = resolver.Resolve<MapCreationSettings>();
         }
 
-        public List<Asteroid.Arguments> CreateMap()
+        public List<Asteroid.Arguments> CreateMap(AsteroidAmountOption amountOption)
         {
             try
             {
                 _retries = 0;
-                return _generator.GenerateMap(
-                    _context.SelectedAsteroidsAmountOption, _creationSettings.MinimalAsteroidDistance);
+                return _generator.GenerateMap(amountOption, _creationSettings.MinimalAsteroidDistance);
             }
             catch (PoissonDiskSampling2D.SamplingException)
             {
@@ -36,7 +33,7 @@ namespace SBaier.Astrominer
 
                 _retries++;
                 Debug.LogWarning("Failed to create asteroid positions. Retrying...");
-                return CreateMap();
+                return CreateMap(amountOption);
             }
         }
     }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SetDefaultPlayerNameOnColorSelected : MonoBehaviour, Injectable
+    public class SetDefaultPlayerNameOnColorSelected : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private ActiveItem<PlayerColorOption> _activeColorOption;
         private ActiveItem<string> _selectedPlayerName;
@@ -15,13 +15,13 @@ namespace SBaier.Astrominer
             _activeColorOption = resolver.Resolve<ActiveItem<PlayerColorOption>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdatePlayerName(_activeColorOption.Value);
             _activeColorOption.OnValueChanged += OnColorChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activeColorOption.OnValueChanged -= OnColorChanged;
         }

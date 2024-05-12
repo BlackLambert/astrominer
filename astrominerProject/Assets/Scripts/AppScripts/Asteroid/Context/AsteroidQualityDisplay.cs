@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidQualityDisplay : ItemPropertyDisplay<Asteroid>
+    public class AsteroidQualityDisplay : ItemPropertyDisplay<Asteroid>, Cleanable
 	{
 		[SerializeField]
 		private string _baseString = "Quality: {0}";
@@ -16,13 +16,13 @@ namespace SBaier.Astrominer
 			_asteroids = resolver.Resolve<IdentifiedAsteroids>();
 		}
 
-		protected override void OnEnable()
+		public override void Initialize()
 		{
-			base.OnEnable();
+			base.Initialize();
 			_asteroids.OnItemAdded += OnAsteroidAdded;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_asteroids.OnItemAdded -= OnAsteroidAdded;
 		}

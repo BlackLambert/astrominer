@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class SpriteRendererPlayerColorSetter : MonoBehaviour, Injectable
+    public class SpriteRendererPlayerColorSetter : MonoBehaviour, Injectable, Initializable
     {
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
@@ -15,7 +15,7 @@ namespace SBaier.Astrominer
 			_player = resolver.Resolve<Player>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			_spriteRenderer.color = _player.Color;
 		}

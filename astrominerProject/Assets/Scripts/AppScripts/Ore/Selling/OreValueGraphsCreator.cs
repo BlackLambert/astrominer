@@ -5,28 +5,27 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueGraphsCreator : MonoBehaviour, Injectable
+    public class OreValueGraphsCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
-        [SerializeField] 
-        private RectTransform _hook;
-        
-        private Pool<OreValueGraph, OresSettings.OreSettings> _pool;
+        [SerializeField] private RectTransform _hook;
+
+        private Pool<OreValueGraph, OresSettings.OreSettings, PrefabInstantiationArguments> _pool;
         private OresSettings _oresSettings;
 
         private List<OreValueGraph> _graphs = new List<OreValueGraph>();
-        
+
         public void Inject(Resolver resolver)
         {
-            _pool = resolver.Resolve<Pool<OreValueGraph, OresSettings.OreSettings>>();
+            _pool = resolver.Resolve<Pool<OreValueGraph, OresSettings.OreSettings, PrefabInstantiationArguments>>();
             _oresSettings = resolver.Resolve<OresSettings>();
         }
 
-        private void Start()
+        public void Initialize()
         {
             CreateGraphs();
         }
 
-        private void OnDestroy()
+        public void Clean()
         {
             ReturnGraphs();
         }
@@ -40,9 +39,8 @@ namespace SBaier.Astrominer
                     continue;
                 }
 
-                OreValueGraph graph = _pool.Request(_oresSettings.Get(oreType));
-                graph.transform.SetParent(_hook, false);
-                graph.transform.localScale = Vector3.one;
+                OreValueGraph graph = _pool.Request(_oresSettings.Get(oreType),
+                    new PrefabInstantiationArguments() { Parent = _hook, Scale = Vector3.one });
                 _graphs.Add(graph);
             }
         }
@@ -53,6 +51,7 @@ namespace SBaier.Astrominer
             {
                 _pool.Return(graph);
             }
+
             _graphs.Clear();
         }
     }

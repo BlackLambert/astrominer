@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ShipActivator : MonoBehaviour, Injectable
+    public class ShipActivator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private QueuedShips _queuedShips;
         private ActiveItem<Ship> _activeShip;
@@ -19,14 +19,14 @@ namespace SBaier.Astrominer
             _gameTime = resolver.Resolve<GameTime>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             TryActivateNextShip();
             _queuedShips.OnEnqueued += OnEnqueued;
             _activeShip.OnValueChanged += OnActiveShipChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _queuedShips.OnEnqueued -= OnEnqueued;
             _activeShip.OnValueChanged -= OnActiveShipChanged;

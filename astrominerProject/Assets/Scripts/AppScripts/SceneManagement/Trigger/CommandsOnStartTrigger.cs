@@ -1,8 +1,10 @@
+using SBaier.DI;
+
 namespace SBaier.Astrominer
 {
-    public class CommandsOnStartTrigger : CommandsExecutionTriggerBehaviour
+    public class CommandsOnInitTrigger : CommandsExecutionTriggerBehaviour, Initializable
     {
-        private void Start()
+        public void Initialize()
         {
             Execute();
         }

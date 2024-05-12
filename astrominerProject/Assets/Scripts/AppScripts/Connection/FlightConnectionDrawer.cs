@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public abstract class FlightConnectionDrawer : MonoBehaviour, Injectable
+    public abstract class FlightConnectionDrawer : MonoBehaviour, Injectable, Cleanable
     {
         private Pool<Connection> _connectionPool;
 
@@ -17,7 +17,7 @@ namespace SBaier.Astrominer
             _connectionPool = resolver.Resolve<Pool<Connection>>();
         }
 
-        private void OnDisable()
+        public virtual void Clean()
         {
             ClearConnections();
         }
@@ -59,7 +59,7 @@ namespace SBaier.Astrominer
         private void CreateConnection(FlyTarget start, FlyTarget end, Color? color)
         {
             Connection connection = _connectionPool.Request();
-            connection.transform.SetParent(null);
+            connection.transform.SetParent(transform);
             connection.SetEndpoints(start.LandingPoint, end.LandingPoint);
             connection.SetColor(color);
             _connections.Add(connection);

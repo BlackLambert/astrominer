@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class DisableOnPlaced : MonoBehaviour, Injectable
+    public class DisableOnPlaced : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private MonoBehaviour _behaviour;
@@ -18,13 +18,13 @@ namespace SBaier.Astrominer
             _context = resolver.Resolve<BasePlacementContext>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateEnabledState();
             _context.Placed.OnValueChanged += OnPlacedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _context.Placed.OnValueChanged -= OnPlacedChanged;
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class GameEndScreenCreator : MonoBehaviour, Injectable
+    public class GameEndScreenCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private Pool<GameEndScreen> _pool;
         private Game _game;
@@ -15,12 +15,12 @@ namespace SBaier.Astrominer
             _game = resolver.Resolve<Game>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _game.Finished.OnValueChanged += OnFinishedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _game.Finished.OnValueChanged -= OnFinishedChanged;
         }
@@ -35,7 +35,6 @@ namespace SBaier.Astrominer
             if (_game.Finished.Value)
             {
                 _endScreen = _pool.Request();
-                _endScreen.transform.SetParent(null, false);
             }
         }
     }

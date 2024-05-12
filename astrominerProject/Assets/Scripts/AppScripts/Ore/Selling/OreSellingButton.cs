@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class OreSellingButton : MonoBehaviour, Injectable
+    public class OreSellingButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -20,7 +20,7 @@ namespace SBaier.Astrominer
             _player = resolver.Resolve<Player>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateInteractable();
             _button.onClick.AddListener(OnClick);
@@ -28,7 +28,7 @@ namespace SBaier.Astrominer
             _ship.CollectedOres.OnValueChanged += UpdateInteractable;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(OnClick);
             _ship.Location.OnValueChanged -= OnLocationChanged;

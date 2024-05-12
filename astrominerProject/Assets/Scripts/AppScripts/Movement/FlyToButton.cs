@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class FlyToButton : MonoBehaviour, Injectable
+    public class FlyToButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -18,14 +18,14 @@ namespace SBaier.Astrominer
 			_selectedFlightPath = resolver.Resolve<ActiveItem<FlightPath>>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			UpdateInteractable();
 			_button.onClick.AddListener(MoveToTarget);
 			_selectedFlightPath.OnValueChanged += OnSelectedFlightPathChanged;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_selectedFlightPath.OnValueChanged -= OnSelectedFlightPathChanged;
 			_button.onClick.RemoveListener(MoveToTarget);

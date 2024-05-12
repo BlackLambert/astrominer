@@ -6,7 +6,7 @@ using Random = System.Random;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueCalculator : MonoBehaviour, Injectable
+    public class OreValueCalculator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private OreType _type;
         private OreValue _oreValue;
@@ -29,7 +29,7 @@ namespace SBaier.Astrominer
             _gameTime = resolver.Resolve<GameTime>();
         }
 
-        private void Start()
+        public void Initialize()
         {
             _oreSettings = _oresSettings.Get(_type);
             _minValue = _oreSettings.PriceRange.x;
@@ -40,7 +40,7 @@ namespace SBaier.Astrominer
             CreateNoiseSteps();
         }
 
-        private void OnDestroy()
+        public void Clean()
         {
             _oreValue.OnShallUpdateValue -= CalculateValue;
         }

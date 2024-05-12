@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerValueMinMaxUpdater : MonoBehaviour, Injectable
+    public class PlayerValueMinMaxUpdater : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private PlayerValues _playerValues;
         
@@ -13,7 +13,7 @@ namespace SBaier.Astrominer
             _playerValues = resolver.Resolve<PlayerValues>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             foreach (KeyValuePair<Player, PlayerValue> pair in _playerValues.Values)
             {
@@ -23,7 +23,7 @@ namespace SBaier.Astrominer
             InitMinMax();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             foreach (KeyValuePair<Player, PlayerValue> pair in _playerValues.Values)
             {

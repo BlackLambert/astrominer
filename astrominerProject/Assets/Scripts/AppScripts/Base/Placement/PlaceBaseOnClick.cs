@@ -1,9 +1,10 @@
+using System.Collections;
 using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlaceBaseOnClick : MonoBehaviour, Injectable
+    public class PlaceBaseOnClick : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private BasePlacementPreview _basePlacementPreview;
         private BasePlacementContext _basePlacementContext;
@@ -20,19 +21,21 @@ namespace SBaier.Astrominer
             _positions = resolver.Resolve<BasePositions>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _pointerInput.OnClick += TryPlace;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _pointerInput.OnClick -= TryPlace;
         }
 
         private void TryPlace()
         {
-            if (!_basePlacementContext.PlacementIsValid.Value || !_basePlacementContext.Started.Value)
+            if (!_basePlacementContext.PlacementIsValid.Value || 
+                !_basePlacementContext.Started.Value ||
+                _basePlacementContext.Placed.Value)
             {
                 return;
             }

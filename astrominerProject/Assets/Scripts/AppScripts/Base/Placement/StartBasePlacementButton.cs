@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class StartBasePlacementButton : MonoBehaviour, Injectable
+    public class StartBasePlacementButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private Button _button;
@@ -21,7 +21,7 @@ namespace SBaier.Astrominer
             _targetExploitContext = resolver.Resolve<TargetExploitSettingContext>();
         }
         
-        private void Start()
+        public void Initialize()
         {
             _map.AsteroidArguments.OnValueChanged += OnAsteroidPositionsChanged;
             _basePlacementContext.Started.OnValueChanged += OnStartedChanged;
@@ -29,7 +29,7 @@ namespace SBaier.Astrominer
             UpdateButtonInteractable();
         }
 
-        private void OnDestroy()
+        public void Clean()
         {
             _map.AsteroidArguments.OnValueChanged -= OnAsteroidPositionsChanged;
             _basePlacementContext.Started.OnValueChanged -= OnStartedChanged;

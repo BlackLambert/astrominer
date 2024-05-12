@@ -1,19 +1,21 @@
+using SBaier.DI;
+
 namespace SBaier.Astrominer
 {
-    public class AsteroidOwningPlayer : ItemPropertyDisplay<Asteroid>
+    public class AsteroidOwningPlayer : ItemPropertyDisplay<Asteroid>, Cleanable
     {
         protected override string GetText()
         {
             return _item.HasOwningPlayer ? $"Player: {_item.OwningPlayer.GetColoredDisplayText()}"  : "No owning player";
         }
 
-        protected override void OnEnable()
+        public override void Initialize()
         {
-            base.OnEnable();
+            base.Initialize();
             _item.OnExploitMachineChanged += SetText;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _item.OnExploitMachineChanged -= SetText;
         }

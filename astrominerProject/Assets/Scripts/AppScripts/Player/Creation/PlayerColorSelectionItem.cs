@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerColorSelectionItem : MonoBehaviour, Injectable
+    public class PlayerColorSelectionItem : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [field: SerializeField]
         public RectTransform Base { get; private set; }
@@ -20,13 +20,13 @@ namespace SBaier.Astrominer
             ColorOption = resolver.Resolve<PlayerColorOption>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateState();
             _players.OnItemsChanged += UpdateState;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _players.OnItemsChanged -= UpdateState;
         }

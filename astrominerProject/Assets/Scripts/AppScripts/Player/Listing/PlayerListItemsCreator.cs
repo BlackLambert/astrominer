@@ -5,30 +5,30 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerListItemsCreator : MonoBehaviour, Injectable
+    public class PlayerListItemsCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private RectTransform _hook;
 
-        private Pool<PlayerListItem, Player> _pool;
+        private Pool<PlayerListItem, Player, PrefabInstantiationArguments> _pool;
         private Players _players;
 
         private List<PlayerListItem> _items = new List<PlayerListItem>();
 
         public void Inject(Resolver resolver)
         {
-            _pool = resolver.Resolve<Pool<PlayerListItem, Player>>();
+            _pool = resolver.Resolve<Pool<PlayerListItem, Player, PrefabInstantiationArguments>>();
             _players = resolver.Resolve<Players>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CreateItems();
             _players.OnItemAdded += AddItem;
             _players.OnItemRemoved += RemoveItem;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             ReturnItems();
             _players.OnItemAdded += AddItem;
@@ -43,9 +43,7 @@ namespace SBaier.Astrominer
 
         private void AddItem(Player player)
         {
-            PlayerListItem item = _pool.Request(player);
-            item.Base.SetParent(_hook);
-            item.Base.localScale = Vector3.one;
+            PlayerListItem item = _pool.Request(player, PrefabInstantiationArguments.CreateUIArgs(_hook));
             _items.Add(item);
         }
 

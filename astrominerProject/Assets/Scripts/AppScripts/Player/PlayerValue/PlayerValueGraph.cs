@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerValueGraph : MonoBehaviour, Injectable
+    public class PlayerValueGraph : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private UILineRenderer _renderer;
@@ -21,23 +21,26 @@ namespace SBaier.Astrominer
         private PlayerValues _playerValues;
         private PlayerValue _playerValue;
         private Color _color;
+        private CoroutineHelper _coroutineHelper;
 
         public void Inject(Resolver resolver)
         {
+            _coroutineHelper = resolver.Resolve<CoroutineHelper>();
             _playerValues = resolver.Resolve<PlayerValues>();
             _playerValue = resolver.Resolve<PlayerValue>();
             _color = resolver.Resolve<Color>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _playerValue.ValueHistory.OnItemsChanged += OnItemAdded;
             _renderer.color = _color;
-            StartCoroutine(UpdateGraphDelayed());
+            _coroutineHelper.StartCoroutine(UpdateGraphDelayed());
         }
 
-        private void OnDisable()
+        public void Clean()
         {
+            StopAllCoroutines();
             _playerValue.ValueHistory.OnItemsChanged -= OnItemAdded;
         }
 

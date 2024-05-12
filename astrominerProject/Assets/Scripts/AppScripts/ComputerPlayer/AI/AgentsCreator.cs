@@ -1,16 +1,14 @@
-using System;
 using System.Collections.Generic;
 using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AgentsCreator : MonoBehaviour, Injectable
+    public class AgentsCreator : MonoBehaviour, Injectable, Initializable
     {
-        [SerializeField] 
-        private Transform _hook;
+        [SerializeField] private Transform _hook;
 
-        private Pool<Agent, Agent.Arguments> _pool;
+        private Pool<Agent, Agent.Arguments, PrefabInstantiationArguments> _pool;
         private Factory<List<AIAction>> _actionsFactory;
         private Players _players;
 
@@ -18,12 +16,12 @@ namespace SBaier.Astrominer
 
         public void Inject(Resolver resolver)
         {
-            _pool = resolver.Resolve<Pool<Agent, Agent.Arguments>>();
+            _pool = resolver.Resolve<Pool<Agent, Agent.Arguments, PrefabInstantiationArguments>>();
             _players = resolver.Resolve<Players>();
             _actionsFactory = resolver.Resolve<Factory<List<AIAction>>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CreateAgents();
         }
@@ -41,8 +39,8 @@ namespace SBaier.Astrominer
 
         private Agent CreateAgent(Player player)
         {
-            Agent result = _pool.Request(CreateArguments(player));
-            result.transform.SetParent(_hook, false);
+            Agent result = _pool.Request(CreateArguments(player), new PrefabInstantiationArguments()
+                { Parent = _hook });
             return result;
         }
 

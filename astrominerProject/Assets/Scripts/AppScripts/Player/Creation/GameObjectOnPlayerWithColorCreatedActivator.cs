@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class GameObjectOnPlayerWithColorCreatedActivator : MonoBehaviour, Injectable
+    public class GameObjectOnPlayerWithColorCreatedActivator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private GameObject _target;
@@ -20,13 +20,13 @@ namespace SBaier.Astrominer
             _item = resolver.Resolve<PlayerColorOption>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateSelectorActiveState();
             _players.OnItemsChanged += UpdateSelectorActiveState;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _players.OnItemsChanged -= UpdateSelectorActiveState;
         }

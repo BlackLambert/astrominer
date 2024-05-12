@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class GamePausedPanelDisplayer : MonoBehaviour, Injectable
+    public class GamePausedPanelDisplayer : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private GameObject _panel;
@@ -15,13 +15,13 @@ namespace SBaier.Astrominer
             _gameTime = resolver.Resolve<GameTime>();
         }
         
-        private void OnEnable()
+        public void Initialize()
         {
             CheckShowPanel();
             _gameTime.Paused.OnValueChanged += OnPausedChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _gameTime.Paused.OnValueChanged -= OnPausedChanged;
         }

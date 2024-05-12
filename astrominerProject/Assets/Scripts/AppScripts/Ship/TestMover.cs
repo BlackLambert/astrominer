@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class TestMover : MonoBehaviour, Injectable
+	public class TestMover : MonoBehaviour, Injectable, Initializable, Cleanable
 	{
 		[SerializeField]
 		private Vector2 _minTarget = new Vector2(-5, -5);
@@ -18,13 +18,13 @@ namespace SBaier.Astrominer
 			_mover = resolver.Resolve<Mover>();
 		}
 
-		private void Start()
+		public void Initialize()
 		{
 			SetRandomTarget();
 			_mover.OnTargetReached += SetRandomTarget;
 		}
 
-		private void OnDestroy()
+		public void Clean()
 		{
 			_mover.OnTargetReached -= SetRandomTarget;
 		}

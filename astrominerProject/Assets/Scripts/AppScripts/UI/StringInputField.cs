@@ -4,7 +4,7 @@ using TMPro;
 
 namespace SBaier.Astrominer
 {
-    public class StringInputField : MonoBehaviour, Injectable
+    public class StringInputField : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private TMP_InputField _inputField;
@@ -15,14 +15,14 @@ namespace SBaier.Astrominer
             _chosenString = resolver.Resolve<ActiveItem<string>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateInputFieldText();
             _inputField.onValueChanged.AddListener(OnValueChanged);
             _chosenString.OnValueChanged += UpdateInputFieldText;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _inputField.onValueChanged.RemoveListener(OnValueChanged);
             _chosenString.OnValueChanged -= UpdateInputFieldText;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OresInBaseSeller : MonoBehaviour, Injectable
+    public class OresInBaseSeller : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private OreBank _bank;
         private Ores _ores;
@@ -18,12 +18,12 @@ namespace SBaier.Astrominer
             _flyable = resolver.Resolve<Flyable>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _flyable.Location.OnValueChanged += OnLocationChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _flyable.Location.OnValueChanged -= OnLocationChanged;
         }

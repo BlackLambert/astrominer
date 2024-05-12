@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class SellMachineButton : MonoBehaviour, Injectable
+    public class SellMachineButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -20,7 +20,7 @@ namespace SBaier.Astrominer
             _selectedExploitMachine = resolver.Resolve<ActiveItem<ShipInventoryItem>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _button.onClick.AddListener(OnClick);
             _ship.Location.OnValueChanged += OnFlyTargetChanged;
@@ -28,7 +28,7 @@ namespace SBaier.Astrominer
             UpdateInteractable();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(OnClick);
             _ship.Location.OnValueChanged -= OnFlyTargetChanged;

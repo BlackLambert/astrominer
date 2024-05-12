@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class BasePlacementValidator : MonoBehaviour, Injectable
+    public class BasePlacementValidator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private BasePlacementContext _context;
         private InRangeDetector2D<Asteroid> _asteroidsDetector;
@@ -16,7 +16,7 @@ namespace SBaier.Astrominer
             _collisionDetector = resolver.Resolve<CollisionDetector2D>(nameof(Base));
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CheckIsValid();
             _asteroidsDetector.OnItemCameInRange += OnAsteroidInRange;
@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
             _collisionDetector.OnCollisionExit += OnBaseCollisionExit;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _asteroidsDetector.OnItemCameInRange -= OnAsteroidInRange;
             _asteroidsDetector.OnItemCameOutOffRange -= OnAsteroidOutOffRange;

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class ClosePopupButton : MonoBehaviour, Injectable
+    public class ClosePopupButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private Button _button;
@@ -17,12 +17,12 @@ namespace SBaier.Astrominer
             _popup = resolver.Resolve<Popup>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _button.onClick.AddListener(OnClick);
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _button.onClick.RemoveListener(OnClick);
         }

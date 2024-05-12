@@ -4,14 +4,14 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public abstract class SendDroneButton<TDrone> : MonoBehaviour, Injectable where TDrone : Drone
+    public abstract class SendDroneButton<TDrone> : MonoBehaviour, Injectable, Initializable, Cleanable
+        where TDrone : Drone
     {
-        [SerializeField]
-        private Button _button;
+        [SerializeField] private Button _button;
 
         protected Player _player;
         protected Asteroid _target;
-        
+
         private Drones _drones;
         private Ship _ship;
         private Base _base;
@@ -29,7 +29,7 @@ namespace SBaier.Astrominer
             _settings = resolver.Resolve<DroneSettings>();
         }
 
-        protected virtual void OnEnable()
+        public virtual void Initialize()
         {
             UpdateButtonActive();
             _button.onClick.AddListener(SendDrone);
@@ -38,7 +38,7 @@ namespace SBaier.Astrominer
             _ship.FlyTarget.OnValueChanged += OnFlyTargetChanged;
         }
 
-        protected virtual void OnDisable()
+        public virtual void Clean()
         {
             _button.onClick.RemoveListener(SendDrone);
             _drones.OnItemRemoved -= UpdateButtonActive;

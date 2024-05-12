@@ -2,7 +2,7 @@ using SBaier.DI;
 
 namespace SBaier.Astrominer
 {
-    public class FlyTargetConnectionDrawer : FlightConnectionDrawer
+    public class FlyTargetConnectionDrawer : FlightConnectionDrawer, Initializable
     {
         private FlyableObject _flyable;
         private Player _player;
@@ -14,14 +14,15 @@ namespace SBaier.Astrominer
             _player = resolver.Resolve<Player>();
         }
         
-        protected virtual void OnEnable()
+        public void Initialize()
         {
             UpdateConnections(_flyable.FlyTarget);
             _flyable.FlyTarget.OnValueChanged += OnActivePathChanged;
         }
 
-        private void OnDisable()
+        public override void Clean()
         {
+            base.Clean();
             _flyable.FlyTarget.OnValueChanged -= OnActivePathChanged;
         }
 

@@ -4,27 +4,27 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerColorSelectionItemCreator : MonoBehaviour, Injectable
+    public class PlayerColorSelectionItemCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Transform _hook;
 
         private PlayerSettings _playerSettings;
-        private Pool<PlayerColorSelectionItem, PlayerColorOption> _pool;
+        private Pool<PlayerColorSelectionItem, PlayerColorOption, PrefabInstantiationArguments> _pool;
         private List<PlayerColorSelectionItem> _items;
 
         public void Inject(Resolver resolver)
         {
             _playerSettings = resolver.Resolve<PlayerSettings>();
-            _pool = resolver.Resolve<Pool<PlayerColorSelectionItem, PlayerColorOption>>();
+            _pool = resolver.Resolve<Pool<PlayerColorSelectionItem, PlayerColorOption, PrefabInstantiationArguments>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CreateItems();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             ReturnItems();
         }
@@ -42,8 +42,7 @@ namespace SBaier.Astrominer
 
         private PlayerColorSelectionItem CreateItem(PlayerColorOption color)
         {
-            PlayerColorSelectionItem item = _pool.Request(color);
-            item.Base.SetParent(_hook);
+            PlayerColorSelectionItem item = _pool.Request(color, PrefabInstantiationArguments.CreateUIArgs(_hook));
             return item;
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ActiveFlightPathSetter : MonoBehaviour, Injectable
+    public class ActiveFlightPathSetter : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private ActiveItem<CosmicObject> _selectedCosmicObject;
         private ActiveItem<Ship> _activeShip;
@@ -19,14 +19,14 @@ namespace SBaier.Astrominer
             _activePath = resolver.Resolve<ActiveItem<FlightPath>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             UpdateFlightPath();
             _selectedCosmicObject.OnValueChanged += OnSelectedCosmicObjectChanged;
             _activeShip.OnValueChanged += OnActiveShipChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _selectedCosmicObject.OnValueChanged -= OnSelectedCosmicObjectChanged;
             _activeShip.OnValueChanged -= OnActiveShipChanged;

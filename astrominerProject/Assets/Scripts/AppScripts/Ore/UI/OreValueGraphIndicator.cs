@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueGraphIndicator : MonoBehaviour, Injectable
+    public class OreValueGraphIndicator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private RectTransform _indicator;
@@ -20,14 +20,14 @@ namespace SBaier.Astrominer
             _oreSettings = resolver.Resolve<OresSettings>().Get(_oreType);
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _valueDelta = _oreSettings.PriceRange.y - _oreSettings.PriceRange.x;
             UpdatePosition(_oreValue.GetValue(_oreType));
             _oreValue.OnValueChanged += OnOreValueChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _oreValue.OnValueChanged -= OnOreValueChanged;
         }

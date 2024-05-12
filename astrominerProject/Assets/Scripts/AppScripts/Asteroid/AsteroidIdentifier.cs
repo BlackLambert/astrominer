@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidIdentifier : MonoBehaviour, Injectable
+    public class AsteroidIdentifier : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private Flyable _flyable;
         private IdentifiedAsteroids _asteroids;
@@ -14,13 +14,13 @@ namespace SBaier.Astrominer
             _asteroids = resolver.Resolve<IdentifiedAsteroids>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             AddListeners(_flyable.FlyTarget.Value);
             _flyable.FlyTarget.OnValueChanged += OnFlyTargetChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             RemoveListeners(_flyable.FlyTarget.Value);
             _flyable.FlyTarget.OnValueChanged -= OnFlyTargetChanged;

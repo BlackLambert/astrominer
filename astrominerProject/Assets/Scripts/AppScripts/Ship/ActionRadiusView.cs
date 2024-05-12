@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class ActionRadiusView : MonoBehaviour, Injectable
+	public class ActionRadiusView : MonoBehaviour, Injectable, Initializable
 	{
 		[SerializeField]
 		private Transform _radiusTransform;
@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
 			_visualSettings = resolver.Resolve<VisualsSettings>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			float diameter = _actionRange.Range * 2;
 			_radiusTransform.localScale = new Vector3(diameter, diameter, diameter);

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace SBaier.Astrominer
 {
-    public class PlaceMachineButton : MonoBehaviour, Injectable
+    public class PlaceMachineButton : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Button _button;
@@ -32,7 +32,7 @@ namespace SBaier.Astrominer
 			_ship = resolver.Resolve<Ship>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			UpdateInteractivity();
 			UpdateLabel();
@@ -42,7 +42,7 @@ namespace SBaier.Astrominer
 			AddAsteroidListeners();
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_activeItem.OnValueChanged -= OnActiveItemChanged;
 			_ship.Location.OnValueChanged -= OnLocationChanged;

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class OreValueGraph : MonoBehaviour, Injectable
+    public class OreValueGraph : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private UILineRenderer _renderer;
@@ -32,14 +32,14 @@ namespace SBaier.Astrominer
             _oreType = _oreSettings.Type;
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _valueHistory = _oreValue.GetValueHistory(_oreType);
             _oreValue.OnValueChanged += OnOreValueChanged;
             UpdateGraph();
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _oreValue.OnValueChanged -= OnOreValueChanged;
         }

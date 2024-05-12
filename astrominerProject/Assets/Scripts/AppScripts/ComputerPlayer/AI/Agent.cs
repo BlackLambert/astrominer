@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class Agent : MonoBehaviour, Injectable
+    public class Agent : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private ActiveItem<Ship> _activeShip;
         private Arguments _arguments;
@@ -16,12 +16,12 @@ namespace SBaier.Astrominer
             _arguments = resolver.Resolve<Arguments>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             _activeShip.OnValueChanged += OnActiveShipChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activeShip.OnValueChanged -= OnActiveShipChanged;
         }

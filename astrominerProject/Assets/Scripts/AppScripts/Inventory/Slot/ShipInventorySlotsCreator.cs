@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class ShipInventorySlotsCreator : MonoBehaviour, Injectable
+    public class ShipInventorySlotsCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] private Transform _hook;
 
-        private Pool<ShipInventorySlot, ShipInventorySlot.Arguments> _slotsPool;
+        private Pool<ShipInventorySlot, ShipInventorySlot.Arguments, PrefabInstantiationArguments> _slotsPool;
         private Ship _ship;
         private ShipInventoryPanel _inventoryPanel;
 
@@ -15,19 +15,20 @@ namespace SBaier.Astrominer
 
         public void Inject(Resolver resolver)
         {
-            _slotsPool = resolver.Resolve<Pool<ShipInventorySlot, ShipInventorySlot.Arguments>>();
+            _slotsPool = resolver
+                .Resolve<Pool<ShipInventorySlot, ShipInventorySlot.Arguments, PrefabInstantiationArguments>>();
             _inventoryPanel = resolver.Resolve<ShipInventoryPanel>();
             _ship = resolver.Resolve<Ship>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             Init();
             _ship.Machines.OnLimitChanged += UpdateSlots;
             _inventoryPanel.OnPool += ReturnSlots;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _ship.Machines.OnLimitChanged -= UpdateSlots;
             _inventoryPanel.OnPool -= ReturnSlots;
@@ -40,6 +41,7 @@ namespace SBaier.Astrominer
                 slot.InvokeOnPool();
                 _slotsPool.Return(slot);
             }
+
             _slots.Clear();
         }
 
@@ -51,8 +53,8 @@ namespace SBaier.Astrominer
 
         private ShipInventorySlot CreateSlot(int index)
         {
-            ShipInventorySlot slot = _slotsPool.Request(new ShipInventorySlot.Arguments() { Index = index });
-            slot.transform.SetParent(_hook, false);
+            ShipInventorySlot slot = _slotsPool.Request(new ShipInventorySlot.Arguments() { Index = index },
+                PrefabInstantiationArguments.CreateFittedUIArgs(_hook));
             return slot;
         }
 

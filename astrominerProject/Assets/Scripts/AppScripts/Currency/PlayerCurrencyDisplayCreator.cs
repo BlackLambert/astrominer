@@ -3,29 +3,29 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerCurrencyDisplayCreator : MonoBehaviour, Injectable
+    public class PlayerCurrencyDisplayCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField] 
         private Transform _hook;
 
         private ActiveItem<Player> _activePlayer;
-        private Pool<PlayerCurrencyDisplay, Player> _pool;
+        private Pool<PlayerCurrencyDisplay, Player, PrefabInstantiationArguments> _pool;
 
         private PlayerCurrencyDisplay _currentDisplay;
 
         public void Inject(Resolver resolver)
         {
             _activePlayer = resolver.Resolve<ActiveItem<Player>>();
-            _pool = resolver.Resolve<Pool<PlayerCurrencyDisplay, Player>>();
+            _pool = resolver.Resolve<Pool<PlayerCurrencyDisplay, Player, PrefabInstantiationArguments>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             RequestDisplay();
             _activePlayer.OnValueChanged += OnActivePlayerChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activePlayer.OnValueChanged -= OnActivePlayerChanged;
         }
@@ -43,10 +43,7 @@ namespace SBaier.Astrominer
                 return;
             }
 
-            _currentDisplay = _pool.Request(_activePlayer.Value);
-            Transform trans = _currentDisplay.transform;
-            trans.SetParent(_hook);
-            trans.localScale = Vector3.one;
+            _currentDisplay = _pool.Request(_activePlayer.Value, PrefabInstantiationArguments.CreateFittedUIArgs(_hook));
         }
 
         private void ReturnCurrentDisplay()

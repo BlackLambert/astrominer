@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidAmountSetter : MonoBehaviour, Injectable
+    public class AsteroidAmountSetter : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         private Observable<int> _asteroidsAmount;
         private ActiveItem<AsteroidAmountOption> _selectedAsteroidsAmountOption;
@@ -18,27 +18,27 @@ namespace SBaier.Astrominer
             _players = resolver.Resolve<Players>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
-            UpdateAmountOption();
+            UpdateAmountOption(_asteroidsAmount.Value);
             _asteroidsAmount.OnValueChanged += OnAsteroidsAmountChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _asteroidsAmount.OnValueChanged += OnAsteroidsAmountChanged;
         }
 
         private void OnAsteroidsAmountChanged(int formervalue, int newvalue)
         {
-            UpdateAmountOption();
+            UpdateAmountOption(newvalue);
         }
 
-        private void UpdateAmountOption()
+        private void UpdateAmountOption(int amount)
         {
             int minAmount = _players.Count * _settings.MinAsteroidsAdditionPerPlayer + _settings.MinAsteroids;
             int amountRange = _settings.MaxAsteroidsAmount - minAmount;
-            float percentage = (float)(_asteroidsAmount - minAmount) / amountRange;
+            float percentage = (float)(amount - minAmount) / amountRange;
 
             float cameraSizeRange = _settings.CameraSizeRange.y - _settings.CameraSizeRange.x;
             float cameraSize = _settings.CameraSizeRange.x + cameraSizeRange * percentage;
@@ -47,7 +47,7 @@ namespace SBaier.Astrominer
             Vector2 size = _settings.StartMapSize + mapSizeRange * percentage;
 
             AsteroidAmountOption amountOption = new AsteroidAmountOption(
-                _asteroidsAmount, size, cameraSize, Vector2.zero);
+                amount, size, cameraSize, Vector2.zero);
             _selectedAsteroidsAmountOption.Value = amountOption;
         }
     }

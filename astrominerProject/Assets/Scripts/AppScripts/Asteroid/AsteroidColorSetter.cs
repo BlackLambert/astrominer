@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class AsteroidColorSetter : MonoBehaviour, Injectable
+    public class AsteroidColorSetter : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private SpriteRenderer _spriteRenderer;
@@ -15,14 +15,14 @@ namespace SBaier.Astrominer
 			_asteroid = resolver.Resolve<Asteroid>();
 		}
 
-		private void OnEnable()
+		public void Initialize()
 		{
 			UpdateColor();
 			_asteroid.OnOwningPlayerChanged += UpdateColor;
 			_asteroid.OnExploited += UpdateColor;
 		}
 
-		private void OnDisable()
+		public void Clean()
 		{
 			_asteroid.OnOwningPlayerChanged -= UpdateColor;
 			_asteroid.OnExploited -= UpdateColor;

@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerValueGraphCreator : MonoBehaviour, Injectable
+    public class PlayerValueGraphCreator : MonoBehaviour, Injectable, Initializable
     {
         [SerializeField] 
         private RectTransform _hook;
         
         private Players _players;
-        private Pool<PlayerValueGraph, Player> _pool;
+        private Pool<PlayerValueGraph, Player, PrefabInstantiationArguments> _pool;
         private List<PlayerValueGraph> _graphs = new List<PlayerValueGraph>();
         
         public void Inject(Resolver resolver)
         {
             _players = resolver.Resolve<Players>();
-            _pool = resolver.Resolve<Pool<PlayerValueGraph, Player>>();
+            _pool = resolver.Resolve<Pool<PlayerValueGraph, Player, PrefabInstantiationArguments>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             CreateGraphs();
         }
@@ -38,10 +38,7 @@ namespace SBaier.Astrominer
         {
             foreach (Player player in _players)
             {
-                PlayerValueGraph graph = _pool.Request(player);
-                graph.transform.SetParent(_hook, false);
-                graph.transform.localScale = Vector3.one;
-                _graphs.Add(graph);
+                _graphs.Add(_pool.Request(player, PrefabInstantiationArguments.CreateFittedUIArgs(_hook)));
             }
         }
     }

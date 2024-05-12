@@ -1,33 +1,31 @@
-using System.Collections;
-using System.Collections.Generic;
 using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerInfoPanelCreator : MonoBehaviour, Injectable
+    public class PlayerInfoPanelCreator : MonoBehaviour, Injectable, Initializable, Cleanable
     {
         [SerializeField]
         private Transform _hook;
 
         private ActiveItem<Player> _activePlayer;
-        private Pool<PlayerInfoPanel, Player> _pool;
+        private Pool<PlayerInfoPanel, Player, PrefabInstantiationArguments> _pool;
 
         private PlayerInfoPanel _currentPanel;
 
         public void Inject(Resolver resolver)
         {
             _activePlayer = resolver.Resolve<ActiveItem<Player>>();
-            _pool = resolver.Resolve<Pool<PlayerInfoPanel, Player>>();
+            _pool = resolver.Resolve<Pool<PlayerInfoPanel, Player, PrefabInstantiationArguments>>();
         }
 
-        private void OnEnable()
+        public void Initialize()
         {
             TryCreatePanel();
             _activePlayer.OnValueChanged += OnValueChanged;
         }
 
-        private void OnDisable()
+        public void Clean()
         {
             _activePlayer.OnValueChanged -= OnValueChanged;
             TryReturnPanel();
@@ -56,8 +54,7 @@ namespace SBaier.Astrominer
         {
             if (!_activePlayer.HasValue)
                 return;
-            _currentPanel = _pool.Request(_activePlayer.Value);
-            _currentPanel.transform.SetParent(_hook, false);
+            _currentPanel = _pool.Request(_activePlayer.Value, PrefabInstantiationArguments.CreateUIArgs(_hook));
         }
     }
 }
