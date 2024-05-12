@@ -20,6 +20,7 @@ namespace SBaier.Astrominer
 
 		public void Initialize()
 		{
+			UpdateCurrentAsteroid();
 			UpdateInteractivity();
 			_ship.Location.OnValueChanged += OnFlyTargetChange;
 			_button.onClick.AddListener(TakeMachine);
