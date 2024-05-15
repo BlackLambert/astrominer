@@ -8,6 +8,7 @@ namespace SBaier.Astrominer
     public abstract class MapCreationTrigger : MonoBehaviour, Injectable
     {
         protected MapCreationContext _context;
+        protected Observable<MapCreationState> _state;
         private Map _map;
         private MapCreator _mapCreator;
 
@@ -16,6 +17,7 @@ namespace SBaier.Astrominer
             _context = resolver.Resolve<MapCreationContext>();
             _map = resolver.Resolve<Map>();
             _mapCreator = resolver.Resolve<MapCreator>();
+            _state = resolver.Resolve<Observable<MapCreationState>>();
         }
 
         protected void CreateMap()

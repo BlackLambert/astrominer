@@ -19,19 +19,22 @@ namespace SBaier.Astrominer
         public void Initialize()
         {
             UpdateText();
-            _context.Started.OnValueChanged += OnBasePlacementStarted;
             _context.CurrentPlayer.OnValueChanged += OnCurrentPlayerChanged;
         }
 
         public void Clean()
         {
-            _context.Started.OnValueChanged -= OnBasePlacementStarted;
             _context.CurrentPlayer.OnValueChanged -= OnCurrentPlayerChanged;
+        }
+
+        private void OnCurrentPlayerChanged(Player formervalue, Player newvalue)
+        {
+            UpdateText();
         }
 
         private void UpdateText()
         {
-            if (!_context.Started.Value || _context.CurrentPlayer.Value == null)
+            if (_context.CurrentPlayer.Value == null)
             {
                 return;
             }
@@ -39,16 +42,6 @@ namespace SBaier.Astrominer
             string color = ColorUtility.ToHtmlStringRGB(_context.CurrentPlayer.Value.Color);
             string playerName = _context.CurrentPlayer.Value.Name;
             _text.text = $"Please place your base player <color=#{color}>{playerName}</color>";
-        }
-
-        private void OnBasePlacementStarted(bool formervalue, bool newvalue)
-        {
-            UpdateText();
-        }
-
-        private void OnCurrentPlayerChanged(Player formervalue, Player newvalue)
-        {
-            UpdateText();
         }
     }
 }

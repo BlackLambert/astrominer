@@ -29,6 +29,8 @@ namespace SBaier.Astrominer
 
         public override void InstallBindings(Binder binder)
         {
+            binder.BindInstance(new Observable<MapCreationState>() { Value = MapCreationState.AsteroidGeneration });
+            
             binder.BindInstance(CreateSampler())
                 .WithoutInjection();
 
@@ -45,9 +47,6 @@ namespace SBaier.Astrominer
             binder.BindToNewSelf<AsteroidArgumentsGenerator>().AsSingle();
 
             binder.BindToNewSelf<BasesPlacementContext>()
-                .AsSingle();
-            
-            binder.BindToNewSelf<TargetExploitSettingContext>()
                 .AsSingle();
             
             binder.BindInstance(_targetExploitSettings)

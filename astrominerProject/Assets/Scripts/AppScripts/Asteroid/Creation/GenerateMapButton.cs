@@ -13,18 +13,18 @@ namespace SBaier.Astrominer
         {
             UpdateButtonInteractable();
             _context.SelectedAsteroidsAmountOption.OnValueChanged += OnSelectedAsteroidsAmountOptionChanged;
-            _context.Finished.OnValueChanged += OnFinishedChanged;
+            _state.OnValueChanged += OnFinishedChanged;
             _button.onClick.AddListener(CreateMap);
         }
 
         public void Clean()
         {
             _context.SelectedAsteroidsAmountOption.OnValueChanged -= OnSelectedAsteroidsAmountOptionChanged;
-            _context.Finished.OnValueChanged -= OnFinishedChanged;
+            _state.OnValueChanged -= OnFinishedChanged;
             _button.onClick.RemoveListener(CreateMap);
         }
 
-        private void OnFinishedChanged(bool formervalue, bool newvalue)
+        private void OnFinishedChanged(MapCreationState formervalue, MapCreationState newvalue)
         {
             UpdateButtonInteractable();
         }
@@ -37,7 +37,7 @@ namespace SBaier.Astrominer
 
         private void UpdateButtonInteractable()
         {
-            _button.interactable = _context.IsValid && !_context.Finished.Value;
+            _button.interactable = _context.IsValid && _state.Value == MapCreationState.AsteroidGeneration;
         }
     }
 }

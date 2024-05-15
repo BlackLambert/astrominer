@@ -6,7 +6,7 @@ namespace SBaier.Astrominer
 {
     public class ConnectionDrawer<TItem> : MonoBehaviour, Injectable, Initializable, Cleanable where TItem : Location2D
     {
-        private Pool<Connection> _connectionPool;
+        private Pool<Connection, PrefabInstantiationArguments> _connectionPool;
         private InRangeDetector2D<TItem> _detector;
         private Dictionary<TItem, Connection> _asteroidToConnection = new Dictionary<TItem, Connection>();
         private Provider<Vector2> _startPoint;
@@ -14,7 +14,7 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _detector = resolver.Resolve<InRangeDetector2D<TItem>>();
-            _connectionPool = resolver.Resolve<Pool<Connection>>();
+            _connectionPool = resolver.Resolve<Pool<Connection, PrefabInstantiationArguments>>();
             _startPoint = _detector.StartPoint;
         }
 
@@ -63,11 +63,13 @@ namespace SBaier.Astrominer
                 return;
             }
             
-            Connection connection = _connectionPool.Request();
-            Transform trans = connection.transform; 
-            trans.SetParent(transform);
             Vector2 startPosition = _startPoint.Value;
-            trans.position = startPosition;
+            Connection connection = _connectionPool.Request(new PrefabInstantiationArguments()
+            {
+                Parent = transform,
+                Position = startPosition,
+                Rotation = Quaternion.identity
+            });
             connection.SetEndpoints(startPosition, asteroid.Position2D);
             connection.SetDefaultColor();
             _asteroidToConnection.Add(asteroid, connection);

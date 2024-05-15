@@ -11,20 +11,18 @@ namespace SBaier.Astrominer
         private Button _button;
 
         private Map _map;
-        private BasesPlacementContext _basePlacementContext;
-        private TargetExploitSettingContext _targetExploitContext;
+        private Observable<MapCreationState> _state;
         
         public void Inject(Resolver resolver)
         {
             _map = resolver.Resolve<Map>();
-            _basePlacementContext = resolver.Resolve<BasesPlacementContext>();
-            _targetExploitContext = resolver.Resolve<TargetExploitSettingContext>();
+            _state = resolver.Resolve<Observable<MapCreationState>>();
         }
         
         public void Initialize()
         {
             _map.AsteroidArguments.OnValueChanged += OnAsteroidPositionsChanged;
-            _basePlacementContext.Started.OnValueChanged += OnStartedChanged;
+            _state.OnValueChanged += OnStateChanged;
             _button.onClick.AddListener(StartBasePlacement);
             UpdateButtonInteractable();
         }
@@ -32,29 +30,29 @@ namespace SBaier.Astrominer
         public void Clean()
         {
             _map.AsteroidArguments.OnValueChanged -= OnAsteroidPositionsChanged;
-            _basePlacementContext.Started.OnValueChanged -= OnStartedChanged;
+            _state.OnValueChanged -= OnStateChanged;
             _button.onClick.RemoveListener(StartBasePlacement);
         }
 
-        private void OnStartedChanged(bool formervalue, bool newvalue)
+        private void OnStateChanged(MapCreationState formervalue, MapCreationState newvalue)
         {
             UpdateButtonInteractable();
         }
 
         private void OnAsteroidPositionsChanged(List<Asteroid.Arguments> formerValue, List<Asteroid.Arguments> newValue)
         {
-            _button.interactable = newValue?.Count > 0;
+            UpdateButtonInteractable();
         }
 
         private void UpdateButtonInteractable()
         {
-            _button.interactable = _map.AsteroidArguments.Value?.Count > 0 && !_basePlacementContext.Started.Value;
+            _button.interactable = _map.AsteroidArguments.Value?.Count > 0 && 
+                                   _state.Value != MapCreationState.BasePlacement;
         }
 
         private void StartBasePlacement()
         {
-            _basePlacementContext.Started.Value = true;
-            _targetExploitContext.Finished.Value = true;
+            _state.Value = MapCreationState.BasePlacement;
         }
     }
 }

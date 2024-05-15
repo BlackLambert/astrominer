@@ -7,14 +7,14 @@ namespace SBaier.Astrominer
 {
     public abstract class FlightConnectionDrawer : MonoBehaviour, Injectable, Cleanable
     {
-        private Pool<Connection> _connectionPool;
+        private Pool<Connection, PrefabInstantiationArguments> _connectionPool;
 
         private List<Connection> _connections = 
             new List<Connection>();
         
         public virtual void Inject(Resolver resolver)
         {
-            _connectionPool = resolver.Resolve<Pool<Connection>>();
+            _connectionPool = resolver.Resolve<Pool<Connection, PrefabInstantiationArguments>>();
         }
 
         public virtual void Clean()
@@ -58,8 +58,11 @@ namespace SBaier.Astrominer
 
         private void CreateConnection(FlyTarget start, FlyTarget end, Color? color)
         {
-            Connection connection = _connectionPool.Request();
-            connection.transform.SetParent(transform);
+            Connection connection = _connectionPool.Request(new PrefabInstantiationArguments()
+            {
+                Parent = transform,
+                Rotation = Quaternion.identity
+            });
             connection.SetEndpoints(start.LandingPoint, end.LandingPoint);
             connection.SetColor(color);
             _connections.Add(connection);

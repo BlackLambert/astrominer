@@ -12,6 +12,7 @@ namespace SBaier.Astrominer
 		private Players _players;
 		private Pool<BasePlacementPreview, Player, PrefabInstantiationArguments> _basePreviewPool;
 		private BasesPlacementContext _context;
+		private Observable<MapCreationState> _state;
 		private int _currentPlayerIndex = 0;
 		private List<BasePlacementPreview> _bases = new List<BasePlacementPreview>();
 		private BasePositions _positions;
@@ -28,25 +29,26 @@ namespace SBaier.Astrominer
 			_basePositionGetter = resolver.Resolve<BasePositionGetter>();
 			_pointerPosition = resolver.Resolve<PointerPosition>(0);
 			_camera = resolver.Resolve<Camera>();
+			_state = resolver.Resolve<Observable<MapCreationState>>();
 		}
 
 		public void Initialize()
 		{
 			CreateNextBase();
-			_context.Started.OnValueChanged += OnStartedChanged;
+			_state.OnValueChanged += OnStateChanged;
 			_positions.OnItemAdded += OnBasePlaced;
 		}
 
 		public void Clean()
 		{
-			_context.Started.OnValueChanged -= OnStartedChanged;
+			_state.OnValueChanged -= OnStateChanged;
 			_positions.OnItemAdded -= OnBasePlaced;
 			ClearBases();
 		}
 
 		private void CreateNextBase()
 		{
-			if (!_context.Started.Value)
+			if (_state.Value != MapCreationState.BasePlacement)
 			{
 				return;
 			}
@@ -54,7 +56,7 @@ namespace SBaier.Astrominer
 			if (_currentPlayerIndex >= _players.Count)
 			{
 				_context.CurrentPlayer.Value = null;
-				_context.Finished.Value = true;
+				_state.Value = MapCreationState.Done;
 				return;
 			}
 
@@ -93,7 +95,7 @@ namespace SBaier.Astrominer
 			}
 		}
 
-		private void OnStartedChanged(bool formervalue, bool newvalue)
+		private void OnStateChanged(MapCreationState formervalue, MapCreationState newvalue)
 		{
 			CreateNextBase();
 		}
