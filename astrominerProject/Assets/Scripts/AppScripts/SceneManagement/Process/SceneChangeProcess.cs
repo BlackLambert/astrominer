@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using SBProcess = SBaier.Process;
 
 namespace SBaier.Astrominer
 {
-    public class SceneChangeProcess : Process
+    public class SceneChangeProcess : SBProcess.Process
     {
         public event Action OnFinished;
         public event Action OnStopped;

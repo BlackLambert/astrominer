@@ -1,20 +1,21 @@
 using System.Threading.Tasks;
 using SBaier.DI;
+using SBaier.Process;
 
 namespace SBaier.Astrominer
 {
     public class LoadingScreenProcessStarter : ProcessStarterBase
     {
-        private Pool<LoadingScreen, Process> _loadingScreenPool;
+        private Pool<LoadingScreen, Process.Process> _loadingScreenPool;
         private LoadingScreen _currentLoadingScreen;
 
         public override void Inject(Resolver resolver)
         {
             base.Inject(resolver);
-            _loadingScreenPool = resolver.Resolve<Pool<LoadingScreen, Process>>();
+            _loadingScreenPool = resolver.Resolve<Pool<LoadingScreen, Process.Process>>();
         }
 
-        protected override async Task StartProcess(Process process, bool immediately)
+        protected override async Task StartProcess(Process.Process process, bool immediately)
         {
             _currentLoadingScreen = _loadingScreenPool.Request(process);
             _currentLoadingScreen.transform.SetParent(null);
@@ -22,15 +23,8 @@ namespace SBaier.Astrominer
             process.Start();
         }
 
-        protected override async Task StopProcess(Process process)
+        protected override async Task CleanOnProcessEnded(Process.Process process, bool immediately)
         {
-            process.Stop();
-            await TryHideLoadingScreen(true);
-        }
-
-        protected override async Task CleanProcess(Process process, bool immediately)
-        {
-            await base.CleanProcess(process, immediately);
             await TryHideLoadingScreen(immediately);
         }
 

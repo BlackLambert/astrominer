@@ -1,4 +1,5 @@
 using SBaier.DI;
+using SBaier.Process;
 using UnityEngine;
 
 namespace SBaier.Astrominer
@@ -32,10 +33,11 @@ namespace SBaier.Astrominer
                 .FromNewComponentOnNewGameObject("CoroutineHelper", transform)
                 .AsSingle();
             
-            binder.BindToNewSelf<ProcessQueue>()
+            binder.Bind<ProcessQueue>()
+                .ToNew<BasicProcessQueue>()
                 .AsSingle();
 
-            binder.BindToNewSelf<Observable<Process>>();
+            binder.BindToNewSelf<Observable<Process.Process>>();
             
             binder.Bind<CommandsEnqueuer>()
                 .ToNew<BasicCommandsEnqueuer>()

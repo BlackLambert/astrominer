@@ -9,12 +9,12 @@ namespace SBaier.Astrominer
     {
         [SerializeField] private CanvasGroup _group;
         
-        public Process Process { get; private set; }
+        public Process.Process Process { get; private set; }
         private Displayer _displayer;
         
         public void Inject(Resolver resolver)
         {
-            Process = resolver.Resolve<Process>();
+            Process = resolver.Resolve<Process.Process>();
             _displayer = resolver.Resolve<Displayer>();
         }
 

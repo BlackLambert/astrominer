@@ -9,13 +9,13 @@ namespace SBaier.Astrominer
         [SerializeField]
         private Button _button;
 
-        private Observable<Process> _currentProcess;
+        private Observable<Process.Process> _currentProcess;
 
         public override void Inject(Resolver resolver)
         {
 	        base.Inject(resolver);
 	        
-	        _currentProcess = resolver.Resolve<Observable<Process>>();
+	        _currentProcess = resolver.Resolve<Observable<Process.Process>>();
 	        _currentProcess.OnValueChanged += OnProcessChanged;
 	        UpdateInteractable();
         }
@@ -35,14 +35,14 @@ namespace SBaier.Astrominer
 			_button = GetComponent<Button>();
 		}
 
-		private void OnProcessChanged(Process formervalue, Process newvalue)
+		private void OnProcessChanged(Process.Process formervalue, Process.Process newvalue)
 		{
 			TryRemoveProcessListeners(formervalue);
 			UpdateInteractable();
 			TryAddProcessListeners(newvalue);
 		}
 
-		private void TryAddProcessListeners(Process process)
+		private void TryAddProcessListeners(Process.Process process)
 		{
 			if (process != null)
 			{
@@ -51,7 +51,7 @@ namespace SBaier.Astrominer
 			}
 		}
 
-		private void TryRemoveProcessListeners(Process process)
+		private void TryRemoveProcessListeners(Process.Process process)
 		{
 			if (process != null)
 			{

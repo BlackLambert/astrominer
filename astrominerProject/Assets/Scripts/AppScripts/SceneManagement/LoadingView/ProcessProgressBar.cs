@@ -9,11 +9,11 @@ namespace SBaier.Astrominer
         [SerializeField] 
         private Image _fillBar;
 
-        private Process _process;
+        private Process.Process _process;
 
         public void Inject(Resolver resolver)
         {
-            _process = resolver.Resolve<Process>();
+            _process = resolver.Resolve<Process.Process>();
         }
 
         private void Update()

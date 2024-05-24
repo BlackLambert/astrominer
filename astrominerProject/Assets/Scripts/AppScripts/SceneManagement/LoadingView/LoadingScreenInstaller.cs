@@ -9,7 +9,7 @@ namespace SBaier.Astrominer
         [SerializeField] 
         private Displayer _displayer;
         
-        private Process _process;
+        private Process.Process _process;
 
         private void Reset()
         {
@@ -18,7 +18,7 @@ namespace SBaier.Astrominer
 
         public void Inject(Resolver resolver)
         {
-            _process = resolver.Resolve<Process>();
+            _process = resolver.Resolve<Process.Process>();
         }
         
         public override void InstallBindings(Binder binder)
