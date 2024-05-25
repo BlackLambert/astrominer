@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
         private void Update()
         {
             _fillBar.rectTransform.anchorMin = new Vector2(0, 0);
-            _fillBar.rectTransform.anchorMax = new Vector2(_process.Progress, 1);
+            _fillBar.rectTransform.anchorMax = new Vector2(_process.Progress.Value, 1);
             _fillBar.rectTransform.anchoredPosition = Vector2.zero;
         }
 

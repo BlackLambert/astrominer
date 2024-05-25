@@ -37,7 +37,10 @@ namespace SBaier.Astrominer
                 .ToNew<BasicProcessQueue>()
                 .AsSingle();
 
-            binder.BindToNewSelf<Observable<Process.Process>>();
+            binder.Bind<Observable<Process.Process>>()
+                .And<ReadonlyObservable<Process.Process>>()
+                .ToNew<Observable<Process.Process>>()
+                .AsSingle();
             
             binder.Bind<CommandsEnqueuer>()
                 .ToNew<BasicCommandsEnqueuer>()

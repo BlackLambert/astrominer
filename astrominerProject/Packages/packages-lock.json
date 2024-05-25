@@ -1,22 +1,22 @@
 {
   "dependencies": {
     "com.sbaier.core": {
-      "version": "https://github.com/BlackLambert/unity-core.git#v1.0.0",
+      "version": "https://github.com/BlackLambert/unity-core.git#v1.0.1",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "e7160291950ec36c4ceedbe563e044c7b83ee00b"
+      "hash": "fc744ff3ec0627a697757747bc358fe062a9685c"
     },
     "com.sbaier.process": {
-      "version": "https://github.com/BlackLambert/unity-process.git#v1.0.0",
+      "version": "https://github.com/BlackLambert/unity-process.git#v1.1.0",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "nuget.moq": "2.0.0",
         "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
-        "com.sbaier.core": "https://github.com/BlackLambert/unity-core/releases/tag/v1.0.0"
+        "com.sbaier.core": "https://github.com/BlackLambert/unity-core/releases/tag/v1.0.1"
       },
-      "hash": "155a2cf0cfa9e5ceac0fd2036617c392b89702e5"
+      "hash": "f435584ce6a8c28723b1804d827695d7d3820f46"
     },
     "com.sbaier.unitydi": {
       "version": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",

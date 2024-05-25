@@ -33,7 +33,7 @@ namespace SBaier.Astrominer
 
         private void UpdateText()
         {
-            int percentage = (int)(_process.Progress * 100);
+            int percentage = (int)(_process.Progress.Value * 100);
             _text.text = $"{percentage}%";
         }
     }

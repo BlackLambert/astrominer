@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 using SBaier.DI;
 using SBaier.Process;
@@ -15,12 +16,12 @@ namespace SBaier.Astrominer
             _loadingScreenPool = resolver.Resolve<Pool<LoadingScreen, Process.Process>>();
         }
 
-        protected override async Task StartProcess(Process.Process process, bool immediately)
+        protected override async Task RunProcess(Process.Process process, CancellationToken token, bool immediately)
         {
             _currentLoadingScreen = _loadingScreenPool.Request(process);
             _currentLoadingScreen.transform.SetParent(null);
             await _currentLoadingScreen.Show(immediately);
-            process.Start();
+            await process.Run(token);
         }
 
         protected override async Task CleanOnProcessEnded(Process.Process process, bool immediately)

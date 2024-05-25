@@ -16,18 +16,20 @@ namespace SBaier.Astrominer
 	        base.Inject(resolver);
 	        
 	        _currentProcess = resolver.Resolve<Observable<Process.Process>>();
-	        _currentProcess.OnValueChanged += OnProcessChanged;
 	        UpdateInteractable();
         }
 
         public void Initialize()
 		{
+			_currentProcess.OnValueChanged += OnProcessChanged;
 			_button.onClick.AddListener(Execute);
 		}
 
 		public void Clean()
 		{
+			_currentProcess.OnValueChanged -= OnProcessChanged;
 			_button.onClick.RemoveListener(Execute);
+			TryRemoveProcessListeners(_currentProcess.Value);
 		}
 
 		private void Reset()
@@ -46,8 +48,8 @@ namespace SBaier.Astrominer
 		{
 			if (process != null)
 			{
-				process.OnStopped += UpdateInteractable;
-				process.OnFinished += UpdateInteractable;
+				process.Stopped.OnValueChanged += UpdateInteractable;
+				process.Complete.OnValueChanged += UpdateInteractable;
 			}
 		}
 
@@ -55,16 +57,21 @@ namespace SBaier.Astrominer
 		{
 			if (process != null)
 			{
-				process.OnStopped -= UpdateInteractable;
-				process.OnFinished -= UpdateInteractable;
+				process.Stopped.OnValueChanged -= UpdateInteractable;
+				process.Complete.OnValueChanged -= UpdateInteractable;
 			}
+		}
+
+		private void UpdateInteractable(bool formervalue, bool newvalue)
+		{
+			UpdateInteractable();
 		}
 
 		private void UpdateInteractable()
 		{
 			_button.interactable = _currentProcess.Value == null || 
-			                       _currentProcess.Value.Finished ||
-			                       _currentProcess.Value.Stopped;
+			                       _currentProcess.Value.Complete.Value ||
+			                       _currentProcess.Value.Stopped.Value;
 		}
     }
 }

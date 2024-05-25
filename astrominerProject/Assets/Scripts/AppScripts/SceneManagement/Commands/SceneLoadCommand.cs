@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -9,5 +8,10 @@ namespace SBaier.Astrominer
     {
         [field: SerializeField]
         public LoadSceneMode Mode { get; private set; } = LoadSceneMode.Additive;
+
+        public override AsyncOperation Execute()
+        {
+            return SceneManager.LoadSceneAsync(SceneName, Mode);
+        }
     }
 }
