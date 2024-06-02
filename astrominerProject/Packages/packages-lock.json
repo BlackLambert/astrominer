@@ -8,15 +8,52 @@
       "hash": "fc744ff3ec0627a697757747bc358fe062a9685c"
     },
     "com.sbaier.process": {
-      "version": "https://github.com/BlackLambert/unity-process.git#v1.1.0",
+      "version": "https://github.com/BlackLambert/unity-process.git#v1.1.2",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "nuget.moq": "2.0.0",
         "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
-        "com.sbaier.core": "https://github.com/BlackLambert/unity-core/releases/tag/v1.0.1"
+        "com.sbaier.core": "https://github.com/BlackLambert/unity-core.git#v1.0.1",
+        "com.sbaier.time": "https://github.com/BlackLambert/unity-time.git#v1.0.1"
       },
-      "hash": "f435584ce6a8c28723b1804d827695d7d3820f46"
+      "hash": "dd25e30f8d18f8b45ef7793b254bc95f14d1ca19"
+    },
+    "com.sbaier.scenemanagement": {
+      "version": "https://github.com/BlackLambert/unity-scene-management.git#v1.0.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "nuget.moq": "2.0.0",
+        "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
+        "com.sbaier.core": "https://github.com/BlackLambert/unity-core.git#v1.0.1",
+        "com.sbaier.process": "https://github.com/BlackLambert/unity-process.git#v1.1.2",
+        "com.sbaier.time": "https://github.com/BlackLambert/unity-time.git#v1.0.1",
+        "com.sbaier.ui": "https://github.com/BlackLambert/unity-ui.git#v1.0.0"
+      },
+      "hash": "37154ff11ef5ec265655ca20b9461b29e6f09fa2"
+    },
+    "com.sbaier.time": {
+      "version": "https://github.com/BlackLambert/unity-time.git#v1.0.1",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "nuget.moq": "2.0.0",
+        "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
+        "com.sbaier.core": "https://github.com/BlackLambert/unity-core.git#v1.0.1"
+      },
+      "hash": "295da4ab43329905cf7e3d57aa29b1272ce62e86"
+    },
+    "com.sbaier.ui": {
+      "version": "https://github.com/BlackLambert/unity-ui.git#v1.0.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "nuget.moq": "2.0.0",
+        "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
+        "com.sbaier.core": "https://github.com/BlackLambert/unity-core.git#v1.0.1"
+      },
+      "hash": "1c9069b61e5d112b8069ebdb9b47d119c459fe20"
     },
     "com.sbaier.unitydi": {
       "version": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
