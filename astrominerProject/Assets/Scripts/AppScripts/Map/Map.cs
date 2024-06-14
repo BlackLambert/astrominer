@@ -11,6 +11,5 @@ namespace SBaier.Astrominer
         public Observable<AsteroidAmountOption> AsteroidAmountOption { get; } = new Observable<AsteroidAmountOption>();
         public Vector2 CenterPoint => AsteroidAmountOption.Value.MapCenterPoint;
         public Vector2 BottomLeftPoint => Vector2.zero - AsteroidAmountOption.Value.MapSize / 2 + CenterPoint;
-
     }
 }

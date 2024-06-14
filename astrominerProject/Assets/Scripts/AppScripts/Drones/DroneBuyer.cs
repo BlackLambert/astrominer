@@ -5,6 +5,7 @@ namespace SBaier.Astrominer
 {
     public class DroneBuyer<TDrone> : Injectable where TDrone : Drone
     {
+        public float CostsPerDrone => _settings.Price;
         private Factory<TDrone, DroneArguments> _factory;
         private DroneSettings _settings;
 

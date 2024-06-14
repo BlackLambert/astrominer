@@ -1,3 +1,4 @@
+using SBaier.AppQuit;
 using SBaier.DI;
 using SBaier.Process;
 using SBaier.SceneManagement;
@@ -50,6 +51,13 @@ namespace SBaier.Astrominer
             binder.BindComponent<LoadingScreenProcessStarter>()
                 .FromNewComponentOnNewGameObject("ProcessStarter", transform)
                 .AsNonResolvable();
+
+            binder.BindComponent<MainThreadDispatcher>()
+                .FromNewComponentOnNewGameObject("Main Thread Dispatcher", transform)
+                .AsSingle();
+            
+            new AppQuitterInstaller().InstallBindings(binder);
+            new BasicQuitTriggerInstaller().InstallBindings(binder);
         }
     }
 }
