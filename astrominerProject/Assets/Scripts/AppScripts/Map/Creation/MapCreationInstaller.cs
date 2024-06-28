@@ -55,7 +55,7 @@ namespace SBaier.Astrominer
             binder.Bind<Factory<List<Asteroid>, List<Asteroid.Arguments>>>()
                 .ToNew<AsteroidsFactory>();
 
-            binder.BindToNewSelf<MapCreator>();
+            binder.BindToNewSelf<MapFactory>();
 
             binder.Bind<BasePositionGetter>()
                 .ToNew<BasicBasePositionGetter>()

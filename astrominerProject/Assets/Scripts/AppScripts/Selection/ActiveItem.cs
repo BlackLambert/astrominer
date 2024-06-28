@@ -1,5 +1,3 @@
-using System;
-
 namespace SBaier.Astrominer
 {
     public abstract class ActiveItem<T>

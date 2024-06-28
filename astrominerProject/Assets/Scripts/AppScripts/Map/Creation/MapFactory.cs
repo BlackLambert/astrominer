@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class MapCreator : Injectable
+    public class MapFactory : Injectable
     {
         private AsteroidArgumentsGenerator _generator;
         private MapCreationSettings _creationSettings;

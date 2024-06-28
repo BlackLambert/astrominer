@@ -1,59 +1,37 @@
+using System;
 using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class CarryingOresPanelCreator : MonoBehaviour, Injectable, Initializable, Cleanable
+    public class CarryingOresPanelCreator : Creator<CarryingOresPanel, Ship>
     {
-        [SerializeField] private Transform _hook;
+        protected override event Action OnCanCreateChanged;
 
         private ActiveShip _activeShip;
-        private Pool<CarryingOresPanel, Ship, PrefabInstantiationArguments> _pool;
 
-        private CarryingOresPanel _currentPanel;
-
-        public void Inject(Resolver resolver)
+        public override void Inject(Resolver resolver)
         {
+            base.Inject(resolver);
             _activeShip = resolver.Resolve<ActiveShip>();
-            _pool = resolver.Resolve<Pool<CarryingOresPanel, Ship, PrefabInstantiationArguments>>();
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
-            TryCreatePanel();
-            _activeShip.OnValueChanged += OnActiveShipChanged;
+            base.Initialize();
+            _activeShip.OnValueChanged += OnShipChanged;
         }
 
-        public void Clean()
+        public override void Clean()
         {
-            _activeShip.OnValueChanged -= OnActiveShipChanged;
-            TryReturnPanel();
+            base.Clean();
+            _activeShip.OnValueChanged -= OnShipChanged;
         }
 
-        private void OnActiveShipChanged(Ship formerValue, Ship newValue)
-        {
-            UpdatePanel();
-        }
-
-        private void UpdatePanel()
-        {
-            TryReturnPanel();
-            TryCreatePanel();
-        }
-
-        private void TryReturnPanel()
-        {
-            if (_currentPanel == null)
-                return;
-            _pool.Return(_currentPanel);
-            _currentPanel = null;
-        }
-
-        private void TryCreatePanel()
-        {
-            if (!_activeShip.HasValue)
-                return;
-            _currentPanel = _pool.Request(_activeShip.Value, PrefabInstantiationArguments.CreateFittedUIArgs(_hook));
-        }
+        protected override Ship CreateArgument() => _activeShip.Value;
+        protected override bool CanCreateItem() => _activeShip.HasValue;
+        protected override PrefabInstantiationArguments CreatePrefabInstantiationArguments(Transform hook)
+            => PrefabInstantiationArguments.CreateFittedUIArgs(hook);
+        private void OnShipChanged(Ship formervalue, Ship newvalue) => OnCanCreateChanged?.Invoke();
     }
 }
