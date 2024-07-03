@@ -9,6 +9,8 @@ namespace SBaier.Astrominer
         private BuyExploiterActionSettings _buyExploiterSettings;
         [SerializeField]
         private SendProspectorDroneActionSettings _sendProspectorDroneSettings;
+        [SerializeField] 
+        private PlaceExploiterActionSettings _placeExploiterActionSettings;
         
         public override void InstallBindings(Binder binder)
         {
@@ -17,6 +19,7 @@ namespace SBaier.Astrominer
 
             binder.BindInstance(_buyExploiterSettings);
             binder.BindInstance(_sendProspectorDroneSettings);
+            binder.BindInstance(_placeExploiterActionSettings);
         }
     }
 }

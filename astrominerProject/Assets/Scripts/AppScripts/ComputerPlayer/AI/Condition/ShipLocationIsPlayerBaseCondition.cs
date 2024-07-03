@@ -13,7 +13,7 @@ namespace SBaier.Astrominer
         
         public override bool Execute()
         {
-            return _ship.Location.Value is Base playerBase && playerBase.Player != _ship.Player;
+            return _ship.Location.Value is Base playerBase && playerBase.Player == _ship.Player;
         }
     }
 }

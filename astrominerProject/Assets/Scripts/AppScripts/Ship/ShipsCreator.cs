@@ -37,6 +37,10 @@ namespace SBaier.Astrominer
         public void Clean()
         {
             _bases.OnItemAdded -= OnBaseAdded;
+            foreach (Ship ship in _ships.Values)
+            {
+                _pool.Return(ship);
+            }
         }
 
         private void OnBaseAdded(KeyValuePair<Player, Base> pair)

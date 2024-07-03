@@ -24,7 +24,7 @@ namespace SBaier.Astrominer
 		private Ship _ship;
 		private Asteroid _currentLocation;
 		private Observable<FlyTarget> location => _ship.Location;
-		private ObservableList<ExploitMachine> machines => _ship.Machines;
+		private ExploitMachinePlacer _machinePlacer = new();
 
 		public void Inject(Resolver resolver)
 		{
@@ -109,36 +109,7 @@ namespace SBaier.Astrominer
 
 		private void PlaceMachine()
 		{
-			if (location.Value is not Asteroid asteroid)
-			{
-				throw new InvalidOperationException($"Placing machine failed" +
-				                                    $" since the current ship location is no {nameof(Asteroid)}.");
-			}
-
-			ShipInventoryItem selectedItem = _activeItem.Value;
-			ExploitMachine machine = selectedItem.Machine;
-			if (asteroid.OwningPlayer == _ship.Player)
-			{
-				ReplaceMachineOf(asteroid, machine);
-			}
-			else
-			{
-				PlaceMachineOn(asteroid, machine);
-			}
-		}
-
-		private void ReplaceMachineOf(Asteroid asteroid, ExploitMachine machine)
-		{
-			ExploitMachine formerMachine = asteroid.ReplaceExploitMachine(machine);
-			machines[machines.IndexOf(machine)] = formerMachine;
-		}
-
-		private void PlaceMachineOn(Asteroid asteroid, ExploitMachine machine)
-		{
-			machines.Remove(machine);
-			asteroid.SetOwningPlayer(_ship.Player);
-			_ship.Player.OwnedAsteroids.Add(asteroid);
-			asteroid.PlaceExploitMachine(machine);
+			_machinePlacer.PlaceMachine(_ship, _activeItem.Value.Machine);
 		}
     }
 }

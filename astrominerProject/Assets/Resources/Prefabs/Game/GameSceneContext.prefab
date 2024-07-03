@@ -615,6 +615,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _buyExploiterSettings: {fileID: 11400000, guid: ae52b36561ac9c74699edbe2270f6575, type: 2}
   _sendProspectorDroneSettings: {fileID: 11400000, guid: 8aa10096d34edf64ba33b8f821a0b8b9, type: 2}
+  _placeExploiterActionSettings: {fileID: 11400000, guid: 6eef231e284aad64e9528eb5a76baba4, type: 2}
 --- !u!1 &4460166591548596062
 GameObject:
   m_ObjectHideFlags: 0

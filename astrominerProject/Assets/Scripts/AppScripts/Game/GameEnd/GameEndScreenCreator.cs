@@ -23,6 +23,7 @@ namespace SBaier.Astrominer
         public void Clean()
         {
             _game.Finished.OnValueChanged -= OnFinishedChanged;
+            TryHideScreen();
         }
 
         private void OnFinishedChanged(bool formerValue, bool newValue)
@@ -35,6 +36,15 @@ namespace SBaier.Astrominer
             if (_game.Finished.Value)
             {
                 _endScreen = _pool.Request();
+            }
+        }
+        
+        private void TryHideScreen()
+        {
+            if (_endScreen != null)
+            {
+                _pool.Return(_endScreen);
+                _endScreen = null;
             }
         }
     }

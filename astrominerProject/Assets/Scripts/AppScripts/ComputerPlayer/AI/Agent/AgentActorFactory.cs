@@ -9,6 +9,8 @@ namespace SBaier.Astrominer
     {
         private BuyExploiterActionSettings _buyExploiterSettings;
         private SendProspectorDroneActionSettings _sendProspectorDroneSettings;
+        private PlaceExploiterActionSettings _placeExploiterActionSettings;
+        
         private ExploitMachineSettings _exploitMachineSettings;
         private ExploitMachineVendor _vendor;
         private CosmicObjectInRangeGetter _inRangeGetter;
@@ -21,6 +23,7 @@ namespace SBaier.Astrominer
         {
             _buyExploiterSettings = resolver.Resolve<BuyExploiterActionSettings>();
             _sendProspectorDroneSettings = resolver.Resolve<SendProspectorDroneActionSettings>();
+            _placeExploiterActionSettings = resolver.Resolve<PlaceExploiterActionSettings>();
             _exploitMachineSettings = resolver.Resolve<ExploitMachineSettings>();
             _vendor = resolver.Resolve<ExploitMachineVendor>();
             _inRangeGetter = resolver.Resolve<CosmicObjectInRangeGetter>();
@@ -36,17 +39,25 @@ namespace SBaier.Astrominer
             List<Weighter> weighters = new List<Weighter>();
             WeightedSelector selector = new WeightedSelector();
 
-            SequenceCreationResult buyExploiterSequence = CreateBuyExploiterSequence(ship, allowsFollowupAction);
-            selector.AddChild(buyExploiterSequence.Node);
-            weighters.Add(buyExploiterSequence.Weighter);
-
             selector.AddChild(CreateFlyToRandomAsteroidNode(ship, allowsFollowupAction));
 
-            SequenceCreationResult sendProspectorDrone = CreateSendProspectorDroneSequence(ship, allowsFollowupAction);
-            selector.AddChild(sendProspectorDrone.Node);
-            weighters.Add(sendProspectorDrone.Weighter);
+            foreach (SequenceCreationResult sequence in CreateWeightedSequences(ship, allowsFollowupAction))
+            {
+                selector.AddChild(sequence.Node);
+                weighters.Add(sequence.Weighter);
+            }
 
             return new AgentActor(selector, weighters, allowsFollowupAction);
+        }
+
+        private List<SequenceCreationResult> CreateWeightedSequences(Ship ship, Observable<bool> allowsFollowupAction)
+        {
+            return new List<SequenceCreationResult>
+            {
+                CreateBuyExploiterSequence(ship, allowsFollowupAction),
+                CreateSendProspectorDroneSequence(ship, allowsFollowupAction),
+                CreatePlaceExploiterMachineSequence(ship, allowsFollowupAction)
+            };
         }
 
         private SequenceCreationResult CreateBuyExploiterSequence(Ship ship, Observable<bool> allowsFollowupAction)
@@ -61,11 +72,9 @@ namespace SBaier.Astrominer
             BuyExploiterAction action = new BuyExploiterAction(
                 _exploitMachineSettings, _vendor, ship, allowsFollowupAction);
 
-            Sequence buyExploiterSequence = new Sequence();
-            buyExploiterSequence.AddChild(canPurchaseExploiterCondition);
-            buyExploiterSequence.AddChild(hasEmptyInventorySpaceCondition);
-            buyExploiterSequence.AddChild(shipLocationIsPlayerBaseCondition);
-            buyExploiterSequence.AddChild(action);
+            Sequence buyExploiterSequence =
+                CreateSequence(canPurchaseExploiterCondition, hasEmptyInventorySpaceCondition,
+                    shipLocationIsPlayerBaseCondition, action);
 
             Observable<Weight> weight = new Observable<Weight>() { Value = new Weight() };
             WeightedNode weightedSequence = new WeightedNode(buyExploiterSequence, weight);
@@ -96,13 +105,11 @@ namespace SBaier.Astrominer
             AnyUnidentifiedAsteroidsCondition anyUnidentifiedAsteroidsCondition =
                 new AnyUnidentifiedAsteroidsCondition(ship.Player, _map);
 
-            SendProspectorDroneAction action = new SendProspectorDroneAction(_sendProspectorDroneSettings, 
+            SendProspectorDroneAction action = new SendProspectorDroneAction(_sendProspectorDroneSettings,
                 _droneBuyer, ship, _map, _bases, allowsFollowupAction);
 
-            Sequence buyExploiterSequence = new Sequence();
-            buyExploiterSequence.AddChild(canPurchaseCondition);
-            buyExploiterSequence.AddChild(anyUnidentifiedAsteroidsCondition);
-            buyExploiterSequence.AddChild(action);
+            Sequence buyExploiterSequence =
+                CreateSequence(canPurchaseCondition, anyUnidentifiedAsteroidsCondition, action);
 
             Observable<Weight> weight = new Observable<Weight>() { Value = new Weight() };
             WeightedNode weightedSequence = new WeightedNode(buyExploiterSequence, weight);
@@ -115,6 +122,42 @@ namespace SBaier.Astrominer
                 Weighter = weighter,
                 Node = weightedSequence
             };
+        }
+
+        private SequenceCreationResult CreatePlaceExploiterMachineSequence(Ship ship,
+            Observable<bool> allowsFollowupAction)
+        {
+            ShipLocationIsEmptyAsteroidCondition isEmptyAsteroidCondition =
+                new ShipLocationIsEmptyAsteroidCondition(ship);
+            HasExploiterCondition hasExploiterCondition = new HasExploiterCondition(ship);
+
+            PlaceExploiterAction action = new PlaceExploiterAction(ship, allowsFollowupAction);
+            Sequence placeExploiterSequence =
+                CreateSequence(isEmptyAsteroidCondition, hasExploiterCondition, action);
+            
+            Observable<Weight> weight = new Observable<Weight>() { Value = new Weight() };
+            WeightedNode weightedSequence = new WeightedNode(placeExploiterSequence, weight);
+            
+            PlaceExploiterWeighter weighter =
+                new PlaceExploiterWeighter(weight, ship, _placeExploiterActionSettings);
+            
+            return new SequenceCreationResult()
+            {
+                Weighter = weighter,
+                Node = weightedSequence
+            };
+        }
+
+        private Sequence CreateSequence(params Node[] nodes)
+        {
+            Sequence sequence = new Sequence();
+
+            foreach (Node node in nodes)
+            {
+                sequence.AddChild(node);
+            }
+
+            return sequence;
         }
 
         private struct SequenceCreationResult

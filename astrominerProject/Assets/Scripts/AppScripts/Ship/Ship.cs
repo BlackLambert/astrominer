@@ -15,6 +15,7 @@ namespace SBaier.Astrominer
 		public Player Player { get; private set; }
 		public CosmicObjectInRangeDetector Detector { get; private set; }
 		public int EmptyInventorySpace => _settings.InventorySpace - Machines.Count;
+		public bool HasExploitMachine => Machines.Count > 0;
 		public bool HasEmptyInventorySpace => EmptyInventorySpace > 0;
 
 		public override void Inject(Resolver resolver)
