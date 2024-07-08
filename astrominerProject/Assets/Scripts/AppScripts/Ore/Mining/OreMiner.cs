@@ -58,7 +58,7 @@ namespace SBaier.Astrominer
 			foreach (OreType oreType in TotalExploitableOres.OreTypes)
 				result.Add(oreType, TotalExploitableOres.GetOrePercentage(oreType) * oreAmountPerSecond);
 			_oresPerSecond = result;
-			Debug.Log($"CalculateMachineOreMiningPerSecond - TotalExploitableOres: {TotalExploitableOres.GetTotal()} | OresPerSecond {_oresPerSecond} | MaterialPerSecond {MaterialPerSecond}");
+			//Debug.Log($"CalculateMachineOreMiningPerSecond - TotalExploitableOres: {TotalExploitableOres.GetTotal()} | OresPerSecond {_oresPerSecond} | MaterialPerSecond {MaterialPerSecond}");
 		}
 
 		private void SetEmptyOresPerSecond()

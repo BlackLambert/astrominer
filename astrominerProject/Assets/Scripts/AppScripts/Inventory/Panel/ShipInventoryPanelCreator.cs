@@ -31,7 +31,10 @@ namespace SBaier.Astrominer
 
         private void OnActiveShipChanged(Ship formerValue, Ship newValue)
         {
-            UpdatePanel();
+            if (newValue != null && newValue.Player.IsHuman)
+            {
+                UpdatePanel();
+            }
         }
 
         private void UpdatePanel()

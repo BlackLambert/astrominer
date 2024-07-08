@@ -14,7 +14,7 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.BindInstance(_asteroid.MinedOres);
+			binder.BindInstance(_asteroid.StoredMinedOres);
 		}
 	}
 }

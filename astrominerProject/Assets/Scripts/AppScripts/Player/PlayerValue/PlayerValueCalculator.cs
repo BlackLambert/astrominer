@@ -53,7 +53,7 @@ namespace SBaier.Astrominer
             
             foreach (Asteroid asteroid in _player.OwnedAsteroids)
             {
-                value += _bank.CalculateCreditsFor(asteroid.MinedOres);
+                value += _bank.CalculateCreditsFor(asteroid.StoredMinedOres);
                 value += _exploitMachineVendor.CalculateSellValue(asteroid.ExploitMachine);
             }
 

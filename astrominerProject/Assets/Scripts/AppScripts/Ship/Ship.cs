@@ -1,30 +1,54 @@
+using System.Collections.Generic;
 using SBaier.DI;
-using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-	public class Ship : FlyableObject
-	{
-		private ShipSettings _settings;
+    public class Ship : FlyableObject
+    {
+        private ShipSettings _settings;
 
-		public float Range => _settings.ActionRadius;
-		
-		public FlightGraph FlightGraph { get; set; }
-		public LimitedObservableList<ExploitMachine> Machines { get; private set; }
-		public Ores CollectedOres { get; private set; } = new Ores();
-		public Player Player { get; private set; }
-		public CosmicObjectInRangeDetector Detector { get; private set; }
-		public int EmptyInventorySpace => _settings.InventorySpace - Machines.Count;
-		public bool HasExploitMachine => Machines.Count > 0;
-		public bool HasEmptyInventorySpace => EmptyInventorySpace > 0;
+        public float Range => _settings.ActionRadius;
 
-		public override void Inject(Resolver resolver)
-		{
-			base.Inject(resolver);
-			_settings = resolver.Resolve<ShipSettings>();
-			Machines = new LimitedObservableList<ExploitMachine>(_settings.InventorySpace);
-			Player = resolver.Resolve<Player>();
-			Detector = resolver.Resolve<CosmicObjectInRangeDetector>();
-		}
-	}
+        public FlightGraph FlightGraph { get; private set; }
+        public FlightMap FlightMap { get; private set; }
+        public LimitedObservableList<ExploitMachine> Machines { get; private set; }
+        public Ores CollectedOres { get; private set; } = new Ores();
+        public Player Player { get; private set; }
+        public CosmicObjectInRangeDetector Detector { get; private set; }
+        public int EmptyInventorySpace => _settings.InventorySpace - Machines.Count;
+        public bool HasExploitMachine => Machines.Count > 0;
+        public bool HasEmptyInventorySpace => EmptyInventorySpace > 0;
+
+        public override void Inject(Resolver resolver)
+        {
+            base.Inject(resolver);
+            _settings = resolver.Resolve<ShipSettings>();
+            Machines = new LimitedObservableList<ExploitMachine>(_settings.InventorySpace);
+            Detector = resolver.Resolve<CosmicObjectInRangeDetector>();
+
+            Arguments arguments = resolver.Resolve<Arguments>();
+            Player = arguments.Player;
+            FlightMap = arguments.FlightMap;
+            FlightGraph = arguments.FlightGraph;
+        }
+
+        public void FlyTo(FlyTarget flyTarget)
+        {
+            FlyTo(new FlightPath(FlightMap.FlyTargetToPath[flyTarget]));
+        }
+
+        protected override void OnTargetReached()
+        {
+            FlyTarget flyTarget = FlyTarget.Value.LastTarget;
+            FlightMap.UpdateFor(FlightGraph, flyTarget);
+            base.OnTargetReached();
+        }
+
+        public class Arguments
+        {
+            public Player Player { get; set; }
+            public FlightMap FlightMap { get; set; }
+            public FlightGraph FlightGraph { get; set; }
+        }
+    }
 }

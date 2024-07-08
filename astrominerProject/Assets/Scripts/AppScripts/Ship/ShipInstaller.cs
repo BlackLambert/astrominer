@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
 
 		public void Inject(Resolver resolver)
 		{
-			_player = resolver.Resolve<Player>();
+			_player = resolver.Resolve<Ship.Arguments>().Player;
 		}
 
 		public override void InstallBindings(Binder binder)

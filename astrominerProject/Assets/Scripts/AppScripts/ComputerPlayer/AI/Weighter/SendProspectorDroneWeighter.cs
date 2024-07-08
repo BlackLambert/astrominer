@@ -1,67 +1,42 @@
-using System.Linq;
+using System;
 using SBaier.AI;
 
 namespace SBaier.Astrominer
 {
     public class SendProspectorDroneWeighter : Weighter
     {
-        private readonly Ship _ship;
-        private readonly SendProspectorDroneActionSettings _settings;
-        private readonly OptimalProspectTargetFinder _prospectTargetFinder;
+        private readonly AIBrain _brain;
+        private readonly SendProspectorDroneAISettings _settings;
 
         public SendProspectorDroneWeighter(
-            Observable<Weight> weight,
-            Map map,
-            Ship ship,
-            SendProspectorDroneActionSettings settings) : base(weight)
+            AIBrain brain,
+            SendProspectorDroneAISettings settings)
         {
-            _ship = ship;
+            _brain = brain;
             _settings = settings;
-            _prospectTargetFinder = new OptimalProspectTargetFinder(map, _ship.Player, settings.IdealDistanceRange,
-                settings.AsteroidDistanceMaxWeightValue);
         }
 
-        protected override float GetWeight()
+        public float GetWeight()
         {
-            Player player = _ship.Player;
-            
-            Asteroid mostValuableUnidentifiedAsteroid = _prospectTargetFinder.GetBestUnidentifiedAsteroid(_ship.Location.Value);
+            Asteroid mostValuableUnidentifiedAsteroid = _brain.GetBestProspectTargetFor(ProspectorVesselType.Drone);
             
             //Any interesting asteroid?
             if (mostValuableUnidentifiedAsteroid == null)
             {
-                return float.MinValue;
+                throw new InvalidOperationException("There is no asteroid to identify");
             }
 
             float weight = _settings.BaseWeight;
-            
-            // Any identified empty asteroids?
-            float emptyIdentifiedAsteroidsValueSum = player.IdentifiedAsteroids.Where(asteroid => !asteroid.HasExploitMachine)
-                .Sum(asteroid => asteroid.Value);
-            
-            if (emptyIdentifiedAsteroidsValueSum <= 0)
-            {
-                weight += _settings.NoEmptyIdentifiedAsteroidsWeightValue;
-            }
-            else
-            {
-                weight += _settings.IdentifiedAsteroidsValueWeightFactor * emptyIdentifiedAsteroidsValueSum;
-            }
-            
-            // Mining asteroids value
-            float miningAsteroidsValueSum = player.IdentifiedAsteroids
-                .Where(asteroid => asteroid.OwningPlayer == player)
-                .Sum(asteroid => asteroid.Value);
-            weight += miningAsteroidsValueSum * _settings.MiningAsteroidsValueWeightFactor;
 
             // Active drones amount
-            int dronesAmount = player.Drones.Count;
-            weight += dronesAmount * _settings.ActiveDronesWeightReductionFactor;
+            weight += _brain.ActiveProspectorDronesAmount * _settings.ActiveDronesWeightReductionFactor;
 
-            // Interesting asteroids far enough?
-            float asteroidProspectingValue = _prospectTargetFinder.GetProspectingValueOf(
-                mostValuableUnidentifiedAsteroid, _ship.Location.Value);
-            weight += asteroidProspectingValue;
+            // Prospecting Value
+            weight += _brain.GetProspectValueOf(ProspectorVesselType.Drone, mostValuableUnidentifiedAsteroid) *
+                      _settings.ProspectingValueFactor;
+            
+            // Credits amount
+            weight += _settings.MoneyFactorCurve.Evaluate(_brain.Credits) * _settings.MoneyFactor;
 
             return weight;
         }

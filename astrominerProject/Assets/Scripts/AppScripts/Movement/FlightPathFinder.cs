@@ -9,14 +9,14 @@ namespace SBaier.Astrominer
         private Dictionary<FlyTarget, FlyTarget> _cameFrom = new Dictionary<FlyTarget, FlyTarget>();
         private Dictionary<FlyTarget, float> _costsSoFar = new Dictionary<FlyTarget, float>();
 
-        public List<FlyTarget> GetPath(FlightGraph graph, FlyTarget from, FlyTarget to)
+        public List<FlyTarget> GetPath(FlightGraph graph, FlyTarget from, FlyTarget to, List<FlyTarget> result = null)
         {
             if (!graph.ContainsKey(from) || !graph.ContainsKey(to))
             {
                 return new List<FlyTarget>();
             }
             
-            List<FlyTarget> result = new List<FlyTarget>();
+            result ??= new List<FlyTarget>();
             FlyTarget current = null;
             _openList.Add(new KeyValuePair<FlyTarget, float>(from, 0));
             _cameFrom.Add(from, null);
@@ -62,17 +62,7 @@ namespace SBaier.Astrominer
 
         private int Compare(KeyValuePair<FlyTarget, float> first, KeyValuePair<FlyTarget, float> second)
         {
-            if (first.Value > second.Value)
-            {
-                return 1;
-            }
-
-            if (first.Value < second.Value)
-            {
-                return -1;
-            }
-            
-            return 0;
+            return first.Value.CompareTo(second.Value);
         }
 
         private void Clear()

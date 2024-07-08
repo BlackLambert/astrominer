@@ -14,7 +14,7 @@ namespace SBaier.Astrominer
         public Drones Drones { get; private set; } = new Drones();
         public Currency Credits { get; private set; } = new Currency();
         public Observable<Ship> Ship { get; private set; } = new Observable<Ship>();
-
+        
         public string GetDisplayText()
         {
             return $"{Name} ({GetPlayerType()})";

@@ -16,7 +16,7 @@ namespace SBaier.Astrominer
 		private Arguments _arguments;
 
 		public Player OwningPlayer { get; private set; }
-		public Ores MinedOres { get; } = new Ores();
+		public Ores StoredMinedOres { get; } = new Ores();
 		public Ores TotalMinedOres { get; } = new Ores();
 		public Ores ExploitableOres { get; private set; } = new Ores();
 		public float MinedPercentage { get; private set; } = 0;
@@ -118,7 +118,7 @@ namespace SBaier.Astrominer
 			if (Exploited)
 				throw new InvalidOperationException("You can not mine an exploited asteroid.");
 			Ores minedOres = ExploitableOres.Request(oresDelta);
-			MinedOres.Add(minedOres);
+			StoredMinedOres.Add(minedOres);
 			TotalMinedOres.Add(minedOres);
 			CalculateMinedPercentage();
 			OnOreMined?.Invoke();
@@ -128,7 +128,7 @@ namespace SBaier.Astrominer
 
 		public Ores Collect()
 		{
-			Ores ores = MinedOres.RequestAll();
+			Ores ores = StoredMinedOres.RequestAll();
 			OnOresCollected?.Invoke();
 			return ores;
 		}

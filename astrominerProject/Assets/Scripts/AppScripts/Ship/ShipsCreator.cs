@@ -12,20 +12,24 @@ namespace SBaier.Astrominer
         [SerializeField] private Transform _hook;
 
         private Bases _bases;
-        private Pool<Ship, Player, PrefabInstantiationArguments> _pool;
+        private Pool<Ship, Ship.Arguments, PrefabInstantiationArguments> _pool;
         private Ships _ships;
         private Random _random;
         private Map _map;
         private Provider<IList<FlyTarget>> _flyTargetsProvider;
+        private FlightPathFinder _flightPathFinder;
+        private ShipSettings _settings;
 
         public void Inject(Resolver resolver)
         {
             _bases = resolver.Resolve<Bases>();
-            _pool = resolver.Resolve<Pool<Ship, Player, PrefabInstantiationArguments>>();
+            _pool = resolver.Resolve<Pool<Ship, Ship.Arguments, PrefabInstantiationArguments>>();
             _ships = resolver.Resolve<Ships>();
             _random = resolver.Resolve<Random>();
             _map = resolver.Resolve<Map>();
             _flyTargetsProvider = resolver.Resolve<Provider<IList<FlyTarget>>>();
+            _flightPathFinder = resolver.Resolve<FlightPathFinder>();
+            _settings = resolver.Resolve<ShipSettings>();
         }
 
         public void Initialize()
@@ -60,11 +64,14 @@ namespace SBaier.Astrominer
         {
             Player player = pair.Key;
             Base playerBase = pair.Value;
-            Ship ship = _pool.Request(player,
-                new PrefabInstantiationArguments(){Parent = _hook, Position = GetPosition(playerBase)});
+            Ship.Arguments arguments = new Ship.Arguments() { Player = player };
+            IList<FlyTarget> flyTargets = _flyTargetsProvider.Value;
+            arguments.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, _settings.ActionRadius, player);
+            arguments.FlightMap = new FlightMap(flyTargets, _flightPathFinder);
+            Ship ship = _pool.Request(arguments,
+                new PrefabInstantiationArguments() { Parent = _hook, Position = GetPosition(playerBase) });
             player.Ship.Value = ship;
             _ships.Values.Add(ship);
-            ship.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, ship.Range, ship.Player);
             ship.FlyTo(new FlightPath(new List<FlyTarget>() { playerBase, playerBase }));
         }
 

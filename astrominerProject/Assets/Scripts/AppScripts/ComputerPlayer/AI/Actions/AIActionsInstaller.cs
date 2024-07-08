@@ -6,20 +6,36 @@ namespace SBaier.Astrominer
     public class AIActionsInstaller : MonoInstaller
     {
         [SerializeField] 
-        private BuyExploiterActionSettings _buyExploiterSettings;
-        [SerializeField]
-        private SendProspectorDroneActionSettings _sendProspectorDroneSettings;
+        private IdentifyAsteroidAISettings _identifyAsteroidAISettings;
+
         [SerializeField] 
-        private PlaceExploiterActionSettings _placeExploiterActionSettings;
+        private SendProspectorDroneAISettings _sendProspectorDroneAISettings;
+
+        [SerializeField] 
+        private FlyToUnidentifiedAsteroidAISettings _flyToUnidentifiedAsteroidAISettings;
+
+        [SerializeField] 
+        private OccupyAsteroidAiSettings _occupyAsteroidAiSettings;
+
+        [SerializeField] 
+        private BuyExploiterAISettings _buyExploiterAISettings;
         
         public override void InstallBindings(Binder binder)
         {
+            binder.Bind<Factory<AIBrain, Ship>>()
+                .ToNew<AIBrainFactory>();
+            
+            binder.BindToNewSelf<IdentifyAsteroidAIActionsFactory>();
+            binder.BindToNewSelf<OccupyAsteroidAIActionsFactory>();
+            
             binder.Bind<Factory<AgentActor, Ship>>()
                 .ToNew<AgentActorFactory>();
-
-            binder.BindInstance(_buyExploiterSettings);
-            binder.BindInstance(_sendProspectorDroneSettings);
-            binder.BindInstance(_placeExploiterActionSettings);
+            
+            binder.BindInstance(_identifyAsteroidAISettings);
+            binder.BindInstance(_sendProspectorDroneAISettings);
+            binder.BindInstance(_flyToUnidentifiedAsteroidAISettings);
+            binder.BindInstance(_occupyAsteroidAiSettings);
+            binder.BindInstance(_buyExploiterAISettings);
         }
     }
 }

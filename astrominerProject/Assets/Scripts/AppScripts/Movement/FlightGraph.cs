@@ -45,7 +45,13 @@ namespace SBaier.Astrominer
         private static bool IsNeighbor(FlyTarget destination, FlyTarget origin, float range, Player player)
         {
             return destination.IsInRange(origin.LandingPoint, range) 
-                   && destination.IsAllowedFlightTargetFor(player);
+                   && destination.IsAllowedFlightTargetFor(player)
+                   && destination != origin;
+        }
+
+        public IReadOnlyList<FlyTarget> GetNeighborsOf(FlyTarget location)
+        {
+            return _flyTargetMap[location];
         }
     }
 }

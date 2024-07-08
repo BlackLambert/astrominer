@@ -33,7 +33,10 @@ namespace SBaier.Astrominer
 
         private void OnValueChanged(Player formervalue, Player newvalue)
         {
-            UpdatePanel();
+            if (newvalue is { IsHuman: true })
+            {
+                UpdatePanel();
+            }
         }
 
         private void UpdatePanel()

@@ -53,7 +53,7 @@ namespace SBaier.Astrominer
 
             if (costs > 0)
             {
-                Debug.Log($"Applying costs of {costs} to the player '{player.Name}'.");
+                //Debug.Log($"Applying costs of {costs} to the player '{player.Name}'.");
                 player.Credits.RequestAllowNegative(costs);
             }
         }

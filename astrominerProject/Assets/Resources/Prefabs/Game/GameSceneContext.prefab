@@ -613,9 +613,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a10003c0c58671b419616bfcb2de5c09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buyExploiterSettings: {fileID: 11400000, guid: ae52b36561ac9c74699edbe2270f6575, type: 2}
-  _sendProspectorDroneSettings: {fileID: 11400000, guid: 8aa10096d34edf64ba33b8f821a0b8b9, type: 2}
-  _placeExploiterActionSettings: {fileID: 11400000, guid: 6eef231e284aad64e9528eb5a76baba4, type: 2}
+  _identifyAsteroidAISettings: {fileID: 11400000, guid: 56d232e85de203c49ae49b3ab087d7d5, type: 2}
+  _sendProspectorDroneAISettings: {fileID: 11400000, guid: 8aa10096d34edf64ba33b8f821a0b8b9, type: 2}
+  _flyToUnidentifiedAsteroidAISettings: {fileID: 11400000, guid: 439b8a32c49a85949b321e471dc316f6, type: 2}
+  _occupyAsteroidAiSettings: {fileID: 11400000, guid: 2b9e150642e6f4b46a463170a32ed88b, type: 2}
+  _buyExploiterAISettings: {fileID: 11400000, guid: 2174cda67e3a2954eb6f9fa734eb6561, type: 2}
 --- !u!1 &4460166591548596062
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,6 +710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5250cc8b004ca5b4da7f87acf82d49ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _shipSettings: {fileID: 11400000, guid: fc845b68de2ac3146a656fc403a23bf5, type: 2}
 --- !u!114 &8010874913115802447
 MonoBehaviour:
   m_ObjectHideFlags: 0
