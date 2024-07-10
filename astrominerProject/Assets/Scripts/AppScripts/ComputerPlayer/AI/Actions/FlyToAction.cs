@@ -20,6 +20,14 @@ namespace SBaier.Astrominer
 
         public override bool Execute()
         {
+            FlyTarget flyTarget = _getFlyTargetFunction();
+
+            if (_brain.IsShipAt(flyTarget))
+            {
+                throw new InvalidOperationException($"Failed to execute node {ToString()}." +
+                                                    $"The flight target is the same as the ships location");
+            }
+            
             _brain.FlyTo(_getFlyTargetFunction());
             _allowsFollowupAction.Value = false;
             return true;

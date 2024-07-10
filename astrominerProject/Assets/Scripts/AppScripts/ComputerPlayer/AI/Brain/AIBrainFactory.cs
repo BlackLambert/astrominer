@@ -11,7 +11,10 @@ namespace SBaier.Astrominer
         private OccupyAsteroidAiSettings _occupyAsteroidAiSettings;
         private BuyExploiterAISettings _buyExploiterAISettings;
         private ExploitMachineSettings _exploitMachineSettings;
+        private SendCarrierDroneAISettings _sendCarrierDroneAISettings;
+        private CollectOresAISettings _collectOresAISettings;
         private Map _map;
+        private OreBank _oreBank;
 
 
         public void Inject(Resolver resolver)
@@ -23,6 +26,9 @@ namespace SBaier.Astrominer
             _occupyAsteroidAiSettings = resolver.Resolve<OccupyAsteroidAiSettings>();
             _buyExploiterAISettings = resolver.Resolve<BuyExploiterAISettings>();
             _exploitMachineSettings = resolver.Resolve<ExploitMachineSettings>();
+            _sendCarrierDroneAISettings = resolver.Resolve<SendCarrierDroneAISettings>();
+            _collectOresAISettings = resolver.Resolve<CollectOresAISettings>();
+            _oreBank = resolver.Resolve<OreBank>();
             _map = resolver.Resolve<Map>();
         }
 
@@ -40,6 +46,12 @@ namespace SBaier.Astrominer
             resolver.AddArgument(
                 CreateProspectTargetFinder(ship, _flyToUnidentifiedAsteroidAISettings.ProspectingSettings),
                 ProspectorVesselType.Ship);
+            resolver.AddArgument(
+                CreateCollectOresTargetFinder(ship, _sendCarrierDroneAISettings.CollectOresTargetSettings),
+                CollectOresVesselType.Drone);
+            resolver.AddArgument(
+                CreateCollectOresTargetFinder(ship, _collectOresAISettings.CollectOresTargetSettings),
+                CollectOresVesselType.Ship);
             resolver.AddArgument(exploitTargetFinder);
             resolver.AddArgument(
                 new OptimalExploitersToBuyFinder(ship, _buyExploiterAISettings, _exploitMachineSettings));
@@ -53,6 +65,14 @@ namespace SBaier.Astrominer
                 _map,
                 ship,
                 settings);
+        }
+
+        private OptimalCollectOresTargetFinder CreateCollectOresTargetFinder(Ship ship, AiCollectOresTargetSettings settings)
+        {
+            return new OptimalCollectOresTargetFinder(
+                settings,
+                ship,
+                _oreBank);
         }
     }
 }

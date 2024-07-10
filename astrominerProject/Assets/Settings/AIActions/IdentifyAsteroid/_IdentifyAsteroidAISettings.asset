@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: _IdentifyAsteroidAISettings
   m_EditorClassIdentifier: 
   _baseWeight: 0
-  _identifiedEmptyAsteroidsValueFactor: 10
+  _identifiedEmptyAsteroidsValueFactor: 15
   _activeDronesFactor: -3
   _identifiedEmptyAsteroidsValueFactorCurve:
     serializedVersion: 2
@@ -22,11 +22,11 @@ MonoBehaviour:
       time: 0
       value: 1
       inSlope: 0
-      outSlope: -0.020505194
+      outSlope: -0.013474845
       tangentMode: 5
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.053675618
+      outWeight: 0.07117853
     - serializedVersion: 3
       time: 100
       value: 0

@@ -71,7 +71,7 @@ namespace SBaier.Astrominer
                 new FlyToUnidentifiedAsteroidWeighter(brain, _flyToUnidentifiedAsteroidAISettings);
             
             WeightedNode result = new WeightedNode(action, weighter);
-            result.WithName("Fly to unidentified asteroid").WithId(AINodeType.SendProspectorDrone);
+            result.WithName("Fly to unidentified asteroid").WithId(AINodeType.FlyToUnidentifiedAsteroid);
             return result;
         }
     }

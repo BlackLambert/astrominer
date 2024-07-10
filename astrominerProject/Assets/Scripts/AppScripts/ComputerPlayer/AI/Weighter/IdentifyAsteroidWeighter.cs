@@ -1,4 +1,5 @@
 using SBaier.AI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
@@ -22,6 +23,8 @@ namespace SBaier.Astrominer
                 _settings.IdentifiedEmptyAsteroidsValueFactorCurve.Evaluate(_brain.ValueOfEmptyIdentifiedAsteroids) *
                 _settings.IdentifiedEmptyAsteroidsValueFactor;
             weight += _brain.ActiveProspectorDronesAmount * _settings.ActiveDronesFactor;
+
+            Debug.Log($"Identify asteroid weight: {weight}");
             return weight;
         }
     }

@@ -22,7 +22,7 @@ namespace SBaier.Astrominer
             // Is there any identified asteroid to occupy?
 
             Selector moneyOrExploiterSelector = new Selector();
-            moneyOrExploiterSelector.WithName("Means to exploit condition selector");
+            moneyOrExploiterSelector.WithName("Has means to exploit?");
 
             Node canPurchaseAnyExploitMachine =
                 new Condition(() => brain.CanAfford(brain.GetPriceOfLeastExpensiveExploiter()))
@@ -76,7 +76,7 @@ namespace SBaier.Astrominer
             // Any exploiter in the inventory
             Node anyExploiterInInventoryCondition = new Condition(() => brain.HasExploitMachine)
                 .WithName("Is any exploiter in the inventory?");
-            Node action = new FlyToAction(brain, allowsFollowupAction, brain.GetUnoccupiedAsteroidWithBestValue)
+            Node action = new FlyToAction(brain, allowsFollowupAction, () => brain.UnoccupiedAsteroidWithBestValue)
                 .WithName("Fly to occupation target action");
             Node result = CreateSequence(anyExploiterInInventoryCondition, isNotAlreadyThereCondition, action)
                 .WithName("Fly to occupation target");

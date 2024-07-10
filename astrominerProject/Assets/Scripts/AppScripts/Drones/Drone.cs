@@ -7,7 +7,8 @@ namespace SBaier.Astrominer
 	public abstract class Drone : FlyableObject
 	{
 		public event Action<Drone> OnDone;
-		
+
+		public bool TargetReached { get; private set; } = false;
 		public Asteroid Target => _settings.Target;
 		public FlyTarget Origin => _settings.Origin;
 		public FlyTarget ReturnLocation => _settings.ReturnLocation;
@@ -29,6 +30,7 @@ namespace SBaier.Astrominer
 		protected override void OnTargetReached()
 		{
 			base.OnTargetReached();
+			TargetReached = true;
 			OnDone?.Invoke(this);
 		}
 	}

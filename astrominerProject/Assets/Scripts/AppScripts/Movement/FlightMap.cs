@@ -20,7 +20,7 @@ namespace SBaier.Astrominer
 
         public int GetDistanceTo(FlyTarget target)
         {
-            return _flyTargetToPath[target].Count;
+            return _flyTargetToPath[target].Count - 1;
         }
 
         public void UpdateFor(FlightGraph graph, FlyTarget startPoint)

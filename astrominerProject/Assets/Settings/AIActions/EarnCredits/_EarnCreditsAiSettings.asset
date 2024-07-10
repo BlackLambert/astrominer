@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598239cfae7142288ae5d32d64cfb9a2, type: 3}
+  m_Name: _EarnCreditsAiSettings
+  m_EditorClassIdentifier: 
+  _carrierDroneSettings: {fileID: 11400000, guid: 27ea41b1be6dd8c4591358c51b91d162, type: 2}
+  _baseWeight: 0
+  _storedOresValueWeightFactorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.0015869141
+      inSlope: 0.0001858814
+      outSlope: 0.0000014206381
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.36950603
+    - serializedVersion: 3
+      time: 3000
+      value: 0.1
+      inSlope: 0.00007325199
+      outSlope: 0.000077072276
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.36818358
+      outWeight: 0.19451246
+    - serializedVersion: 3
+      time: 30000
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _storedOresValueWeightFactor: 13
+  _creditsWeightFactorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0000006069687
+      outSlope: -0.0000006069687
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 3000
+      value: 0.5
+      inSlope: -0.000047702542
+      outSlope: -0.000047702542
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.0829844
+    - serializedVersion: 3
+      time: 30000
+      value: 0
+      inSlope: -0.000004724447
+      outSlope: -0.000004724447
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.132147
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _creditsWeightFactor: 6

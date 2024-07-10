@@ -1,5 +1,6 @@
 using System;
 using SBaier.AI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
@@ -30,6 +31,7 @@ namespace SBaier.Astrominer
             weight += _brain.GetProspectValueOf(ProspectorVesselType.Ship, asteroid) *
                       _aiSettings.ProspectingValueFactor;
 
+            Debug.Log($"Fly to unidentified asteroid weight: {weight}");
             return weight;
         }
     }

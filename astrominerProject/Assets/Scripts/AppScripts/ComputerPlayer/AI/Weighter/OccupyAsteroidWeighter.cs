@@ -1,5 +1,6 @@
 using System;
 using SBaier.AI;
+using UnityEngine;
 
 namespace SBaier.Astrominer
 {
@@ -18,7 +19,7 @@ namespace SBaier.Astrominer
         
         public float GetWeight()
         {
-            Asteroid occupationTarget = _brain.GetUnoccupiedAsteroidWithBestValue();
+            Asteroid occupationTarget = _brain.UnoccupiedAsteroidWithBestValue;
 
             if (occupationTarget == null)
             {
@@ -36,6 +37,12 @@ namespace SBaier.Astrominer
             weight += _aiSettings.OccupationTargetsAmountValueCurve.Evaluate(occupationTargetsAmount) * 
                       _aiSettings.OccupationTargetsAmountFactor;
             
+            // Amount of exploit machines in inventory
+            int exploitersAmount = _brain.ExploitersInInventoryAmount;
+            weight += _aiSettings.ExploiterAmountValueCurve.Evaluate(exploitersAmount) * 
+                      _aiSettings.ExploiterAmountFactor;
+            
+            Debug.Log($"Occupy asteroid weight: {weight}");
             return weight;
         }
     }

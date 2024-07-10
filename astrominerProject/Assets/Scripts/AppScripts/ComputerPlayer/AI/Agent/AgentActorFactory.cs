@@ -9,12 +9,14 @@ namespace SBaier.Astrominer
         private Factory<AIBrain, Ship> _brainFactory;
         private IdentifyAsteroidAIActionsFactory _identifyAsteroidAIActionsFactory;
         private OccupyAsteroidAIActionsFactory _occupyAsteroidAIActionsFactory;
+        private EarnCreditsAIActionsFactory _earnCreditsAIActionsFactory;
 
         public void Inject(Resolver resolver)
         {
             _brainFactory = resolver.Resolve<Factory<AIBrain, Ship>>();
             _identifyAsteroidAIActionsFactory = resolver.Resolve<IdentifyAsteroidAIActionsFactory>();
             _occupyAsteroidAIActionsFactory = resolver.Resolve<OccupyAsteroidAIActionsFactory>();
+            _earnCreditsAIActionsFactory = resolver.Resolve<EarnCreditsAIActionsFactory>();
         }
 
         public AgentActor Create(Ship ship)
@@ -32,7 +34,7 @@ namespace SBaier.Astrominer
             {
                 _identifyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
                 _occupyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
-                //CreateGatherAndSellOresActions(brain, allowsFollowupAction),
+                _earnCreditsAIActionsFactory.Create(brain, allowsFollowupAction),
                 //CreateReduceCostsActions(brain, allowsFollowupAction),
                 //CreateIncreaseOreOutputActions(brain, allowsFollowupAction),
                 CreateFlyToRandomAsteroidActions(brain, allowsFollowupAction)

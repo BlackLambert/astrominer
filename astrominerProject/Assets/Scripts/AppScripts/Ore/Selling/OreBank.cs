@@ -5,12 +5,10 @@ namespace SBaier.Astrominer
 {
     public class OreBank : Injectable
     {
-        private OresSettings _oreSettings;
         private OreValue _oreValue;
 
         public void Inject(Resolver resolver)
         {
-            _oreSettings = resolver.Resolve<OresSettings>();
             _oreValue = resolver.Resolve<OreValue>();
         }
 

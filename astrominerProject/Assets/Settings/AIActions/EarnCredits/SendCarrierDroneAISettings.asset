@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b1fa699e1884c6698bc803e2f6ab2cd, type: 3}
+  m_Name: SendCarrierDroneAISettings
+  m_EditorClassIdentifier: 
+  _baseWeight: 0
+  _currentCreditsFactorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 1000
+      value: -0.5
+      inSlope: 0.000084463216
+      outSlope: 0.000084463216
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.26682228
+    - serializedVersion: 3
+      time: 10000
+      value: 0
+      inSlope: 0.000039816205
+      outSlope: 0.000039816205
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10662195
+    - serializedVersion: 3
+      time: 50000
+      value: 1
+      inSlope: 0.0000010713646
+      outSlope: 0.0000010713646
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.110064164
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _currentCreditsFactor: 3
+  _collectOresTargetSettings: {fileID: 11400000, guid: 6a1b0d1928a6bce4fa5264cfbbaa16d2, type: 2}
