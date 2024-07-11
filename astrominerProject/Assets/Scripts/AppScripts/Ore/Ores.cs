@@ -76,8 +76,13 @@ namespace SBaier.Astrominer
         }
 
         public float GetTotal()
-		{
-            return _ores.Values.Sum(v => v.Amount);
+        {
+            float total = 0;
+            foreach (Currency currency in _ores.Values)
+            {
+                total += currency.Amount;
+            }
+            return total;
         }
 
         public bool IsEmpty()

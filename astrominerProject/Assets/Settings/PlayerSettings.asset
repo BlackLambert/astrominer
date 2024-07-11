@@ -25,4 +25,12 @@ MonoBehaviour:
     <DefaultPlayerName>k__BackingField: Yellow
   - <Color>k__BackingField: {r: 0.8018868, g: 0.5444203, b: 0.23905306, a: 1}
     <DefaultPlayerName>k__BackingField: Orange
+  - <Color>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
+    <DefaultPlayerName>k__BackingField: White
+  - <Color>k__BackingField: {r: 0, g: 0.976953, b: 1, a: 1}
+    <DefaultPlayerName>k__BackingField: Turqoise
+  - <Color>k__BackingField: {r: 0.7882353, g: 0, b: 0.39766932, a: 1}
+    <DefaultPlayerName>k__BackingField: Magenta
+  - <Color>k__BackingField: {r: 0.58188426, g: 1, b: 0, a: 1}
+    <DefaultPlayerName>k__BackingField: LightGreen
   <StartCredits>k__BackingField: 10000

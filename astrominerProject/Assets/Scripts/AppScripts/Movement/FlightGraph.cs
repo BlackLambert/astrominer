@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
         public static FlightGraph GenerateFor(IList<FlyTarget> targets, 
             float range, Player player)
         {
-            Dictionary<FlyTarget, List<FlyTarget>> flyTargetMap = new Dictionary<FlyTarget, List<FlyTarget>>();
+            Dictionary<FlyTarget, List<FlyTarget>> flyTargetMap = new Dictionary<FlyTarget, List<FlyTarget>>(new FlyTargetComparer());
 
             foreach (FlyTarget target in targets)
             {

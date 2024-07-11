@@ -25,7 +25,7 @@ namespace SBaier.Astrominer
             ship.Player.Credits.Request(_settings.Price);
             DroneArguments settings = new DroneArguments(ship.Location.Value, asteroid, playerBase, ship.Player);
             TDrone drone = _pool.Request(settings,
-                new PrefabInstantiationArguments() { Position = ship.Position2D, Parent = playerBase.transform });
+                new PrefabInstantiationArguments() { Position = ship.Position2D });
             drone.OnDone += OnDroneDone;
             return drone;
         }

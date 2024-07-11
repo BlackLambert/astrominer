@@ -16,19 +16,21 @@ namespace SBaier.Astrominer
 		public Player Create(Arguments arguments)
 		{
 			Guid iD = Guid.NewGuid();
-			Player result = new Player(iD, arguments.Color, arguments.Name, arguments.IsHuman);
+			Player result = new Player(arguments.Number, iD, arguments.Color, arguments.Name, arguments.IsHuman);
 			result.Credits.Add(_settings.StartCredits);
 			return result;
 		}
 
 		public struct Arguments
         {
+	        public int Number { get; }
 			public Color Color { get; }
 			public string Name { get; }
 			public bool IsHuman { get; }
 
-			public Arguments(Color color, string name, bool isHuman)
-            {
+			public Arguments(int number, Color color, string name, bool isHuman)
+			{
+				Number = number;
 				Color = color;
 				Name = name;
 				IsHuman = isHuman;

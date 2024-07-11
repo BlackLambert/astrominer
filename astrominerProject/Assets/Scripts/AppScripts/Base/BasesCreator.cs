@@ -26,7 +26,7 @@ namespace SBaier.Astrominer
 
         public void Clean()
         {
-            foreach (KeyValuePair<Player,Base> pair in _bases.Where(p => p.Value != null))
+            foreach (KeyValuePair<Player, Base> pair in _bases.Where(p => p.Value != null))
             {
                 _pool.Return(pair.Value);
             }
@@ -39,7 +39,8 @@ namespace SBaier.Astrominer
             _bases.Clear();
             foreach (KeyValuePair<Player, Vector2> pair in _positions)
             {
-                Base newBase = _pool.Request(pair.Key, new PrefabInstantiationArguments() { Position = pair.Value, Parent = transform});
+                Base newBase = _pool.Request(pair.Key,
+                    new PrefabInstantiationArguments() { Position = pair.Value, Parent = transform });
                 _bases.Add(pair.Key, newBase);
             }
         }

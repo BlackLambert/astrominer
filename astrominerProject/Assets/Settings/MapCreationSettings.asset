@@ -12,24 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95267b3fd6429c041a5fb92e503da09c, type: 3}
   m_Name: MapCreationSettings
   m_EditorClassIdentifier: 
-  asteroidAmountOptions:
-  - <Amount>k__BackingField: 40
-    <MapSize>k__BackingField: {x: 34, y: 20}
-    <Zoom>k__BackingField: 12
-    <MapCenterPoint>k__BackingField: {x: 0, y: 0}
-  - <Amount>k__BackingField: 70
-    <MapSize>k__BackingField: {x: 42.5, y: 25}
-    <Zoom>k__BackingField: 15
-    <MapCenterPoint>k__BackingField: {x: 0, y: 0}
-  - <Amount>k__BackingField: 100
-    <MapSize>k__BackingField: {x: 53.125, y: 31.25}
-    <Zoom>k__BackingField: 18.75
-    <MapCenterPoint>k__BackingField: {x: 0, y: 0}
-  <AsteroidsAmountRange>k__BackingField: {x: 20, y: 150}
-  <StartAsteroidAmount>k__BackingField: 50
+  <MinAsteroids>k__BackingField: 10
+  <MinAsteroidsAdditionPerPlayer>k__BackingField: 5
+  <MaxAsteroidsAmount>k__BackingField: 250
+  <StartAsteroidAmount>k__BackingField: 70
   <StartMapSize>k__BackingField: {x: 30, y: 20}
-  <EndMapSize>k__BackingField: {x: 66, y: 44}
-  <CameraSizeRange>k__BackingField: {x: 11.4, y: 25}
+  <EndMapSize>k__BackingField: {x: 90, y: 60}
+  <CameraSizeRange>k__BackingField: {x: 13, y: 42}
   <MinimalAsteroidDistance>k__BackingField: 2.8
   <SamplingRetriesOnFail>k__BackingField: 10
   <MaxSamplerTries>k__BackingField: 3

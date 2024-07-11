@@ -19,9 +19,18 @@ namespace SBaier.Astrominer
         public float GetWeight()
         {
             float weight = _settings.BaseWeight;
+            
             weight +=
                 _settings.IdentifiedEmptyAsteroidsValueFactorCurve.Evaluate(_brain.ValueOfEmptyIdentifiedAsteroids) *
                 _settings.IdentifiedEmptyAsteroidsValueFactor;
+
+            float bestValue = _brain.UnoccupiedAsteroidWithBestValue != null
+                ? _brain.UnoccupiedAsteroidWithBestValue.Value
+                : 0;
+            weight +=
+                _settings.BestIdentifiedEmptyAsteroidValueFactorCurve.Evaluate(bestValue) *
+                _settings.BestIdentifiedEmptyAsteroidValueFactor;
+            
             weight += _brain.ActiveProspectorDronesAmount * _settings.ActiveDronesFactor;
 
             Debug.Log($"Identify asteroid weight: {weight}");

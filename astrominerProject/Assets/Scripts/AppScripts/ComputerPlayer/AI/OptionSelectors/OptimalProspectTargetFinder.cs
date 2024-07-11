@@ -34,10 +34,13 @@ namespace SBaier.Astrominer
         public float GetProspectingValueOf(Asteroid asteroid)
         {
             int distance = _ship.FlightMap.GetDistanceTo(asteroid);
+            int distanceToBase = _ship.BaseFlightMap.GetDistanceTo(asteroid);
             float distanceValue = _prospectingSettings.DistanceFactorCurve.Evaluate(distance) * 
                                   _prospectingSettings.DistanceValueFactor;
+            float distanceToBaseValue = _prospectingSettings.DistanceToBaseFactorCurve.Evaluate(distanceToBase) * 
+                                  _prospectingSettings.DistanceToBaseValueFactor;
             float sizeValue = asteroid.Size * _prospectingSettings.SizeValueFactor;
-            return distanceValue + sizeValue;
+            return distanceValue + sizeValue + distanceToBaseValue;
         }
 
         private Asteroid CompareAsteroidsForProspecting(Asteroid asteroid1, Asteroid asteroid2)

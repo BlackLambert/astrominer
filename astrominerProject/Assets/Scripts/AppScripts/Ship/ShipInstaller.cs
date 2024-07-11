@@ -12,8 +12,6 @@ namespace SBaier.Astrominer
 		private Ship _ship;
 		[SerializeField]
 		private Mover _mover;
-		[SerializeField] 
-		private CosmicObjectInRangeDetector _objctsInRangeDetector;
 
 		private Player _player;
 
@@ -31,7 +29,6 @@ namespace SBaier.Astrominer
 			binder.Bind<Ship>().And<Flyable>().And<FlyableObject>().To<Ship>().FromInstance(_ship).WithoutInjection();
 			binder.BindInstance(_mover).WithoutInjection();
 			binder.BindInstance(_player).WithoutInjection();
-			binder.BindInstance(_objctsInRangeDetector).WithoutInjection();
 			binder.BindInstance(CreateDetectorArguments()).WithoutInjection();
 			binder.BindToNewSelf<FlightPathMover>().AsSingle();
 			binder.BindInstance(_ship.CollectedOres).WithoutInjection();

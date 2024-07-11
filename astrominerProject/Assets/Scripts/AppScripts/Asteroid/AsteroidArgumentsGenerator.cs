@@ -33,7 +33,13 @@ namespace SBaier.Astrominer
             List<Vector2> positions = _sampler.Sample(new PoissonDiskSampling2D.Parameters(
                 amountOption.Amount, minDistance, bounds, start));
             positions = CenterPositions(positions, centerPoint);
-            return positions.Select(CreateRandomSettings).ToList();
+            List<Asteroid.Arguments> result = new List<Asteroid.Arguments>();
+            for (var index = 0; index < positions.Count; index++)
+            {
+                Vector2 position = positions[index];
+                result.Add(CreateRandomSettings(index, position));
+            }
+            return result;
         }
 
         private Vector2 GetRandomStartPosition(Vector2 size, Vector2 leftBottom)
@@ -49,12 +55,12 @@ namespace SBaier.Astrominer
             return Quaternion.Euler(0, 0, rotation);
         }
 
-        private Asteroid.Arguments CreateRandomSettings(Vector2 position)
+        private Asteroid.Arguments CreateRandomSettings(int index, Vector2 position)
         {
             int quality = _random.Next(_settings.MinQuality, _settings.MaxQuality + 1);
             int size = _random.Next(_settings.MinSize, _settings.MaxSize + 1);
             AsteroidBodyMaterials bodyMaterial = CalculateBodyMaterial(size, quality);
-            return new Asteroid.Arguments(position, GetRandomRotation(), quality, size, _settings.Color, bodyMaterial, _settings.ExploitedColorReduction);
+            return new Asteroid.Arguments(index, position, GetRandomRotation(), quality, size, _settings.Color, bodyMaterial, _settings.ExploitedColorReduction);
         }
 
         private AsteroidBodyMaterials CalculateBodyMaterial(int size, int quality)

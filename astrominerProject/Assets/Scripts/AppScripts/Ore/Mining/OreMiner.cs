@@ -16,7 +16,9 @@ namespace SBaier.Astrominer
 
 		private Ores _oresPerSecond;
 		private Ores _oresDelta = new Ores();
-		private bool Mining => !_asteroid.Exploited && 
+		private bool Mining => 
+			_asteroid.HasExploitMachine &&
+			!_asteroid.Exploited && 
 			!_oresPerSecond.IsEmpty() && 
 			Time.deltaTime != 0;
 

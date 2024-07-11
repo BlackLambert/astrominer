@@ -9,12 +9,12 @@ namespace SBaier.Astrominer
         public ReadOnlyDictionary<FlyTarget, List<FlyTarget>> FlyTargetToPath { get; }
 
         private readonly Dictionary<FlyTarget, List<FlyTarget>> _flyTargetToPath;
-        private FlightPathFinder _flightPathFinder;
+        private FlyTargetComparer _comparer;
 
-        public FlightMap(IList<FlyTarget> flyTargets, FlightPathFinder flightPathFinder)
+        public FlightMap(IList<FlyTarget> flyTargets)
         {
-            _flightPathFinder = flightPathFinder;
-            _flyTargetToPath = flyTargets.ToDictionary(target => target, _ => new List<FlyTarget>());
+            _comparer = new FlyTargetComparer();
+            _flyTargetToPath = flyTargets.ToDictionary(target => target, _ => new List<FlyTarget>(), _comparer);
             FlyTargetToPath = new ReadOnlyDictionary<FlyTarget, List<FlyTarget>>(_flyTargetToPath);
         }
 
@@ -25,11 +25,41 @@ namespace SBaier.Astrominer
 
         public void UpdateFor(FlightGraph graph, FlyTarget startPoint)
         {
-            foreach (KeyValuePair<FlyTarget,List<FlyTarget>> pair in _flyTargetToPath)
+            Queue<OpenEntry> openQueue = new Queue<OpenEntry>();
+            HashSet<FlyTarget> close = new HashSet<FlyTarget>(_comparer);
+            openQueue.Enqueue(new OpenEntry(){Node = startPoint, Path = new List<FlyTarget>()});
+            close.Add(startPoint);
+            while (openQueue.Count > 0)
             {
-                pair.Value.Clear();
-                pair.Value.AddRange(_flightPathFinder.GetPath(graph, startPoint, pair.Key));
+                UpdateFor(graph, openQueue, close);
             }
+        }
+
+        private void UpdateFor(FlightGraph graph, Queue<OpenEntry> open, HashSet<FlyTarget> close)
+        {
+            OpenEntry openEntry = open.Dequeue();
+            FlyTarget currentNode = openEntry.Node;
+            List<FlyTarget> path = _flyTargetToPath[currentNode];
+            path.Clear();
+            path.AddRange(openEntry.Path);
+            path.Add(currentNode);
+
+            IReadOnlyList<FlyTarget> neighbors = graph.GetNeighborsOf(currentNode);
+
+            foreach (FlyTarget neighbor in neighbors)
+            {
+                if (!close.Contains(neighbor))
+                {
+                    close.Add(neighbor);
+                    open.Enqueue(new OpenEntry(){Node = neighbor, Path = path});
+                }
+            }
+        }
+        
+        private class OpenEntry
+        {
+            public FlyTarget Node;
+            public List<FlyTarget> Path;
         }
     }
 }

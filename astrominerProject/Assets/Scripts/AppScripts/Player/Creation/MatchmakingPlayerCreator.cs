@@ -42,7 +42,8 @@ namespace SBaier.Astrominer
         {
             if (!IsPlayerCreatable)
                 throw new InvalidOperationException("Failed to create player. Required arguments are missing.");
-            PlayerFactory.Arguments args = new PlayerFactory.Arguments(_chosenColor.Value.Color, _chosenName.Value, isHuman);
+            int index = _players.Count;
+            PlayerFactory.Arguments args = new PlayerFactory.Arguments(index + 1, _chosenColor.Value.Color, _chosenName.Value, isHuman);
             _players.Add(_playerFactory.Create(args));
             ClearSelection();
         }

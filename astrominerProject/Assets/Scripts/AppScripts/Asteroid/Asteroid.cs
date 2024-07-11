@@ -6,14 +6,20 @@ namespace SBaier.Astrominer
 {
 	public class Asteroid : CosmicObject, Injectable
 	{
-		private float _epsilon = 0.0001f;
+		private const float _epsilon = 0.0001f;
+
+		public event Action OnOreMined;
+		public event Action OnOresCollected;
+		public event Action OnExploited;
+		public event Action OnOwningPlayerChanged;
+		public event Action OnExploitMachineChanged;
+		
 
 		[field: SerializeField]
 		public Transform Base { get; private set; }
 		[SerializeField]
 		private Transform _image;
 
-		private Arguments _arguments;
 
 		public Player OwningPlayer { get; private set; }
 		public Ores StoredMinedOres { get; } = new Ores();
@@ -21,12 +27,9 @@ namespace SBaier.Astrominer
 		public Ores ExploitableOres { get; private set; } = new Ores();
 		public float MinedPercentage { get; private set; } = 0;
 		public ExploitMachine ExploitMachine { get; private set; }
-
-		public event Action OnOwningPlayerChanged;
+		public bool Exploited { get; private set; }
 		public bool HasOwningPlayer => OwningPlayer != null;
 		public bool HasExploitMachine => ExploitMachine != null;
-		public event Action OnExploitMachineChanged;
-		public bool Exploited => ExploitableOres.GetTotal() <= _epsilon;
 		public float OresPercentage => BodyMaterials.OresPercentage;
 		public int Quality => _arguments.Quality;
 		public int Size => _arguments.Size;
@@ -35,11 +38,10 @@ namespace SBaier.Astrominer
 		public Ores TotalExploitableOres => _arguments.TotalExploitableOres;
 		public AsteroidBodyMaterials BodyMaterials => _arguments.AsteroidBodyMaterials;
 		public float Value => (1 - MinedPercentage) * (Size + Quality);
-
-		public event Action OnOreMined;
-		public event Action OnOresCollected;
-		public event Action OnExploited;
 		
+		public override int Id => _id;
+		private int _id;
+		private Arguments _arguments;
 		private Vector3 _startScale; 
 
 		private void Awake()
@@ -50,6 +52,7 @@ namespace SBaier.Astrominer
 		void Injectable.Inject(Resolver resolver)
 		{
 			_arguments = resolver.Resolve<Arguments>();
+			_id = _arguments.Number;
 			ExploitableOres.Add(_arguments.TotalExploitableOres);
 		}
 
@@ -116,14 +119,21 @@ namespace SBaier.Astrominer
 		public void MineOres(Ores oresDelta)
 		{
 			if (Exploited)
+			{
 				throw new InvalidOperationException("You can not mine an exploited asteroid.");
+			}
+			
 			Ores minedOres = ExploitableOres.Request(oresDelta);
 			StoredMinedOres.Add(minedOres);
 			TotalMinedOres.Add(minedOres);
 			CalculateMinedPercentage();
 			OnOreMined?.Invoke();
-			if (Exploited)
+			
+			if (ExploitableOres.GetTotal() <= _epsilon)
+			{
+				Exploited = true;
 				OnExploited?.Invoke();
+			}
 		}
 
 		public Ores Collect()
@@ -148,6 +158,7 @@ namespace SBaier.Astrominer
 
 		public class Arguments
 		{
+			public int Number { get; }
 			public Vector2 Position { get; }
 			public Quaternion Rotation { get; }
 			public int Quality { get; }
@@ -158,6 +169,7 @@ namespace SBaier.Astrominer
 			public Ores TotalExploitableOres => AsteroidBodyMaterials.Ores;
 
 			public Arguments(
+				int number,
 				Vector2 position,
 				Quaternion rotation,
 				int quality,
@@ -166,6 +178,7 @@ namespace SBaier.Astrominer
 				AsteroidBodyMaterials asteroidBodyMaterials,
 				Color exploitedColorReduction)
 			{
+				Number = number;
 				Position = position;
 				Rotation = rotation;
 				Quality = quality;

@@ -6,8 +6,8 @@ namespace SBaier.Astrominer
     public class FlightPathFinder
     {
         private List<KeyValuePair<FlyTarget, float>> _openList = new List<KeyValuePair<FlyTarget, float>>();
-        private Dictionary<FlyTarget, FlyTarget> _cameFrom = new Dictionary<FlyTarget, FlyTarget>();
-        private Dictionary<FlyTarget, float> _costsSoFar = new Dictionary<FlyTarget, float>();
+        private Dictionary<FlyTarget, FlyTarget> _cameFrom = new Dictionary<FlyTarget, FlyTarget>(new FlyTargetComparer());
+        private Dictionary<FlyTarget, float> _costsSoFar = new Dictionary<FlyTarget, float>(new FlyTargetComparer());
 
         public List<FlyTarget> GetPath(FlightGraph graph, FlyTarget from, FlyTarget to, List<FlyTarget> result = null)
         {

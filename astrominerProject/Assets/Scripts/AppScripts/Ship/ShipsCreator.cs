@@ -17,7 +17,6 @@ namespace SBaier.Astrominer
         private Random _random;
         private Map _map;
         private Provider<IList<FlyTarget>> _flyTargetsProvider;
-        private FlightPathFinder _flightPathFinder;
         private ShipSettings _settings;
 
         public void Inject(Resolver resolver)
@@ -28,7 +27,6 @@ namespace SBaier.Astrominer
             _random = resolver.Resolve<Random>();
             _map = resolver.Resolve<Map>();
             _flyTargetsProvider = resolver.Resolve<Provider<IList<FlyTarget>>>();
-            _flightPathFinder = resolver.Resolve<FlightPathFinder>();
             _settings = resolver.Resolve<ShipSettings>();
         }
 
@@ -67,7 +65,9 @@ namespace SBaier.Astrominer
             Ship.Arguments arguments = new Ship.Arguments() { Player = player };
             IList<FlyTarget> flyTargets = _flyTargetsProvider.Value;
             arguments.FlightGraph = FlightGraph.GenerateFor(_flyTargetsProvider.Value, _settings.ActionRadius, player);
-            arguments.FlightMap = new FlightMap(flyTargets, _flightPathFinder);
+            arguments.FlightMap = new FlightMap(flyTargets);
+            arguments.BaseFlightMap = new FlightMap(flyTargets);
+            arguments.BaseFlightMap.UpdateFor(arguments.FlightGraph, playerBase);
             Ship ship = _pool.Request(arguments,
                 new PrefabInstantiationArguments() { Parent = _hook, Position = GetPosition(playerBase) });
             player.Ship.Value = ship;

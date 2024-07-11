@@ -5,8 +5,11 @@ namespace SBaier.Astrominer
 {
     public abstract class CosmicObject : MonoBehaviour, FlyTarget
     {
-		[SerializeField]
+
+	    [SerializeField]
 		private Transform _landingPointTransform;
+
+		public abstract int Id { get; }
 		public Vector2 LandingPoint => _landingPointTransform.position;
 		public Vector2 Position2D => transform.position;
 
@@ -38,6 +41,24 @@ namespace SBaier.Astrominer
 		public virtual bool IsAllowedFlightTargetFor(Player player)
 		{
 			return true;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (ReferenceEquals(null, obj)) return false;
+			if (ReferenceEquals(this, obj)) return true;
+			if (obj.GetType() != this.GetType()) return false;
+			return Equals((CosmicObject)obj);
+		}
+
+		public override int GetHashCode()
+		{
+			return HashCode.Combine(base.GetHashCode(), Id);
+		}
+		
+		protected bool Equals(CosmicObject other)
+		{
+			return base.Equals(other) && Id == other.Id;
 		}
     }
 }

@@ -11,10 +11,10 @@ namespace SBaier.Astrominer
 
         public FlightGraph FlightGraph { get; private set; }
         public FlightMap FlightMap { get; private set; }
+        public FlightMap BaseFlightMap { get; private set; }
         public LimitedObservableList<ExploitMachine> Machines { get; private set; }
         public Ores CollectedOres { get; private set; } = new Ores();
         public Player Player { get; private set; }
-        public CosmicObjectInRangeDetector Detector { get; private set; }
         public int EmptyInventorySpace => _settings.InventorySpace - Machines.Count;
         public bool HasExploitMachine => Machines.Count > 0;
         public bool HasEmptyInventorySpace => EmptyInventorySpace > 0;
@@ -24,11 +24,11 @@ namespace SBaier.Astrominer
             base.Inject(resolver);
             _settings = resolver.Resolve<ShipSettings>();
             Machines = new LimitedObservableList<ExploitMachine>(_settings.InventorySpace);
-            Detector = resolver.Resolve<CosmicObjectInRangeDetector>();
 
             Arguments arguments = resolver.Resolve<Arguments>();
             Player = arguments.Player;
             FlightMap = arguments.FlightMap;
+            BaseFlightMap = arguments.BaseFlightMap;
             FlightGraph = arguments.FlightGraph;
         }
 
@@ -48,6 +48,7 @@ namespace SBaier.Astrominer
         {
             public Player Player { get; set; }
             public FlightMap FlightMap { get; set; }
+            public FlightMap BaseFlightMap { get; set; }
             public FlightGraph FlightGraph { get; set; }
         }
     }
