@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SendProspectorDroneActionSettings
   m_EditorClassIdentifier: 
   <BaseWeight>k__BackingField: 0
-  <ActiveDronesWeightReductionFactor>k__BackingField: -1
+  <ActiveDronesWeightReductionFactor>k__BackingField: 0
   <ProspectingValueFactor>k__BackingField: 1
   <MoneyFactorCurve>k__BackingField:
     serializedVersion: 2
@@ -48,5 +48,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <MoneyFactor>k__BackingField: 5
+  <MoneyFactor>k__BackingField: 2
   <ProspectingSettings>k__BackingField: {fileID: 11400000, guid: 1bf6ba8220629f7449a74f13456364de, type: 2}

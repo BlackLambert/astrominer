@@ -1,12 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
 namespace SBaier.Astrominer
 {
     public class PlayerValue
     {
+        public event Action OnReset;
         public Observable<float> TotalValue { get; } = 0;
-        public ObservableList<float> ValueHistory { get; private set; } = new ObservableList<float>();
+        public CircularBuffer<float> ValueHistory { get; private set; }
+        
+        public PlayerValue(int valueHistoryBufferSize = 100)
+        {
+            ValueHistory = new CircularBuffer<float>(valueHistoryBufferSize);
+        }
+
+        public void Reset()
+        {
+            TotalValue.Value = 0;
+            ValueHistory.Clear();
+            OnReset?.Invoke();
+        }
     }
 }

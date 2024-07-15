@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 430141907468384798}
   - component: {fileID: 7968904240753367815}
   - component: {fileID: 8032580673225838091}
+  - component: {fileID: 1906112303646917598}
   m_Layer: 0
   m_Name: PlayerValueCalculator
   m_TagString: Untagged
@@ -46,7 +47,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1de15a6ea271be345a1f4fd8144d8762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _updateFrequence: 1
 --- !u!114 &7968904240753367815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,5 +72,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e6f482ad85bce744db831df7c1e232e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1906112303646917598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7241119761028715856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eee22c4def35fa84e8855a1c0948ae03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

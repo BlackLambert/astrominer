@@ -33,7 +33,7 @@ namespace SBaier.Astrominer
 
         public void Initialize()
         {
-            _playerValue.ValueHistory.OnItemsChanged += OnItemAdded;
+            _playerValue.ValueHistory.OnChanged += OnItemAdded;
             _renderer.color = _color;
             _coroutineHelper.StartCoroutine(UpdateGraphDelayed());
         }
@@ -41,7 +41,7 @@ namespace SBaier.Astrominer
         public void Clean()
         {
             StopAllCoroutines();
-            _playerValue.ValueHistory.OnItemsChanged -= OnItemAdded;
+            _playerValue.ValueHistory.OnChanged -= OnItemAdded;
         }
 
         private void OnItemAdded()
@@ -67,13 +67,14 @@ namespace SBaier.Astrominer
             float xDelta = rect.width / sectionsAmount;
             Vector2[] graphPoints = new Vector2[count];
             float y = 0;
-
-            for (int i = 0; i < count; i++)
+            int index = 0;
+            
+            foreach (float value in _playerValue.ValueHistory.GetLastXElements(count))
             {
-                float value = _playerValue.ValueHistory[i];
-                float x = i * xDelta;
+                float x = index * xDelta;
                 y = ((value - min) / delta) * maxHeight + _offset.x;
-                graphPoints[i] = new Vector2(x, y);
+                graphPoints[index] = new Vector2(x, y);
+                index++;
             }
             
             _renderer.SetVertexPositions(graphPoints);

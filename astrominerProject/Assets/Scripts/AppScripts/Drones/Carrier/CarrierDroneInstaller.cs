@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
         public override void InstallBindings(Binder binder)
         {
             binder.BindInstance(CreateMoverArguments());
-            binder.Bind<Drone>().And<Flyable>().And<FlyableObject>().To<CarrierDrone>().FromInstance(_drone)
+            binder.Bind<Drone>().And<Flyable>().And<FlyableObject>().And<CarrierDrone>().To<CarrierDrone>().FromInstance(_drone)
                 .WithoutInjection();
             binder.BindInstance(_mover).WithoutInjection();
             binder.BindInstance(_arguments).WithoutInjection();

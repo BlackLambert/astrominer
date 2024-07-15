@@ -25,5 +25,11 @@ namespace SBaier.Astrominer
 
         [SerializeField] private float _exploiterAmountFactor;
         public float ExploiterAmountFactor => _exploiterAmountFactor;
+        
+        [SerializeField] private AnimationCurve _creditsValueCurve;
+        public AnimationCurve CreditsValueCurve => _creditsValueCurve;
+
+        [SerializeField] private float _creditsAmountFactor;
+        public float CreditsAmountFactor => _creditsAmountFactor;
     }
 }

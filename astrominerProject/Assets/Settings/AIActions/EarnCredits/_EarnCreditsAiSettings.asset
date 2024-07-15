@@ -47,7 +47,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _storedOresValueWeightFactor: 13
+  _storedOresValueWeightFactor: 5
   _creditsWeightFactorCurve:
     serializedVersion: 2
     m_Curve:
@@ -81,4 +81,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _creditsWeightFactor: 6
+  _creditsWeightFactor: 5

@@ -6,9 +6,12 @@ namespace SBaier.Astrominer
 {
     public class CircularBuffer<T>
     {
+        public event Action<T> OnItemPushed;
+        public event Action OnChanged;
+        
         public int Count { get; private set; } = 0;
         
-        private List<T> _buffer;
+        private T[] _buffer;
         private int _currentIndex = 0;
         private int _size;
         
@@ -20,11 +23,7 @@ namespace SBaier.Astrominer
 
         private void CreateBuffer(int size)
         {
-            _buffer = new List<T>(size);
-            for (int i = 0; i < size; i++)
-            {
-                _buffer.Add(default);
-            }
+            _buffer = new T[size];
         }
 
         public void Push(T value)
@@ -32,6 +31,8 @@ namespace SBaier.Astrominer
             _buffer[_currentIndex] = value;
             ChangeIndex(1);
             ChangeCount(1);
+            OnItemPushed?.Invoke(value);
+            OnChanged?.Invoke();
         }
 
         public T Pop()
@@ -44,10 +45,51 @@ namespace SBaier.Astrominer
             T result = _buffer[_currentIndex];
             ChangeIndex(-1);
             ChangeCount(-1);
+            OnChanged?.Invoke();
             return result;
         }
 
+        public void Clear()
+        {
+            _currentIndex = 0;
+            Count = 0;
+            ResetBuffer();
+            OnChanged?.Invoke();
+        }
+
+        private void ResetBuffer()
+        {
+            for (int i = 0; i < _buffer.Length; i++)
+            {
+                _buffer[i] = default;
+            }
+        }
+
         public IEnumerable<T> GetLastXElementsReverse(int amount)
+        {
+            ValidateAmount(amount);
+
+            for (int i = 0; i < amount; i++)
+            {
+                yield return _buffer[GetIndex(_currentIndex - 1 - i)];
+            }
+        }
+
+        public IEnumerable<T> GetLastXElements(int amount)
+        {
+            ValidateAmount(amount);
+            for (int i = amount - 1; i >= 0; i--)
+            {
+                yield return _buffer[GetIndex(_currentIndex - 1 - i)];
+            }
+        }
+
+        private int GetIndex(int index)
+        {
+            return index < 0 ? _size + index : index % _size;
+        }
+
+        private void ValidateAmount(int amount)
         {
             if (amount > Count)
             {
@@ -63,14 +105,8 @@ namespace SBaier.Astrominer
             {
                 throw new ArgumentException($"The requested amount exceeds the buffer size of {_size}");
             }
-
-            for (int i = 0; i < amount; i++)
-            {
-                int index = _currentIndex - 1 - i;
-                index = index < 0 ? _size + index : index % _size;
-                yield return _buffer[index];
-            }
         }
+        
             
         private void ChangeCount(int delta)
         {

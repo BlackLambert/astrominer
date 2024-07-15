@@ -341,6 +341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _prospectorDroneSettings: {fileID: 11400000, guid: b322863c7c875ef4393a85230ff55cd5, type: 2}
   _carrierDroneSettings: {fileID: 11400000, guid: 27ea41b1be6dd8c4591358c51b91d162, type: 2}
+  _dronesHook: {fileID: 1063322694950191322}
 --- !u!114 &673084373992589190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,6 +482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73aa6141c6b5a92488001a2f3ef327f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: be4ff2b3a715b77488696cd5d196dcb5, type: 2}
 --- !u!1 &3496911973562070302
 GameObject:
   m_ObjectHideFlags: 0

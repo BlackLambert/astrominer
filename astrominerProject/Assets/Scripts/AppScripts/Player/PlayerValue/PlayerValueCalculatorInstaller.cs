@@ -16,6 +16,7 @@ namespace SBaier.Astrominer
         public override void InstallBindings(Binder binder)
         {
             binder.BindInstance(_player).WithoutInjection();
+            binder.BindInstance(_playerValues).WithoutInjection();
             binder.BindInstance(_playerValues.Values[_player]).WithoutInjection();
         }
     }

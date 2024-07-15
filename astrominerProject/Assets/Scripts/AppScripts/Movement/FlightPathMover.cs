@@ -16,6 +16,12 @@ namespace SBaier.Astrominer
             _mover = resolver.Resolve<Mover>();
         }
 
+        public void Clean()
+        {
+            _mover.OnTargetReached -= OnMoverTargetReached;
+            _path = null;
+        }
+
         public void Move(FlightPath path)
         {
             if (_path is { Canceled: false, Finished: false })

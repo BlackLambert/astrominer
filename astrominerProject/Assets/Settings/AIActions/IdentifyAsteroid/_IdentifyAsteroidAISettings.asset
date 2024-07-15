@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: _IdentifyAsteroidAISettings
   m_EditorClassIdentifier: 
   _baseWeight: 0
-  _identifiedEmptyAsteroidsValueFactor: 15
-  _activeDronesFactor: -3
+  _activeDronesFactor: -1
+  _identifiedEmptyAsteroidsValueFactor: 7
   _identifiedEmptyAsteroidsValueFactorCurve:
     serializedVersion: 2
     m_Curve:
@@ -28,13 +28,47 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.15519254
     - serializedVersion: 3
-      time: 150
+      time: 120
       value: 0
       inSlope: 0
       outSlope: -0.024499698
       tangentMode: 1
       weightedMode: 0
       inWeight: 0.096849516
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _bestIdentifiedEmptyAsteroidValueFactor: 3
+  _bestIdentifiedEmptyAsteroidValueFactorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12835471
+    - serializedVersion: 3
+      time: 14
+      value: 0.5
+      inSlope: -0.07228421
+      outSlope: -0.07228421
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2882142
+    - serializedVersion: 3
+      time: 20
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

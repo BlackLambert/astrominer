@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SBaier.DI;
+using UnityEngine;
+using Random = System.Random;
 
 namespace SBaier.Astrominer
 {
@@ -64,6 +66,8 @@ namespace SBaier.Astrominer
 
         public void Update()
         {
+            Debug.Log($"Credits: {Credits}");
+            Debug.Log($"Exploit Machines: {ExploitersInInventoryAmount}");
             ValueOfEmptyIdentifiedAsteroids = _ship.Player.IdentifiedAsteroids.GetValueOfEmptyAsteroids();
             HasUnidentifiedAsteroid = _map.HasUnidentifiedAsteroid(_player);
             ActiveProspectorDronesAmount = _player.Drones.CountDronesOfType<ProspectorDrone>();
@@ -117,13 +121,13 @@ namespace SBaier.Astrominer
         public void SendDroneToBestProspectTarget()
         {
             Asteroid asteroid = GetBestProspectTargetFor(ProspectorVesselType.Drone);
-            _ship.Player.Drones.Add(_prospectorDroneBuyer.BuyDrone(_ship, asteroid, _base));
+            _prospectorDroneBuyer.BuyDrone(_ship, asteroid, _base);
         }
 
         public void SendDroneToBestCollectOresTarget()
         {
             Asteroid asteroid = GetBestCollectTargetFor(CollectOresVesselType.Drone);
-            _ship.Player.Drones.Add(_carrierDroneBuyer.BuyDrone(_ship, asteroid, _base));
+            _carrierDroneBuyer.BuyDrone(_ship, asteroid, _base);
         }
 
         public FlyTarget GetRandomFlyTargetInRange()

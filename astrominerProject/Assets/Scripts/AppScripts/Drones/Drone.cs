@@ -6,7 +6,7 @@ namespace SBaier.Astrominer
 {
 	public abstract class Drone : FlyableObject
 	{
-		public event Action<Drone> OnDone;
+		public event Action OnDone;
 
 		public bool TargetReached { get; private set; } = false;
 		public Asteroid Target => _settings.Target;
@@ -31,7 +31,7 @@ namespace SBaier.Astrominer
 		{
 			base.OnTargetReached();
 			TargetReached = true;
-			OnDone?.Invoke(this);
+			OnDone?.Invoke();
 		}
 	}
 }

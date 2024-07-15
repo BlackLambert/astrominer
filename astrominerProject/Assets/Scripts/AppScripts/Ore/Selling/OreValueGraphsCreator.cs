@@ -39,8 +39,8 @@ namespace SBaier.Astrominer
                     continue;
                 }
 
-                OreValueGraph graph = _pool.Request(_oresSettings.Get(oreType),
-                    new PrefabInstantiationArguments() { Parent = _hook, Scale = Vector3.one });
+                OreValueGraph graph = _pool.Request(_oresSettings.Get(oreType), 
+                    PrefabInstantiationArguments.CreateFittedUIArgs(_hook));
                 _graphs.Add(graph);
             }
         }

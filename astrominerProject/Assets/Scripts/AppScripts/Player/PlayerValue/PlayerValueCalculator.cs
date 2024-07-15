@@ -3,16 +3,14 @@ using UnityEngine;
 
 namespace SBaier.Astrominer
 {
-    public class PlayerValueCalculator : MonoBehaviour, Injectable
+    public class PlayerValueCalculator : MonoBehaviour, Injectable, Cleanable, Initializable
     {
-        [SerializeField]
-        private float _updateFrequence = 1;
-        
         private PlayerValue _playerValue;
         private Player _player;
         private GameTime _gameTime;
         private OreBank _bank;
         private ExploitMachineVendor _exploitMachineVendor;
+        private PlayerValueSettings _settings;
 
         private float _timeTillNextEvaluation = 0;
         
@@ -23,17 +21,34 @@ namespace SBaier.Astrominer
             _gameTime = resolver.Resolve<GameTime>();
             _bank = resolver.Resolve<OreBank>();
             _exploitMachineVendor = resolver.Resolve<ExploitMachineVendor>();
+            _settings = resolver.Resolve<PlayerValueSettings>();
+        }
+
+        public void Initialize()
+        {
+            UpdatePlayerValue();
         }
 
         private void Update()
         {
             while (_timeTillNextEvaluation <= _gameTime.Value)
             {
-                _timeTillNextEvaluation += _updateFrequence;
-                float value = CalculateValue();
-                _playerValue.TotalValue.Value = value;
-                _playerValue.ValueHistory.Add(value);
+                _timeTillNextEvaluation += _settings.UpdateFrequency;
+                UpdatePlayerValue();
             }
+        }
+
+        public void Clean()
+        {
+            _playerValue.Reset();
+            _timeTillNextEvaluation = 0;
+        }
+
+        private void UpdatePlayerValue()
+        {
+            float value = CalculateValue();
+            _playerValue.TotalValue.Value = value;
+            _playerValue.ValueHistory.Push(value);
         }
 
         private float CalculateValue()

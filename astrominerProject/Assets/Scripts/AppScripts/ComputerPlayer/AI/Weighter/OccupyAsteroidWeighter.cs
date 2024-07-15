@@ -42,6 +42,10 @@ namespace SBaier.Astrominer
             weight += _aiSettings.ExploiterAmountValueCurve.Evaluate(exploitersAmount) * 
                       _aiSettings.ExploiterAmountFactor;
             
+            // Credits amount
+            weight += _aiSettings.CreditsValueCurve.Evaluate(_brain.Credits) * 
+                      _aiSettings.CreditsAmountFactor;
+            
             Debug.Log($"Occupy asteroid weight: {weight}");
             return weight;
         }

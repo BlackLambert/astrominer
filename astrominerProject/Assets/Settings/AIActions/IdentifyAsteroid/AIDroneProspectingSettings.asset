@@ -25,7 +25,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 3
+      time: 2.5
       value: 1
       inSlope: 0.0038357682
       outSlope: 0.0038357682
@@ -45,7 +45,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <DistanceValueFactor>k__BackingField: 0
+  <DistanceValueFactor>k__BackingField: 1
   <DistanceToBaseFactorCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
@@ -59,16 +59,34 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.12835471
     - serializedVersion: 3
-      time: 10
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      time: 8
+      value: 0.5
+      inSlope: -0.06648159
+      outSlope: -0.06648159
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.052676287
+    - serializedVersion: 3
+      time: 15
+      value: 0.2
+      inSlope: -0.026315631
+      outSlope: -0.026315631
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10436134
+    - serializedVersion: 3
+      time: 30
+      value: 0
+      inSlope: -0.0048647407
+      outSlope: -0.0048647407
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.12928352
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <DistanceToBaseValueFactor>k__BackingField: 8
-  <SizeValueFactor>k__BackingField: 0.33
+  <DistanceToBaseValueFactor>k__BackingField: 7
+  <SizeValueFactor>k__BackingField: 0.2

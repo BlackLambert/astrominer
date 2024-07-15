@@ -15,9 +15,7 @@ namespace SBaier.Astrominer
 
 		public Player Create(Arguments arguments)
 		{
-			Guid iD = Guid.NewGuid();
-			Player result = new Player(arguments.Number, iD, arguments.Color, arguments.Name, arguments.IsHuman);
-			result.Credits.Add(_settings.StartCredits);
+			Player result = new Player(arguments.Number, arguments.Color, arguments.Name, arguments.IsHuman, _settings.StartCredits);
 			return result;
 		}
 

@@ -72,7 +72,7 @@ namespace SBaier.Astrominer
 
         private void SendDrone()
         {
-            _drones.Add(_buyer.BuyDrone(_ship, _target, _base));
+            _buyer.BuyDrone(_ship, _target, _base);
         }
     }
 }

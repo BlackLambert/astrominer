@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using SBaier.DI;
 using UnityEngine;
 
@@ -6,56 +5,74 @@ namespace SBaier.Astrominer
 {
     public class PlayerValueMinMaxUpdater : MonoBehaviour, Injectable, Initializable, Cleanable
     {
+        private PlayerValue _playerValue;
         private PlayerValues _playerValues;
+        private PlayerValueSettings _settings;
         
         public void Inject(Resolver resolver)
         {
+            _playerValue = resolver.Resolve<PlayerValue>();
             _playerValues = resolver.Resolve<PlayerValues>();
+            _settings = resolver.Resolve<PlayerValueSettings>();
         }
 
         public void Initialize()
         {
-            foreach (KeyValuePair<Player, PlayerValue> pair in _playerValues.Values)
-            {
-                pair.Value.TotalValue.OnValueChanged += OnValueChanged;
-            }
-
-            InitMinMax();
+            _playerValue.TotalValue.OnValueChanged += OnValueChanged;
+            _playerValue.OnReset += UpdateMinMax;
+            UpdateMinMax();
         }
 
         public void Clean()
         {
-            foreach (KeyValuePair<Player, PlayerValue> pair in _playerValues.Values)
-            {
-                pair.Value.TotalValue.OnValueChanged -= OnValueChanged;
-            }
+            _playerValue.TotalValue.OnValueChanged -= OnValueChanged;
+            _playerValue.OnReset -= UpdateMinMax;
         }
 
-        private void InitMinMax()
+        private void OnValueChanged(float formervalue, float newvalue)
         {
-            foreach (KeyValuePair<Player, PlayerValue> pair in _playerValues.Values)
+            UpdateMinMax();
+        }
+
+        private void UpdateMinMax()
+        {
+            _playerValues.MinMax = new MinMax
             {
-                foreach (float value in pair.Value.ValueHistory)
+                Min = _playerValue.TotalValue + _settings.ValueOffset.Min, 
+                Max = _playerValue.TotalValue + _settings.ValueOffset.Max
+            };
+            
+            foreach (PlayerValue values in _playerValues.Values.Values)
+            {
+                if (values.ValueHistory.Count <= 0)
+                {
+                    continue;
+                }
+                
+                foreach (float value in values.ValueHistory.GetLastXElements(_playerValue.ValueHistory.Count))
                 {
                     UpdateMinMax(value);
                 }
             }
         }
 
-        private void OnValueChanged(float formervalue, float newvalue)
-        {
-            UpdateMinMax(newvalue);
-        }
-
         private void UpdateMinMax(float value)
         {
-            if (value > _playerValues.MinMax.Max)
+            if (value > _playerValues.MinMax.Max - _settings.ValueOffset.Max)
             {
-                _playerValues.MinMax = new MinMax() { Min = _playerValues.MinMax.Min, Max = value };
+                _playerValues.MinMax = new MinMax() 
+                { 
+                    Min = _playerValues.MinMax.Min,
+                    Max = value  + _settings.ValueOffset.Max
+                };
             } 
-            else if (value < _playerValues.MinMax.Min)
+            else if (value < _playerValues.MinMax.Min - _settings.ValueOffset.Min)
             {
-                _playerValues.MinMax = new MinMax() { Min = value, Max = _playerValues.MinMax.Max };
+                _playerValues.MinMax = new MinMax()
+                {
+                    Min = value + _settings.ValueOffset.Min, 
+                    Max = _playerValues.MinMax.Max
+                };
             }
         }
     }

@@ -32,6 +32,13 @@ namespace SBaier.Astrominer
             FlightGraph = arguments.FlightGraph;
         }
 
+        public override void Clean()
+        {
+            base.Clean();
+            CollectedOres.RequestAll();
+            Machines.Clear();
+        }
+
         public void FlyTo(FlyTarget flyTarget)
         {
             FlyTo(new FlightPath(FlightMap.FlyTargetToPath[flyTarget]));

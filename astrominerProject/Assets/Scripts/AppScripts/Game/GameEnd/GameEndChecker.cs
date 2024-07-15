@@ -21,8 +21,9 @@ namespace SBaier.Astrominer
 
         private void Update()
         {
+            const float epsilon = 0.001f;
             if (!_game.Finished.Value &&
-                _game.ExploitedPercentage.Value >= _targetExploit.Target.Value)
+                _game.ExploitedPercentage.Value >= _targetExploit.Target.Value - epsilon)
             {
                 _gameTime.Paused.Value = true;
                 _game.PLayerWon.Value = GetPlayerWon();

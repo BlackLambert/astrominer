@@ -27,6 +27,9 @@ namespace SBaier.Astrominer
         public virtual void Clean()
         {
             _mover.OnTargetReached -= OnTargetReached;
+            _mover.Clean();
+            FlyTarget.Value = null;
+            Location.Value = null;
         }
 
         public void FlyTo(FlightPath path)

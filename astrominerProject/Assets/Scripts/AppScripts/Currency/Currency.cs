@@ -8,6 +8,7 @@ namespace SBaier.Astrominer
         public event Action OnAmountChanged;
 
         public Currency() { }
+        
         public Currency(float amount)
 		{
             Amount = amount;

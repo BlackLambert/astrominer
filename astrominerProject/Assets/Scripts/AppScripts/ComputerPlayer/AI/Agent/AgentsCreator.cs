@@ -30,6 +30,7 @@ namespace SBaier.Astrominer
 
         public void Clean()
         {
+            ClearAgents();
             _ships.Values.OnItemAdded -= TryCreateAgent;
             _ships.Values.OnItemRemoved -= TryRemoveAgent;
         }
@@ -40,6 +41,15 @@ namespace SBaier.Astrominer
             {
                 TryCreateAgent(ship);
             }
+        }
+
+        private void ClearAgents()
+        {
+            foreach (KeyValuePair<Ship,Agent> pair in _agents)
+            {
+                _pool.Return(pair.Value);
+            }
+            _agents.Clear();
         }
 
         private void TryCreateAgent(Ship ship)
