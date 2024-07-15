@@ -690,6 +690,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shipSettings: {fileID: 11400000, guid: fc845b68de2ac3146a656fc403a23bf5, type: 2}
+  _testShipSettings: {fileID: 11400000, guid: e3c0f66953779ae4e91a9c58c2fd9ec8, type: 2}
+  _useTestSettings: 1
 --- !u!114 &8010874913115802447
 MonoBehaviour:
   m_ObjectHideFlags: 0

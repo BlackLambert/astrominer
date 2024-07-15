@@ -77,7 +77,7 @@ namespace SBaier.Astrominer
             Debug.Log($"Credits: {Credits}");
             Debug.Log($"Exploit Machines: {ExploitersInInventoryAmount}");
             ValueOfEmptyIdentifiedAsteroids = _ship.Player.IdentifiedAsteroids.GetValueOfEmptyAsteroids();
-            HasUnidentifiedAsteroid = _map.HasUnidentifiedAsteroid(_player);
+            HasUnidentifiedAsteroid = _map.HasUnidentifiedValuableAsteroid(_player);
             ActiveProspectorDronesAmount = _player.Drones.CountDronesOfType<ProspectorDrone>();
             AnyOwnedExploitedAsteroids = _player.OwnedAsteroids.Any(asteroid => asteroid.Exploited);
             CostsOfExploitedAsteroids = _player.OwnedAsteroids.GetExploitedCosts();
@@ -221,6 +221,11 @@ namespace SBaier.Astrominer
         public void SellOres()
         {
             _player.Credits.Add(_oreBank.CalculateCreditsFor(_ship.CollectedOres.RequestAll()));
+        }
+
+        public void SellExploiter()
+        {
+            _exploitMachineVendor.SellMachine(_ship, _ship.Machines.First());
         }
 
         public float GetPendingCredits()

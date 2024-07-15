@@ -34,8 +34,10 @@ namespace SBaier.Astrominer
             float allCredits = credits + pendingCredits;
             float allCreditsWeight = _aiSettings.CreditsWeightFactorCurve.Evaluate(allCredits) *
                                      _aiSettings.CreditsWeightFactor;
+            float pendingCreditsWeight = _aiSettings.PendingCreditsWeightFactorCurve.Evaluate(pendingCredits) *
+                                     _aiSettings.PendingCreditsWeightFactor;
 
-            float weight = _aiSettings.BaseWeight + storedOresWeight + allCreditsWeight * storedOresValueFactor;
+            float weight = _aiSettings.BaseWeight + storedOresWeight + allCreditsWeight * storedOresValueFactor + pendingCreditsWeight;
             Debug.Log($"Earn credits weight: {weight}");
             return weight;
         }

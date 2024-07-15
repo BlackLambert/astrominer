@@ -5,14 +5,14 @@ namespace SBaier.Astrominer
 {
     public static class MapExtensions
     {
-        public static bool HasUnidentifiedAsteroid(this Map map, Player player)
+        public static bool HasUnidentifiedValuableAsteroid(this Map map, Player player)
         {
-            return map.Asteroids.Value.Any(asteroid => asteroid.IsUnidentifiedFor(player));
+            return map.Asteroids.Value.Any(asteroid => asteroid.IsUnidentifiedFor(player) && !asteroid.Exploited);
         }
-        
-        public static List<Asteroid> GetUnidentifiedAsteroids(this Map map, Player player)
+
+        public static IEnumerable<Asteroid> GetUnidentifiedValuableAsteroids(this Map map, Player player)
         {
-            return map.Asteroids.Value.Where(asteroid => asteroid.IsUnidentifiedFor(player)).ToList();
+            return map.Asteroids.Value.Where(asteroid => asteroid.IsUnidentifiedFor(player) && !asteroid.Exploited);
         }
     }
 }

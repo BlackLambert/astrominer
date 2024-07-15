@@ -18,27 +18,29 @@ namespace SBaier.Astrominer
             _ship = ship;
             _prospectingSettings = prospectingSettings;
         }
-        
+
         public Asteroid Search()
         {
-            List<Asteroid> unidentifiedAsteroids = _map.GetUnidentifiedAsteroids(_ship.Player);
-            
-            if (unidentifiedAsteroids.Count == 0)
-            {
-                return null;
-            }
-            
-            return unidentifiedAsteroids.Aggregate(CompareAsteroidsForProspecting);
+            IEnumerable<Asteroid> unidentifiedAsteroids = _map.GetUnidentifiedValuableAsteroids(_ship.Player);
+
+            return unidentifiedAsteroids.Any()
+                ? unidentifiedAsteroids.Aggregate(CompareAsteroidsForProspecting)
+                : null;
         }
 
         public float GetProspectingValueOf(Asteroid asteroid)
         {
+            if (asteroid.Exploited)
+            {
+                return 0;
+            }
+
             int distance = _ship.FlightMap.GetDistanceTo(asteroid);
             int distanceToBase = _ship.BaseFlightMap.GetDistanceTo(asteroid);
-            float distanceValue = _prospectingSettings.DistanceFactorCurve.Evaluate(distance) * 
+            float distanceValue = _prospectingSettings.DistanceFactorCurve.Evaluate(distance) *
                                   _prospectingSettings.DistanceValueFactor;
-            float distanceToBaseValue = _prospectingSettings.DistanceToBaseFactorCurve.Evaluate(distanceToBase) * 
-                                  _prospectingSettings.DistanceToBaseValueFactor;
+            float distanceToBaseValue = _prospectingSettings.DistanceToBaseFactorCurve.Evaluate(distanceToBase) *
+                                        _prospectingSettings.DistanceToBaseValueFactor;
             float sizeValue = asteroid.Size * _prospectingSettings.SizeValueFactor;
             return distanceValue + sizeValue + distanceToBaseValue;
         }

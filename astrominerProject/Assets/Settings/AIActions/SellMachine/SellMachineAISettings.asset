@@ -12,3 +12,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 118d56ae55d945ceada369b17f3d5dc2, type: 3}
   m_Name: SellMachineAISettings
   m_EditorClassIdentifier: 
+  <BaseWeight>k__BackingField: 0
+  <NoOccupationTargetWeight>k__BackingField: 5
+  <BestOccupationTargetCurve>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0025394787
+      outSlope: -0.0025394787
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.061915886
+    - serializedVersion: 3
+      time: 4
+      value: 0
+      inSlope: -0.19051725
+      outSlope: -0.19051725
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.063960284
+    - serializedVersion: 3
+      time: 20
+      value: -1
+      inSlope: -0.008652285
+      outSlope: -0.008652285
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08177576
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <BestOccupationTargetFactor>k__BackingField: 0
+  _exploiterAmountValueCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.2
+      outSlope: 0.2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0.2
+      outSlope: 0.2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _exploiterAmountFactor: 2

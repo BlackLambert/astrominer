@@ -6,18 +6,18 @@ namespace SBaier.Astrominer
 
     public class ShipInstaller : MonoInstaller, Injectable
     {
-        [SerializeField]
-        private ShipSettings _settings;
 		[SerializeField]
 		private Ship _ship;
 		[SerializeField]
 		private Mover _mover;
 
 		private Player _player;
+		private ShipSettings _settings;
 
 		public void Inject(Resolver resolver)
 		{
 			_player = resolver.Resolve<Ship.Arguments>().Player;
+			_settings = resolver.Resolve<ShipSettings>();
 		}
 
 		public override void InstallBindings(Binder binder)

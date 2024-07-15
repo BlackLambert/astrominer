@@ -21,7 +21,7 @@ namespace SBaier.Astrominer
 
         private void Update()
         {
-            const float epsilon = 0.001f;
+            const float epsilon = 0.00001f;
             if (!_game.Finished.Value &&
                 _game.ExploitedPercentage.Value >= _targetExploit.Target.Value - epsilon)
             {

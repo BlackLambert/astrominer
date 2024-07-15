@@ -22,6 +22,12 @@ namespace SBaier.Astrominer
 
         [SerializeField] private float _creditsWeightFactor;
         public float CreditsWeightFactor => _creditsWeightFactor;
+
+        [SerializeField] private AnimationCurve _pendingCreditsWeightFactorCurve;
+        public AnimationCurve PendingCreditsWeightFactorCurve => _pendingCreditsWeightFactorCurve;
+
+        [SerializeField] private float _pendingCreditsWeightFactor;
+        public float PendingCreditsWeightFactor => _pendingCreditsWeightFactor;
         
     }
 }

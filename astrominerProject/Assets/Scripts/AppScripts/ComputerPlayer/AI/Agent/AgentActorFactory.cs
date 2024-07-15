@@ -40,7 +40,7 @@ namespace SBaier.Astrominer
                 _occupyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
                 _earnCreditsAIActionsFactory.Create(brain, allowsFollowupAction),
                 _takeExploiterAIActionsFactory.Create(brain, allowsFollowupAction),
-                //_sellMachineAIActionsFactory.Create(brain, allowsFollowupAction),
+                _sellMachineAIActionsFactory.Create(brain, allowsFollowupAction),
                 //CreateIncreaseOreOutputActions(brain, allowsFollowupAction),
                 CreateFlyToRandomAsteroidActions(brain, allowsFollowupAction)
             };

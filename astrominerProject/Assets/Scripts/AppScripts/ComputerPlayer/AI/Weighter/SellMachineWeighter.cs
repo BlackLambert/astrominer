@@ -1,3 +1,4 @@
+using System.Linq;
 using SBaier.AI;
 
 namespace SBaier.Astrominer
@@ -17,7 +18,22 @@ namespace SBaier.Astrominer
         
         public float GetWeight()
         {
-            throw new System.NotImplementedException();
+            float weight = _settings.BaseWeight;
+            
+            // Any occupation target?
+            Asteroid occupationTarget = _brain.OccupationTargets.FirstOrDefault();
+            weight += occupationTarget == null ? _settings.NoOccupationTargetWeight : 0;
+
+            // Value of occupation target
+            weight += _settings.BestOccupationTargetCurve.Evaluate(_brain.GetOccupationValueOf(occupationTarget))
+                * _settings.BestOccupationTargetFactor;
+            
+            // exploiters amount
+            int exploitersAmount = _brain.ExploitersInInventoryAmount;
+            weight += _settings.ExploiterAmountValueCurve.Evaluate(exploitersAmount) * 
+                      _settings.ExploiterAmountFactor;
+
+            return weight;
         }
     }
 }
