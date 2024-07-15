@@ -1,5 +1,4 @@
 using SBaier.DI;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +11,7 @@ namespace SBaier.Astrominer
 
 		private Ship _ship;
 		private Asteroid _currentAsteroid;
+		private ExploitMachineTaker _machineTaker;
 
 		public void Inject(Resolver resolver)
 		{
@@ -24,6 +24,7 @@ namespace SBaier.Astrominer
 			UpdateInteractivity();
 			_ship.Location.OnValueChanged += OnFlyTargetChange;
 			_button.onClick.AddListener(TakeMachine);
+			_machineTaker = new ExploitMachineTaker();
 		}
 
 		public void Clean()
@@ -51,15 +52,13 @@ namespace SBaier.Astrominer
 
 		private void TakeMachine()
 		{
-			_currentAsteroid.SetOwningPlayer(null);
-			_ship.Machines.Add(_currentAsteroid.TakeExploitMachine());
-			_ship.Player.OwnedAsteroids.Remove(_currentAsteroid);
+			_machineTaker.TakeMachine(_ship);
 			UpdateInteractivity();
 		}
 
 		private void UpdateCurrentAsteroid()
 		{
-			if (_ship.Location == null || !(_ship.Location.Value is Asteroid))
+			if (_ship.Location == null || _ship.Location.Value is not Asteroid)
 				RemoveCurrentAsteroid();
 			else
 				SetCurrentAsteroid(_ship.Location.Value as Asteroid);

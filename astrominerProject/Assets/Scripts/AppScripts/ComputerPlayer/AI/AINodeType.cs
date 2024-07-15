@@ -8,8 +8,9 @@ namespace SBaier.Astrominer
         IdentifyAsteroid = 100,
         OccupyAsteroid = 101,
         EarnMoney = 102,
-        ReduceCosts = 103,
-        IncreaseOreOutput = 104,
+        TakeExploiter = 103,
+        SellMachine = 104,
+        IncreaseOreOutput = 105,
         
         // Action
         SendProspectorDrone = 2000,

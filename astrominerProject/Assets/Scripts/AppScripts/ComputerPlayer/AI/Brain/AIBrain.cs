@@ -9,7 +9,8 @@ namespace SBaier.Astrominer
 {
     public class AIBrain : Injectable
     {
-        public bool AnyIdentifiedUnoccupiedAsteroid => ValueOfEmptyIdentifiedAsteroids > 0;
+        public bool AnyIdentifiedUnoccupiedAsteroid => UnoccupiedAsteroidWithBestValue != null && 
+                                                       ValueOfEmptyIdentifiedAsteroids > 0;
         public float Credits => _player.Credits.Amount;
         public bool HasExploitMachine => _ship.HasExploitMachine;
         public bool HasEmptyInventorySpace => _ship.HasEmptyInventorySpace;
@@ -23,16 +24,22 @@ namespace SBaier.Astrominer
         public float ValueOfEmptyIdentifiedAsteroids { get; private set; }
         public bool HasUnidentifiedAsteroid { get; private set; }
         public int ActiveProspectorDronesAmount { get; private set; }
+        public bool AnyOwnedExploitedAsteroids { get; private set; }
+        public float CostsOfExploitedAsteroids { get; private set; }
+        public float ExploitedAsteroidsAmount { get; private set; }
+        public Asteroid BestTakeExploiterTarget { get; private set; }
 
         private readonly Dictionary<ProspectorVesselType, Asteroid> _prospectTargets = new();
         private readonly Dictionary<CollectOresVesselType, Asteroid> _collectTargets = new();
         private readonly ExploitMachinePlacer _machinePlacer = new();
+        private readonly ExploitMachineTaker _machineTake = new();
         private readonly List<Asteroid> _occupationTargets = new();
 
         private Dictionary<ProspectorVesselType, OptimalProspectTargetFinder> _prospectTargetFinders;
         private Dictionary<CollectOresVesselType, OptimalCollectOresTargetFinder> _collectOresTargetFinders;
         private OptimalExploitTargetFinder _exploitTargetFinder;
         private OptimalExploitersToBuyFinder _exploitersToBuyFinder;
+        private OptimalTakeExploiterTargetFinder _takeExploiterTargetFinder;
         private Ship _ship;
         private Player _player;
         private Map _map;
@@ -58,6 +65,7 @@ namespace SBaier.Astrominer
             _exploitMachineSettings = resolver.Resolve<ExploitMachineSettings>();
             _exploitMachineVendor = resolver.Resolve<ExploitMachineVendor>();
             _exploitersToBuyFinder = resolver.Resolve<OptimalExploitersToBuyFinder>();
+            _takeExploiterTargetFinder = resolver.Resolve<OptimalTakeExploiterTargetFinder>();
             _oreBank = resolver.Resolve<OreBank>();
 
             InitProspectTargetFinders(resolver);
@@ -71,12 +79,16 @@ namespace SBaier.Astrominer
             ValueOfEmptyIdentifiedAsteroids = _ship.Player.IdentifiedAsteroids.GetValueOfEmptyAsteroids();
             HasUnidentifiedAsteroid = _map.HasUnidentifiedAsteroid(_player);
             ActiveProspectorDronesAmount = _player.Drones.CountDronesOfType<ProspectorDrone>();
+            AnyOwnedExploitedAsteroids = _player.OwnedAsteroids.Any(asteroid => asteroid.Exploited);
+            CostsOfExploitedAsteroids = _player.OwnedAsteroids.GetExploitedCosts();
+            ExploitedAsteroidsAmount = _player.OwnedAsteroids.GetExploitedAmount();
             UpdateOccupationTargets();
             _collectTargets.Clear();
             _prospectTargets.Clear();
             _storedOresAmount = _player.OwnedAsteroids
                 .Where(asteroid => !_player.Drones.ContainsDroneTo<CarrierDrone>(asteroid))
                 .Sum(asteroid => asteroid.StoredMinedOres.GetTotal());
+            BestTakeExploiterTarget = _takeExploiterTargetFinder.Search();
         }
 
         public bool CanAfford(float price)
@@ -106,6 +118,11 @@ namespace SBaier.Astrominer
             result = _collectOresTargetFinders[type].Search();
             _collectTargets[type] = result;
             return result;
+        }
+
+        public float GetTakeExploiterValueOf(Asteroid asteroid)
+        {
+            return _takeExploiterTargetFinder.GetTakeExploiterValueOf(asteroid);
         }
 
         public float GetProspectValueOf(ProspectorVesselType type, Asteroid asteroid)
@@ -247,6 +264,11 @@ namespace SBaier.Astrominer
             float value1 = _exploitTargetFinder.GetOccupationValueOf(asteroid1);
             float value2 = _exploitTargetFinder.GetOccupationValueOf(asteroid2);
             return value2.CompareTo(value1);
+        }
+
+        public void TakeMachine()
+        {
+            _machineTake.TakeMachine(_ship);
         }
     }
 }

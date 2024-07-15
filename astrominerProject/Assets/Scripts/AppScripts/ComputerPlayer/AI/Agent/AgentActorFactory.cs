@@ -10,6 +10,8 @@ namespace SBaier.Astrominer
         private IdentifyAsteroidAIActionsFactory _identifyAsteroidAIActionsFactory;
         private OccupyAsteroidAIActionsFactory _occupyAsteroidAIActionsFactory;
         private EarnCreditsAIActionsFactory _earnCreditsAIActionsFactory;
+        private TakeExploiterAIActionsFactory _takeExploiterAIActionsFactory;
+        private SellMachineAIActionsFactory _sellMachineAIActionsFactory;
 
         public void Inject(Resolver resolver)
         {
@@ -17,6 +19,8 @@ namespace SBaier.Astrominer
             _identifyAsteroidAIActionsFactory = resolver.Resolve<IdentifyAsteroidAIActionsFactory>();
             _occupyAsteroidAIActionsFactory = resolver.Resolve<OccupyAsteroidAIActionsFactory>();
             _earnCreditsAIActionsFactory = resolver.Resolve<EarnCreditsAIActionsFactory>();
+            _takeExploiterAIActionsFactory = resolver.Resolve<TakeExploiterAIActionsFactory>();
+            _sellMachineAIActionsFactory = resolver.Resolve<SellMachineAIActionsFactory>();
         }
 
         public AgentActor Create(Ship ship)
@@ -35,7 +39,8 @@ namespace SBaier.Astrominer
                 _identifyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
                 _occupyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
                 _earnCreditsAIActionsFactory.Create(brain, allowsFollowupAction),
-                //CreateReduceCostsActions(brain, allowsFollowupAction),
+                _takeExploiterAIActionsFactory.Create(brain, allowsFollowupAction),
+                //_sellMachineAIActionsFactory.Create(brain, allowsFollowupAction),
                 //CreateIncreaseOreOutputActions(brain, allowsFollowupAction),
                 CreateFlyToRandomAsteroidActions(brain, allowsFollowupAction)
             };

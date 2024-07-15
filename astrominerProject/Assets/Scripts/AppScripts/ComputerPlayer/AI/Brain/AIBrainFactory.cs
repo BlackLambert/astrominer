@@ -13,6 +13,7 @@ namespace SBaier.Astrominer
         private ExploitMachineSettings _exploitMachineSettings;
         private SendCarrierDroneAISettings _sendCarrierDroneAISettings;
         private CollectOresAISettings _collectOresAISettings;
+        private TakeExploiterAISettings _takeExploiterAISettings;
         private Map _map;
         private OreBank _oreBank;
 
@@ -28,6 +29,7 @@ namespace SBaier.Astrominer
             _exploitMachineSettings = resolver.Resolve<ExploitMachineSettings>();
             _sendCarrierDroneAISettings = resolver.Resolve<SendCarrierDroneAISettings>();
             _collectOresAISettings = resolver.Resolve<CollectOresAISettings>();
+            _takeExploiterAISettings = resolver.Resolve<TakeExploiterAISettings>();
             _oreBank = resolver.Resolve<OreBank>();
             _map = resolver.Resolve<Map>();
         }
@@ -36,8 +38,6 @@ namespace SBaier.Astrominer
         {
             AIBrain result = new AIBrain();
             ArgumentsResolver resolver = new ArgumentsResolver(_resolver);
-            OptimalExploitTargetFinder exploitTargetFinder =
-                new OptimalExploitTargetFinder(ship, _occupyAsteroidAiSettings.ExploitTargetSettings);
             resolver.AddArgument(ship);
             resolver.AddArgument(_bases.Get(ship.Player));
             resolver.AddArgument(
@@ -52,9 +52,12 @@ namespace SBaier.Astrominer
             resolver.AddArgument(
                 CreateCollectOresTargetFinder(ship, _collectOresAISettings.CollectOresTargetSettings),
                 CollectOresVesselType.Ship);
-            resolver.AddArgument(exploitTargetFinder);
+            resolver.AddArgument(
+                new OptimalExploitTargetFinder(ship, _occupyAsteroidAiSettings.ExploitTargetSettings));
             resolver.AddArgument(
                 new OptimalExploitersToBuyFinder(ship, _buyExploiterAISettings, _exploitMachineSettings));
+            resolver.AddArgument(
+                new OptimalTakeExploiterTargetFinder(_takeExploiterAISettings.TakeExploiterTargetSettings, ship));
             result.Inject(resolver);
             return result;
         }
