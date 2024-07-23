@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseWeight: 0
   _activeDronesFactor: -0.5
-  _prospectingTargetValueFactor: 0.25
+  _prospectingTargetValueFactor: 0.4
   _identifiedEmptyAsteroidsValueFactor: 3
   _identifiedEmptyAsteroidsValueFactorCurve:
     serializedVersion: 2
@@ -29,7 +29,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.15519254
     - serializedVersion: 3
-      time: 120
+      time: 100
       value: 0
       inSlope: 0
       outSlope: -0.024499698
@@ -40,7 +40,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _bestIdentifiedEmptyAsteroidValueFactor: 4
+  _bestIdentifiedEmptyAsteroidValueFactor: 3
   _bestIdentifiedEmptyAsteroidValueFactorCurve:
     serializedVersion: 2
     m_Curve:
@@ -54,7 +54,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.12835471
     - serializedVersion: 3
-      time: 14
+      time: 12
       value: 0.5
       inSlope: -0.07228421
       outSlope: -0.07228421

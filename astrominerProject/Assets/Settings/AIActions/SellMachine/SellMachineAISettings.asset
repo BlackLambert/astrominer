@@ -47,7 +47,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <BestOccupationTargetFactor>k__BackingField: 0
+  <BestOccupationTargetFactor>k__BackingField: 3
   _exploiterAmountValueCurve:
     serializedVersion: 2
     m_Curve:

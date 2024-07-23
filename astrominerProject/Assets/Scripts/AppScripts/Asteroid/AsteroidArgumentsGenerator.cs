@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using PCGToolkit.Sampling;
+using SBaier.AI;
 using SBaier.DI;
 using UnityEngine;
 using Random = System.Random;
@@ -39,6 +42,8 @@ namespace SBaier.Astrominer
                 Vector2 position = positions[index];
                 result.Add(CreateRandomSettings(index, position));
             }
+
+            LogResult(result);
             return result;
         }
 
@@ -57,10 +62,18 @@ namespace SBaier.Astrominer
 
         private Asteroid.Arguments CreateRandomSettings(int index, Vector2 position)
         {
-            int quality = _random.Next(_settings.MinQuality, _settings.MaxQuality + 1);
-            int size = _random.Next(_settings.MinSize, _settings.MaxSize + 1);
+            int quality = SampleDistributedValue(_settings.MinQuality, _settings.MaxQuality, _settings.QualityDistribution);
+            int size = SampleDistributedValue(_settings.MinSize, _settings.MaxSize, _settings.SizeDistribution);
             AsteroidBodyMaterials bodyMaterial = CalculateBodyMaterial(size, quality);
             return new Asteroid.Arguments(index, position, GetRandomRotation(), quality, size, _settings.Color, bodyMaterial, _settings.ExploitedColorReduction);
+        }
+
+        private int SampleDistributedValue(int min, int max, AnimationCurve curve)
+        {
+            float evaluationValue = (float)_random.NextDouble();
+            float factor = curve.Evaluate(evaluationValue);
+            float quality = Mathf.Lerp(min, max, factor);
+            return Mathf.RoundToInt(quality);
         }
 
         private AsteroidBodyMaterials CalculateBodyMaterial(int size, int quality)
@@ -74,6 +87,47 @@ namespace SBaier.Astrominer
             float platinum = totalOresAmount * (_settings.PlatinumWeight / oreWeightSum);
             Ores ores = new Ores(iron, gold, platinum);
             return new AsteroidBodyMaterials(ores, rocksAmount);
+        }
+
+        private void LogResult(List<Asteroid.Arguments> result)
+        {
+            if (!_settings.LogCreation)
+            {
+                return;
+            }
+
+            Dictionary<int, int> qualityToAmount = new Dictionary<int, int>();
+            for (int i = _settings.MinQuality; i <= _settings.MaxQuality; i++)
+            {
+                qualityToAmount[i] = 0;
+            }
+            
+            Dictionary<int, int> sizeToAmount = new Dictionary<int, int>();
+            for (int i = _settings.MinSize; i <= _settings.MaxSize; i++)
+            {
+                sizeToAmount[i] = 0;
+            }
+
+            foreach (Asteroid.Arguments arguments in result)
+            {
+                qualityToAmount[arguments.Quality]++;
+                sizeToAmount[arguments.Size]++;
+            }
+            
+            Debug.Log($"{result.Count} asteroids created");
+            LogValues(qualityToAmount, "Quality");
+            LogValues(sizeToAmount, "Size");
+        }
+
+        private void LogValues(Dictionary<int, int> values, string valueName)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append($"{valueName} distribution:\n");
+            foreach (KeyValuePair<int,int> pair in values)
+            {
+                stringBuilder.Append($"{valueName} {pair.Key}: {pair.Value}\n");
+            }
+            Debug.Log(stringBuilder.ToString());
         }
 
         private List<Vector2> CenterPositions(List<Vector2> positions, Vector2 center)
