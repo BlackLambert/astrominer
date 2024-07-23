@@ -35,11 +35,10 @@ namespace SBaier.Astrominer
         [field: SerializeField, Header("Ores")]
         public float BaseRockAmount { get; private set; } = 500;
         [field: SerializeField]
-        public float IronWeight { get; private set; } = 65;
+        public AnimationCurve IronWeight { get; private set; }
         [field: SerializeField]
-        public float GoldWeight { get; private set; } = 25;
+        public AnimationCurve GoldWeight { get; private set; }
         [field: SerializeField]
-        public float PlatinumWeight { get; private set; } = 10;
-        public float OreWeightSum => IronWeight + GoldWeight + PlatinumWeight;
+        public AnimationCurve PlatinumWeight { get; private set; }
     }
 }

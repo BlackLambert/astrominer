@@ -72,11 +72,6 @@ namespace SBaier.Astrominer
             }
         }
 
-        private void AddInternal(OreType type, float amount)
-		{
-            _ores[type].Add(amount);
-        }
-
         public Ores Request(Ores ores)
 		{
             Ores result = new Ores();
@@ -98,11 +93,6 @@ namespace SBaier.Astrominer
             return Request(this);
 		}
 
-        private float RequestInternal(OreType type, float amount)
-		{
-            return _ores[type].Request(amount);
-        }
-
         public float GetTotal()
         {
             float total = 0;
@@ -118,26 +108,33 @@ namespace SBaier.Astrominer
             return GetTotal() <= 0;
         }
 
-        public float GetOrePercentage(OreType type)
+        public float GetPortionOf(OreType type)
 		{
             return _ores[type].Amount / GetTotal();
         }
 
-        public Currency this[OreType type]
-        {
-            get => _ores[type];
-        }
+        public Currency this[OreType type] => _ores[type];
 
-        private List<OreType> GetOreTypes()
-		{
-            return _ores.Keys.ToList();
-		}
-
-		public override string ToString()
+        public override string ToString()
 		{
             return $"[Ore] (Iron: {_ores[OreType.Iron].Amount} | " +
                 $"Gold {_ores[OreType.Gold].Amount} | " +
                 $"Platinum {_ores[OreType.Platinum].Amount})";
 		}
+
+        private void AddInternal(OreType type, float amount)
+        {
+            _ores[type].Add(amount);
+        }
+
+        private float RequestInternal(OreType type, float amount)
+        {
+            return _ores[type].Request(amount);
+        }
+
+        private List<OreType> GetOreTypes()
+        {
+            return _ores.Keys.ToList();
+        }
 	}
 }

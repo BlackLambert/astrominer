@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using PCGToolkit.Sampling;
-using SBaier.AI;
 using SBaier.DI;
 using UnityEngine;
 using Random = System.Random;
@@ -81,10 +78,13 @@ namespace SBaier.Astrominer
             float bodyMaterialAmount = size * _settings.BaseRockAmount;
             float totalOresAmount = bodyMaterialAmount * ((float)quality / _settings.MaxQuality);
             float rocksAmount = bodyMaterialAmount - totalOresAmount;
-            float oreWeightSum = _settings.OreWeightSum;
-            float iron = totalOresAmount * (_settings.IronWeight / oreWeightSum);
-            float gold = totalOresAmount * (_settings.GoldWeight / oreWeightSum);
-            float platinum = totalOresAmount * (_settings.PlatinumWeight / oreWeightSum);
+            float ironWeight = _settings.IronWeight.Evaluate((float)_random.NextDouble());
+            float goldWeight = _settings.GoldWeight.Evaluate((float)_random.NextDouble());
+            float platinumWeight = _settings.PlatinumWeight.Evaluate((float)_random.NextDouble());
+            float oreWeightSum = ironWeight + goldWeight + platinumWeight;
+            float iron = totalOresAmount * (ironWeight / oreWeightSum);
+            float gold = totalOresAmount * (goldWeight / oreWeightSum);
+            float platinum = totalOresAmount * (platinumWeight / oreWeightSum);
             Ores ores = new Ores(iron, gold, platinum);
             return new AsteroidBodyMaterials(ores, rocksAmount);
         }
