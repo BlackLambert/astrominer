@@ -30,8 +30,6 @@ namespace SBaier.Astrominer
             // Prospecting Value
             weight += _brain.GetProspectValueOf(ProspectorVesselType.Ship, asteroid) *
                       _aiSettings.ProspectingValueFactor;
-
-            Debug.Log($"Fly to unidentified asteroid weight: {weight}");
             return weight;
         }
     }

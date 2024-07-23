@@ -46,11 +46,10 @@ namespace SBaier.Astrominer
 
             IReadOnlyList<FlyTarget> neighbors = graph.GetNeighborsOf(currentNode);
 
-            foreach (FlyTarget neighbor in neighbors)
+            foreach (FlyTarget neighbor in neighbors.OrderBy(target => target.SqrDistanceTo(currentNode.LandingPoint)))
             {
-                if (!close.Contains(neighbor))
+                if (close.Add(neighbor))
                 {
-                    close.Add(neighbor);
                     open.Enqueue(new OpenEntry(){Node = neighbor, Path = path});
                 }
             }

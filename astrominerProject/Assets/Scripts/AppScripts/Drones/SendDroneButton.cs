@@ -36,6 +36,7 @@ namespace SBaier.Astrominer
             _drones.OnItemRemoved += UpdateButtonActive;
             _drones.OnItemAdded += UpdateButtonActive;
             _ship.FlyTarget.OnValueChanged += OnFlyTargetChanged;
+            _player.Credits.OnAmountChanged += UpdateButtonActive;
         }
 
         public virtual void Clean()
@@ -44,7 +45,7 @@ namespace SBaier.Astrominer
             _drones.OnItemRemoved -= UpdateButtonActive;
             _drones.OnItemAdded -= UpdateButtonActive;
             _ship.FlyTarget.OnValueChanged -= OnFlyTargetChanged;
-            _player.Credits.OnAmountChanged += UpdateButtonActive;
+            _player.Credits.OnAmountChanged -= UpdateButtonActive;
         }
 
         private void OnFlyTargetChanged(FlightPath formervalue, FlightPath newvalue)

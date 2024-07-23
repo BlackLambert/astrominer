@@ -11,6 +11,9 @@ namespace SBaier.Astrominer
         [SerializeField] private float _activeDronesFactor = -3;
         public float ActiveDronesFactor => _activeDronesFactor;
 
+        [SerializeField] private float _prospectingTargetValueFactor;
+        public float ProspectingTargetValueFactor => _prospectingTargetValueFactor;
+
         [SerializeField] private float _identifiedEmptyAsteroidsValueFactor;
         public float IdentifiedEmptyAsteroidsValueFactor => _identifiedEmptyAsteroidsValueFactor;
 

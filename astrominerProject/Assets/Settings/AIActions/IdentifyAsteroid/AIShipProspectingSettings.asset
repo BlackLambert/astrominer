@@ -45,7 +45,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <DistanceValueFactor>k__BackingField: 3
+  <DistanceValueFactor>k__BackingField: 2
   <DistanceToBaseFactorCurve>k__BackingField:
     serializedVersion: 2
     m_Curve:
@@ -79,5 +79,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <DistanceToBaseValueFactor>k__BackingField: 7
+  <DistanceToBaseValueFactor>k__BackingField: 8
   <SizeValueFactor>k__BackingField: 0.2

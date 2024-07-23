@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: _IdentifyAsteroidAISettings
   m_EditorClassIdentifier: 
   _baseWeight: 0
-  _activeDronesFactor: -1
-  _identifiedEmptyAsteroidsValueFactor: 7
+  _activeDronesFactor: -0.5
+  _prospectingTargetValueFactor: 0.25
+  _identifiedEmptyAsteroidsValueFactor: 3
   _identifiedEmptyAsteroidsValueFactorCurve:
     serializedVersion: 2
     m_Curve:
@@ -39,7 +40,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _bestIdentifiedEmptyAsteroidValueFactor: 3
+  _bestIdentifiedEmptyAsteroidValueFactor: 4
   _bestIdentifiedEmptyAsteroidValueFactorCurve:
     serializedVersion: 2
     m_Curve:

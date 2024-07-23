@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _baseWeight: 0
   _exploitTargetSettings: {fileID: 11400000, guid: 7f3dc9f3fe7b0df41a13fdb36e08c147, type: 2}
-  _occupationValueFactor: 0.533
+  _occupationValueFactor: 0.35
   _occupationTargetsAmountValueCurve:
     serializedVersion: 2
     m_Curve:
@@ -64,7 +64,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _exploiterAmountFactor: 1
+  _exploiterAmountFactor: 5
   _creditsValueCurve:
     serializedVersion: 2
     m_Curve:

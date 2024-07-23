@@ -25,8 +25,6 @@ namespace SBaier.Astrominer
             // Current credits
             weight += _aiSettings.CurrentCreditsFactorCurve.Evaluate(_brain.Credits) *
                       _aiSettings.CurrentCreditsFactor;
-            
-            Debug.Log($"Send carrier drone weight: {weight}");
             return weight;
         }
     }

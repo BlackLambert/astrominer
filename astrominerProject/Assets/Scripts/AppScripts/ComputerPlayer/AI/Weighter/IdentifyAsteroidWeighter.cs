@@ -19,7 +19,7 @@ namespace SBaier.Astrominer
         public float GetWeight()
         {
             float weight = _settings.BaseWeight;
-            
+
             weight +=
                 _settings.IdentifiedEmptyAsteroidsValueFactorCurve.Evaluate(_brain.ValueOfEmptyIdentifiedAsteroids) *
                 _settings.IdentifiedEmptyAsteroidsValueFactor;
@@ -30,10 +30,20 @@ namespace SBaier.Astrominer
             weight +=
                 _settings.BestIdentifiedEmptyAsteroidValueFactorCurve.Evaluate(bestValue) *
                 _settings.BestIdentifiedEmptyAsteroidValueFactor;
-            
+
             weight += _brain.ActiveProspectorDronesAmount * _settings.ActiveDronesFactor;
 
-            Debug.Log($"Identify asteroid weight: {weight}");
+            float droneProspectingValue =
+                _brain.GetProspectValueOf(ProspectorVesselType.Drone,
+                    _brain.GetBestProspectTargetFor(ProspectorVesselType.Drone));
+            float shipProspectingValue =
+                _brain.GetProspectValueOf(ProspectorVesselType.Ship,
+                    _brain.GetBestProspectTargetFor(ProspectorVesselType.Ship));
+            float bestProspectingValue = droneProspectingValue > shipProspectingValue
+                ? droneProspectingValue
+                : shipProspectingValue;
+            weight += _settings.ProspectingTargetValueFactor * bestProspectingValue; 
+
             return weight;
         }
     }

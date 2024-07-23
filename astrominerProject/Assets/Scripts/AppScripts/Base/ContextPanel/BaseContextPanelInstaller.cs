@@ -13,10 +13,23 @@ namespace SBaier.Astrominer
 
 		public override void InstallBindings(Binder binder)
 		{
-			binder.Bind<ContextPanel<Base>>().ToInstance(_contextPanel).WithoutInjection();
-			binder.Bind<Base>().And<FlyTarget>().To<Base>().FromInstance(_base).WithoutInjection();
-			binder.BindInstance(_base.Player).WithoutInjection();
-			binder.BindInstance(_activeShip.Value).WithoutInjection();
+			binder.Bind<ContextPanel<Base>>()
+				.ToInstance(_contextPanel)
+				.WithoutInjection();
+			
+			binder.Bind<Base>()
+				.And<FlyTarget>()
+				.To<Base>()
+				.FromInstance(_base)
+				.WithoutInjection();
+			
+			binder.BindInstance(_base.Player)
+				.WithoutInjection();
+			
+			binder.Bind<FlyableObject>()
+				.And<Ship>()
+				.ToInstance(_activeShip.Value)
+				.WithoutInjection();
 		}
 
 		void Injectable.Inject(Resolver resolver)

@@ -38,8 +38,6 @@ namespace SBaier.Astrominer
             
             // Credits amount
             weight += _settings.MoneyFactorCurve.Evaluate(_brain.Credits) * _settings.MoneyFactor;
-            
-            Debug.Log($"Send prospector drone weight: {weight}");
             return weight;
         }
     }

@@ -1,4 +1,3 @@
-using System;
 using SBaier.AI;
 using SBaier.DI;
 
@@ -13,8 +12,9 @@ namespace SBaier.Astrominer
         private TakeExploiterAIActionsFactory _takeExploiterAIActionsFactory;
         private SellMachineAIActionsFactory _sellMachineAIActionsFactory;
 
-        public void Inject(Resolver resolver)
+        public override void Inject(Resolver resolver)
         {
+            base.Inject(resolver);
             _brainFactory = resolver.Resolve<Factory<AIBrain, Ship>>();
             _identifyAsteroidAIActionsFactory = resolver.Resolve<IdentifyAsteroidAIActionsFactory>();
             _occupyAsteroidAIActionsFactory = resolver.Resolve<OccupyAsteroidAIActionsFactory>();
@@ -27,33 +27,45 @@ namespace SBaier.Astrominer
         {
             AIBrain brain = _brainFactory.Create(ship);
             Observable<bool> allowsFollowupAction = new Observable<bool>() { Value = false };
-            WeightedSelector selector = CreateActions(brain, allowsFollowupAction);
-            return new AgentActor(brain, selector, allowsFollowupAction);
+            BasicLog log = new BasicLog();
+            Node actions = CreateActions(brain, allowsFollowupAction, log);
+            return new AgentActor(brain, actions, allowsFollowupAction, log, _generalSettings.EnableLogging);
         }
 
-        private WeightedSelector CreateActions(AIBrain brain, Observable<bool> allowsFollowupAction)
+        private Node CreateActions(AIBrain brain, Observable<bool> allowsFollowupAction, BasicLog log)
         {
             WeightedSelector selector = new WeightedSelector();
             WeightedNode[] childern =
             {
-                _identifyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
-                _occupyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction),
-                _earnCreditsAIActionsFactory.Create(brain, allowsFollowupAction),
-                _takeExploiterAIActionsFactory.Create(brain, allowsFollowupAction),
-                _sellMachineAIActionsFactory.Create(brain, allowsFollowupAction),
+                _identifyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction, log),
+                _occupyAsteroidAIActionsFactory.Create(brain, allowsFollowupAction, log),
+                _earnCreditsAIActionsFactory.Create(brain, allowsFollowupAction, log),
+                _takeExploiterAIActionsFactory.Create(brain, allowsFollowupAction, log),
+                _sellMachineAIActionsFactory.Create(brain, allowsFollowupAction, log),
                 //CreateIncreaseOreOutputActions(brain, allowsFollowupAction),
-                CreateFlyToRandomAsteroidActions(brain, allowsFollowupAction)
+                CreateFlyToRandomAsteroidActions(brain, allowsFollowupAction, log)
             };
-            selector.With(childern).WithId(AINodeType.ActionSet).WithName("Action Set");
-            return selector;
+
+            Node result = selector.With(childern)
+                .WithId(AINodeType.ActionSet)
+                .WithName("Action Set")
+                .Logged(log, _generalSettings.EnableLogging)
+                .ConsoleLogged(log, _generalSettings.EnableLogging);
+            return result;
         }
 
-        private WeightedNode CreateFlyToRandomAsteroidActions(AIBrain brain, Observable<bool> allowsFollowupAction)
+        private WeightedNode CreateFlyToRandomAsteroidActions(
+            AIBrain brain, 
+            Observable<bool> allowsFollowupAction,
+            Log log)
         {
             Node action = new FlyToAction(brain, allowsFollowupAction, brain.GetRandomFlyTargetInRange)
-                .WithName("Fly to random target in range action").WithId(AINodeType.FlyToRandomTarget);
+                .WithName("Fly to random target in range action")
+                .WithId(AINodeType.FlyToRandomTarget)
+                .Logged(log, _generalSettings.EnableLogging);
             WeightedNode result = new WeightedNode(action, new ConstantValueWeighter(0));
-            result.WithName("Fly to random target in range");
+            result.WithName("Fly to random target in range")
+                .WithId(AINodeType.FlyToRandomTarget);
             return result;
         }
     }

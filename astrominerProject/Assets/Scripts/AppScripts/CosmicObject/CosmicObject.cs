@@ -17,6 +17,11 @@ namespace SBaier.Astrominer
 		{
 			return (position - LandingPoint).magnitude;
 		}
+
+		public float SqrDistanceTo(Vector2 position)
+		{
+			return (position - LandingPoint).sqrMagnitude;
+		}
 		
 		public float DistanceTo(CosmicObject cosmicObject)
 		{

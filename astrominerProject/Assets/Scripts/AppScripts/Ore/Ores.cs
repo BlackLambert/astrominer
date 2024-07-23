@@ -44,6 +44,34 @@ namespace SBaier.Astrominer
             OnValueChanged?.Invoke();
         }
 
+        public void ChangeBy(OreType type, float amount)
+        {
+            if (amount >= 0)
+            {
+                AddInternal(type, amount);
+            }
+            else
+            {
+                RequestInternal(type, -amount);
+            }
+            OnValueChanged?.Invoke();
+        }
+
+        public void ChangeTo(OreType type, float amount)
+        {
+            ValidateAmountNotNegative(amount);
+            _ores[type].Set(amount);
+            OnValueChanged?.Invoke();
+        }
+
+        private void ValidateAmountNotNegative(float amount)
+        {
+            if (amount < 0)
+            {
+                throw new ArgumentException("The amount needs to be equal or larger than 0");
+            }
+        }
+
         private void AddInternal(OreType type, float amount)
 		{
             _ores[type].Add(amount);

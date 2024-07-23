@@ -11,10 +11,11 @@ namespace SBaier.Astrominer
     {
         public bool AnyIdentifiedUnoccupiedAsteroid => UnoccupiedAsteroidWithBestValue != null && 
                                                        ValueOfEmptyIdentifiedAsteroids > 0;
-        public float Credits => _player.Credits.Amount;
+        public float Credits => Player.Credits.Amount;
         public bool HasExploitMachine => _ship.HasExploitMachine;
         public bool HasEmptyInventorySpace => _ship.HasEmptyInventorySpace;
         public FlyTarget Base => _base;
+        public Player Player { get; private set; }
         public IReadOnlyList<Asteroid> OccupationTargets => _occupationTargets;
         public bool AnyOresInShipInventory => _ship.CollectedOres.GetTotal() > 0;
         public bool AnyOresStoredByAsteroids => _storedOresAmount > 0;
@@ -41,7 +42,6 @@ namespace SBaier.Astrominer
         private OptimalExploitersToBuyFinder _exploitersToBuyFinder;
         private OptimalTakeExploiterTargetFinder _takeExploiterTargetFinder;
         private Ship _ship;
-        private Player _player;
         private Map _map;
         private Base _base;
         private DroneBuyer<ProspectorDrone> _prospectorDroneBuyer;
@@ -55,7 +55,7 @@ namespace SBaier.Astrominer
         public void Inject(Resolver resolver)
         {
             _ship = resolver.Resolve<Ship>();
-            _player = _ship.Player;
+            Player = _ship.Player;
             _map = resolver.Resolve<Map>();
             _prospectorDroneBuyer = resolver.Resolve<DroneBuyer<ProspectorDrone>>();
             _carrierDroneBuyer = resolver.Resolve<DroneBuyer<CarrierDrone>>();
@@ -74,26 +74,24 @@ namespace SBaier.Astrominer
 
         public void Update()
         {
-            Debug.Log($"Credits: {Credits}");
-            Debug.Log($"Exploit Machines: {ExploitersInInventoryAmount}");
             ValueOfEmptyIdentifiedAsteroids = _ship.Player.IdentifiedAsteroids.GetValueOfEmptyAsteroids();
-            HasUnidentifiedAsteroid = _map.HasUnidentifiedValuableAsteroid(_player);
-            ActiveProspectorDronesAmount = _player.Drones.CountDronesOfType<ProspectorDrone>();
-            AnyOwnedExploitedAsteroids = _player.OwnedAsteroids.Any(asteroid => asteroid.Exploited);
-            CostsOfExploitedAsteroids = _player.OwnedAsteroids.GetExploitedCosts();
-            ExploitedAsteroidsAmount = _player.OwnedAsteroids.GetExploitedAmount();
+            HasUnidentifiedAsteroid = _map.HasUnidentifiedValuableAsteroid(Player);
+            ActiveProspectorDronesAmount = Player.Drones.CountDronesOfType<ProspectorDrone>();
+            AnyOwnedExploitedAsteroids = Player.OwnedAsteroids.Any(asteroid => asteroid.Exploited);
+            CostsOfExploitedAsteroids = Player.OwnedAsteroids.GetExploitedCosts();
+            ExploitedAsteroidsAmount = Player.OwnedAsteroids.GetExploitedAmount();
             UpdateOccupationTargets();
             _collectTargets.Clear();
             _prospectTargets.Clear();
-            _storedOresAmount = _player.OwnedAsteroids
-                .Where(asteroid => !_player.Drones.ContainsDroneTo<CarrierDrone>(asteroid))
+            _storedOresAmount = Player.OwnedAsteroids
+                .Where(asteroid => !Player.Drones.ContainsDroneTo<CarrierDrone>(asteroid))
                 .Sum(asteroid => asteroid.StoredMinedOres.GetTotal());
             BestTakeExploiterTarget = _takeExploiterTargetFinder.Search();
         }
 
         public bool CanAfford(float price)
         {
-            return _player.Credits.Has(price);
+            return Player.Credits.Has(price);
         }
 
         public Asteroid GetBestProspectTargetFor(ProspectorVesselType type)
@@ -189,7 +187,7 @@ namespace SBaier.Astrominer
 
         public bool IsShipAtBase()
         {
-            return _ship.Location.Value is Base playerBase && playerBase.Player == _player;
+            return _ship.Location.Value is Base playerBase && playerBase.Player == Player;
         }
 
         public void PlaceExploiterOnLocation()
@@ -214,13 +212,13 @@ namespace SBaier.Astrominer
 
             foreach (ExploitMachineLevelSettings settings in machinesToBuy)
             {
-                _ship.Machines.Add(_exploitMachineVendor.BuyMachine(_player, settings));
+                _ship.Machines.Add(_exploitMachineVendor.BuyMachine(Player, settings));
             }
         }
 
         public void SellOres()
         {
-            _player.Credits.Add(_oreBank.CalculateCreditsFor(_ship.CollectedOres.RequestAll()));
+            Player.Credits.Add(_oreBank.CalculateCreditsFor(_ship.CollectedOres.RequestAll()));
         }
 
         public void SellExploiter()
@@ -230,7 +228,7 @@ namespace SBaier.Astrominer
 
         public float GetPendingCredits()
         {
-            return _player.Drones.GetAllDronesOfType<CarrierDrone>().Sum(
+            return Player.Drones.GetAllDronesOfType<CarrierDrone>().Sum(
                 drone => drone.TargetReached
                     ? _oreBank.CalculateCreditsFor(drone.CollectedOres)
                     : _oreBank.CalculateCreditsFor(drone.Target.StoredMinedOres));
@@ -243,7 +241,7 @@ namespace SBaier.Astrominer
 
         public float GetValueOfStoredAsteroidOres()
         {
-            return _player.OwnedAsteroids.Where(asteroid => !_player.Drones.ContainsDroneTo<CarrierDrone>(asteroid))
+            return Player.OwnedAsteroids.Where(asteroid => !Player.Drones.ContainsDroneTo<CarrierDrone>(asteroid))
                 .Sum(asteroid => _oreBank.CalculateCreditsFor(asteroid.StoredMinedOres));
         }
 

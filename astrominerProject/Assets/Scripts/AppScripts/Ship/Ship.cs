@@ -18,6 +18,7 @@ namespace SBaier.Astrominer
         public int EmptyInventorySpace => _settings.InventorySpace - Machines.Count;
         public bool HasExploitMachine => Machines.Count > 0;
         public bool HasEmptyInventorySpace => EmptyInventorySpace > 0;
+        public bool IsAtBase => Location.Value is Base playerBase && playerBase.Player == Player;
 
         public override void Inject(Resolver resolver)
         {

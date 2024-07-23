@@ -1,3 +1,4 @@
+using System.Collections;
 using SBaier.DI;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace SBaier.Astrominer
         private OreValue _oreValue;
         private OreType _oreType;
         private CircularBuffer<float> _valueHistory;
+        private CoroutineHelper _coroutineHelper;
         
 
         public void Inject(Resolver resolver)
@@ -30,13 +32,14 @@ namespace SBaier.Astrominer
             _oresSettings = resolver.Resolve<OresSettings>();
             _oreValue = resolver.Resolve<OreValue>();
             _oreType = _oreSettings.Type;
+            _coroutineHelper = resolver.Resolve<CoroutineHelper>();
         }
 
         public void Initialize()
         {
             _valueHistory = _oreValue.GetValueHistory(_oreType);
             _oreValue.OnValueChanged += OnOreValueChanged;
-            UpdateGraph();
+            _coroutineHelper.StartCoroutine(UpdateGraphDelayed());
         }
 
         public void Clean()
@@ -51,6 +54,12 @@ namespace SBaier.Astrominer
                 return;
             }
 
+            UpdateGraph();
+        }
+
+        private IEnumerator UpdateGraphDelayed()
+        {
+            yield return new WaitForEndOfFrame();
             UpdateGraph();
         }
 

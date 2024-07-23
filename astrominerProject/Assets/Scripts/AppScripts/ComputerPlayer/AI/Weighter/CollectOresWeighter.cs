@@ -21,8 +21,6 @@ namespace SBaier.Astrominer
             // Value of best collect ores target
             weight += _brain.GetCollectOreValueOf(CollectOresVesselType.Ship,
                 _brain.GetBestCollectTargetFor(CollectOresVesselType.Ship));
-            
-            Debug.Log($"Collect ores weight: {weight}");
             return weight;
         }
     }

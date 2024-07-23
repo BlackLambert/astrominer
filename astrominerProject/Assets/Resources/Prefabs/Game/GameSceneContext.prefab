@@ -75,6 +75,7 @@ MonoBehaviour:
   - {fileID: 8010874913115802447}
   - {fileID: 9072264922148668488}
   - {fileID: 211499403372006738}
+  - {fileID: 2841226661785104294}
   - {fileID: 1981105070990294319}
   - {fileID: 3550615174296895884}
   - {fileID: 8389466729057967621}
@@ -85,6 +86,7 @@ MonoBehaviour:
   - {fileID: 5877056289212503957}
   - {fileID: 6875065399880051109}
   - {fileID: 6930841294941631202}
+  - {fileID: 353653772414487826}
   - {fileID: 3985712954250682737}
   - {fileID: 6738818007106728566}
   _scriptableObjectInstallers: []
@@ -539,6 +541,7 @@ GameObject:
   - component: {fileID: 2240824036819843947}
   - component: {fileID: 6875065399880051109}
   - component: {fileID: 6930841294941631202}
+  - component: {fileID: 353653772414487826}
   m_Layer: 0
   m_Name: AI
   m_TagString: Untagged
@@ -597,6 +600,19 @@ MonoBehaviour:
   _earnCreditsAiSettings: {fileID: 11400000, guid: d49a09bf42c0b524e9ea8e1b70a8cfd9, type: 2}
   takeExploiterAISettings: {fileID: 11400000, guid: d4e36fcd4f7242a4e8956d34cf28ab48, type: 2}
   _sellMachineAISettings: {fileID: 11400000, guid: 4bf1ec3dc3ab8c548b5a2e7b573fba68, type: 2}
+--- !u!114 &353653772414487826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4185379010576115195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6c737a841a44d9ab6324951a3dad638, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings: {fileID: 11400000, guid: 909a28e3a96d7af439f77661c1c2e1de, type: 2}
 --- !u!1 &4460166591548596062
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,6 +802,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4324601383910063894}
   - component: {fileID: 211499403372006738}
+  - component: {fileID: 2841226661785104294}
   m_Layer: 0
   m_Name: OresSelling
   m_TagString: Untagged
@@ -821,6 +838,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _formerOreValueBufferSize: 100
+--- !u!114 &2841226661785104294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9089745919666371433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3450c6ece14743ce978819d9f316946a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 688888218727205901, guid: cc802c0808ad4c94aafe4576f2636999, type: 3}
 --- !u!1 &9166395217260738835
 GameObject:
   m_ObjectHideFlags: 0

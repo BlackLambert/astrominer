@@ -8,6 +8,7 @@ namespace SBaier.Astrominer
         int Id { get; }
         Vector2 LandingPoint { get; }
         float DistanceTo(Vector2 position);
+        float SqrDistanceTo(Vector2 position);
         bool IsInRange(Vector2 position, float range);
         bool IsAllowedFlightTargetFor(Player player);
     }

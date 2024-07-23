@@ -1,14 +1,14 @@
 {
   "dependencies": {
     "com.sbaier.ai": {
-      "version": "https://github.com/BlackLambert/unity-ai.git#v1.1.0",
+      "version": "https://github.com/BlackLambert/unity-ai.git#v1.1.1",
       "depth": 0,
       "source": "git",
       "dependencies": {
         "com.sbaier.unitydi": "https://github.com/BlackLambert/unity-di-package.git#v1.4.3",
         "com.sbaier.core": "https://github.com/BlackLambert/unity-core.git#v1.0.2"
       },
-      "hash": "2b4c86cfdc233235d364d20e773d8b5a3cc9cab2"
+      "hash": "e991b1eea48400d21e8c8be672ef85b0a570aede"
     },
     "com.sbaier.appquit": {
       "version": "https://github.com/BlackLambert/unity-app-quit.git#v1.0.0",

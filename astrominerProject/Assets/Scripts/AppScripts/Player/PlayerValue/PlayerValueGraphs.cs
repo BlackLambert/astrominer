@@ -1,10 +1,11 @@
 using System;
+using SBaier.DI;
 using UnityEngine;
 
 namespace SBaier.Astrominer
 {
     [RequireComponent(typeof(RectTransform))]
-    public class PlayerValueGraphs : MonoBehaviour
+    public class PlayerValueGraphs : MonoBehaviour, Cleanable, PopupContent
     {
         [SerializeField] 
         private PlayerValueGraphCreator _graphCreator;

@@ -51,7 +51,6 @@ namespace SBaier.Astrominer
         {
             ExploitMachine machine = _selectedExploitMachine.Value.Machine;
             _vendor.SellMachine(_ship, machine);
-            _ship.Machines.Remove(machine);
         }
 
         private void OnFlyTargetChanged(FlyTarget formervalue, FlyTarget newvalue)

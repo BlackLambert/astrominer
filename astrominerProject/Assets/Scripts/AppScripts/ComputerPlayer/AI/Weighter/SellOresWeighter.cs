@@ -27,8 +27,6 @@ namespace SBaier.Astrominer
             float distanceToBase = _brain.GetDistanceToBase();
             weight += _aiSettings.DistanceToBaseFactorCurve.Evaluate(distanceToBase) *
                       _aiSettings.DistanceToBaseFactor;
-            
-            Debug.Log($"Sell ores weight: {weight}");
             return weight;
         }
     }
