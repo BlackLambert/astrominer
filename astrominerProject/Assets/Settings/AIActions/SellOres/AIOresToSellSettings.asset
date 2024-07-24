@@ -14,15 +14,60 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PriceRangeFactorCurve>k__BackingField:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.5
+      inSlope: 0.54761416
+      outSlope: 0.54761416
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.21534269
+    - serializedVersion: 3
+      time: 0.3
+      value: 0
+      inSlope: 3.2707953
+      outSlope: 3.2707953
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10455602
+    - serializedVersion: 3
+      time: 0.7
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <PriceRangeFactor>k__BackingField: 5
+  <PriceRangeFactor>k__BackingField: 1
   <CurrentCreditsFactorCurve>k__BackingField:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12835471
+    - serializedVersion: 3
+      time: 5000
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  <CurrentCreditsFactor>k__BackingField: 5
+  <CurrentCreditsFactor>k__BackingField: 0.33

@@ -25,7 +25,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 3
+      time: 4
       value: 0.5
       inSlope: -0.11510897
       outSlope: -0.11510897
@@ -45,7 +45,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _distanceValueFactor: 5
+  _distanceValueFactor: 2
   oreValueFactorCurve:
     serializedVersion: 2
     m_Curve:
@@ -59,7 +59,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 3000
+      time: 4000
       value: 0.5
       inSlope: 0.00018532743
       outSlope: 0.00018532743
@@ -68,7 +68,7 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.05817634
     - serializedVersion: 3
-      time: 8000
+      time: 10000
       value: 1
       inSlope: 0
       outSlope: 0
@@ -79,4 +79,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _valueFactor: 10
+  _valueFactor: 8

@@ -45,39 +45,39 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _distanceValueFactor: 5
+  _distanceValueFactor: 2
   oreValueFactorCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: -1
-      inSlope: 0.0003189917
-      outSlope: 0.0003189917
+      inSlope: 0.00045464418
+      outSlope: 0.00045464418
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.15427725
+      outWeight: 0.12132407
     - serializedVersion: 3
-      time: 1000
-      value: -0.5
-      inSlope: 0.00054222764
-      outSlope: 0.00054222764
+      time: 2975.5186
+      value: 0
+      inSlope: 0.00014058543
+      outSlope: 0.00014058543
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.1233726
+      outWeight: 0.22519463
     - serializedVersion: 3
-      time: 4000
+      time: 7500
       value: 0.5
-      inSlope: 0.00013978448
-      outSlope: 0.00013978448
+      inSlope: 0.00007816805
+      outSlope: 0.00007816805
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.06709448
+      outWeight: 0.100151554
     - serializedVersion: 3
-      time: 15000
+      time: 25000
       value: 1
       inSlope: 0
       outSlope: 0
@@ -88,4 +88,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _valueFactor: 10
+  _valueFactor: 8

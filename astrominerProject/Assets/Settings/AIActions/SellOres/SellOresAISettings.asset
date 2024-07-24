@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SellOresAISettings
   m_EditorClassIdentifier: 
   _baseWeight: 0
-  _storedShipOresValueFactorCurve:
+  oresToSellValueFactorCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -46,12 +46,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _storedShipOresValueFactor: 20
-  _distanceToBaseFactorCurve:
+  oresToSellValueFactor: 7
+  _currentCreditsFactorCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
+      value: 1
+      inSlope: 0.0000007604231
+      outSlope: 0.0000007604231
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.06892525
+    - serializedVersion: 3
+      time: 7000
+      value: 0.5
+      inSlope: -0.00005363406
+      outSlope: -0.00005363406
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06214957
+    - serializedVersion: 3
+      time: 30000
       value: 0
       inSlope: 0
       outSlope: 0
@@ -59,6 +77,31 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0
       outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _currentCreditsValueFactor: 3
+  _distanceToBaseFactorCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.056963906
+      outSlope: 0.056963906
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.17196417
     - serializedVersion: 3
       time: 5
       value: 0.4
@@ -80,4 +123,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  _distanceToBaseFactor: -10
+  _distanceToBaseFactor: -3
+  <OresToSellFinderSettings>k__BackingField: {fileID: 11400000, guid: 1ddb65bf246ee4543a4d92673cc4485a, type: 2}
