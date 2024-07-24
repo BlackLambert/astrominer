@@ -18,15 +18,21 @@ namespace SBaier.Astrominer
         {
             float weight = _aiSettings.BaseWeight;
 
-            // Value of stored ship ores
-            float valueOfOresStoredInShip = _brain.GetValueOfStoredShipOres();
-            weight += _aiSettings.StoredShipOresValueFactorCurve.Evaluate(valueOfOresStoredInShip) *
-                      _aiSettings.StoredShipOresValueFactor;
+            // Value of ores to sell
+            float valueOfOresToSell = _brain.GetValueOfOresToSell();
+            weight += _aiSettings.OresToSellValueFactorCurve.Evaluate(valueOfOresToSell) *
+                      _aiSettings.OresToSellValueFactor;
+            
+            // Current credits
+            float credits = _brain.GetAllCredits();
+            weight += _aiSettings.CurrentCreditsFactorCurve.Evaluate(credits) *
+                      _aiSettings.CurrentCreditsValueFactor;
             
             // Distance to BaseFactor
             float distanceToBase = _brain.GetDistanceToBase();
             weight += _aiSettings.DistanceToBaseFactorCurve.Evaluate(distanceToBase) *
                       _aiSettings.DistanceToBaseFactor;
+            
             return weight;
         }
     }

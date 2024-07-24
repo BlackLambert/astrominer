@@ -11,6 +11,8 @@ namespace SBaier.Astrominer
         private EarnCreditsAIActionsFactory _earnCreditsAIActionsFactory;
         private TakeExploiterAIActionsFactory _takeExploiterAIActionsFactory;
         private SellMachineAIActionsFactory _sellMachineAIActionsFactory;
+        private SendCarrierDroneAIActionsFactory _sendCarrierDroneAIActionsFactory;
+        private CollectOresAIActionsFactory _collectOresAIActionsFactory;
 
         public override void Inject(Resolver resolver)
         {
@@ -21,6 +23,8 @@ namespace SBaier.Astrominer
             _earnCreditsAIActionsFactory = resolver.Resolve<EarnCreditsAIActionsFactory>();
             _takeExploiterAIActionsFactory = resolver.Resolve<TakeExploiterAIActionsFactory>();
             _sellMachineAIActionsFactory = resolver.Resolve<SellMachineAIActionsFactory>();
+            _sendCarrierDroneAIActionsFactory = resolver.Resolve<SendCarrierDroneAIActionsFactory>();
+            _collectOresAIActionsFactory = resolver.Resolve<CollectOresAIActionsFactory>();
         }
 
         public AgentActor Create(Ship ship)
@@ -42,6 +46,8 @@ namespace SBaier.Astrominer
                 _earnCreditsAIActionsFactory.Create(brain, allowsFollowupAction, log),
                 _takeExploiterAIActionsFactory.Create(brain, allowsFollowupAction, log),
                 _sellMachineAIActionsFactory.Create(brain, allowsFollowupAction, log),
+                _collectOresAIActionsFactory.Create(brain, allowsFollowupAction, log),
+                _sendCarrierDroneAIActionsFactory.Create(brain, allowsFollowupAction, log),
                 //CreateIncreaseOreOutputActions(brain, allowsFollowupAction),
                 CreateFlyToRandomAsteroidActions(brain, allowsFollowupAction, log)
             };

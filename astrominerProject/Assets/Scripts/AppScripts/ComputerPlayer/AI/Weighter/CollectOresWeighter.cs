@@ -20,7 +20,12 @@ namespace SBaier.Astrominer
             
             // Value of best collect ores target
             weight += _brain.GetCollectOreValueOf(CollectOresVesselType.Ship,
-                _brain.GetBestCollectTargetFor(CollectOresVesselType.Ship));
+                _brain.GetBestCollectTargetFor(CollectOresVesselType.Ship)) * _aiSettings.CollectValueFactor;
+            
+            // Current credits
+            weight += _aiSettings.CurrentCreditsFactorCurve.Evaluate(_brain.Credits) *
+                      _aiSettings.CurrentCreditsFactor;
+            
             return weight;
         }
     }

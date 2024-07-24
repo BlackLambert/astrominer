@@ -597,8 +597,7 @@ MonoBehaviour:
   _sendCarrierDroneAISettings: {fileID: 11400000, guid: 674f518561abbf4458620f77c2d36540, type: 2}
   _collectOresAISettings: {fileID: 11400000, guid: f6a7f78ce04daa0418203d6ec57a8ff9, type: 2}
   _sellOresAISettings: {fileID: 11400000, guid: 4604aa73720135149b889d0fc7250167, type: 2}
-  _earnCreditsAiSettings: {fileID: 11400000, guid: d49a09bf42c0b524e9ea8e1b70a8cfd9, type: 2}
-  takeExploiterAISettings: {fileID: 11400000, guid: d4e36fcd4f7242a4e8956d34cf28ab48, type: 2}
+  _takeExploiterAISettings: {fileID: 11400000, guid: d4e36fcd4f7242a4e8956d34cf28ab48, type: 2}
   _sellMachineAISettings: {fileID: 11400000, guid: 4bf1ec3dc3ab8c548b5a2e7b573fba68, type: 2}
 --- !u!114 &353653772414487826
 MonoBehaviour:

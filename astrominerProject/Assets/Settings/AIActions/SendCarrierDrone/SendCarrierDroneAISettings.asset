@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b1fa699e1884c6698bc803e2f6ab2cd, type: 3}
   m_Name: SendCarrierDroneAISettings
   m_EditorClassIdentifier: 
+  _carrierDroneSettings: {fileID: 11400000, guid: 27ea41b1be6dd8c4591358c51b91d162, type: 2}
   _baseWeight: 0
   _currentCreditsFactorCurve:
     serializedVersion: 2

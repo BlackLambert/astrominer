@@ -14,6 +14,7 @@ namespace SBaier.Astrominer
         private SendCarrierDroneAISettings _sendCarrierDroneAISettings;
         private CollectOresAISettings _collectOresAISettings;
         private TakeExploiterAISettings _takeExploiterAISettings;
+        private SellOresAISettings _sellOresAISettings;
         private Map _map;
         private OreBank _oreBank;
 
@@ -30,6 +31,7 @@ namespace SBaier.Astrominer
             _sendCarrierDroneAISettings = resolver.Resolve<SendCarrierDroneAISettings>();
             _collectOresAISettings = resolver.Resolve<CollectOresAISettings>();
             _takeExploiterAISettings = resolver.Resolve<TakeExploiterAISettings>();
+            _sellOresAISettings = resolver.Resolve<SellOresAISettings>();
             _oreBank = resolver.Resolve<OreBank>();
             _map = resolver.Resolve<Map>();
         }
@@ -58,6 +60,8 @@ namespace SBaier.Astrominer
                 new OptimalExploitersToBuyFinder(ship, _buyExploiterAISettings, _exploitMachineSettings));
             resolver.AddArgument(
                 new OptimalTakeExploiterTargetFinder(_takeExploiterAISettings.TakeExploiterTargetSettings, ship));
+            resolver.AddArgument(
+                new OptimalOresToSellFinder(ship, _oreBank, _sellOresAISettings.OresToSellFinderSettings));
             result.Inject(resolver);
             return result;
         }

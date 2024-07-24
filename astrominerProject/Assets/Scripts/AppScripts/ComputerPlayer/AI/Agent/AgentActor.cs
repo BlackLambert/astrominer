@@ -57,12 +57,14 @@ namespace SBaier.Astrominer
             }
 
             string color = ColorUtility.ToHtmlStringRGB(_brain.Player.Color);
-            _log.SetHeader($"{_actionsAmount}. Action of the Player <color=#{color}>{_brain.Player.Name}</color>");
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.Append("Situation:");
+            stringBuilder.Append($"{_actionsAmount}. Action of the Player <color=#{color}>{_brain.Player.Name}</color>");
+            stringBuilder.Append("\nSituation:");
             stringBuilder.Append($"\nCredits: {_brain.Credits}");
             stringBuilder.Append($"\nExploit Machines: {_brain.ExploitersInInventoryAmount}");
-            _log.Add(new LogEntry(stringBuilder.ToString()));
+            stringBuilder.Append($"\nOres stored in ship: {_brain.Ship.CollectedOres}");
+            stringBuilder.Append($"\nOres to sell: {_brain.OresToSell}");
+            _log.SetHeader(stringBuilder.ToString());
         }
 
         private void ValidateActionStackAmount(int actionStackAmount)

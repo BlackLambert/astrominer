@@ -16,9 +16,9 @@ MonoBehaviour:
   <MinAsteroidsAdditionPerPlayer>k__BackingField: 5
   <MaxAsteroidsAmount>k__BackingField: 250
   <StartAsteroidAmount>k__BackingField: 70
-  <StartMapSize>k__BackingField: {x: 40, y: 25.5}
-  <EndMapSize>k__BackingField: {x: 90, y: 60}
-  <CameraSizeRange>k__BackingField: {x: 15, y: 35}
-  <MinimalAsteroidDistance>k__BackingField: 2.8
+  <StartMapSize>k__BackingField: {x: 50, y: 31.875}
+  <EndMapSize>k__BackingField: {x: 112.5, y: 75}
+  <CameraSizeRange>k__BackingField: {x: 17, y: 40}
+  <MinimalAsteroidDistance>k__BackingField: 3
   <SamplingRetriesOnFail>k__BackingField: 10
   <MaxSamplerTries>k__BackingField: 3

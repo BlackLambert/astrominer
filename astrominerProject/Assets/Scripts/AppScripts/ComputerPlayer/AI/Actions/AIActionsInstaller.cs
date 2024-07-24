@@ -29,12 +29,9 @@ namespace SBaier.Astrominer
         
         [SerializeField] 
         private SellOresAISettings _sellOresAISettings;
-
-        [SerializeField] 
-        private EarnCreditsAiSettings _earnCreditsAiSettings;
         
-        [FormerlySerializedAs("_reduceCostsAISettings")] [SerializeField]
-        private TakeExploiterAISettings takeExploiterAISettings;
+        [SerializeField]
+        private TakeExploiterAISettings _takeExploiterAISettings;
         
         [SerializeField]
         private SellMachineAISettings _sellMachineAISettings;
@@ -49,6 +46,8 @@ namespace SBaier.Astrominer
             binder.BindToNewSelf<EarnCreditsAIActionsFactory>();
             binder.BindToNewSelf<TakeExploiterAIActionsFactory>();
             binder.BindToNewSelf<SellMachineAIActionsFactory>();
+            binder.BindToNewSelf<CollectOresAIActionsFactory>();
+            binder.BindToNewSelf<SendCarrierDroneAIActionsFactory>();
             
             binder.Bind<Factory<AgentActor, Ship>>()
                 .ToNew<AgentActorFactory>();
@@ -61,8 +60,7 @@ namespace SBaier.Astrominer
             binder.BindInstance(_sendCarrierDroneAISettings);
             binder.BindInstance(_collectOresAISettings);
             binder.BindInstance(_sellOresAISettings);
-            binder.BindInstance(_earnCreditsAiSettings);
-            binder.BindInstance(takeExploiterAISettings);
+            binder.BindInstance(_takeExploiterAISettings);
             binder.BindInstance(_sellMachineAISettings);
         }
     }

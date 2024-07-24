@@ -12,14 +12,177 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb67e38dc7c2d16438c3b2d2cf8b8ace, type: 3}
   m_Name: AsteroidSettings
   m_EditorClassIdentifier: 
-  <QualityAmountRange>k__BackingField: {x: 3, y: 10}
-  <SizeRange>k__BackingField: {x: 3, y: 10}
+  <LogCreation>k__BackingField: 1
+  <QualityAmountRange>k__BackingField: {x: 1, y: 10}
+  <QualityDistribution>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.1741655
+      outSlope: 2.1741655
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.091121495
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.4968567
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16822433
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.2668028
+      outSlope: 2.2668028
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08878493
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <SizeRange>k__BackingField: {x: 1, y: 10}
+  <SizeDistribution>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.086162
+      outSlope: 2.086162
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.09345796
+    - serializedVersion: 3
+      time: 0.5
+      value: 0.4968567
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16822433
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2.0861614
+      outSlope: 2.0861614
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09345806
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   <AsteroidName>k__BackingField: Asteroid {0}
-  <MaxObjectSizeAddition>k__BackingField: 0.4
+  <MaxObjectSizeAddition>k__BackingField: 0.5
   <StartObjectSize>k__BackingField: 0.4
   <Color>k__BackingField: {r: 0.5471698, g: 0.5471698, b: 0.5471698, a: 1}
   <ExploitedColorReduction>k__BackingField: {r: 0.2, g: 0.2, b: 0.2, a: 0}
   <BaseRockAmount>k__BackingField: 700
-  <IronWeight>k__BackingField: 65
-  <GoldWeight>k__BackingField: 25
-  <PlatinumWeight>k__BackingField: 10
+  <IronWeight>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 10
+      inSlope: 121.79398
+      outSlope: 121.79398
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14252338
+    - serializedVersion: 3
+      time: 0.5
+      value: 50
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16822433
+    - serializedVersion: 3
+      time: 1
+      value: 90
+      inSlope: 182.44586
+      outSlope: 182.44586
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08411217
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <GoldWeight>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 5
+      inSlope: 52.412918
+      outSlope: 52.412918
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.121495344
+    - serializedVersion: 3
+      time: 0.5
+      value: 25
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16822433
+    - serializedVersion: 3
+      time: 1
+      value: 50
+      inSlope: 148.48424
+      outSlope: 148.48424
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.072430015
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  <PlatinumWeight>k__BackingField:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 42.95461
+      outSlope: 42.95461
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10981309
+    - serializedVersion: 3
+      time: 0.5
+      value: 10
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.16822433
+    - serializedVersion: 3
+      time: 1
+      value: 30
+      inSlope: 118.52693
+      outSlope: 118.52693
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.072430015
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
